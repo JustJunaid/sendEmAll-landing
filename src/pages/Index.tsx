@@ -1,14 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
-};
+import React from 'react';
+import Navbar from '../components/Navbar';
+import HeroSection from '../components/HeroSection';
+import FeaturesSection from '../components/FeaturesSection';
+import HowItWorksSection from '../components/HowItWorksSection';
+import TestimonialsSection from '../components/TestimonialsSection';
+import PricingSection from '../components/PricingSection';
+import FAQSection from '../components/FAQSection';
+import CTASection from '../components/CTASection';
+import Footer from '../components/Footer';
 
-export default Index;
+// Create a logo SVG for the site
+<lov-write file_path="public/logo.svg">
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0z" fill="url(#paint0_linear)" />
+  <path d="M22 11H10c-.552 0-1 .448-1 1v8c0 .552.448 1 1 1h12c.552 0 1-.448 1-1v-8c0-.552-.448-1-1-1z" fill="white" />
+  <path d="M16 17.5L10.5 13v7h11v-7L16 17.5z" fill="#0ea5e9" />
+  <path d="M10.5 11.5L16 16l5.5-4.5h-11z" fill="#14b8a6" />
+  <path d="M24 14l-4 2v-2l4-3v3z" fill="white" />
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3490dc" />
+      <stop offset="1" stop-color="#38b2ac" />
+    </linearGradient>
+  </defs>
+</svg>

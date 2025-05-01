@@ -1,0 +1,57 @@
+
+import React from 'react';
+
+const Logo: React.FC<{ className?: string }> = ({ className = '' }) => {
+  return (
+    <div className={`flex items-center ${className}`}>
+      <svg 
+        width="32" 
+        height="32" 
+        viewBox="0 0 32 32" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg" 
+        className="mr-2"
+      >
+        <path 
+          d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0z" 
+          fill="url(#paint0_linear)" 
+        />
+        <path 
+          d="M22 11H10c-.552 0-1 .448-1 1v8c0 .552.448 1 1 1h12c.552 0 1-.448 1-1v-8c0-.552-.448-1-1-1z" 
+          fill="white" 
+        />
+        <path 
+          d="M16 17.5L10.5 13v7h11v-7L16 17.5z" 
+          fill="#0ea5e9" 
+        />
+        <path 
+          d="M10.5 11.5L16 16l5.5-4.5h-11z" 
+          fill="#14b8a6" 
+        />
+        <path 
+          d="M24 14l-4 2v-2l4-3v3z" 
+          fill="white" 
+          className="animate-float" 
+        />
+        <defs>
+          <linearGradient 
+            id="paint0_linear" 
+            x1="0" 
+            y1="0" 
+            x2="32" 
+            y2="32" 
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#3490dc" />
+            <stop offset="1" stopColor="#38b2ac" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span className="font-bold text-xl bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+        SendEmAll
+      </span>
+    </div>
+  );
+};
+
+export default Logo;
