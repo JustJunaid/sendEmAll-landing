@@ -1,73 +1,68 @@
-# Welcome to your Lovable project
+# SendEmAll Landing Page
 
-## Project info
+A modern, responsive landing page for the SendEmAll AI-powered email marketing platform.
 
-**URL**: https://lovable.dev/projects/5abfc0c4-b5de-468b-b291-87a8136c7eed
+## Features
 
-## How can I edit this code?
+- **Modern Design**: Sleek, contemporary design with dark theme and purple accents
+- **Interactive Dashboard**: Live, animated dashboard showcase with real metrics
+- **Responsive Layout**: Optimized for all device sizes with mobile-first approach
+- **Advanced Animations**: Smooth particle effects, hover animations, and micro-interactions
+- **Glassmorphism UI**: Modern backdrop blur effects and translucent elements
 
-There are several ways of editing your application.
+## Setup
 
-**Use Lovable**
+1. **Interactive Dashboard Showcase**: 
+   - The hero section now features a fully interactive dashboard showcase
+   - Includes animated metrics, progress bars, and real-time indicators
+   - No external images required - everything is built with CSS and animations
+   - Features tabs, action buttons, and floating elements for engagement
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5abfc0c4-b5de-468b-b291-87a8136c7eed) and start prompting.
+2. **Customization Options**:
+   - **Metrics**: Update the numbers and labels in the HTML
+   - **Colors**: Modify CSS variables for brand consistency
+   - **Animations**: Adjust timing and effects in CSS
+   - **Content**: Change text, icons, and layout as needed
 
-Changes made via Lovable will be committed automatically to this repo.
+3. **File Structure**:
+   ```
+   landing-page/
+├── index.html          # Main HTML file
+├── styles.css          # CSS styles
+├── script.js           # JavaScript functionality
+└── README.md           # This file
+   ```
 
-**Use your preferred IDE**
+## Customization
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Colors
+The landing page uses CSS variables for easy color customization:
+- Primary Purple: `#8b5cf6` (matches SendEmAll brand)
+- Primary Blue: `#2563eb`
+- Primary Green: `#10b981`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Typography
+- **Headings**: Plus Jakarta Sans (700 weight)
+- **Body Text**: Inter (400 weight)
 
-Follow these steps:
+## Browser Support
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Performance
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Optimized images and assets
+- CSS animations with hardware acceleration
+- Responsive design for all screen sizes
+- Minimal JavaScript for fast loading
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Deployment
 
-**Edit a file directly in GitHub**
+Simply upload all files to your web server. The landing page is static and doesn't require any server-side processing.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/5abfc0c4-b5de-468b-b291-87a8136c7eed) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**Note**: The new hero section features a fully interactive dashboard showcase that demonstrates your platform's capabilities without requiring external images. All metrics, animations, and visual elements are built with modern CSS techniques. 

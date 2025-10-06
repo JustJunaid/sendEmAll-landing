@@ -1,30 +1,666 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SendEmAll | Cold Email at Scale, Made Simple | Alternative to Instantly.ai</title>
-    <meta name="description" content="Automate your outreach, boost reply rates, and achieve 100% deliverability with SendEmAll. The best bulk cold email platform for sales teams and marketers. A powerful alternative to Instantly.ai and other cold email tools." />
-    <meta name="author" content="SendEmAll" />
-    <meta name="keywords" content="cold email platform, send email at scale, bulk cold email, cold outreach, email deliverability, instantly.ai alternatives, lemlist alternatives, cold email automation, email outreach tool" />
-
-    <meta property="og:title" content="SendEmAll | Cold Email at Scale, Made Simple" />
-    <meta property="og:description" content="Automate your outreach, boost reply rates, and achieve 100% deliverability with SendEmAll. The best bulk cold email platform for sales teams." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@sendemall" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SendEmAll - Cold Email Deliverability Platform | Inbox Placement Tests & Email Infrastructure</title>
+    <meta name="description" content="Stop guessing where your cold emails land. SendEmAll provides inbox placement tests, email warmup, and cold email infrastructure to ensure 95%+ deliverability. Free tests available.">
+    <meta name="keywords" content="cold email deliverability, inbox placement test, email deliverability test, cold email infrastructure, email warmup, sender reputation, DKIM SPF DMARC, email blacklist check, cold outreach, email testing">
+    <meta name="author" content="SendEmAll">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-  </head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DE7GXPJJ87"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DE7GXPJJ87');
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sendemall.com/">
+    <meta property="og:title" content="SendEmAll - Cold Email Deliverability Platform">
+    <meta property="og:description" content="Stop guessing where your cold emails land. SendEmAll provides inbox placement tests, email warmup, and cold email infrastructure to ensure 95%+ deliverability. Free tests available.">
+    <meta property="og:image" content="https://sendemall.com/img/dashboard-hero.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sendemall.com/">
+    <meta property="twitter:title" content="SendEmAll - Cold Email Deliverability Platform">
+    <meta property="twitter:description" content="Stop guessing where your cold emails land. SendEmAll provides inbox placement tests, email warmup, and cold email infrastructure to ensure 95%+ deliverability. Free tests available.">
+    <meta property="twitter:image" content="https://sendemall.com/img/dashboard-hero.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://sendemall.com/">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SendEmAll",
+      "description": "Cold email deliverability platform that provides inbox placement tests, email warmup, and infrastructure to ensure your cold emails reach the inbox, not spam.",
+      "url": "https://sendemall.com",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "49",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2025-12-31"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "SendEmAll",
+        "url": "https://sendemall.com"
+      },
+      "featureList": [
+        "Inbox placement testing",
+        "Cold email deliverability optimization",
+        "Email warmup automation",
+        "Sender reputation monitoring", 
+        "DKIM SPF DMARC configuration",
+        "Multi-infrastructure sending",
+        "Real-time deliverability analytics",
+        "Domain blacklist monitoring"
+      ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Premium Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="nav-brand">
+                    <img src="img/sendemall-logo-new.svg" alt="SendEmAll" class="nav-logo">
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#testimonials">Success Stories</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                
+                <div class="nav-buttons">
+                    <a href="https://app.sendemall.com/login" class="btn btn-secondary" target="_blank">Login</a>
+                    <a href="https://app.sendemall.com/register" class="btn btn-primary" target="_blank">Get Started</a>
+                </div>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Premium Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                <blockquote class="hero-blockquote">
+                    "Inbox-First Cold Email Infrastructure That Actually Works."
+                </blockquote>
+                
+                <h1>Stop Guessing. Start Landing.</h1>
+                
+                <p class="hero-description">
+                    SendEmAll helps you test, warm, and send from any domain — Gmail, Outlook, or our own infra — so every email hits Inbox, not Spam.
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="https://app.sendemall.com/email-deliverability-test" class="btn btn-primary btn-large" target="_blank">
+                        Sign Up Free
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#demo" class="btn btn-secondary btn-large">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item reveal-element">
+                        <div class="stat-number" data-count="95">0</div>
+                        <div class="stat-label">% Inbox Placement</div>
+                    </div>
+                    <div class="stat-item reveal-element">
+                        <div class="stat-number" data-count="0.3">0</div>
+                        <div class="stat-label">% Spam Rate</div>
+                    </div>
+                    <div class="stat-item reveal-element">
+                        <div class="stat-number" data-count="10">0</div>
+                        <div class="stat-label">M+ Emails Delivered</div>
+                    </div>
+                    <div class="stat-item reveal-element">
+                        <div class="stat-number" data-count="48">0</div>
+                        <div class="stat-label">Hr Warmup Cycle</div>
+                    </div>
+                </div>
+                </div>
+                
+                <div class="hero-image">
+                    <div class="hero-lead-magnet">
+                        <div class="lead-magnet-icon">
+                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                                <circle cx="30" cy="30" r="30" fill="url(#gradient)"/>
+                                <path d="M20 25h20v15H20z" fill="white" opacity="0.9"/>
+                                <path d="M22 27h16v2H22zM22 31h12v2H22zM22 35h8v2H22z" fill="currentColor" opacity="0.7"/>
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#D2B3F3"/>
+                                        <stop offset="100%" style="stop-color:#94E9E6"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h2>Free InboxNinja Test — See Where Your Emails Really Land.</h2>
+                        <p>Upload your sender + copy → run 2 free tests → get a live report (Inbox / Promotions / Spam) in your inbox.</p>
+                        <div class="lead-magnet-form">
+                            <input type="email" placeholder="Enter your email for the report" class="lead-input" id="hero-email-input">
+                            <button class="btn btn-primary" onclick="openDeliverabilityTest('hero-email-input')">
+                                Try Free Test →
+                            </button>
+                        </div>
+                        <div class="lead-magnet-subtext">
+                            No credit card. 2 free tests on us.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Magnet Section - InboxNinja Test -->
+    <!-- <section class="lead-magnet" id="inbox-test">
+        <div class="container">
+            <div class="lead-magnet-card">
+                <div class="lead-magnet-icon">
+                    <i class="fas fa-inbox"></i>
+                </div>
+                <h2>Free InboxNinja Test — See Where Your Emails Really Land.</h2>
+                <p>Upload your sender + copy → run 2 free tests → get a live report (Inbox / Promotions / Spam) in your inbox.</p>
+                <div class="lead-magnet-form">
+                    <input type="email" placeholder="Enter your email for the report" class="lead-input">
+                    <button class="btn btn-primary">
+                        Try Free Test →
+                    </button>
+                </div>
+                <div class="lead-magnet-subtext">
+                    No credit card. 2 free tests on us.
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Premium Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Features</div>
+                <h2 class="section-title">Built by Cold-Emailers for Cold-Emailers</h2>
+                <p>Every feature is engineered for inbox success. Stop burning domains. Start landing emails.</p>
+            </div>
+            
+            <div class="feature-tabs">
+                <button class="category-tab active" data-category="ai-features">Inbox Placement</button>
+                <button class="category-tab" data-category="deliverability">Smart Warmup</button>
+                <button class="category-tab" data-category="analytics">AI Campaigns</button>
+                <button class="category-tab" data-category="campaigns">Master Inbox</button>
+            </div>
+            
+            <div class="feature-category active" id="ai-features">
+                <div class="feature-grid">
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="feature-title">Inbox Placement Intelligence</h3>
+                        <p class="feature-description">Run real placement tests before every send and get actionable fixes.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3 class="feature-title">Deliverability Analytics</h3>
+                        <p class="feature-description">Track spam scores, authentication status, and domain reputation in real-time. Get actionable insights to improve inbox rates.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-stop-circle"></i>
+                        </div>
+                        <h3 class="feature-title">Auto-Stop Protection</h3>
+                        <p class="feature-description">Automatically pause campaigns if bounce rates exceed 10%. Protect your domain reputation and avoid blacklists.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-category" id="deliverability">
+                <div class="feature-grid">
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="feature-title">Smart Warm-Up Engine</h3>
+                        <p class="feature-description">Auto-ramps your sending volume and builds domain reputation safely.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="feature-title">DNS Auto-Configuration</h3>
+                        <p class="feature-description">We generate SPF, DKIM, DMARC records automatically. Just add your domain and we handle the technical setup.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                        <h3 class="feature-title">Reputation Monitoring</h3>
+                        <p class="feature-description">Continuous monitoring of domain health, spam scores, and blacklist status across major providers.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-category" id="analytics">
+                <div class="feature-grid">
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="feature-title">Real-time Analytics</h3>
+                        <p class="feature-description">Track opens, clicks, conversions, and revenue in real-time with detailed performance insights.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3 class="feature-title">AI Campaign Generator</h3>
+                        <p class="feature-description">3-step sequences × 2 variants each — tone-aware, variable-injected, no placeholders.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <h3 class="feature-title">Deliverability Guardrails</h3>
+                        <p class="feature-description">Built-in verification + auto-pause above 10% bounce.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-category" id="campaigns">
+                <div class="feature-grid">
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <h3 class="feature-title">Master Inbox & Agency Workspaces</h3>
+                        <p class="feature-description">Manage replies and teams across clients from one dashboard.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="feature-title">Multi-Infrastructure Sending</h3>
+                        <p class="feature-description">Send via Gmail, Outlook, SMTPs, or our whitelabel Postal infrastructure. Scale without limits.</p>
+                    </div>
+                    <div class="feature-card reveal-element">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">Deliverability Analytics</h3>
+                        <p class="feature-description">Track inbox placement, spam scores, and engagement metrics. Get actionable insights to improve performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">How It Works</div>
+                <h2 class="section-title">From Domain to Deliverability in 3 Steps</h2>
+                <p>Set up your cold outreach infrastructure in minutes. Start landing in inboxes today.</p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step reveal-element">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Add Your Domain</h3>
+                        <p>We generate SPF, DKIM, DMARC records automatically and start warming up your domain. No technical setup required.</p>
+                    </div>
+                </div>
+                <div class="step reveal-element">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Test & Tune</h3>
+                        <p>Run Inbox Placement Tests, verify your lead list, and refine your copy with AI feedback before sending.</p>
+                    </div>
+                </div>
+                <div class="step reveal-element">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Send With Confidence</h3>
+                        <p>Launch campaigns via Gmail, Outlook, or our infrastructure. Watch your inbox rates soar with real-time monitoring.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credit-Based Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Pricing</div>
+                <h2 class="section-title">Pay Only for What You Send</h2>
+                <p>No monthly lock-ins. Buy credits once, use anytime.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card reveal-element">
+                    <div class="pricing-header">
+                        <h3 class="plan-name">Starter Pack</h3>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">10</span>
+                        </div>
+                        <div class="credits-amount">1,000 credits</div>
+                        <p class="plan-description">~100,000 emails or 4,000 verifications</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Each email/test = 0.01 credit</li>
+                        <li>Credits never expire</li>
+                        <li>2 free placement tests</li>
+                        <li>Email verification included</li>
+                    </ul>
+                    <button class="btn-pricing">Buy Credits</button>
+                </div>
+                
+                <div class="pricing-card featured reveal-element">
+                    <div class="pricing-header">
+                        <h3 class="plan-name">Growth Pack</h3>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">45</span>
+                        </div>
+                        <div class="credits-amount">5,000 credits</div>
+                        <p class="plan-description">Save 10%</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Each email/test = 0.01 credit</li>
+                        <li>Credits never expire</li>
+                        <li>2 free placement tests</li>
+                        <li>Email verification included</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="btn-pricing">Buy Credits</button>
+                </div>
+                
+                <div class="pricing-card reveal-element">
+                    <div class="pricing-header">
+                        <h3 class="plan-name">Scale Pack</h3>
+                        <div class="plan-price">
+                            <span class="currency">$</span>
+                            <span class="amount">80</span>
+                        </div>
+                        <div class="credits-amount">10,000 credits</div>
+                        <p class="plan-description">Save 20%</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Each email/test = 0.01 credit</li>
+                        <li>Credits never expire</li>
+                        <li>2 free placement tests</li>
+                        <li>Email verification included</li>
+                        <li>Priority support</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                    <button class="btn-pricing">Buy Credits</button>
+                </div>
+            </div>
+            
+            <div class="pricing-footer">
+                <p><strong>Each email or placement test = 0.01 credit.</strong></p>
+                <p>Credits never expire. 2 free placement tests on signup.</p>
+                <div class="pricing-cta">
+                    <a href="https://app.sendemall.com/email-deliverability-test" class="btn btn-primary" target="_blank">Try Free Test</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Success Stories</div>
+                <h2 class="section-title">Inbox Placement That Speaks for Itself</h2>
+                <p>SendEmAll helps teams hit inbox rates above 95% — consistently.</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal-element">
+                    <div class="testimonial-content">
+                        <p>"Deliverability jumped from 65% to 99%. Open rates ×3. Revenue +340%."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Sarah Chen">
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Sarah Chen</div>
+                            <div class="author-title">CEO TechStart</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card reveal-element">
+                    <div class="testimonial-content">
+                        <p>"Finally see where our emails land. SendEmAll's seed tests are priceless."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Marcus Rodriguez">
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Marcus Rodriguez</div>
+                            <div class="author-title">GrowthCo</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card reveal-element">
+                    <div class="testimonial-content">
+                        <p>"99% inbox rate within 24 hours. The ROI has been phenomenal."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b547?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="Emily Watson">
+                        </div>
+                        <div class="author-info">
+                            <div class="author-name">Emily Watson</div>
+                            <div class="author-title">EcomSuccess</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">FAQ</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p>Everything you need to know about SendEmAll</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do Inbox Placement Tests work?
+                    </div>
+                    <div class="faq-answer">
+                        <p>We send test emails from your domain to real Gmail, Outlook, and Yahoo inboxes, then report back exactly where they land (Inbox, Promotions, or Spam). You get a live screenshot and actionable fixes.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What's included in the free test?
+                    </div>
+                    <div class="faq-answer">
+                        <p>2 placement tests (you can test 2 different subject lines or sending setups), live inbox screenshots, spam score analysis, and a deliverability report with specific fixes.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I use my own domain or send via Gmail?
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Connect your own domain for better deliverability, or send through Gmail/Google Workspace. We support SMTP, API, and direct Gmail integration.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do credits expire?
+                    </div>
+                    <div class="faq-answer">
+                        <p>No. Buy credits once, use them whenever you need placement tests. Perfect for agencies managing multiple clients or businesses with seasonal campaigns.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How accurate are deliverability reports?
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our placement tests use real email accounts at major providers (not simulated), so you get actual inbox placement results. We also include spam score analysis and authentication checks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Find Out Where Your Emails Land?</h2>
+                <p>Stop guessing. Start landing. Join 12,000+ senders who've improved their deliverability with SendEmAll.</p>
+                <div class="cta-buttons">
+                    <a href="https://app.sendemall.com/email-deliverability-test" class="btn btn-primary btn-large" target="_blank">Try Free Test →</a>
+                    <a href="#pricing" class="btn btn-secondary btn-large">See Pricing</a>
+                </div>
+                <div class="cta-guarantee">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>2 free tests included • No credit card required • Live inbox reports</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <a href="#" class="footer-brand">
+                        <img src="img/sendemall-logo-new.svg" alt="SendEmAll" height="48">
+                    </a>
+                    <p class="footer-description">
+                        Cold email deliverability platform that helps businesses test, warm, and send emails with 95%+ inbox placement using advanced infrastructure and placement testing.
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#integrations">Integrations</a></li>
+                        <li><a href="#api">API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#status">Status</a></li>
+                        <li><a href="mailto:junaid@sendemall.com">Email Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="/cookie-policy.html">Cookie Policy</a></li>
+                        <li><a href="#gdpr">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 SendEmAll. All rights reserved.</p>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://x.com/send_em_all" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.linkedin.com/company/sendemall" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Premium JavaScript -->
+    <script src="js/script.js"></script>
+</body>
 </html>
