@@ -88,7 +88,7 @@ class PremiumReveals {
     observeElements() {
         // Select all elements that should animate
         const elements = document.querySelectorAll(
-            '.feature-card, .pricing-card, .testimonial-card, .stat-item, .step, section h2, section p'
+            '.feature-card, .pricing-card, .testimonial-card, .step, section h2, section p'
         );
 
         elements.forEach(el => {
@@ -217,6 +217,7 @@ class MobileNav {
     open() {
         this.isOpen = true;
         this.hamburger.classList.add('active');
+        this.hamburger.setAttribute('aria-expanded', 'true');
         this.navMenu.classList.add('active');
         if (this.navButtons) {
             this.navButtons.classList.add('active');
@@ -227,6 +228,7 @@ class MobileNav {
     close() {
         this.isOpen = false;
         this.hamburger.classList.remove('active');
+        this.hamburger.setAttribute('aria-expanded', 'false');
         this.navMenu.classList.remove('active');
         if (this.navButtons) {
             this.navButtons.classList.remove('active');
@@ -235,131 +237,6 @@ class MobileNav {
     }
 }
 
-// Premium Counter Animation
-class CounterAnimation {
-    constructor() {
-        this.counters = document.querySelectorAll('.stat-number[data-count]');
-        this.animated = false;
-        
-        if (this.counters.length > 0) {
-            this.init();
-        }
-    }
-
-    init() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !this.animated) {
-                    this.animateCounters();
-                    this.animated = true;
-                }
-            });
-        }, { threshold: 0.5 });
-
-        const heroSection = document.querySelector('.hero-stats');
-        if (heroSection) {
-            observer.observe(heroSection);
-        }
-    }
-
-    animateCounters() {
-        this.counters.forEach(counter => {
-            const target = parseFloat(counter.getAttribute('data-count'));
-            const suffix = this.getSuffix(counter.textContent);
-            const duration = 2000;
-            const start = 0;
-            const startTime = performance.now();
-
-            const animate = (currentTime) => {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Easing function for smooth animation
-                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-                const current = start + (target - start) * easeOutQuart;
-                
-                counter.textContent = this.formatNumber(current, suffix);
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                }
-            };
-
-            requestAnimationFrame(animate);
-        });
-    }
-
-    getSuffix(text) {
-        if (text.includes('%')) return '%';
-        if (text.includes('x')) return 'x';
-        if (text.includes('+')) return '+';
-        return '';
-    }
-
-    formatNumber(num, suffix) {
-        if (suffix === '%') return Math.round(num) + suffix;
-        if (suffix === 'x') return num.toFixed(1) + suffix;
-        if (suffix === '+') return Math.round(num).toLocaleString() + suffix;
-        return Math.round(num).toLocaleString();
-    }
-}
-
-// Premium Form Handler
-class FormHandler {
-    constructor() {
-        this.forms = document.querySelectorAll('form');
-        this.init();
-    }
-
-    init() {
-        this.forms.forEach(form => {
-            form.addEventListener('submit', (e) => this.handleSubmit(e));
-        });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        const form = e.target;
-        const button = form.querySelector('button[type="submit"]');
-        
-        // Premium loading state
-        if (button) {
-            button.classList.add('loading');
-            button.disabled = true;
-        }
-        
-        // Simulate API call
-        setTimeout(() => {
-            this.showNotification('Thank you! We\'ll be in touch soon.', 'success');
-            form.reset();
-            if (button) {
-                button.classList.remove('loading');
-                button.disabled = false;
-            }
-        }, 1500);
-    }
-
-    showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `premium-notification ${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-message">${message}</span>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Animate in
-        setTimeout(() => notification.classList.add('show'), 100);
-        
-        // Remove after 5 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 5000);
-    }
-}
 
 // Premium Tab System
 class TabSystem {
@@ -402,37 +279,6 @@ class TabSystem {
     }
 }
 
-// Premium Pricing Toggle
-class PricingToggle {
-    constructor() {
-        this.toggle = document.getElementById('billing-toggle');
-        this.prices = document.querySelectorAll('.amount[data-monthly][data-annual]');
-        
-        if (this.toggle) {
-            this.init();
-        }
-    }
-
-    init() {
-        this.toggle.addEventListener('change', () => this.updatePrices());
-    }
-
-    updatePrices() {
-        const isAnnual = this.toggle.checked;
-        
-        this.prices.forEach(price => {
-            const monthly = price.getAttribute('data-monthly');
-            const annual = price.getAttribute('data-annual');
-            
-            price.style.opacity = '0';
-            setTimeout(() => {
-                price.textContent = isAnnual ? annual : monthly;
-                price.style.opacity = '1';
-                price.classList.toggle('discounted', isAnnual);
-            }, 150);
-        });
-    }
-}
 
 // Premium FAQ Accordion
 class FAQAccordion {
@@ -447,19 +293,34 @@ class FAQAccordion {
     init() {
         this.items.forEach(item => {
             const question = item.querySelector('.faq-question');
+            question.setAttribute('tabindex', '0');
+            question.setAttribute('role', 'button');
+            question.setAttribute('aria-expanded', 'false');
+            
             question.addEventListener('click', () => this.toggleItem(item));
+            question.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.toggleItem(item);
+                }
+            });
         });
     }
 
     toggleItem(item) {
         const isActive = item.classList.contains('active');
+        const question = item.querySelector('.faq-question');
         
         // Close all items
-        this.items.forEach(i => i.classList.remove('active'));
+        this.items.forEach(i => {
+            i.classList.remove('active');
+            i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
         
         // Open clicked item if it wasn't active
         if (!isActive) {
             item.classList.add('active');
+            question.setAttribute('aria-expanded', 'true');
         }
     }
 }
@@ -471,10 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new PremiumReveals();
     new SmoothScroll();
     new MobileNav();
-    new CounterAnimation();
-    new FormHandler();
     new TabSystem();
-    new PricingToggle();
     new FAQAccordion();
     
     // Add premium loading class after everything is initialized
@@ -493,14 +351,143 @@ window.addEventListener('resize', () => {
 
 // Deliverability test function
 function openDeliverabilityTest(inputId) {
-    const emailInput = document.getElementById(inputId);
-    const email = emailInput.value.trim();
-    
     let url = 'https://app.sendemall.com/email-deliverability-test';
     
-    if (email && email.includes('@')) {
-        url += `?email=${encodeURIComponent(email)}`;
+    // Only try to get email if inputId is provided
+    if (inputId) {
+        const emailInput = document.getElementById(inputId);
+        if (emailInput) {
+            const email = emailInput.value.trim();
+            if (email && email.includes('@')) {
+                url += `?email=${encodeURIComponent(email)}`;
+            }
+        }
     }
     
     window.open(url, '_blank');
+}
+
+// Pricing toggle functionality
+class PricingToggle {
+    constructor() {
+        this.toggleButtons = document.querySelectorAll('.pricing-toggle-btn');
+        this.amounts = document.querySelectorAll('.amount-new');
+        this.currentPeriod = 'annual';
+        
+        this.toggleButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const period = e.currentTarget.dataset.period;
+                this.switchPeriod(period);
+            });
+        });
+    }
+    
+    switchPeriod(period) {
+        if (this.currentPeriod === period) return;
+        
+        this.currentPeriod = period;
+        
+        // Update button states
+        this.toggleButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.period === period) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Update pricing
+        this.updatePricing();
+    }
+    
+    updatePricing() {
+        const isAnnual = this.currentPeriod === 'annual';
+        
+        this.amounts.forEach(amount => {
+            const monthly = amount.getAttribute('data-monthly');
+            const annual = amount.getAttribute('data-annual');
+            
+            if (monthly && annual) {
+                amount.textContent = isAnnual ? annual : monthly;
+            }
+        });
+    }
+}
+
+// Initialize pricing toggle
+new PricingToggle();
+
+// Remove Tawk.to branding
+function removeTawkBranding() {
+    let attempts = 0;
+    const maxAttempts = 20; // Stop after 6 seconds (20 * 300ms)
+    
+    const intervalId = setInterval(() => {
+        const found = hideTawkBranding();
+        attempts++;
+        
+        // Stop checking if we found and hid the branding, or after max attempts
+        if (found || attempts >= maxAttempts) {
+            clearInterval(intervalId);
+            
+            // Set up a MutationObserver for any future changes
+            if (found) {
+                setupTawkObserver();
+            }
+        }
+    }, 300);
+}
+
+function hideTawkBranding() {
+    // Target the branding iframe specifically
+    const brandingSelectors = [
+        'iframe[title="chat widget"][height="45px"]',
+        'iframe[title="chat widget"][height="30px"]', 
+        'iframe[id*="cnpm"]',
+        'iframe[style*="height:45px"]',
+        'iframe[style*="height: 45px"]',
+        'iframe[style*="bottom:30px"]',
+        'iframe[style*="bottom: 30px"]'
+    ];
+    
+    let found = false;
+    brandingSelectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => {
+            el.style.setProperty('display', 'none', 'important');
+            el.style.setProperty('visibility', 'hidden', 'important');
+            el.style.setProperty('height', '0', 'important');
+            el.style.setProperty('min-height', '0', 'important');
+            found = true;
+        });
+    });
+    
+    return found;
+}
+
+// Use MutationObserver for better performance
+function setupTawkObserver() {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1 && node.tagName === 'IFRAME') {
+                        hideTawkBranding();
+                    }
+                });
+            }
+        });
+    });
+    
+    // Observe the body for new iframes being added
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// Start removing branding when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', removeTawkBranding);
+} else {
+    removeTawkBranding();
 }

@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Policy - SendEmAll</title>
-    <meta name="description" content="SendEmAll Cookie Policy - Learn about how we use cookies and similar technologies on our platform.">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="SendEmAll Cookie Policy - Learn about how we use cookies and similar technologies on our platform.">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <div class="logo-icon">
-                    <i class="fas fa-paper-plane"></i>
+        <div class="container">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">
+                    <img src="img/sendemall-logo-new.svg" alt="SendEmAll" class="nav-logo">
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#features">Features</a></li>
+                    <li><a href="/#pricing">Pricing</a></li>
+                    <li><a href="/#contact">Contact</a></li>
+                </ul>
+
+                <div class="nav-buttons">
+                    <a href="https://app.sendemall.com/login" class="btn btn-secondary" target="_blank">Login</a>
+                    <a href="https://app.sendemall.com/register" class="btn btn-primary" target="_blank">Get Started</a>
                 </div>
-                <span>SendEmAll</span>
-            </div>
-            <div class="nav-buttons">
-                <a href="https://app.sendemall.com/login" class="btn-login">Login</a>
-                <a href="https://app.sendemall.com/register" class="btn-signup">Get Started</a>
+
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
@@ -31,255 +56,35 @@
         <div class="container">
             <div class="legal-header">
                 <h1>Cookie Policy</h1>
-                <p class="last-updated">Last updated: January 15, 2024</p>
+                <p class="last-updated">Last updated: November 21, 2025</p>
             </div>
-            
+
             <div class="legal-body">
                 <div class="legal-section">
-                    <h2>1. What Are Cookies?</h2>
-                    <p>Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. They help websites remember information about your visit, such as your preferred language and other settings, which can make your next visit easier and the site more useful to you.</p>
-                </div>
-
-                <div class="legal-section">
-                    <h2>2. How We Use Cookies</h2>
-                    <p>SendEmAll uses cookies and similar technologies to:</p>
+                    <h2>1. Cookie Usage</h2>
+                    <p>SendEmAll uses cookies to:</p>
                     <ul>
-                        <li>Remember your preferences and settings</li>
-                        <li>Provide personalized content and features</li>
-                        <li>Analyze how our website is used</li>
-                        <li>Improve our services and user experience</li>
-                        <li>Ensure security and prevent fraud</li>
-                        <li>Deliver relevant advertisements</li>
+                        <li>Operate and secure the platform</li>
+                        <li>Analyze performance and improve features</li>
+                        <li>Track anonymous usage to understand activity</li>
                     </ul>
                 </div>
 
                 <div class="legal-section">
-                    <h2>3. Types of Cookies We Use</h2>
-                    
-                    <h3>3.1 Essential Cookies</h3>
-                    <p>These cookies are necessary for the website to function properly. They enable basic functions like page navigation, access to secure areas, and form submissions. The website cannot function properly without these cookies.</p>
-                    <div class="cookie-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Cookie Name</th>
-                                    <th>Purpose</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>session_id</td>
-                                    <td>Maintains your session while using the platform</td>
-                                    <td>Session</td>
-                                </tr>
-                                <tr>
-                                    <td>csrf_token</td>
-                                    <td>Protects against cross-site request forgery attacks</td>
-                                    <td>Session</td>
-                                </tr>
-                                <tr>
-                                    <td>auth_token</td>
-                                    <td>Remembers your login status</td>
-                                    <td>30 days</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3>3.2 Performance and Analytics Cookies</h3>
-                    <p>These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.</p>
-                    <div class="cookie-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Cookie Name</th>
-                                    <th>Purpose</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_ga</td>
-                                    <td>Google Analytics - tracks unique visitors</td>
-                                    <td>2 years</td>
-                                </tr>
-                                <tr>
-                                    <td>_gid</td>
-                                    <td>Google Analytics - tracks session data</td>
-                                    <td>24 hours</td>
-                                </tr>
-                                <tr>
-                                    <td>_gat</td>
-                                    <td>Google Analytics - throttles request rate</td>
-                                    <td>1 minute</td>
-                                </tr>
-                                <tr>
-                                    <td>sendemall_analytics</td>
-                                    <td>Our own analytics to improve user experience</td>
-                                    <td>1 year</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3>3.3 Functional Cookies</h3>
-                    <p>These cookies enable enhanced functionality and personalization, such as remembering your preferences and settings.</p>
-                    <div class="cookie-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Cookie Name</th>
-                                    <th>Purpose</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>theme_preference</td>
-                                    <td>Remembers your theme preference (light/dark)</td>
-                                    <td>1 year</td>
-                                </tr>
-                                <tr>
-                                    <td>language_preference</td>
-                                    <td>Remembers your language preference</td>
-                                    <td>1 year</td>
-                                </tr>
-                                <tr>
-                                    <td>dashboard_layout</td>
-                                    <td>Remembers your dashboard layout preferences</td>
-                                    <td>1 year</td>
-                                </tr>
-                                <tr>
-                                    <td>notification_settings</td>
-                                    <td>Remembers your notification preferences</td>
-                                    <td>1 year</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3>3.4 Marketing and Advertising Cookies</h3>
-                    <p>These cookies are used to track visitors across websites to display relevant and engaging advertisements.</p>
-                    <div class="cookie-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Cookie Name</th>
-                                    <th>Purpose</th>
-                                    <th>Duration</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>_fbp</td>
-                                    <td>Facebook Pixel - tracks conversions and retargeting</td>
-                                    <td>3 months</td>
-                                </tr>
-                                <tr>
-                                    <td>_fbc</td>
-                                    <td>Facebook Pixel - tracks click-through data</td>
-                                    <td>2 years</td>
-                                </tr>
-                                <tr>
-                                    <td>linkedin_insight</td>
-                                    <td>LinkedIn Insight Tag - tracks conversions</td>
-                                    <td>2 years</td>
-                                </tr>
-                                <tr>
-                                    <td>google_ads</td>
-                                    <td>Google Ads - tracks conversions and remarketing</td>
-                                    <td>2 years</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="legal-section">
-                    <h2>4. Third-Party Cookies</h2>
-                    <p>We may use third-party services that place cookies on your device. These services include:</p>
-                    
-                    <h3>4.1 Google Analytics</h3>
-                    <p>We use Google Analytics to understand how visitors use our website. Google Analytics uses cookies to collect information about your use of our website, including your IP address. This information is transmitted to and stored by Google on servers in the United States.</p>
-
-                    <h3>4.2 Social Media Platforms</h3>
-                    <p>We use social media platforms like Facebook, LinkedIn, and Twitter for advertising and analytics purposes. These platforms may place cookies on your device when you visit our website.</p>
-
-                    <h3>4.3 Payment Processors</h3>
-                    <p>When you make a payment, our payment processors (Stripe, PayPal) may place cookies to ensure secure transactions and prevent fraud.</p>
-                </div>
-
-                <div class="legal-section">
-                    <h2>5. Cookie Management</h2>
-                    
-                    <h3>5.1 Browser Settings</h3>
-                    <p>You can control and manage cookies through your browser settings. Most browsers allow you to:</p>
+                    <h2>2. Types of Cookies</h2>
+                    <p>We use:</p>
                     <ul>
-                        <li>View what cookies are stored on your device</li>
-                        <li>Delete cookies individually or all at once</li>
-                        <li>Block cookies from specific websites</li>
-                        <li>Block all cookies</li>
-                        <li>Set preferences for different types of cookies</li>
+                        <li>Essential cookies (required to run the service)</li>
+                        <li>Analytics cookies (for performance insights)</li>
                     </ul>
-
-                    <h3>5.2 Browser-Specific Instructions</h3>
-                    <div class="browser-instructions">
-                        <h4>Chrome</h4>
-                        <p>Settings → Privacy and security → Cookies and other site data</p>
-                        
-                        <h4>Firefox</h4>
-                        <p>Options → Privacy & Security → Cookies and Site Data</p>
-                        
-                        <h4>Safari</h4>
-                        <p>Preferences → Privacy → Manage Website Data</p>
-                        
-                        <h4>Edge</h4>
-                        <p>Settings → Cookies and site permissions → Cookies and site data</p>
-                    </div>
-
-                    <h3>5.3 Cookie Consent</h3>
-                    <p>When you first visit our website, you'll see a cookie consent banner that allows you to:</p>
-                    <ul>
-                        <li>Accept all cookies</li>
-                        <li>Reject non-essential cookies</li>
-                        <li>Customize your cookie preferences</li>
-                    </ul>
-                    <p>You can change your cookie preferences at any time by clicking the "Cookie Settings" link in our footer.</p>
+                    <p>You can disable cookies in your browser, but some features may not work correctly.</p>
                 </div>
 
                 <div class="legal-section">
-                    <h2>6. Impact of Disabling Cookies</h2>
-                    <p>If you choose to disable cookies, some features of our website may not function properly:</p>
-                    <ul>
-                        <li>You may need to log in every time you visit</li>
-                        <li>Your preferences and settings won't be remembered</li>
-                        <li>Some personalized content may not be available</li>
-                        <li>Analytics and performance monitoring may be limited</li>
-                        <li>Security features may be affected</li>
-                    </ul>
-                </div>
-
-                <div class="legal-section">
-                    <h2>7. Do Not Track</h2>
-                    <p>Some browsers include a "Do Not Track" (DNT) feature that sends a signal to websites indicating that you don't want to be tracked. Currently, there is no standard for how websites should respond to DNT signals. We do not currently respond to DNT signals, but we respect your privacy choices through our cookie consent mechanism.</p>
-                </div>
-
-                <div class="legal-section">
-                    <h2>8. Updates to This Cookie Policy</h2>
-                    <p>We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will notify you of any material changes by:</p>
-                    <ul>
-                        <li>Posting the updated policy on our website</li>
-                        <li>Updating the "Last updated" date</li>
-                        <li>Sending you an email notification for significant changes</li>
-                    </ul>
-                </div>
-
-                <div class="legal-section">
-                    <h2>9. Contact Us</h2>
+                    <h2>3. Contact Us</h2>
                     <p>If you have any questions about our use of cookies or this Cookie Policy, please contact us:</p>
                     <div class="contact-info">
-                        <p><strong>Email:</strong> privacy@sendemall.com</p>
+                        <p><strong>Email:</strong> junaid@sendemall.com</p>
                         <p><strong>Address:</strong> SendEmAll Inc., 123 Business Street, Tech City, TC 12345</p>
                         <p><strong>Phone:</strong> +1 (555) 123-4567</p>
                     </div>
@@ -289,8 +94,10 @@
                     <h2>10. Related Policies</h2>
                     <p>This Cookie Policy should be read in conjunction with our:</p>
                     <ul>
-                        <li><a href="privacy-policy.html">Privacy Policy</a> - for information about how we collect and use your personal data</li>
-                        <li><a href="terms-of-service.html">Terms of Service</a> - for the terms governing your use of our services</li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a> - for information about how we collect and
+                            use your personal data</li>
+                        <li><a href="terms-of-service.html">Terms of Service</a> - for the terms governing your use of
+                            our services</li>
                     </ul>
                 </div>
             </div>
@@ -301,32 +108,61 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <div class="logo-icon">
-                            <i class="fas fa-paper-plane"></i>
-                        </div>
-                        <span>SendEmAll</span>
-                    </div>
-                    <p>AI-powered email marketing platform that helps businesses reach more inboxes and drive real results.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
+                <div class="footer-column">
+                    <a href="/" class="footer-brand">
+                        <img src="img/sendemall-logo-new.svg" alt="SendEmAll" height="48">
+                    </a>
+                    <p class="footer-description">
+                        Cold email deliverability platform that helps businesses test, warm, and send emails with 95%+
+                        inbox placement using advanced infrastructure and placement testing.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#features">Features</a></li>
+                        <li><a href="/#pricing">Pricing</a></li>
+                        <li><a href="/#integrations">Integrations</a></li>
+                        <li><a href="/#api">API</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/#about">About</a></li>
+                        <li><a href="/#blog">Blog</a></li>
+                        <li><a href="/#careers">Careers</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="/terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="/cookie-policy.html">Cookie Policy</a></li>
+                        <li><a href="/privacy-policy.html#gdpr">GDPR</a></li>
+                    </ul>
                 </div>
             </div>
+
             <div class="footer-bottom">
-                <p>&copy; 2024 SendEmAll. All rights reserved.</p>
-                <div class="footer-links">
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                    <a href="terms-of-service.html">Terms of Service</a>
-                    <a href="cookie-policy.html">Cookie Policy</a>
-                    <a href="#">GDPR</a>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 SendEmAll. All rights reserved.</p>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://x.com/send_em_all" class="social-link" target="_blank"><span style="font-weight: 600; font-size: 14px;">𝕏</span></a>
+                    <a href="https://www.linkedin.com/company/sendemall" class="social-link" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
-</html> 
+
+</html>
