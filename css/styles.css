@@ -1491,15 +1491,31 @@ body.premium-loaded * {
     display: none !important;
 }
 
-/* Alternative: Hide the powered by text inside the iframe */
-iframe#cnpm3qbop8bg1764183671204,
-iframe[id*="cnpm"][title="chat widget"][height="30px"],
-iframe[title="chat widget"][height="45px"] {
+/* Hide all branding iframes by various selectors */
+iframe[id*="cnpm"][title="chat widget"],
+iframe[title="chat widget"][height="30px"],
+iframe[title="chat widget"][height="45px"],
+iframe[title="chat widget"][style*="height: 45px"],
+iframe[title="chat widget"][style*="height:45px"],
+iframe[title="chat widget"][style*="bottom: 30px"],
+iframe[title="chat widget"][style*="bottom:30px"],
+iframe[title="chat widget"][style*="width: 350px"][style*="height: 45px"],
+iframe[title="chat widget"][style*="min-width: 350px"][style*="height: 45px"] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     height: 0 !important;
     min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Additional catch-all for any tawk.to branding containers */
+[id*="tawk"] iframe[style*="height: 45px"],
+[class*="tawk"] iframe[style*="height: 45px"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
 }
 
 /* Mobile responsive */

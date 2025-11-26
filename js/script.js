@@ -446,7 +446,9 @@ function hideTawkBranding() {
         'iframe[style*="height:45px"]',
         'iframe[style*="height: 45px"]',
         'iframe[style*="bottom:30px"]',
-        'iframe[style*="bottom: 30px"]'
+        'iframe[style*="bottom: 30px"]',
+        'iframe[style*="min-width: 350px"][style*="height: 45px"]',
+        'iframe[style*="width: 350px"][style*="height: 45px"]'
     ];
     
     let found = false;
@@ -461,27 +463,66 @@ function hideTawkBranding() {
         });
     });
     
+    // Also target by DOM content - look for "Powered by tawk.to" text
+    try {
+        const allIframes = document.querySelectorAll('iframe[title="chat widget"]');
+        allIframes.forEach(iframe => {
+            // Check if this iframe contains branding based on its positioning
+            const style = iframe.getAttribute('style') || '';
+            const isLikelyBranding = (
+                style.includes('height: 45px') || 
+                style.includes('height:45px') ||
+                style.includes('bottom: 30px') ||
+                style.includes('bottom:30px') ||
+                (style.includes('width: 350px') && style.includes('height: 45px'))
+            );
+            
+            if (isLikelyBranding) {
+                iframe.style.setProperty('display', 'none', 'important');
+                iframe.style.setProperty('visibility', 'hidden', 'important');
+                iframe.style.setProperty('height', '0', 'important');
+                iframe.style.setProperty('min-height', '0', 'important');
+                found = true;
+            }
+        });
+    } catch (e) {
+        // Fail silently if iframe access is restricted
+    }
+    
     return found;
 }
 
 // Use MutationObserver for better performance
 function setupTawkObserver() {
     const observer = new MutationObserver((mutations) => {
+        let shouldCheck = false;
+        
         mutations.forEach((mutation) => {
             if (mutation.type === 'childList') {
                 mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === 1 && node.tagName === 'IFRAME') {
-                        hideTawkBranding();
+                    if (node.nodeType === 1 && (node.tagName === 'IFRAME' || node.querySelector('iframe'))) {
+                        shouldCheck = true;
                     }
                 });
             }
+            // Also check for attribute changes on iframes (style changes)
+            if (mutation.type === 'attributes' && mutation.target.tagName === 'IFRAME') {
+                shouldCheck = true;
+            }
         });
+        
+        if (shouldCheck) {
+            // Small delay to ensure DOM is updated
+            setTimeout(hideTawkBranding, 100);
+        }
     });
     
-    // Observe the body for new iframes being added
+    // Observe the body for new iframes and attribute changes
     observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class']
     });
 }
 
