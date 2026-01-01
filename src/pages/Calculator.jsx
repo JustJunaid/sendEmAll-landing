@@ -1,22 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
 import { trackCalculatorEvent } from '../hooks/useGoogleAnalytics';
+import '../assets/css/styles.css';
 
 const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const WEEKDAY_SHORT = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-
-const ESP_DAILY_LIMITS = {
-  GOOGLE: 30,
-  OUTLOOK: 5,
-  CUSTOM: 50,
-};
-
-const ESP_SENDERS_PER_DOMAIN = {
-  GOOGLE: 4,
-  OUTLOOK: 100,
-  CUSTOM: 4,
-};
 
 const HealthTier = {
   EXCELLENT: 'excellent',
@@ -31,9 +21,8 @@ const EspType = {
   MIXED: 'mixed',
 };
 
-// Google brand icon SVG
 const GoogleIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <svg className={className} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{ width: '16px', height: '16px' }}>
     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -41,9 +30,8 @@ const GoogleIcon = ({ className }) => (
   </svg>
 );
 
-// Microsoft/Outlook brand icon SVG
 const MicrosoftIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <svg className={className} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{ width: '16px', height: '16px' }}>
     <path fill="#F25022" d="M1 1h10v10H1z"/>
     <path fill="#00A4EF" d="M1 13h10v10H1z"/>
     <path fill="#7FBA00" d="M13 1h10v10H13z"/>
@@ -52,53 +40,16 @@ const MicrosoftIcon = ({ className }) => (
 );
 
 const HEALTH_TIER_CONFIG = {
-  [HealthTier.EXCELLENT]: {
-    label: 'Excellent',
-    color: 'text-emerald-600',
-    bgColor: 'bg-emerald-50',
-    borderColor: 'border-emerald-200',
-    description: '70-100',
-    multiplier: 1.0,
-  },
-  [HealthTier.FAIR]: {
-    label: 'Fair',
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    borderColor: 'border-amber-200',
-    description: '40-69',
-    multiplier: 0.7,
-  },
-  [HealthTier.CRITICAL]: {
-    label: 'Critical',
-    color: 'text-rose-600',
-    bgColor: 'bg-rose-50',
-    borderColor: 'border-rose-200',
-    description: '<40',
-    multiplier: 0.3,
-  },
+  [HealthTier.EXCELLENT]: { label: 'Excellent', multiplier: 1.0 },
+  [HealthTier.FAIR]: { label: 'Fair', multiplier: 0.7 },
+  [HealthTier.CRITICAL]: { label: 'Critical', multiplier: 0.3 },
 };
 
 const ESP_TYPE_CONFIG = {
-  [EspType.MIXED]: {
-    label: 'Mixed',
-    description: 'Google + Azure + Custom',
-    icon: <i className="fas fa-layer-group text-sm"></i>,
-  },
-  [EspType.ALL_GOOGLE]: {
-    label: 'Google/MS Workspace',
-    description: `${ESP_DAILY_LIMITS.GOOGLE} emails/day`,
-    icon: <GoogleIcon className="h-4 w-4" />,
-  },
-  [EspType.ALL_OUTLOOK]: {
-    label: 'Azure',
-    description: `${ESP_DAILY_LIMITS.OUTLOOK} emails/day`,
-    icon: <MicrosoftIcon className="h-4 w-4" />,
-  },
-  [EspType.ALL_CUSTOM]: {
-    label: 'Custom',
-    description: `${ESP_DAILY_LIMITS.CUSTOM} emails/day`,
-    icon: <i className="fas fa-server text-sm"></i>,
-  },
+  [EspType.MIXED]: { label: 'Mixed', icon: <i className="fas fa-layer-group"></i> },
+  [EspType.ALL_GOOGLE]: { label: 'Google/MS 365', icon: <GoogleIcon /> },
+  [EspType.ALL_OUTLOOK]: { label: 'Azure', icon: <MicrosoftIcon /> },
+  [EspType.ALL_CUSTOM]: { label: 'Custom SMTP', icon: <i className="fas fa-server"></i> },
 };
 
 const Calculator = () => {
@@ -111,24 +62,19 @@ const Calculator = () => {
   const [sendingHoursPerDay, setSendingHoursPerDay] = useState(8);
   const [mixedRatios, setMixedRatios] = useState({ google: 50, outlook: 25, custom: 25 });
   const [showConfig, setShowConfig] = useState(false);
-
   const [sendEmAllResult, setSendEmAllResult] = useState(null);
   const [genericResult, setGenericResult] = useState(null);
   const [isCalculating, setIsCalculating] = useState(false);
 
   const calculateResults = async () => {
     setIsCalculating(true);
-
     try {
-      // Map ESP type to API format
       const espTypeMap = {
         [EspType.MIXED]: 'mixed',
         [EspType.ALL_GOOGLE]: 'all_google',
         [EspType.ALL_OUTLOOK]: 'all_outlook',
         [EspType.ALL_CUSTOM]: 'all_custom',
       };
-
-      // Map health tier to API format
       const healthTierMap = {
         [HealthTier.EXCELLENT]: 'excellent',
         [HealthTier.FAIR]: 'fair',
@@ -146,9 +92,6 @@ const Calculator = () => {
         mixedRatios: espType === EspType.MIXED ? mixedRatios : undefined,
       };
 
-      console.log('API Request:', requestBody);
-
-      // Track calculator usage
       trackCalculatorEvent('calculate_started', {
         total_leads: totalLeads,
         campaign_duration: campaignDurationDays,
@@ -159,38 +102,24 @@ const Calculator = () => {
 
       const response = await fetch('https://api.sendemall.com/open/senders-calculator/calculate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to calculate results');
-      }
-
+      if (!response.ok) throw new Error('Failed to calculate results');
       const data = await response.json();
-
-      console.log('API Response:', data);
-
-      // Transform API response to match our component's expected format
-      // The API returns a single calculation, we'll use it for SendEmAll result
-      // and create a simplified generic result from the same data
 
       const sendEmAllData = {
         totalSendersRequired: data.totalSendersRequired,
         totalDomainsRequired: data.totalDomainsRequired,
         sendersByEsp: data.sendersByEsp,
-        domainAnalysis: {
-          domainsByEsp: data.domainAnalysis.domainsByEsp
-        },
+        domainAnalysis: { domainsByEsp: data.domainAnalysis.domainsByEsp },
         summary: {
           canComplete: data.summary.canComplete,
           estimatedCompletionDays: data.summary.estimatedCompletionDays,
         },
       };
 
-      // For generic estimate, we'll use the minimum senders needed
       const genericData = {
         totalSendersRequired: data.sendersNeeded?.minimum || data.totalSendersRequired,
         totalDomainsRequired: Math.ceil((data.sendersNeeded?.minimum || data.totalSendersRequired) / 4),
@@ -212,11 +141,9 @@ const Calculator = () => {
         },
       };
 
-      // Set results from API response
       setGenericResult(genericData);
       setSendEmAllResult(sendEmAllData);
 
-      // Track successful calculation
       trackCalculatorEvent('calculate_completed', {
         senders_required: data.totalSendersRequired,
         domains_required: data.totalDomainsRequired,
@@ -225,13 +152,7 @@ const Calculator = () => {
       });
     } catch (error) {
       console.error('Error calculating results:', error);
-
-      // Track calculation error
-      trackCalculatorEvent('calculate_error', {
-        error_message: error.message,
-      });
-
-      // Keep previous results on error
+      trackCalculatorEvent('calculate_error', { error_message: error.message });
     } finally {
       setIsCalculating(false);
     }
@@ -239,620 +160,831 @@ const Calculator = () => {
 
   useEffect(() => {
     calculateResults();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalLeads, campaignDurationDays, sendDays, warmupRatio, healthTier, espType, sendingHoursPerDay, mixedRatios]);
 
   const toggleSendDay = (day) => {
     if (sendDays.includes(day)) {
-      if (sendDays.length > 1) {
-        setSendDays(sendDays.filter((d) => d !== day));
-      }
+      if (sendDays.length > 1) setSendDays(sendDays.filter((d) => d !== day));
     } else {
       setSendDays([...sendDays, day]);
     }
+  };
+
+  const styles = {
+    page: {
+      minHeight: '100vh',
+      background: 'var(--off-white)',
+    },
+    heroSection: {
+      padding: 'var(--space-4xl) 0 var(--space-2xl)',
+      background: 'linear-gradient(135deg, var(--off-white) 0%, rgba(210, 179, 243, 0.05) 50%, rgba(148, 233, 230, 0.05) 100%)',
+      marginTop: '80px',
+    },
+    sectionHeader: {
+      textAlign: 'center',
+      maxWidth: '900px',
+      margin: '0 auto var(--space-2xl)',
+    },
+    badge: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      padding: '0.5rem 1rem',
+      background: 'var(--gradient-glass)',
+      border: '1px solid var(--primary-turquoise)',
+      borderRadius: '100px',
+      fontSize: '0.875rem',
+      fontWeight: '600',
+      color: 'var(--primary-turquoise)',
+      marginBottom: 'var(--space-lg)',
+    },
+    title: {
+      fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+      fontWeight: '800',
+      color: 'var(--dark)',
+      lineHeight: '1.2',
+      marginBottom: 'var(--space-md)',
+    },
+    editableValue: {
+      color: 'var(--primary-turquoise)',
+      borderBottom: '3px dashed var(--primary-turquoise)',
+      cursor: 'text',
+      padding: '0 0.25rem',
+      outline: 'none',
+      transition: 'all var(--transition-fast)',
+    },
+    subtitle: {
+      color: 'var(--gray-400)',
+      fontSize: '0.875rem',
+    },
+    configPanel: {
+      background: 'var(--white)',
+      borderRadius: '20px',
+      border: '1px solid var(--gray-200)',
+      padding: 'var(--space-lg)',
+      marginBottom: 'var(--space-2xl)',
+      boxShadow: 'var(--shadow-small)',
+    },
+    configRow: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'var(--space-lg)',
+      flexWrap: 'wrap',
+    },
+    configLabel: {
+      fontSize: '0.875rem',
+      fontWeight: '600',
+      color: 'var(--dark)',
+      marginRight: 'var(--space-xs)',
+    },
+    pillGroup: {
+      display: 'flex',
+      gap: '0.5rem',
+      flexWrap: 'wrap',
+    },
+    pill: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      padding: '0.625rem 1rem',
+      borderRadius: '50px',
+      fontSize: '0.875rem',
+      fontWeight: '600',
+      cursor: 'pointer',
+      transition: 'all var(--transition-fast)',
+      border: '2px solid var(--gray-200)',
+      background: 'var(--white)',
+      color: 'var(--dark)',
+    },
+    pillActive: {
+      background: 'var(--primary-turquoise)',
+      borderColor: 'var(--primary-turquoise)',
+      color: 'var(--dark)',
+      boxShadow: '0 4px 15px rgba(210, 179, 243, 0.3)',
+    },
+    advancedToggle: {
+      marginLeft: 'auto',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      fontSize: '0.875rem',
+      fontWeight: '600',
+      color: 'var(--gray-400)',
+      cursor: 'pointer',
+      background: 'none',
+      border: 'none',
+      padding: '0.5rem 1rem',
+      borderRadius: '50px',
+      transition: 'all var(--transition-fast)',
+    },
+    advancedPanel: {
+      borderTop: '1px solid var(--gray-200)',
+      marginTop: 'var(--space-lg)',
+      paddingTop: 'var(--space-lg)',
+    },
+    dayButton: {
+      width: '36px',
+      height: '36px',
+      borderRadius: '50%',
+      border: '2px solid var(--gray-200)',
+      background: 'var(--white)',
+      color: 'var(--gray-400)',
+      fontSize: '0.75rem',
+      fontWeight: '700',
+      cursor: 'pointer',
+      transition: 'all var(--transition-fast)',
+    },
+    dayButtonActive: {
+      background: 'var(--primary-turquoise)',
+      borderColor: 'var(--primary-turquoise)',
+      color: 'var(--dark)',
+    },
+    resultsGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+      gap: 'var(--space-xl)',
+      marginBottom: 'var(--space-2xl)',
+    },
+    resultCard: {
+      background: 'var(--white)',
+      borderRadius: '24px',
+      border: '1px solid var(--gray-200)',
+      padding: 'var(--space-2xl)',
+      position: 'relative',
+      transition: 'all var(--transition-base)',
+    },
+    resultCardFeatured: {
+      background: 'var(--primary-turquoise)',
+      border: 'none',
+      color: 'var(--dark)',
+      boxShadow: '0 20px 60px rgba(210, 179, 243, 0.4)',
+    },
+    cardHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 'var(--space-xl)',
+    },
+    cardIcon: {
+      width: '48px',
+      height: '48px',
+      borderRadius: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '1.25rem',
+    },
+    cardTitle: {
+      fontSize: '1.25rem',
+      fontWeight: '700',
+      marginBottom: '0.25rem',
+    },
+    cardSubtitle: {
+      fontSize: '0.75rem',
+      opacity: 0.7,
+    },
+    cardBadge: {
+      padding: '0.375rem 0.875rem',
+      borderRadius: '100px',
+      fontSize: '0.75rem',
+      fontWeight: '600',
+    },
+    statsGrid: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 'var(--space-md)',
+      marginBottom: 'var(--space-xl)',
+    },
+    statBox: {
+      padding: 'var(--space-lg)',
+      borderRadius: '16px',
+      textAlign: 'center',
+    },
+    statLabel: {
+      fontSize: '0.75rem',
+      fontWeight: '600',
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+      marginBottom: '0.5rem',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+    },
+    statValue: {
+      fontSize: '2.5rem',
+      fontWeight: '800',
+      lineHeight: 1,
+    },
+    espGrid: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3, 1fr)',
+      gap: 'var(--space-md)',
+      padding: 'var(--space-lg)',
+      borderRadius: '16px',
+      marginBottom: 'var(--space-lg)',
+    },
+    espItem: {
+      textAlign: 'center',
+    },
+    espIcon: {
+      width: '32px',
+      height: '32px',
+      borderRadius: '8px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: '0 auto 0.5rem',
+    },
+    espValue: {
+      fontSize: '1.25rem',
+      fontWeight: '700',
+    },
+    espLabel: {
+      fontSize: '0.625rem',
+      opacity: 0.7,
+    },
+    statusBar: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+      padding: '0.75rem',
+      borderRadius: '12px',
+      fontSize: '0.875rem',
+      fontWeight: '600',
+    },
+    ctaSection: {
+      background: 'var(--dark)',
+      borderRadius: '24px',
+      padding: 'var(--space-3xl)',
+      textAlign: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    ctaTitle: {
+      fontSize: 'clamp(1.5rem, 3vw, 2rem)',
+      fontWeight: '700',
+      color: 'var(--white)',
+      marginBottom: 'var(--space-md)',
+    },
+    ctaText: {
+      color: 'var(--gray-400)',
+      marginBottom: 'var(--space-xl)',
+      maxWidth: '500px',
+      margin: '0 auto var(--space-xl)',
+    },
+    ctaButtons: {
+      display: 'flex',
+      justifyContent: 'center',
+      gap: 'var(--space-md)',
+      flexWrap: 'wrap',
+    },
+    loadingOverlay: {
+      position: 'absolute',
+      inset: 0,
+      background: 'rgba(255,255,255,0.9)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '24px',
+      zIndex: 10,
+    },
+    spinner: {
+      width: '48px',
+      height: '48px',
+      border: '4px solid var(--gray-200)',
+      borderTopColor: 'var(--primary-turquoise)',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite',
+    },
+    inputSmall: {
+      width: '50px',
+      height: '32px',
+      textAlign: 'center',
+      border: '2px solid var(--gray-200)',
+      borderRadius: '8px',
+      fontSize: '0.875rem',
+      fontWeight: '700',
+      outline: 'none',
+    },
   };
 
   return (
     <>
       <SEO
         title="Free Mailboxes Calculator | Calculate Email Infrastructure Needs - SendEmAll"
-        description="Free calculator tool to determine how many email senders and domains you need for your cold email campaign. Optimize deliverability with ESP matching, warmup schedules, and health tier analysis. Get instant results."
-        keywords="sender calculator, email sender calculator, cold email calculator, domain calculator, email infrastructure calculator, ESP calculator, campaign sender tool, mailbox calculator, email deliverability calculator"
+        description="Free calculator tool to determine how many email senders and domains you need for your cold email campaign. Optimize deliverability with ESP matching, warmup schedules, and health tier analysis."
         canonicalUrl="https://sendemall.com/mailboxes-calculator"
-        ogImage="https://sendemall.com/img/calculator-og-image.png"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebApplication",
           "name": "Mailboxes Calculator",
-          "description": "Calculate how many email senders and domains you need for your cold email campaigns with real-time deliverability optimization.",
           "url": "https://sendemall.com/mailboxes-calculator",
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          },
-          "featureList": [
-            "Calculate required senders and domains",
-            "ESP provider optimization (Google, Outlook, Azure, Custom)",
-            "Health tier analysis",
-            "Warmup schedule planning",
-            "Daily sending capacity calculation",
-            "Real-time API integration"
-          ]
         }}
       />
 
-      <div className="min-h-screen bg-[#fafafa]">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <Link to="/" className="flex items-center gap-3">
-                <img
-                  src="/img/sendemall-logo-new.svg"
-                  alt="SendEmAll"
-                  width={130}
-                  height={28}
-                  className="hover:opacity-80 transition-opacity"
-                />
-              </Link>
-              <div className="flex items-center gap-4">
-                <span className="bg-[#d2b3f3] text-white border-[#d2b3f3]/50 px-3 py-1.5 rounded-full text-xs font-medium inline-flex items-center gap-1.5">
-                  <i className="fas fa-sparkles text-sm"></i>
-                  Free Tool
-                </span>
-                <a
-                  href="https://app.sendemall.com/login"
-                  className="border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Sign In
-                </a>
+      <Navigation />
+
+      <div style={styles.page}>
+        {/* Hero Section */}
+        <section style={styles.heroSection}>
+          <div className="container">
+            <div style={styles.sectionHeader}>
+              <div style={styles.badge}>
+                <i className="fas fa-calculator"></i>
+                Free Tool
               </div>
+              <h1 style={styles.title}>
+                How many mailboxes & domains to send{' '}
+                <span
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={styles.editableValue}
+                  onBlur={(e) => {
+                    const num = parseInt(e.currentTarget.textContent?.replace(/,/g, '') || '1') || 1;
+                    setTotalLeads(Math.max(1, num));
+                    e.currentTarget.textContent = num.toLocaleString();
+                  }}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), e.currentTarget.blur())}
+                >
+                  {totalLeads.toLocaleString()}
+                </span>{' '}
+                emails in{' '}
+                <span
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={styles.editableValue}
+                  onBlur={(e) => {
+                    const num = Math.min(365, Math.max(1, parseInt(e.currentTarget.textContent || '1') || 1));
+                    setCampaignDurationDays(num);
+                    e.currentTarget.textContent = num.toString();
+                  }}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), e.currentTarget.blur())}
+                >
+                  {campaignDurationDays}
+                </span>{' '}
+                days?
+              </h1>
+              <p style={styles.subtitle}>Click on the highlighted values to edit</p>
             </div>
-          </div>
-        </header>
 
-        <main className="max-w-6xl mx-auto px-6 py-12">
-          {/* Hero Question */}
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-[#d2b3f3] text-white px-5 py-2.5 rounded-full text-sm font-medium mb-6 border border-[#d2b3f3]/30">
-              <i className="fas fa-calculator"></i>
-              Mailboxes Calculator
-            </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-              How many mailboxes & domains required to send{' '}
-              <span
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e) => {
-                  const text = e.currentTarget.textContent || '';
-                  const num = parseInt(text.replace(/,/g, '')) || 1;
-                  setTotalLeads(Math.max(1, num));
-                  e.currentTarget.textContent = num.toLocaleString();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.currentTarget.blur();
-                  }
-                }}
-                className="text-[#d2b3f3] border-b-2 border-dashed border-[#d2b3f3] hover:border-[#d2b3f3] focus:border-[#d2b3f3] focus:outline-none cursor-text px-1 transition-colors"
-              >
-                {totalLeads.toLocaleString()}
-              </span>{' '}
-              emails in{' '}
-              <span
-                contentEditable
-                suppressContentEditableWarning
-                onBlur={(e) => {
-                  const text = e.currentTarget.textContent || '';
-                  const num = parseInt(text) || 1;
-                  const clamped = Math.min(365, Math.max(1, num));
-                  setCampaignDurationDays(clamped);
-                  e.currentTarget.textContent = clamped.toString();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.currentTarget.blur();
-                  }
-                }}
-                className="text-[#d2b3f3] border-b-2 border-dashed border-[#d2b3f3] hover:border-[#d2b3f3] focus:border-[#d2b3f3] focus:outline-none cursor-text px-1 transition-colors"
-              >
-                {campaignDurationDays}
-              </span>{' '}
-              days?
-            </h1>
-            <p className="text-sm text-gray-400 mt-2">Click on the highlighted values to edit</p>
-          </div>
-
-          {/* Configuration Panel - Compact */}
-          <div className="bg-white rounded-xl border border-gray-200 px-4 py-3 mb-8 shadow-sm">
-            <div className="flex items-center gap-4 flex-wrap">
-              {/* ESP Type - Inline Pills */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-500">Provider:</span>
-                <div className="flex gap-1">
+            {/* Configuration Panel */}
+            <div style={styles.configPanel}>
+              <div style={styles.configRow}>
+                <span style={styles.configLabel}>Provider:</span>
+                <div style={styles.pillGroup}>
                   {Object.entries(ESP_TYPE_CONFIG).map(([type, config]) => (
                     <button
                       key={type}
-                      type="button"
                       onClick={() => setEspType(type)}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                        espType === type
-                          ? 'bg-[#d2b3f3] text-white shadow-sm'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                      }`}
+                      style={{
+                        ...styles.pill,
+                        ...(espType === type ? styles.pillActive : {}),
+                      }}
                     >
                       {config.icon}
                       {config.label}
                     </button>
                   ))}
                 </div>
+
+                {espType === EspType.MIXED && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <GoogleIcon />
+                      <input
+                        type="number"
+                        value={mixedRatios.google}
+                        onChange={(e) => setMixedRatios(prev => ({ ...prev, google: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) }))}
+                        style={styles.inputSmall}
+                      />
+                      <span style={{ color: 'var(--gray-400)', fontSize: '0.75rem' }}>%</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <MicrosoftIcon />
+                      <input
+                        type="number"
+                        value={mixedRatios.outlook}
+                        onChange={(e) => setMixedRatios(prev => ({ ...prev, outlook: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) }))}
+                        style={styles.inputSmall}
+                      />
+                      <span style={{ color: 'var(--gray-400)', fontSize: '0.75rem' }}>%</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                      <i className="fas fa-server" style={{ color: 'var(--gray-400)' }}></i>
+                      <input
+                        type="number"
+                        value={mixedRatios.custom}
+                        onChange={(e) => setMixedRatios(prev => ({ ...prev, custom: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) }))}
+                        style={styles.inputSmall}
+                      />
+                      <span style={{ color: 'var(--gray-400)', fontSize: '0.75rem' }}>%</span>
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  onClick={() => setShowConfig(!showConfig)}
+                  style={styles.advancedToggle}
+                >
+                  <i className="fas fa-cog"></i>
+                  {showConfig ? 'Less Options' : 'More Options'}
+                  <i className={`fas fa-chevron-${showConfig ? 'up' : 'down'}`}></i>
+                </button>
               </div>
 
-              {/* Mixed ESP Ratios - Inline */}
-              {espType === EspType.MIXED && (
-                <div className="flex items-center gap-2 animate-in fade-in duration-200">
-                  <span className="text-xs text-gray-400">|</span>
-                  <div className="flex items-center gap-1 bg-gray-50 rounded-lg px-2 py-1">
-                    <GoogleIcon className="h-3.5 w-3.5" />
-                    <input
-                      type="number"
-                      value={mixedRatios.google}
-                      onChange={(e) => setMixedRatios(prev => ({ ...prev, google: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) }))}
-                      min={0}
-                      max={100}
-                      className="h-6 w-10 text-center text-xs font-bold border-0 bg-transparent p-0 focus:outline-none"
-                    />
-                    <span className="text-gray-400 text-xs">%</span>
-                  </div>
-                  <div className="flex items-center gap-1 bg-gray-50 rounded-lg px-2 py-1">
-                    <MicrosoftIcon className="h-3.5 w-3.5" />
-                    <input
-                      type="number"
-                      value={mixedRatios.outlook}
-                      onChange={(e) => setMixedRatios(prev => ({ ...prev, outlook: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) }))}
-                      min={0}
-                      max={100}
-                      className="h-6 w-10 text-center text-xs font-bold border-0 bg-transparent p-0 focus:outline-none"
-                    />
-                    <span className="text-gray-400 text-xs">%</span>
-                  </div>
-                  <div className="flex items-center gap-1 bg-gray-50 rounded-lg px-2 py-1">
-                    <i className="fas fa-server text-gray-500 text-xs"></i>
-                    <input
-                      type="number"
-                      value={mixedRatios.custom}
-                      onChange={(e) => setMixedRatios(prev => ({ ...prev, custom: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) }))}
-                      min={0}
-                      max={100}
-                      className="h-6 w-10 text-center text-xs font-bold border-0 bg-transparent p-0 focus:outline-none"
-                    />
-                    <span className="text-gray-400 text-xs">%</span>
-                  </div>
-                  {mixedRatios.google + mixedRatios.outlook + mixedRatios.custom !== 100 && (
-                    <div className="text-xs text-amber-600 flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
-                      <i className="fas fa-exclamation-triangle text-xs"></i>
-                      {mixedRatios.google + mixedRatios.outlook + mixedRatios.custom}%
+              {showConfig && (
+                <div style={styles.advancedPanel}>
+                  <div style={styles.configRow}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                      <span style={styles.configLabel}><i className="fas fa-calendar" style={{ marginRight: '0.5rem' }}></i>Days:</span>
+                      <div style={{ display: 'flex', gap: '0.25rem' }}>
+                        {WEEKDAYS.map((day, index) => (
+                          <button
+                            key={day}
+                            onClick={() => toggleSendDay(day)}
+                            style={{
+                              ...styles.dayButton,
+                              ...(sendDays.includes(day) ? styles.dayButtonActive : {}),
+                            }}
+                          >
+                            {WEEKDAY_SHORT[index]}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  )}
-                </div>
-              )}
 
-              {/* Spacer */}
-              <div className="flex-1" />
-
-              {/* Advanced Toggle */}
-              <button
-                type="button"
-                onClick={() => setShowConfig(!showConfig)}
-                className="text-xs text-gray-500 hover:text-gray-700 font-medium flex items-center gap-1"
-              >
-                <i className="fas fa-cog text-xs"></i>
-                {showConfig ? 'Less' : 'More'}
-                <i className={`fas fa-chevron-down text-xs transition-transform ${showConfig ? 'rotate-180' : ''}`}></i>
-              </button>
-            </div>
-
-            {/* Advanced Configuration - Compact */}
-            {showConfig && (
-              <div className="border-t border-gray-100 mt-3 pt-3">
-                <div className="flex items-center gap-6 flex-wrap">
-                  {/* Send Days */}
-                  <div className="flex items-center gap-2">
-                    <i className="fas fa-calendar text-gray-400 text-xs"></i>
-                    <span className="text-xs text-gray-500">Days:</span>
-                    <div className="flex gap-0.5">
-                      {WEEKDAYS.map((day, index) => (
-                        <button
-                          key={day}
-                          type="button"
-                          onClick={() => toggleSendDay(day)}
-                          className={`w-7 h-7 text-[10px] font-bold rounded transition-all ${
-                            sendDays.includes(day)
-                              ? 'bg-[#d2b3f3] text-white'
-                              : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                          }`}
-                        >
-                          {WEEKDAY_SHORT[index]}
-                        </button>
-                      ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                      <span style={styles.configLabel}><i className="fas fa-heartbeat" style={{ marginRight: '0.5rem' }}></i>Health:</span>
+                      <div style={styles.pillGroup}>
+                        {Object.entries(HEALTH_TIER_CONFIG).map(([tier, config]) => (
+                          <button
+                            key={tier}
+                            onClick={() => setHealthTier(tier)}
+                            style={{
+                              ...styles.pill,
+                              padding: '0.5rem 0.875rem',
+                              fontSize: '0.75rem',
+                              ...(healthTier === tier ? styles.pillActive : {}),
+                            }}
+                          >
+                            {config.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Health Tier */}
-                  <div className="flex items-center gap-2">
-                    <i className="fas fa-shield text-gray-400 text-xs"></i>
-                    <span className="text-xs text-gray-500">Health:</span>
-                    <div className="flex gap-1">
-                      {Object.entries(HEALTH_TIER_CONFIG).map(([tier, config]) => (
-                        <button
-                          key={tier}
-                          type="button"
-                          onClick={() => setHealthTier(tier)}
-                          className={`px-2.5 py-1 rounded text-[10px] font-semibold transition-all ${
-                            healthTier === tier
-                              ? `${config.bgColor} ${config.color} ring-1 ${config.borderColor.replace('border-', 'ring-')}`
-                              : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                          }`}
-                        >
-                          {config.label}
-                        </button>
-                      ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                      <span style={styles.configLabel}><i className="fas fa-clock" style={{ marginRight: '0.5rem' }}></i>Hours/day:</span>
+                      <div style={styles.pillGroup}>
+                        {[4, 8, 12].map((hours) => (
+                          <button
+                            key={hours}
+                            onClick={() => setSendingHoursPerDay(hours)}
+                            style={{
+                              ...styles.pill,
+                              padding: '0.5rem 0.875rem',
+                              fontSize: '0.75rem',
+                              ...(sendingHoursPerDay === hours ? styles.pillActive : {}),
+                            }}
+                          >
+                            {hours}h
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Hours per day */}
-                  <div className="flex items-center gap-2">
-                    <i className="fas fa-clock text-gray-400 text-xs"></i>
-                    <span className="text-xs text-gray-500">Hours:</span>
-                    <div className="flex gap-0.5">
-                      {[4, 8, 12].map((hours) => (
-                        <button
-                          key={hours}
-                          type="button"
-                          onClick={() => setSendingHoursPerDay(hours)}
-                          className={`px-2 py-1 text-[10px] font-bold rounded transition-all ${
-                            sendingHoursPerDay === hours
-                              ? 'bg-[#d2b3f3] text-white'
-                              : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                          }`}
-                        >
-                          {hours}h
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Warmup */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">Warmup:</span>
-                    <div className="flex items-center gap-0.5 bg-gray-50 rounded px-1.5 py-0.5">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                      <span style={styles.configLabel}>Warmup:</span>
                       <input
                         type="number"
                         value={warmupRatio}
-                        onChange={(e) => setWarmupRatio(parseInt(e.target.value) || 0)}
-                        min={0}
-                        max={100}
-                        className="h-5 w-8 text-center text-xs font-bold border-0 bg-transparent p-0 focus:outline-none"
+                        onChange={(e) => setWarmupRatio(Math.max(0, Math.min(100, parseInt(e.target.value) || 0)))}
+                        style={styles.inputSmall}
                       />
-                      <span className="text-gray-400 text-xs">%</span>
+                      <span style={{ color: 'var(--gray-400)', fontSize: '0.75rem' }}>%</span>
                     </div>
                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* Results */}
+            {(sendEmAllResult || genericResult) && (
+              <div style={{ position: 'relative' }}>
+                {isCalculating && (
+                  <div style={styles.loadingOverlay}>
+                    <div style={styles.spinner}></div>
+                  </div>
+                )}
+
+                <div style={styles.resultsGrid}>
+                  {/* Generic Result */}
+                  {genericResult && (
+                    <div style={styles.resultCard}>
+                      <div style={styles.cardHeader}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                          <div style={{ ...styles.cardIcon, background: 'var(--gray-100)', color: 'var(--gray-400)' }}>
+                            <i className="fas fa-globe"></i>
+                          </div>
+                          <div>
+                            <h3 style={{ ...styles.cardTitle, color: 'var(--dark)' }}>Generic Estimate</h3>
+                            <p style={{ ...styles.cardSubtitle, color: 'var(--gray-400)' }}>Simple calculation</p>
+                          </div>
+                        </div>
+                        <span style={{ ...styles.cardBadge, background: 'var(--gray-100)', color: 'var(--gray-400)' }}>Basic</span>
+                      </div>
+
+                      <div style={styles.statsGrid}>
+                        <div style={{ ...styles.statBox, background: 'var(--gray-100)' }}>
+                          <div style={{ ...styles.statLabel, color: 'var(--gray-400)' }}>
+                            <i className="fas fa-envelope"></i> Senders
+                          </div>
+                          <div style={{ ...styles.statValue, color: 'var(--dark)' }}>{genericResult.totalSendersRequired}</div>
+                        </div>
+                        <div style={{ ...styles.statBox, background: 'var(--gray-100)' }}>
+                          <div style={{ ...styles.statLabel, color: 'var(--gray-400)' }}>
+                            <i className="fas fa-globe"></i> Domains
+                          </div>
+                          <div style={{ ...styles.statValue, color: 'var(--dark)' }}>{genericResult.totalDomainsRequired}</div>
+                        </div>
+                      </div>
+
+                      <div style={{ ...styles.espGrid, background: 'var(--gray-100)' }}>
+                        <div style={styles.espItem}>
+                          <div style={{ ...styles.espIcon, background: 'var(--white)' }}><GoogleIcon /></div>
+                          <div style={{ ...styles.espValue, color: 'var(--dark)' }}>{genericResult.sendersByEsp.google}</div>
+                          <div style={{ ...styles.espLabel, color: 'var(--gray-400)' }}>Google/MS 365</div>
+                        </div>
+                        <div style={styles.espItem}>
+                          <div style={{ ...styles.espIcon, background: 'var(--white)' }}><MicrosoftIcon /></div>
+                          <div style={{ ...styles.espValue, color: 'var(--dark)' }}>{genericResult.sendersByEsp.outlook}</div>
+                          <div style={{ ...styles.espLabel, color: 'var(--gray-400)' }}>Azure</div>
+                        </div>
+                        <div style={styles.espItem}>
+                          <div style={{ ...styles.espIcon, background: 'var(--white)' }}><i className="fas fa-server" style={{ color: 'var(--gray-400)' }}></i></div>
+                          <div style={{ ...styles.espValue, color: 'var(--dark)' }}>{genericResult.sendersByEsp.custom}</div>
+                          <div style={{ ...styles.espLabel, color: 'var(--gray-400)' }}>Custom</div>
+                        </div>
+                      </div>
+
+                      <div style={{
+                        ...styles.statusBar,
+                        background: genericResult.summary.canComplete ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                        color: genericResult.summary.canComplete ? '#10b981' : '#f59e0b',
+                      }}>
+                        <i className={`fas fa-${genericResult.summary.canComplete ? 'check-circle' : 'exclamation-triangle'}`}></i>
+                        {genericResult.summary.canComplete
+                          ? `Achievable in ${genericResult.summary.estimatedCompletionDays} days`
+                          : 'Needs more senders'}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SendEmAll Result */}
+                  {sendEmAllResult && (
+                    <div style={{ ...styles.resultCard, ...styles.resultCardFeatured }}>
+                      <div style={styles.cardHeader}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                          <div style={{ ...styles.cardIcon, background: 'rgba(255,255,255,0.2)', color: 'var(--dark)' }}>
+                            <i className="fas fa-paper-plane"></i>
+                          </div>
+                          <div>
+                            <h3 style={{ ...styles.cardTitle, color: 'var(--dark)' }}>With SendEmAll</h3>
+                            <p style={{ ...styles.cardSubtitle, color: 'var(--dark)' }}>Optimized for deliverability</p>
+                          </div>
+                        </div>
+                        <span style={{ ...styles.cardBadge, background: 'rgba(255,255,255,0.3)', color: 'var(--dark)' }}>Recommended</span>
+                      </div>
+
+                      <div style={styles.statsGrid}>
+                        <div style={{ ...styles.statBox, background: 'rgba(255,255,255,0.2)' }}>
+                          <div style={{ ...styles.statLabel, color: 'var(--dark)', opacity: 0.8 }}>
+                            <i className="fas fa-envelope"></i> Senders
+                          </div>
+                          <div style={{ ...styles.statValue, color: 'var(--dark)' }}>{sendEmAllResult.totalSendersRequired}</div>
+                        </div>
+                        <div style={{ ...styles.statBox, background: 'rgba(255,255,255,0.2)' }}>
+                          <div style={{ ...styles.statLabel, color: 'var(--dark)', opacity: 0.8 }}>
+                            <i className="fas fa-globe"></i> Domains
+                          </div>
+                          <div style={{ ...styles.statValue, color: 'var(--dark)' }}>{sendEmAllResult.totalDomainsRequired}</div>
+                        </div>
+                      </div>
+
+                      <div style={{ ...styles.espGrid, background: 'rgba(255,255,255,0.15)' }}>
+                        <div style={styles.espItem}>
+                          <div style={{ ...styles.espIcon, background: 'rgba(255,255,255,0.3)' }}><GoogleIcon /></div>
+                          <div style={{ ...styles.espValue, color: 'var(--dark)' }}>{sendEmAllResult.sendersByEsp.google}</div>
+                          <div style={{ ...styles.espLabel, color: 'var(--dark)' }}>Google/MS 365</div>
+                        </div>
+                        <div style={styles.espItem}>
+                          <div style={{ ...styles.espIcon, background: 'rgba(255,255,255,0.3)' }}><MicrosoftIcon /></div>
+                          <div style={{ ...styles.espValue, color: 'var(--dark)' }}>{sendEmAllResult.sendersByEsp.outlook}</div>
+                          <div style={{ ...styles.espLabel, color: 'var(--dark)' }}>Azure</div>
+                        </div>
+                        <div style={styles.espItem}>
+                          <div style={{ ...styles.espIcon, background: 'rgba(255,255,255,0.3)' }}><i className="fas fa-server" style={{ color: 'var(--dark)' }}></i></div>
+                          <div style={{ ...styles.espValue, color: 'var(--dark)' }}>{sendEmAllResult.sendersByEsp.custom}</div>
+                          <div style={{ ...styles.espLabel, color: 'var(--dark)' }}>Custom</div>
+                        </div>
+                      </div>
+
+                      <div style={{
+                        ...styles.statusBar,
+                        background: sendEmAllResult.summary.canComplete ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)',
+                        color: 'var(--dark)',
+                      }}>
+                        <i className={`fas fa-${sendEmAllResult.summary.canComplete ? 'check-circle' : 'exclamation-triangle'}`}></i>
+                        {sendEmAllResult.summary.canComplete
+                          ? `Campaign achievable in ${sendEmAllResult.summary.estimatedCompletionDays} days`
+                          : 'Needs more senders'}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
-          </div>
 
-          {/* Results Section - Continue in next message due to length */}
-          {(sendEmAllResult || genericResult) && (
-            <div className="relative">
-              {isCalculating && (
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-3xl">
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="w-12 h-12 border-4 border-[#d2b3f3] border-t-#d2b3f3 rounded-full animate-spin"></div>
-                    <p className="text-sm font-medium text-gray-600">Calculating...</p>
+            {/* Why SendEmAll Section */}
+            {sendEmAllResult && genericResult && sendEmAllResult.totalSendersRequired > genericResult.totalSendersRequired && (
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(210, 179, 243, 0.1) 0%, rgba(148, 233, 230, 0.1) 100%)',
+                borderRadius: '24px',
+                border: '1px solid var(--primary-turquoise)',
+                padding: 'var(--space-2xl)',
+                marginBottom: 'var(--space-2xl)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-xl)' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    background: 'var(--primary-turquoise)',
+                    borderRadius: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <i className="fas fa-shield-alt" style={{ color: 'var(--dark)', fontSize: '1.25rem' }}></i>
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--dark)', marginBottom: '0.25rem' }}>
+                      Why SendEmAll requires more senders
+                    </h3>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--gray-400)' }}>
+                      Optimized for deliverability, not just volume
+                    </p>
                   </div>
                 </div>
-              )}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-              {/* Generic Results */}
-              {genericResult && (
-                <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-6 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-gray-100/50 rounded-full -translate-y-1/2 translate-x-1/2" />
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                          <i className="fas fa-globe text-gray-600"></i>
-                        </div>
-                        <div>
-                          <h3 className="text-lg font-bold text-gray-900">Generic Estimate</h3>
-                          <p className="text-gray-500 text-xs">Simple calculation, no platform constraints</p>
-                        </div>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                  gap: 'var(--space-md)',
+                }}>
+                  {[
+                    { icon: 'fa-check-circle', color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)', title: 'Best Deliverability', desc: 'Smart intervals between emails prevent spam flags' },
+                    { icon: 'fa-server', color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)', title: 'ESP Matching', desc: 'Sending patterns optimized for each provider' },
+                    { icon: 'fa-fire', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)', title: 'Warmup Driven', desc: 'Gradual ramp-up builds domain reputation' },
+                    { icon: 'fa-shield-alt', color: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)', title: 'Blacklist Protection', desc: 'Keep your domains off spam lists' },
+                    { icon: 'fa-lock', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.1)', title: 'GDPR Compliant', desc: 'Privacy-first email handling' },
+                  ].map((item, index) => (
+                    <div key={index} style={{
+                      background: 'var(--white)',
+                      borderRadius: '16px',
+                      padding: 'var(--space-lg)',
+                      border: '1px solid var(--gray-200)',
+                    }}>
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        background: item.bg,
+                        borderRadius: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: 'var(--space-sm)',
+                      }}>
+                        <i className={`fas ${item.icon}`} style={{ color: item.color }}></i>
                       </div>
-                      <span className="bg-gray-100 text-gray-600 border border-gray-200 text-xs px-3 py-1 rounded-full font-medium">
-                        Basic
-                      </span>
+                      <h4 style={{ fontSize: '0.875rem', fontWeight: '700', color: 'var(--dark)', marginBottom: '0.25rem' }}>
+                        {item.title}
+                      </h4>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--gray-400)', lineHeight: 1.4 }}>
+                        {item.desc}
+                      </p>
                     </div>
-
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-gray-50 rounded-2xl p-4 text-center border border-gray-100">
-                        <div className="flex items-center justify-center gap-1.5 mb-1">
-                          <i className="fas fa-envelope text-gray-400 text-sm"></i>
-                          <span className="text-gray-500 text-xs font-medium uppercase">Senders</span>
-                        </div>
-                        <div className="text-4xl font-bold text-gray-900">{genericResult.totalSendersRequired}</div>
-                      </div>
-                      <div className="bg-gray-50 rounded-2xl p-4 text-center border border-gray-100">
-                        <div className="flex items-center justify-center gap-1.5 mb-1">
-                          <i className="fas fa-globe text-gray-400 text-sm"></i>
-                          <span className="text-gray-500 text-xs font-medium uppercase">Domains</span>
-                        </div>
-                        <div className="text-4xl font-bold text-gray-900">{genericResult.totalDomainsRequired}</div>
-                      </div>
-                    </div>
-
-                    <div className="bg-gray-50 rounded-xl p-4 mb-4 border border-gray-100">
-                      <div className="text-xs text-gray-500 mb-3 font-medium">Senders & Domains by ESP</div>
-                      <div className="grid grid-cols-3 gap-3">
-                        <div className="text-center">
-                          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center mx-auto mb-1 shadow-sm">
-                            <GoogleIcon className="h-4 w-4" />
-                          </div>
-                          <div className="text-xl font-bold text-gray-900">{genericResult.sendersByEsp.google}</div>
-                          <div className="text-[10px] text-gray-500">Google/MS Workspace</div>
-                          {genericResult.sendersByEsp.google > 0 && (
-                            <div className="text-[10px] text-[#d2b3f3] mt-0.5">
-                              across {genericResult.domainAnalysis.domainsByEsp.google} domain{genericResult.domainAnalysis.domainsByEsp.google !== 1 ? 's' : ''}
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-center">
-                          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center mx-auto mb-1 shadow-sm">
-                            <MicrosoftIcon className="h-4 w-4" />
-                          </div>
-                          <div className="text-xl font-bold text-gray-900">{genericResult.sendersByEsp.outlook}</div>
-                          <div className="text-[10px] text-gray-500">Azure senders</div>
-                          {genericResult.sendersByEsp.outlook > 0 && (
-                            <div className="text-[10px] text-[#d2b3f3] mt-0.5">
-                              across {genericResult.domainAnalysis.domainsByEsp.outlook} domain{genericResult.domainAnalysis.domainsByEsp.outlook !== 1 ? 's' : ''}
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-center">
-                          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center mx-auto mb-1 shadow-sm">
-                            <i className="fas fa-server text-gray-500 text-sm"></i>
-                          </div>
-                          <div className="text-xl font-bold text-gray-900">{genericResult.sendersByEsp.custom}</div>
-                          <div className="text-[10px] text-gray-500">Custom senders</div>
-                          {genericResult.sendersByEsp.custom > 0 && (
-                            <div className="text-[10px] text-[#d2b3f3] mt-0.5">
-                              across {genericResult.domainAnalysis.domainsByEsp.custom} domain{genericResult.domainAnalysis.domainsByEsp.custom !== 1 ? 's' : ''}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={`flex items-center justify-center gap-2 py-2 rounded-lg ${
-                      genericResult.summary.canComplete ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
-                    }`}>
-                      {genericResult.summary.canComplete ? (
-                        <>
-                          <i className="fas fa-check-circle"></i>
-                          <span className="text-sm font-medium">Achievable in {genericResult.summary.estimatedCompletionDays} days</span>
-                        </>
-                      ) : (
-                        <>
-                          <i className="fas fa-exclamation-triangle"></i>
-                          <span className="text-sm font-medium">Needs more senders</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* SendEmAll Results */}
-              {sendEmAllResult && (
-                <div className="bg-[#d2b3f3] rounded-3xl shadow-2xl shadow-[#d2b3f3]/30 p-6 text-white relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-                  <div className="relative">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                          <i className="fas fa-paper-plane"></i>
-                        </div>
-                        <div>
-                          <h3 className="text-lg text-white font-bold">Within SendEmAll</h3>
-                          <p className="text-white/70 text-xs">Optimized with ramping & health tiers</p>
-                        </div>
-                      </div>
-                      <span className="bg-white/20 text-white border border-white/30 text-xs px-3 py-1 rounded-full font-medium">
-                        Recommended
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 text-center">
-                        <div className="flex items-center justify-center gap-1.5 mb-1">
-                          <i className="fas fa-envelope text-white/70 text-sm"></i>
-                          <span className="text-white/70 text-xs font-medium uppercase">Senders</span>
-                        </div>
-                        <div className="text-4xl font-bold">{sendEmAllResult.totalSendersRequired}</div>
-                      </div>
-                      <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 text-center">
-                        <div className="flex items-center justify-center gap-1.5 mb-1">
-                          <i className="fas fa-globe text-white/70 text-sm"></i>
-                          <span className="text-white/70 text-xs font-medium uppercase">Domains</span>
-                        </div>
-                        <div className="text-4xl font-bold">{sendEmAllResult.totalDomainsRequired}</div>
-                      </div>
-                    </div>
-
-                    <div className="bg-white/10 rounded-xl p-4 mb-4">
-                      <div className="text-xs text-white/70 mb-3 font-medium">Senders & Domains by ESP</div>
-                      <div className="grid grid-cols-3 gap-3">
-                        <div className="text-center">
-                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-1">
-                            <GoogleIcon className="h-4 w-4" />
-                          </div>
-                          <div className="text-xl font-bold">{sendEmAllResult.sendersByEsp.google}</div>
-                          <div className="text-[10px] text-white/60">Google/MS Workspace</div>
-                          {sendEmAllResult.sendersByEsp.google > 0 && (
-                            <div className="text-[10px] text-white/80 mt-0.5">
-                              across {sendEmAllResult.domainAnalysis.domainsByEsp.google} domain{sendEmAllResult.domainAnalysis.domainsByEsp.google !== 1 ? 's' : ''}
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-center">
-                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-1">
-                            <MicrosoftIcon className="h-4 w-4" />
-                          </div>
-                          <div className="text-xl font-bold">{sendEmAllResult.sendersByEsp.outlook}</div>
-                          <div className="text-[10px] text-white/60">Azure senders</div>
-                          {sendEmAllResult.sendersByEsp.outlook > 0 && (
-                            <div className="text-[10px] text-white/80 mt-0.5">
-                              across {sendEmAllResult.domainAnalysis.domainsByEsp.outlook} domain{sendEmAllResult.domainAnalysis.domainsByEsp.outlook !== 1 ? 's' : ''}
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-center">
-                          <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mx-auto mb-1">
-                            <i className="fas fa-server text-white"></i>
-                          </div>
-                          <div className="text-xl font-bold">{sendEmAllResult.sendersByEsp.custom}</div>
-                          <div className="text-[10px] text-white/60">Custom senders</div>
-                          {sendEmAllResult.sendersByEsp.custom > 0 && (
-                            <div className="text-[10px] text-white/80 mt-0.5">
-                              across {sendEmAllResult.domainAnalysis.domainsByEsp.custom} domain{sendEmAllResult.domainAnalysis.domainsByEsp.custom !== 1 ? 's' : ''}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className={`flex items-center justify-center gap-2 py-2 rounded-lg ${
-                      sendEmAllResult.summary.canComplete ? 'bg-emerald-500/30' : 'bg-amber-500/30'
-                    }`}>
-                      {sendEmAllResult.summary.canComplete ? (
-                        <>
-                          <i className="fas fa-check-circle"></i>
-                          <span className="text-sm font-medium">Campaign achievable in {sendEmAllResult.summary.estimatedCompletionDays} days</span>
-                        </>
-                      ) : (
-                        <>
-                          <i className="fas fa-exclamation-triangle"></i>
-                          <span className="text-sm font-medium">Needs more senders</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              </div>
-            </div>
-          )}
-
-          {/* Why SendEmAll Section */}
-          {sendEmAllResult && genericResult && sendEmAllResult.totalSendersRequired > genericResult.totalSendersRequired && (
-            <div className="bg-gradient-to-r from-[#d2b3f3] to-indigo-50 rounded-2xl border border-[#d2b3f3] p-6 mb-8">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 bg-[#d2b3f3] rounded-xl flex items-center justify-center">
-                  <i className="fas fa-shield text-[#d2b3f3]"></i>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">Why SendEmAll requires more senders</h3>
-                  <p className="text-sm text-gray-500">Optimized for deliverability, not just volume</p>
+                  ))}
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-                <div className="bg-white rounded-xl p-4 border border-[#d2b3f3] shadow-sm">
-                  <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center mb-2">
-                    <i className="fas fa-check-circle text-emerald-600"></i>
-                  </div>
-                  <h4 className="font-semibold text-gray-900 text-sm mb-1">Best Deliverability</h4>
-                  <p className="text-xs text-gray-500">Smart intervals between emails prevent spam flags</p>
-                </div>
-                <div className="bg-white rounded-xl p-4 border border-[#d2b3f3] shadow-sm">
-                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mb-2">
-                    <i className="fas fa-server text-blue-600"></i>
-                  </div>
-                  <h4 className="font-semibold text-gray-900 text-sm mb-1">ESP Matching</h4>
-                  <p className="text-xs text-gray-500">Sending patterns optimized for each provider</p>
-                </div>
-                <div className="bg-white rounded-xl p-4 border border-[#d2b3f3] shadow-sm">
-                  <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center mb-2">
-                    <i className="fas fa-sparkles text-amber-600"></i>
-                  </div>
-                  <h4 className="font-semibold text-gray-900 text-sm mb-1">Warmup Driven</h4>
-                  <p className="text-xs text-gray-500">Gradual ramp-up builds domain reputation</p>
-                </div>
-                <div className="bg-white rounded-xl p-4 border border-[#d2b3f3] shadow-sm">
-                  <div className="w-8 h-8 bg-rose-100 rounded-lg flex items-center justify-center mb-2">
-                    <i className="fas fa-shield text-rose-600"></i>
-                  </div>
-                  <h4 className="font-semibold text-gray-900 text-sm mb-1">Blacklist Protection</h4>
-                  <p className="text-xs text-gray-500">Keep your domains off spam lists</p>
-                </div>
-                <div className="bg-white rounded-xl p-4 border border-[#d2b3f3] shadow-sm">
-                  <div className="w-8 h-8 bg-[#d2b3f3] rounded-lg flex items-center justify-center mb-2">
-                    <i className="fas fa-globe text-[#d2b3f3]"></i>
-                  </div>
-                  <h4 className="font-semibold text-gray-900 text-sm mb-1">GDPR Compliant</h4>
-                  <p className="text-xs text-gray-500">Privacy-first email handling</p>
-                </div>
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* CTA */}
-          <div className="relative overflow-hidden rounded-2xl bg-[#d2b3f3] p-8 md:p-10">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
-            <div className="absolute top-0 right-0 w-72 h-72 bg-[#d2b3f3]/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-            <div className="absolute bottom-0 left-0 w-56 h-56 bg-indigo-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
-
-            <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="text-center md:text-left">
-                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 mb-4">
-                  <i className="fas fa-sparkles text-[#d2b3f3] text-xs"></i>
-                  <span className="text-xs font-medium text-black">Free to get started</span>
+            {/* CTA Section */}
+            <div style={{
+              background: 'var(--gray-100)',
+              borderRadius: '24px',
+              padding: 'var(--space-3xl)',
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+              border: '1px solid var(--gray-200)',
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '-50%',
+                right: '-20%',
+                width: '400px',
+                height: '400px',
+                background: 'linear-gradient(135deg, rgba(210, 179, 243, 0.15) 0%, rgba(148, 233, 230, 0.15) 100%)',
+                borderRadius: '50%',
+              }} />
+              <div style={{
+                position: 'absolute',
+                bottom: '-30%',
+                left: '-10%',
+                width: '300px',
+                height: '300px',
+                background: 'linear-gradient(135deg, rgba(148, 233, 230, 0.15) 0%, rgba(210, 179, 243, 0.15) 100%)',
+                borderRadius: '50%',
+              }} />
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  background: 'rgba(148, 233, 230, 0.15)',
+                  border: '1px solid var(--primary-turquoise)',
+                  borderRadius: '100px',
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: 'var(--primary-turquoise)',
+                  marginBottom: 'var(--space-lg)',
+                }}>
+                  <i className="fas fa-rocket"></i> Get Started Free
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  Ready to launch your campaign?
-                </h3>
-                <p className="text-white max-w-md">
+                <h2 style={{ ...styles.ctaTitle, color: 'var(--dark)' }}>Ready to launch your campaign?</h2>
+                <p style={{ ...styles.ctaText, color: 'var(--gray-400)' }}>
                   Manage senders, automate warmup, and run campaigns with optimized deliverability.
                 </p>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <a
-                  href="https://app.sendemall.com/register"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 shadow-lg shadow-white/20 h-11 px-6 font-semibold rounded-xl transition-all hover:scale-105"
-                >
-                  Get Started
-                  <i className="fas fa-arrow-right text-sm"></i>
-                </a>
-                <a
-                  href="https://app.sendemall.com/login"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white hover:bg-white/10 h-11 px-6 rounded-xl inline-flex items-center font-medium transition-colors"
-                >
-                  Sign In
-                </a>
+                <div style={styles.ctaButtons}>
+                  <a
+                    href="https://app.sendemall.com/register"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      background: 'var(--primary-turquoise)',
+                      color: 'var(--dark)',
+                      padding: '1rem 2rem',
+                      borderRadius: '12px',
+                      fontWeight: '600',
+                      fontSize: '1rem',
+                      textDecoration: 'none',
+                      transition: 'all 0.2s ease',
+                      boxShadow: '0 4px 20px rgba(148, 233, 230, 0.3)',
+                    }}
+                  >
+                    Get Started Free
+                    <i className="fas fa-arrow-right"></i>
+                  </a>
+                  <a
+                    href="https://app.sendemall.com/login"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      background: 'var(--white)',
+                      color: 'var(--dark)',
+                      padding: '1rem 2rem',
+                      borderRadius: '12px',
+                      fontWeight: '600',
+                      fontSize: '1rem',
+                      textDecoration: 'none',
+                      transition: 'all 0.2s ease',
+                      border: '2px solid var(--gray-200)',
+                    }}
+                  >
+                    Sign In
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </main>
+        </section>
       </div>
+
+      <Footer />
+
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </>
   );
 };

@@ -58,7 +58,6 @@ const Hero = () => {
             >
               By signing up, you agree to our{' '}
               <a
-                target="_blank"
                 rel="noopener noreferrer"
                 href="https://sendemall.com/privacy-policy"
                 style={{ color: 'var(--primary-turquoise)', textDecoration: 'underline' }}
