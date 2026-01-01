@@ -12,9 +12,9 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- Campaign Sender Calculator -->
+  <!-- Mailboxes Calculator -->
   <url>
-    <loc>https://sendemall.com/campaign-sender-calculator</loc>
+    <loc>https://sendemall.com/mailboxes-calculator</loc>
     <lastmod>2025-12-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>

@@ -18,7 +18,7 @@ function AppContent() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/campaign-sender-calculator" element={<Calculator />} />
+      <Route path="/mailboxes-calculator" element={<Calculator />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/cookie-policy" element={<CookiePolicy />} />

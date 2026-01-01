@@ -91,8 +91,8 @@ const Navigation = () => {
                   </ScrollLink>
                 </li>
                 <li>
-                  <RouterLink to="/campaign-sender-calculator" onClick={closeMobileMenu}>
-                    How Many Senders?
+                  <RouterLink to="/mailboxes-calculator" onClick={closeMobileMenu}>
+                    Maiboxes Calculator
                   </RouterLink>
                 </li>
               </>
@@ -104,8 +104,8 @@ const Navigation = () => {
                   </RouterLink>
                 </li>
                 <li>
-                  <RouterLink to="/campaign-sender-calculator" onClick={closeMobileMenu}>
-                    How Many Senders?
+                  <RouterLink to="/mailboxes-calculator" onClick={closeMobileMenu}>
+                    Mailboxes Calculator
                   </RouterLink>
                 </li>
               </>

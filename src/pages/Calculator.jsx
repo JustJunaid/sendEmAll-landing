@@ -255,17 +255,17 @@ const Calculator = () => {
   return (
     <>
       <SEO
-        title="Free Campaign Sender Calculator | Calculate Email Infrastructure Needs - SendEmAll"
+        title="Free Mailboxes Calculator | Calculate Email Infrastructure Needs - SendEmAll"
         description="Free calculator tool to determine how many email senders and domains you need for your cold email campaign. Optimize deliverability with ESP matching, warmup schedules, and health tier analysis. Get instant results."
         keywords="sender calculator, email sender calculator, cold email calculator, domain calculator, email infrastructure calculator, ESP calculator, campaign sender tool, mailbox calculator, email deliverability calculator"
-        canonicalUrl="https://sendemall.com/campaign-sender-calculator"
+        canonicalUrl="https://sendemall.com/mailboxes-calculator"
         ogImage="https://sendemall.com/img/calculator-og-image.png"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "WebApplication",
-          "name": "Campaign Sender Calculator",
+          "name": "Mailboxes Calculator",
           "description": "Calculate how many email senders and domains you need for your cold email campaigns with real-time deliverability optimization.",
-          "url": "https://sendemall.com/campaign-sender-calculator",
+          "url": "https://sendemall.com/mailboxes-calculator",
           "applicationCategory": "BusinessApplication",
           "operatingSystem": "Web",
           "offers": {
@@ -319,7 +319,7 @@ const Calculator = () => {
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-[#d2b3f3] text-white px-5 py-2.5 rounded-full text-sm font-medium mb-6 border border-[#d2b3f3]/30">
               <i className="fas fa-calculator"></i>
-              Campaign Sender Calculator
+              Mailboxes Calculator
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
               How many mailboxes & domains required to send{' '}
