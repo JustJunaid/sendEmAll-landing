@@ -91,9 +91,9 @@ const Navigation = () => {
                   </ScrollLink>
                 </li>
                 <li>
-                  <RouterLink to="/mailboxes-calculator" onClick={closeMobileMenu}>
-                    Maiboxes Calculator
-                  </RouterLink>
+                  <a href="/mailboxes-calculator" target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu}>
+                    Mailboxes Calculator
+                  </a>
                 </li>
               </>
             ) : (
@@ -104,9 +104,9 @@ const Navigation = () => {
                   </RouterLink>
                 </li>
                 <li>
-                  <RouterLink to="/mailboxes-calculator" onClick={closeMobileMenu}>
+                  <a href="/mailboxes-calculator" target="_blank" rel="noopener noreferrer" onClick={closeMobileMenu}>
                     Mailboxes Calculator
-                  </RouterLink>
+                  </a>
                 </li>
               </>
             )}

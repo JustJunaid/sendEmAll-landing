@@ -60,7 +60,7 @@ const Hero = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://sendemall.com/privacy-policy.html"
+                href="https://sendemall.com/privacy-policy"
                 style={{ color: 'var(--primary-turquoise)', textDecoration: 'underline' }}
               >
                 Privacy Policy
