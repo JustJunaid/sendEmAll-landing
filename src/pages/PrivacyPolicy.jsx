@@ -83,6 +83,29 @@ const PrivacyPolicy = () => {
                   within the platform.
                 </strong>
               </p>
+              <p>
+                <strong>When you connect a Google account</strong>, SendEmAll requests the following permissions:
+              </p>
+              <ul>
+                <li>
+                  <strong>Send email on your behalf</strong> (<code>gmail.send</code>) — used solely to deliver your
+                  outreach campaigns through your Gmail or Google Workspace account.
+                </li>
+                <li>
+                  <strong>Read email metadata</strong> (<code>gmail.metadata</code>) — used to retrieve message IDs and
+                  headers needed for reply tracking and email threading. We do not read email body content via this
+                  scope.
+                </li>
+                <li>
+                  <strong>Read emails</strong> (<code>gmail.readonly</code>, seed inboxes only) — used exclusively to
+                  detect and sync replies to your campaigns into the unified inbox. This permission is only requested
+                  when you connect a seed inbox account, not a standard sender.
+                </li>
+              </ul>
+              <p>
+                We access only the minimum data required to provide these features. We do not read, store, index, or
+                share the contents of your emails for any purpose other than the features you explicitly enable.
+              </p>
             </div>
 
             <div className="legal-section">
@@ -127,6 +150,14 @@ const PrivacyPolicy = () => {
                 We retain information for as long as your account is active or required for service delivery. You may
                 request deletion at any time by contacting us.
               </p>
+              <p>
+                <strong>Google OAuth tokens</strong> (access tokens and refresh tokens) are deleted immediately and
+                permanently when you disconnect a Google account from SendEmAll, or when your SendEmAll account is
+                deleted. You can also revoke SendEmAll's access at any time directly from your Google Account at{' '}
+                <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">
+                  myaccount.google.com/permissions
+                </a>.
+              </p>
             </div>
 
             <div className="legal-section">
@@ -140,8 +171,30 @@ const PrivacyPolicy = () => {
             </div>
 
             <div className="legal-section">
-              <h2>8. Contact</h2>
-              <p>For privacy questions or requests, contact us at:</p>
+              <h2>8. Google API Services</h2>
+              <p>
+                SendEmAll's use and transfer to any other app of information received from Google APIs will adhere to
+                the{' '}
+                <a
+                  href="https://developers.google.com/terms/api-services-user-data-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Google API Services User Data Policy
+                </a>
+                , including the Limited Use requirements.
+              </p>
+              <p>
+                Specifically, data obtained through Google APIs is used only to provide and improve the features you
+                explicitly enable within SendEmAll. We do not use Google user data for serving advertisements, and we
+                do not allow humans to read your Google data except with your explicit permission or as required for
+                security, legal compliance, or when you request support.
+              </p>
+            </div>
+
+            <div className="legal-section">
+              <h2>9. Contact</h2>
+              <p>For privacy questions, data requests, or to exercise your rights under applicable law, contact us at:</p>
               <div className="contact-info">
                 <p>
                   <strong>Email:</strong> junaid@sendemall.com
