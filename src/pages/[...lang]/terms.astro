@@ -1,0 +1,196 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Terms of Service — SendEmAll"
+  metaDescription="Terms of Service for the SendEmAll outbound platform. Last updated April 2026."
+>
+  <section class="py-24 lg:py-32">
+    <div class="container">
+      <div class="prose prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
+        <h1>Terms of Service</h1>
+        <p class="text-text-default/60">Last updated: April 2026</p>
+
+        <p>
+          These Terms of Service ("Terms") govern your use of the SendEmAll platform and services
+          ("Service") operated by SendEmAll ("we", "us", "our"). By accessing or using the Service,
+          you agree to be bound by these Terms.
+        </p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>
+          By creating an account or using SendEmAll, you confirm that you are at least 18 years old,
+          have the authority to enter into these Terms, and agree to comply with all applicable laws and
+          regulations. If you are using the Service on behalf of an organization, you represent that you
+          have the authority to bind that organization to these Terms.
+        </p>
+
+        <h2>2. Account Registration</h2>
+        <ul>
+          <li>You must provide accurate and complete information when creating your account</li>
+          <li>You are responsible for maintaining the security of your account credentials</li>
+          <li>You must notify us immediately of any unauthorized access to your account</li>
+          <li>One person or entity per account unless on an Enterprise plan with sub-accounts</li>
+          <li>We reserve the right to suspend or terminate accounts that violate these Terms</li>
+        </ul>
+
+        <h2>3. Credits &amp; Billing</h2>
+
+        <h3>Plans and pricing</h3>
+        <p>SendEmAll offers the following subscription plans:</p>
+        <ul>
+          <li><strong>Trial:</strong> $0 &mdash; 100 one-time credits (~13 potential buyers reached)</li>
+          <li><strong>Pro:</strong> $149/mo &mdash; 15 managed mailboxes, 1,500 credits (~200 potential buyers reached)</li>
+          <li><strong>Business:</strong> $349/mo &mdash; 45 managed mailboxes, 5,000 credits (~650 potential buyers reached)</li>
+          <li><strong>Scale:</strong> $599/mo &mdash; 105 managed mailboxes, 15,000 credits (~2,000 potential buyers reached)</li>
+          <li><strong>Enterprise:</strong> Custom pricing &mdash; 150+ managed mailboxes, custom credits</li>
+        </ul>
+
+        <h3>Credits</h3>
+        <p>
+          One credit equals one action within the platform (e.g., one lead discovered, one email verified,
+          one email sent, one personalization generated). Credits are consumed as actions are performed and
+          are non-refundable once used.
+        </p>
+
+        <h3>Pay-as-you-go overage</h3>
+        <p>
+          If you exceed your plan's monthly credit allocation, additional credits are billed at the
+          following per-credit rates:
+        </p>
+        <ul>
+          <li>Pro: $0.05 per credit</li>
+          <li>Business: $0.04 per credit</li>
+          <li>Scale: $0.03 per credit</li>
+        </ul>
+
+        <h3>Billing cycle</h3>
+        <p>
+          Subscriptions are billed monthly. Unused credits do not roll over to the next billing period.
+          You may upgrade or downgrade your plan at any time; changes take effect at the start of the
+          next billing cycle.
+        </p>
+
+        <h2>4. Acceptable Use</h2>
+        <p>You agree to use SendEmAll only for lawful purposes. Specifically, you must:</p>
+        <ul>
+          <li>Comply with the CAN-SPAM Act, GDPR, CASL, and all other applicable anti-spam and privacy laws</li>
+          <li>Only contact individuals who have not opted out of receiving communications</li>
+          <li>Include a valid physical mailing address and a clear unsubscribe mechanism in every email</li>
+          <li>Not send deceptive, misleading, or fraudulent content</li>
+          <li>Not use the platform to send malware, phishing, or other malicious content</li>
+          <li>Not harvest email addresses for the purpose of spamming</li>
+          <li>Not resell or redistribute access to the platform without authorization</li>
+          <li>Not interfere with or disrupt the platform's infrastructure or other users' access</li>
+          <li>Not attempt to circumvent sending limits, credit allocations, or Smart Ramp-Up protocols</li>
+        </ul>
+        <p>
+          Violation of this Acceptable Use policy may result in immediate account suspension or
+          termination without refund.
+        </p>
+
+        <h2>5. Data &amp; Privacy</h2>
+        <p>
+          Your use of SendEmAll is also governed by our <a href="/privacy">Privacy Policy</a>. You retain
+          ownership of the data you upload to the platform. We process your data solely to provide the
+          Service. You are responsible for ensuring you have the legal basis to process any personal data
+          you upload or generate through the platform.
+        </p>
+
+        <h2>6. Reply Guarantee</h2>
+        <p>
+          The Reply Guarantee is available exclusively on <strong>Business</strong> and
+          <strong>Scale</strong> plans and is subject to the following terms:
+        </p>
+        <ul>
+          <li>If you receive fewer than <strong>50 qualified replies</strong> within your first <strong>90 days</strong> of active campaigning, you are eligible for bonus credits</li>
+          <li>A "qualified reply" is defined as a genuine response from a unique potential buyer, excluding bounces, out-of-office messages, and unsubscribe requests</li>
+          <li>To be eligible, you must have actively run campaigns for at least 60 of the 90 days, followed platform best practices, and maintained acceptable sending patterns</li>
+          <li>Bonus credits are issued at our discretion and are applied to your account for future use</li>
+          <li>The guarantee applies once per account during the initial 90-day period</li>
+          <li>Accounts flagged for Acceptable Use violations are not eligible</li>
+        </ul>
+
+        <h2>7. Managed Infrastructure</h2>
+        <p>
+          SendEmAll provides managed email sending infrastructure including domains, mailboxes, and Smart
+          Ramp-Up protocols. We manage this infrastructure on your behalf and reserve the right to modify
+          infrastructure configurations to maintain deliverability and comply with email provider policies.
+        </p>
+
+        <h2>8. Intellectual Property</h2>
+        <p>
+          The SendEmAll platform, including its software, design, logos, and documentation, is owned by
+          SendEmAll and protected by intellectual property laws. Your subscription grants you a limited,
+          non-exclusive, non-transferable license to use the platform for its intended purpose.
+        </p>
+        <p>
+          You retain all rights to your content, including campaign copy, lead lists you upload, and
+          data you export from the platform.
+        </p>
+
+        <h2>9. Termination</h2>
+        <ul>
+          <li>You may cancel your subscription at any time through your account settings</li>
+          <li>Cancellation takes effect at the end of your current billing period</li>
+          <li>We may suspend or terminate your account immediately for violations of these Terms</li>
+          <li>Upon termination, your access to the platform ceases and your data will be retained for 30 days before deletion, unless otherwise required by law</li>
+          <li>No refunds are provided for partial billing periods or unused credits</li>
+        </ul>
+
+        <h2>10. Limitation of Liability</h2>
+        <p>
+          To the maximum extent permitted by law, SendEmAll and its officers, directors, employees, and
+          agents shall not be liable for any indirect, incidental, special, consequential, or punitive
+          damages, including but not limited to loss of profits, data, business opportunities, or goodwill,
+          arising from your use of or inability to use the Service.
+        </p>
+        <p>
+          Our total aggregate liability for any claims arising from or related to the Service shall not
+          exceed the amount you paid to SendEmAll in the 12 months preceding the claim.
+        </p>
+        <p>
+          The Service is provided "as is" and "as available" without warranties of any kind, either express
+          or implied, including but not limited to merchantability, fitness for a particular purpose, and
+          non-infringement.
+        </p>
+
+        <h2>11. Indemnification</h2>
+        <p>
+          You agree to indemnify and hold harmless SendEmAll from any claims, damages, losses, or expenses
+          (including reasonable legal fees) arising from your use of the Service, your violation of these
+          Terms, or your violation of any third-party rights.
+        </p>
+
+        <h2>12. Changes to These Terms</h2>
+        <p>
+          We may update these Terms from time to time. We will notify you of material changes at least
+          30 days in advance via email or a prominent notice on the platform. Your continued use of the
+          Service after changes take effect constitutes acceptance of the updated Terms.
+        </p>
+
+        <h2>13. Governing Law</h2>
+        <p>
+          These Terms are governed by and construed in accordance with applicable law. Any disputes
+          arising from these Terms or the Service shall be resolved through good-faith negotiation
+          before pursuing formal legal proceedings.
+        </p>
+
+        <h2>14. Contact</h2>
+        <p>
+          If you have questions about these Terms, contact us at:
+        </p>
+        <ul>
+          <li>Email: <a href="mailto:legal@sendemall.com">legal@sendemall.com</a></li>
+          <li>Or visit our <a href="/contact">Contact page</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>

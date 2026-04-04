@@ -1,0 +1,194 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  label: string;
+  headline: string;
+  subtitle: string;
+  features: { title: string; description: string; icon?: string }[];
+  steps: { num: string; title: string; description: string }[];
+  providers: { name: string; description: string }[];
+  pricing: { action: string; credits: string }[];
+  pricingNote?: string;
+}
+
+const { label, headline, subtitle, features, steps, providers, pricing, pricingNote } = Astro.props;
+---
+
+<!-- Hero -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+        {label}
+      </span>
+      <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        {headline}
+      </h1>
+      <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+        {subtitle}
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="https://app.sendemall.com/signup" class="btn btn-md btn-primary">
+          Start Free — 100 Credits
+        </a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">
+          View Pricing
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What's Included -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mb-16 text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+        What's Included
+      </span>
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">
+        Everything you need, built in
+      </h2>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {features.map((feature, i) => (
+        <div
+          class="rounded-2xl border border-border-light bg-theme-dark p-6"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 100}
+        >
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+            <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <h3 class="mb-2 text-lg font-semibold text-white">{feature.title}</h3>
+          <p class="text-[#C8C1D4] leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mb-16 text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+        How It Works
+      </span>
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">
+        Three steps. That's it.
+      </h2>
+    </div>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {steps.map((step, i) => (
+        <div
+          class="text-center px-6 py-8"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 150}
+        >
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <span class="text-xl font-bold text-primary">{step.num}</span>
+          </div>
+          <h3 class="mb-3 text-xl font-semibold text-white">{step.title}</h3>
+          <p class="text-[#C8C1D4] leading-relaxed">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Providers We Orchestrate -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mb-16 text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+        Under The Hood
+      </span>
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">
+        Providers we orchestrate
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+        We integrate the best tools so you don't have to manage them yourself.
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {providers.map((provider, i) => (
+        <div
+          class="rounded-2xl border border-border-light bg-theme-dark p-6 text-center"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 100}
+        >
+          <h3 class="mb-2 text-lg font-semibold text-white">{provider.name}</h3>
+          <p class="text-sm text-[#C8C1D4]">{provider.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Credit Costs -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mb-16 text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+        Transparent Pricing
+      </span>
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">
+        Credit costs
+      </h2>
+    </div>
+
+    <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+      <div class="overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-border-light">
+              <th class="px-6 py-4 text-left text-sm font-semibold text-white">Action</th>
+              <th class="px-6 py-4 text-right text-sm font-semibold text-white">Credits</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pricing.map((row, i) => (
+              <tr class={i < pricing.length - 1 ? "border-b border-border-light" : ""}>
+                <td class="px-6 py-4 text-[#C8C1D4]">{row.action}</td>
+                <td class="px-6 py-4 text-right font-semibold text-white">{row.credits}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {pricingNote && (
+        <p class="mt-4 text-center text-sm text-[#C8C1D4]/70">{pricingNote}</p>
+      )}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div
+      class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+      data-aos="fade-up-sm"
+    >
+      <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+        Ready to get started?
+      </h2>
+      <p class="mb-8 text-lg text-[#C8C1D4]">
+        Start with 100 free credits. No credit card required.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="https://app.sendemall.com/signup" class="btn btn-md btn-primary">
+          Start Free — 100 Credits
+        </a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">
+          View Pricing
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

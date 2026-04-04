@@ -1,0 +1,47 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ComparePage from "@/layouts/components/sections/ComparePage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const features = [
+  { name: "Sending", competitor: "Multi-channel", sendemall: "Email only" },
+  { name: "Lead generation", competitor: "With add-ons", sendemall: "Built-in" },
+  { name: "Infrastructure", competitor: "BYO", sendemall: "Managed" },
+  { name: "Personalization", competitor: "Templates", sendemall: "Full AI research" },
+  { name: "Verification", competitor: "Basic", sendemall: "Multi-layer" },
+  { name: "Per-seat pricing", competitor: "Yes", sendemall: "No" },
+];
+
+const theyDoBetter = [
+  { title: "Multi-channel", description: "LinkedIn + email sequences. If you need multi-channel outreach, Lemlist has it." },
+  { title: "Visual sequence builder", description: "Drag-and-drop campaign builder is intuitive." },
+];
+
+const weDoBetter = [
+  { title: "No per-seat pricing", description: "Lemlist charges per seat. Scale your team without multiplying costs." },
+  { title: "Managed infrastructure", description: "We handle domains, mailboxes, DNS, and deliverability." },
+  { title: "Signal-qualified leads", description: "Built-in lead generation with buying signal qualification." },
+];
+---
+
+<Base
+  title="SendEmAll vs Lemlist — Comparison"
+  meta_title="SendEmAll vs Lemlist | Full Cost & Feature Comparison"
+  description="Compare SendEmAll and Lemlist side by side. See why managed infrastructure and no per-seat pricing make the difference."
+>
+  <ComparePage
+    competitor="Lemlist"
+    description="Side-by-side cost and feature comparison"
+    competitorPrice="$69–$99/mo per seat"
+    competitorPriceNote="Per-seat pricing. Multi-channel but no managed infrastructure."
+    sendemallPrice="$149/mo"
+    features={features}
+    theyDoBetter={theyDoBetter}
+    weDoBetter={weDoBetter}
+    integrationNote="Use SendEmAll for lead gen and enrichment, export to Lemlist for multi-channel sequences."
+  />
+</Base>

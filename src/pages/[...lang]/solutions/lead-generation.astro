@@ -1,0 +1,61 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ServicePage from "@/layouts/components/sections/ServicePage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "Lead Generation — Signal-Qualified Potential Buyers | SendEmAll",
+  description: "Discover and qualify potential buyers using 8+ providers and real buying signals. Multi-source discovery, ICP matching, and bulk enrichment built in.",
+};
+
+const features = [
+  { title: "Discovery engine", description: "Pull potential buyers from multiple sources simultaneously. No more switching between tools." },
+  { title: "Signal qualification", description: "Filter by hiring activity, funding rounds, tech stack changes, and decision-maker authority." },
+  { title: "ICP matching", description: "AI scores every lead against your ideal customer profile. Only qualified potential buyers make the cut." },
+  { title: "Bulk enrichment", description: "Enrich thousands of contacts with verified emails, phone numbers, and company data in one pass." },
+  { title: "Data deduplication", description: "Automatic dedup across sources so you never reach the same person twice." },
+  { title: "Export to any format", description: "CSV, direct CRM push, or pipe straight into your SendEmAll campaigns." },
+];
+
+const steps = [
+  { num: "01", title: "Define your ICP", description: "Tell us your ideal customer — industry, size, tech stack, buying signals. We build your targeting profile." },
+  { num: "02", title: "We discover & qualify", description: "Our engine searches 8+ providers, cross-references signals, and scores every potential buyer." },
+  { num: "03", title: "Get signal-qualified leads", description: "Receive a clean, deduplicated list of potential buyers ready for outreach." },
+];
+
+const providers = [
+  { name: "Apollo", description: "B2B contact database" },
+  { name: "Ocean.io", description: "Lookalike company discovery" },
+  { name: "Sales Nav", description: "LinkedIn prospecting" },
+  { name: "Google Ads Checker", description: "Ad spend signals" },
+  { name: "Tech Detector", description: "Technology stack analysis" },
+  { name: "Hiring Signals", description: "Job posting activity" },
+  { name: "Funding Data", description: "Investment round tracking" },
+  { name: "Authority Mapper", description: "Decision-maker identification" },
+];
+
+const pricing = [
+  { action: "Lead discovery", credits: "5 credits" },
+  { action: "Signal check", credits: "2 credits" },
+  { action: "ICP match", credits: "1 credit" },
+];
+---
+
+<Base {...meta}>
+  <ServicePage
+    title={meta.title}
+    description={meta.description}
+    label="Lead Generation"
+    headline="Signal-qualified leads, not random lists"
+    subtitle="We discover and qualify potential buyers using 8+ providers and real buying signals."
+    features={features}
+    steps={steps}
+    providers={providers}
+    pricing={pricing}
+    pricingNote="Included in all plans. Credits deducted per action."
+  />
+</Base>

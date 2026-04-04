@@ -1,0 +1,47 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ComparePage from "@/layouts/components/sections/ComparePage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const features = [
+  { name: "Lead database", competitor: "Large but generic", sendemall: "Signal-qualified" },
+  { name: "Email sending", competitor: "Limited", sendemall: "Full" },
+  { name: "Enrichment", competitor: "Basic", sendemall: "5+ providers" },
+  { name: "Infrastructure", competitor: "None", sendemall: "Managed" },
+  { name: "AI personalization", competitor: "Basic templates", sendemall: "Full AI research" },
+  { name: "Verification", competitor: "Basic", sendemall: "Multi-layer" },
+];
+
+const theyDoBetter = [
+  { title: "Massive database", description: "2B+ contacts. If you need raw volume, Apollo's database is huge." },
+  { title: "CRM features", description: "Built-in CRM, sequences, and deal tracking." },
+];
+
+const weDoBetter = [
+  { title: "Signal qualification", description: "We don't just give you emails — we find buyers showing purchase signals." },
+  { title: "Cost transparency", description: "No per-seat pricing. No email credit limits. One price, everything included." },
+  { title: "Full infrastructure", description: "Apollo doesn't set up your mailboxes or manage deliverability." },
+];
+---
+
+<Base
+  title="SendEmAll vs Apollo — Comparison"
+  meta_title="SendEmAll vs Apollo | Full Cost & Feature Comparison"
+  description="Compare SendEmAll and Apollo side by side. See why signal-qualified leads and managed infrastructure beat a generic database."
+>
+  <ComparePage
+    competitor="Apollo"
+    description="Side-by-side cost and feature comparison"
+    competitorPrice="$49–$119/mo"
+    competitorPriceNote="Data access with limited sending. Email credits deplete quickly."
+    sendemallPrice="$149/mo"
+    features={features}
+    theyDoBetter={theyDoBetter}
+    weDoBetter={weDoBetter}
+    integrationNote="We actually use Apollo as one of our 18 providers. Get Apollo data + 17 more sources through SendEmAll."
+  />
+</Base>

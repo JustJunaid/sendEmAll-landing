@@ -1,0 +1,119 @@
+---
+
+---
+
+<script>
+  // @ts-nocheck
+  import SmoothScroll from "smoothscroll-for-websites";
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    await initLucide();
+
+    // Dynamic Preline imports
+    await loadPrelineComponents();
+
+    // AOS - https://github.com/michalsnik/aos
+    const AOS = await import("aos");
+    AOS.init({
+      duration: 700,
+      easing: "ease-out",
+      disable: "mobile",
+      once: true,
+    });
+
+    // Smooth Scroll - https://github.com/gblazex/smoothscroll-for-websites/wiki
+    SmoothScroll({
+      animationTime: 600, // [ms]
+      stepSize: 60, // [px]
+      touchpadSupport: true,
+    });
+
+    // Fix: Support horizontal scrolling by using the mouse wheel + shift
+    initHorizontalScroll();
+  });
+
+  // Lucide Icons
+  async function initLucide() {
+    const iconElems = document.querySelectorAll("[data-lucide]");
+    const lucideModule = await import("lucide");
+
+    iconElems.forEach((iconElem) => {
+      const iconName = iconElem.getAttribute("data-lucide");
+      if (!iconName) return;
+
+      // @ts-expect-error
+      const IconDef = lucideModule[iconName];
+      if (!IconDef) {
+        console.warn(`Lucide icon "${iconName}" not found`);
+        return;
+      }
+
+      const svg = lucideModule.createElement(IconDef, {
+        ...Object.fromEntries(
+          [...iconElem.attributes].map((attr) => [attr.name, attr.value]),
+        ),
+      });
+
+      iconElem.replaceWith(svg);
+    });
+  }
+
+  // Load Preline components dynamically based on DOM content
+  async function loadPrelineComponents() {
+    const hasComponent = (selectors: string[]) =>
+      selectors.some((selector) => document.querySelector(selector));
+
+    const preline = await import("preline");
+
+    if (hasComponent([".hs-overlay", "[data-hs-overlay]"])) {
+      preline.HSOverlay?.autoInit();
+    }
+
+    if (hasComponent([".hs-dropdown", "[data-hs-dropdown]"])) {
+      preline.HSDropdown?.autoInit();
+    }
+
+    if (hasComponent([".hs-select", "[data-hs-select]"])) {
+      preline.HSSelect?.autoInit();
+    }
+
+    if (
+      hasComponent([
+        "[data-hs-tab]",
+        ".hs-tab",
+        '[role="tablist"] [data-hs-tab]',
+      ])
+    ) {
+      preline.HSTabs?.autoInit();
+    }
+
+    if (hasComponent([".hs-accordion"])) {
+      preline.HSAccordion?.autoInit();
+    }
+
+    if (hasComponent([".hs-collapse", "[data-hs-collapse]"])) {
+      preline.HSCollapse?.autoInit();
+    }
+  }
+
+  // Horizontal scroll with shift + wheel
+  function initHorizontalScroll() {
+    document.querySelectorAll("*").forEach((el) => {
+      if (el.scrollWidth > el.clientWidth) {
+        el.addEventListener(
+          "wheel",
+          function (event) {
+            if (event.shiftKey) {
+              event.preventDefault();
+              this.scrollBy({
+                left: event.deltaY * 3,
+                behavior: "smooth",
+              });
+            }
+          },
+          { passive: false },
+        );
+      }
+    });
+  }
+</script>

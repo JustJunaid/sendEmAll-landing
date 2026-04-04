@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Sora",
+    "provider": "google",
+    "weights": [300, 400, 500, 600, 700, 800],
+    "styles": ["normal"],
+    "subsets": ["latin"],
+    "preload": true,
+    "cssVariable": "--font-primary",
+    "fallback": "sans-serif"
+  },
+  {
+    "name": "Sora",
+    "provider": "google",
+    "weights": [500, 600, 700, 800],
+    "styles": ["normal"],
+    "subsets": ["latin"],
+    "preload": true,
+    "cssVariable": "--font-secondary",
+    "fallback": "sans-serif"
+  },
+  {
+    "name": "Instrument Serif",
+    "provider": "google",
+    "weights": [400],
+    "styles": ["normal"],
+    "subsets": ["latin"],
+    "preload": true,
+    "cssVariable": "--font-tertiary",
+    "fallback": "serif"
+  }
+]

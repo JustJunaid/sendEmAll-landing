@@ -1,0 +1,223 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Developers — Outbound API, MCP Server, Webhooks | SendEmAll"
+  metaDescription="REST API, MCP server, webhooks, CSV import. Build outbound into your product with SendEmAll's developer platform."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">Developers</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        The outbound API for GTM engineers
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        REST API, MCP server, webhooks, CSV import. Build outbound into your product.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="https://app.sendemall.com/signup" class="btn btn-md btn-primary">Get API Access</a>
+        <a href="#api-reference" class="btn btn-md btn-outline-white">View docs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REST API -->
+  <section id="api-reference" class="py-20 lg:py-28">
+    <div class="container">
+      <div class="grid items-start gap-12 lg:grid-cols-2">
+        <div data-aos="fade-up-sm">
+          <span class="mb-2 inline-block text-sm font-semibold text-primary">REST API</span>
+          <h2 class="text-3xl font-bold sm:text-4xl">Full API for campaigns, leads, and sending</h2>
+          <p class="mt-4 text-text-default/70">Endpoints for every stage of the outbound pipeline. Create campaigns, discover leads, trigger sends, and pull analytics programmatically.</p>
+          <ul class="mt-6 space-y-3 text-text-default/70">
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Campaign CRUD operations</li>
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Lead discovery and enrichment</li>
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Email sending and scheduling</li>
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Analytics and reporting</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-theme-dark p-6 font-mono text-sm" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="mb-3 flex items-center gap-2">
+            <span class="h-3 w-3 rounded-full bg-red-500"></span>
+            <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
+            <span class="h-3 w-3 rounded-full bg-green-500"></span>
+            <span class="ml-2 text-xs text-text-default/50">cURL</span>
+          </div>
+          <pre class="overflow-x-auto text-text-default/80"><code set:html={`# Create a campaign
+curl -X POST https://api.sendemall.com/v1/campaigns \\
+  -H "Authorization: Bearer sk_live_..." \\
+  -H "Content-Type: application/json" \\
+  -d '{
+  "name": "Q1 SaaS Outbound",
+  "icp": {
+    "industry": "SaaS",
+    "company_size": "50-200",
+    "signals": ["hiring_engineers", "recent_funding"]
+  },
+  "credits_budget": 500
+}'`} /></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Python SDK -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="grid items-start gap-12 lg:grid-cols-2">
+        <div class="order-2 rounded-2xl border border-border-light bg-theme-dark p-6 font-mono text-sm lg:order-1" data-aos="fade-up-sm">
+          <div class="mb-3 flex items-center gap-2">
+            <span class="h-3 w-3 rounded-full bg-red-500"></span>
+            <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
+            <span class="h-3 w-3 rounded-full bg-green-500"></span>
+            <span class="ml-2 text-xs text-text-default/50">Python</span>
+          </div>
+          <pre class="overflow-x-auto text-text-default/80"><code set:html={`# Python SDK
+from sendemall import Client
+
+client = Client(api_key="sk_live_...")
+campaign = client.campaigns.create(
+    name="Q1 SaaS Outbound",
+    icp={"industry": "SaaS", "company_size": "50-200"},
+    credits_budget=500
+)
+print(f"Campaign {campaign.id}: {campaign.estimated_buyers} buyers")`} /></pre>
+        </div>
+        <div class="order-1 lg:order-2" data-aos="fade-up-sm" data-aos-delay="100">
+          <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">SDKs</span>
+          <h2 class="text-3xl font-bold sm:text-4xl">Python and Node.js SDKs</h2>
+          <p class="mt-4 text-text-default/70">Type-safe clients for Python and JavaScript. Install from PyPI or npm and start building in minutes.</p>
+          <div class="mt-6 rounded-xl border border-border-light bg-theme-dark p-4 font-mono text-sm">
+            <code class="text-text-default/80">pip install sendemall</code>
+          </div>
+          <div class="mt-3 rounded-xl border border-border-light bg-theme-dark p-4 font-mono text-sm">
+            <code class="text-text-default/80">npm install sendemall</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Node.js Example -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="grid items-start gap-12 lg:grid-cols-2">
+        <div data-aos="fade-up-sm">
+          <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">Node.js</span>
+          <h2 class="text-3xl font-bold sm:text-4xl">JavaScript / TypeScript</h2>
+          <p class="mt-4 text-text-default/70">Full TypeScript support with auto-completion and type inference. Works with ESM and CommonJS.</p>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-theme-dark p-6 font-mono text-sm" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="mb-3 flex items-center gap-2">
+            <span class="h-3 w-3 rounded-full bg-red-500"></span>
+            <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
+            <span class="h-3 w-3 rounded-full bg-green-500"></span>
+            <span class="ml-2 text-xs text-text-default/50">JavaScript</span>
+          </div>
+          <pre class="overflow-x-auto text-text-default/80"><code set:html={`// Node.js SDK
+import { SendEmAll } from 'sendemall';
+
+const client = new SendEmAll('sk_live_...');
+const campaign = await client.campaigns.create({
+  name: 'Q1 SaaS Outbound',
+  icp: { industry: 'SaaS', companySize: '50-200' },
+  creditsBudget: 500
+});`} /></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MCP Server -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="grid items-start gap-12 lg:grid-cols-2">
+        <div class="order-2 rounded-2xl border border-border-light bg-accent p-8 lg:order-1" data-aos="fade-up-sm">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-lg bg-primary/10 p-2.5 text-primary">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6m-6 3h6m-6 3h3"/><circle cx="12" cy="2" r="1"/><path d="M12 3v1"/></svg>
+            </span>
+            <span class="font-semibold">MCP Compatible</span>
+          </div>
+          <ul class="space-y-3 text-text-default/70">
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Claude, GPT, and any MCP-compatible agent</li>
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Create campaigns via natural language</li>
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Pull lead data and analytics</li>
+            <li class="flex items-start gap-3"><span class="text-primary">&#10003;</span> Trigger sends programmatically</li>
+          </ul>
+        </div>
+        <div class="order-1 lg:order-2" data-aos="fade-up-sm" data-aos-delay="100">
+          <span class="mb-2 inline-block text-sm font-semibold text-primary">MCP Server</span>
+          <h2 class="text-3xl font-bold sm:text-4xl">Connect AI agents directly to SendEmAll</h2>
+          <p class="mt-4 text-text-default/70">Claude, GPT, and any MCP-compatible agent can create campaigns, pull lead data, and trigger sends. Your AI agent becomes your outbound operator.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Webhooks -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center">
+        <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">Webhooks</span>
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Real-time event notifications</h2>
+        <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">Subscribe to events and react in real-time. Push data to your CRM, trigger automations, or update dashboards.</p>
+      </div>
+      <div class="mx-auto grid max-w-3xl gap-4 sm:grid-cols-2" data-aos="fade-up-sm" data-aos-delay="200">
+        {[
+          "lead.discovered",
+          "lead.enriched",
+          "email.sent",
+          "email.replied",
+          "email.bounced",
+          "campaign.completed",
+        ].map((event) => (
+          <div class="flex items-center gap-3 rounded-xl border border-border-light bg-theme-dark px-4 py-3 font-mono text-sm">
+            <span class="text-primary">&#9679;</span>
+            <code class="text-text-default/80">{event}</code>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CSV Import/Export -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
+        <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">CSV Import / Export</span>
+        <h2 class="text-3xl font-bold sm:text-4xl">Bulk operations</h2>
+        <p class="mt-4 text-text-default/70">Import leads via CSV, export campaign results, and perform bulk operations through the API or dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Auth -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
+        <span class="mb-2 inline-block text-sm font-semibold text-text-default/50">Authentication</span>
+        <h2 class="text-2xl font-bold sm:text-3xl">Simple API key authentication</h2>
+        <p class="mt-4 text-text-default/70">API keys via <code class="rounded bg-theme-dark px-2 py-0.5 font-mono text-sm text-primary">x-user-context</code> header. Generate keys in your dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Start building with SendEmAll</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Get API access and start integrating outbound into your product today.</p>
+        <a href="https://app.sendemall.com/signup" class="btn btn-md btn-primary mt-8">Get API Access</a>
+      </div>
+    </div>
+  </section>
+</Base>

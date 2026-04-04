@@ -1,0 +1,103 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="About SendEmAll — Our Story"
+  metaDescription="We spent years stitching together 5+ tools for outbound. SendEmAll is the platform we wished existed — one tool for the entire outbound pipeline."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">Our Story</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        We built what we wished existed
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        One platform that handles the entire outbound pipeline, with managed infrastructure you don't have to maintain.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl" data-aos="fade-up-sm">
+        <h2 class="mb-8 text-3xl font-bold sm:text-4xl">The problem we lived every day</h2>
+        <div class="space-y-6 text-lg leading-relaxed text-text-default/80">
+          <p>
+            We spent years stitching together 5+ tools for outbound. Apollo for data, Clay for enrichment,
+            Instantly for sending, ZeroBounce for verification, ChatGPT for personalization.
+            <strong class="text-white">$600+/mo</strong> for a stack that barely talked to itself.
+          </p>
+          <p>
+            Every new campaign meant exporting CSVs, reformatting columns, re-uploading lists, and praying
+            nothing broke between tools. Half the budget went to subscriptions. The other half went to the
+            ops person managing it all.
+          </p>
+          <p>
+            SendEmAll is the platform we wished existed &mdash; one tool that handles the entire outbound
+            pipeline, with managed infrastructure you don't have to maintain. No more juggling logins. No
+            more broken integrations. No more surprise invoices from five different vendors.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">Our Mission</span>
+        <h2 class="mt-4 text-3xl font-bold sm:text-4xl">Outbound for every business</h2>
+        <p class="mx-auto mt-6 max-w-xl text-lg text-text-default/70">
+          Make outbound accessible to every business, not just those with $10K budgets and full-time ops teams.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Grid -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">The numbers behind the platform</h2>
+      </div>
+      <div class="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { stat: "18", label: "Data providers integrated into one pipeline" },
+          { stat: "4", label: "Pipeline stages handled automatically" },
+          { stat: "$0.07", label: "Average cost per potential buyer reached" },
+          { stat: "74%", label: "Average savings vs. stitching tools together" },
+        ].map((item, i) => (
+          <div class="rounded-2xl border border-border-light bg-accent p-8 text-center" data-aos="fade-up-sm" data-aos-delay={i * 75}>
+            <span class="block text-4xl font-bold text-primary">{item.stat}</span>
+            <p class="mt-3 text-sm text-text-default/70">{item.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Join us</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">
+          Stop overpaying for outbound. Start reaching potential buyers at a fraction of the cost.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a href="/pricing" class="btn btn-md btn-primary">See pricing</a>
+          <a href="/contact" class="btn btn-md btn-outline-white">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

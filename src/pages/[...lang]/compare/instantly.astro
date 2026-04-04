@@ -1,0 +1,49 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ComparePage from "@/layouts/components/sections/ComparePage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const features = [
+  { name: "Lead generation", competitor: "Add-on $47–197", sendemall: "Included" },
+  { name: "Email enrichment", competitor: "No", sendemall: "Yes" },
+  { name: "Email verification", competitor: "No", sendemall: "Yes" },
+  { name: "AI personalization", competitor: "No", sendemall: "Yes" },
+  { name: "Managed infrastructure", competitor: "No", sendemall: "Yes" },
+  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
+  { name: "Sending", competitor: "Yes", sendemall: "Yes" },
+  { name: "Multi-channel", competitor: "Email only", sendemall: "Email only" },
+];
+
+const theyDoBetter = [
+  { title: "Sending at scale", description: "Instantly is built specifically for high-volume sending. If you only need sending, they're solid." },
+  { title: "Larger user base", description: "More tutorials, community resources, and third-party integrations." },
+];
+
+const weDoBetter = [
+  { title: "All-in-one platform", description: "No need to buy separate lead credits. Everything from discovery to sending in one tool." },
+  { title: "Managed infrastructure", description: "We handle domains, mailboxes, DNS, and Smart Ramp-Up. You don't touch a thing." },
+  { title: "Signal-qualified leads", description: "Not just scraped emails — leads qualified by hiring, funding, and tech signals." },
+];
+---
+
+<Base
+  title="SendEmAll vs Instantly — Comparison"
+  meta_title="SendEmAll vs Instantly | Full Cost & Feature Comparison"
+  description="Compare SendEmAll and Instantly side by side. See the real cost difference when you add lead generation, enrichment, and infrastructure."
+>
+  <ComparePage
+    competitor="Instantly"
+    description="Side-by-side cost and feature comparison"
+    competitorPrice="$47–$358/mo"
+    competitorPriceNote="Outreach + lead finder sold separately. No enrichment, verification, or AI."
+    sendemallPrice="$149/mo"
+    features={features}
+    theyDoBetter={theyDoBetter}
+    weDoBetter={weDoBetter}
+    integrationNote="Use SendEmAll for lead generation and enrichment, export to Instantly for sending."
+  />
+</Base>

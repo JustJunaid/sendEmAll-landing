@@ -1,0 +1,29 @@
+{
+  "common": {
+    "readMore": "Read More",
+    "category": "Category",
+    "publishedOn": "Published On",
+    "learnMoreAbout": "Learn more about",
+    "emailPlaceholder": "Email Address",
+    "paginationNext": "Next",
+    "paginationPrevious": "Previous"
+  },
+  "navigation": {
+    "buttonLabel": "Start Free"
+  },
+  "subscription": {
+    "label": "Subscribe to our newsletter"
+  },
+  "integration": {
+    "relatedIntegrationSectionTitle": "You might be **interested in**",
+    "backToIntegration": "Browse"
+  },
+  "footer": {
+    "quickLinks": "Product",
+    "legal": "Legal",
+    "resources": "Company",
+    "description": "The complete outbound platform. One tool replaces five. Signal-qualified leads, managed infrastructure, AI personalization, and guaranteed replies.",
+    "copyright": "© {{ year }} SendEmAll. All rights reserved.",
+    "_comment": "We kindly appreciate it if you retain the theme copyright. Thank you for supporting Getastrothemes!"
+  }
+}

@@ -1,0 +1,161 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Privacy Policy — SendEmAll"
+  metaDescription="How SendEmAll collects, uses, and protects your data. Last updated April 2026."
+>
+  <section class="py-24 lg:py-32">
+    <div class="container">
+      <div class="prose prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
+        <h1>Privacy Policy</h1>
+        <p class="text-text-default/60">Last updated: April 2026</p>
+
+        <p>
+          SendEmAll ("we", "us", "our") operates the SendEmAll platform and website. This Privacy Policy
+          explains how we collect, use, disclose, and safeguard your information when you use our services.
+        </p>
+
+        <h2>1. Information We Collect</h2>
+
+        <h3>Account Information</h3>
+        <p>When you create an account, we collect your name, email address, company name, billing address, and payment information.</p>
+
+        <h3>Campaign Data</h3>
+        <p>
+          We store the campaign configurations you create, including target audience criteria, messaging
+          templates, sending schedules, and personalization parameters.
+        </p>
+
+        <h3>Lead Data</h3>
+        <p>
+          When you use our discovery and enrichment pipeline, we process contact information for potential
+          buyers including names, email addresses, company details, job titles, and publicly available
+          professional data sourced from our 18 integrated providers.
+        </p>
+
+        <h3>Email Sending Data</h3>
+        <p>
+          We collect data related to email delivery through our managed infrastructure, including send
+          timestamps, delivery status, open rates, reply rates, bounce rates, and engagement metrics.
+        </p>
+
+        <h3>Managed Infrastructure Data</h3>
+        <p>
+          We maintain logs related to the managed sending infrastructure we operate on your behalf,
+          including domain health metrics, Smart Ramp-Up status, and deliverability scores.
+        </p>
+
+        <h3>Usage Data</h3>
+        <p>
+          We automatically collect information about how you interact with our platform, including pages
+          visited, features used, credit consumption, browser type, IP address, and device information.
+        </p>
+
+        <h2>2. How We Use Your Information</h2>
+        <ul>
+          <li>To provide, operate, and maintain our outbound platform and managed infrastructure</li>
+          <li>To process your campaigns, including lead discovery, enrichment, verification, personalization, and sending</li>
+          <li>To track credit usage and manage billing across Trial, Pro, Business, Scale, and Enterprise plans</li>
+          <li>To monitor and optimize email deliverability and Smart Ramp-Up processes</li>
+          <li>To evaluate Reply Guarantee eligibility (50+ replies in 90 days on Business and Scale plans)</li>
+          <li>To send transactional emails such as billing confirmations, usage alerts, and platform updates</li>
+          <li>To improve our services, develop new features, and analyze platform performance</li>
+          <li>To prevent abuse, fraud, and ensure compliance with anti-spam regulations</li>
+          <li>To respond to your support requests and communications</li>
+        </ul>
+
+        <h2>3. Data Sharing</h2>
+        <p>We do not sell your personal data. We may share information with:</p>
+        <ul>
+          <li><strong>Service providers:</strong> Payment processors, cloud hosting providers, and analytics services that help us operate the platform</li>
+          <li><strong>Data providers:</strong> Our integrated data providers receive queries to fulfill lead discovery requests but do not receive your campaign data or messaging</li>
+          <li><strong>Legal obligations:</strong> When required by law, legal process, or to protect our rights and the safety of our users</li>
+          <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets, with notice to affected users</li>
+        </ul>
+
+        <h2>4. Data Security</h2>
+        <p>
+          We implement industry-standard security measures including encryption in transit (TLS) and at rest,
+          access controls, regular security audits, and secure infrastructure management. Campaign data and
+          lead lists are isolated per account. Managed sending infrastructure is monitored continuously for
+          anomalies.
+        </p>
+
+        <h2>5. Cookies</h2>
+        <p>
+          We use cookies and similar tracking technologies to analyze platform usage and improve your
+          experience. For detailed information, see our <a href="/cookies">Cookie Policy</a>.
+        </p>
+
+        <h2>6. Your Rights</h2>
+
+        <h3>For all users</h3>
+        <ul>
+          <li>Access, correct, or delete your personal data</li>
+          <li>Export your data in a portable format</li>
+          <li>Opt out of non-essential communications</li>
+          <li>Close your account at any time</li>
+        </ul>
+
+        <h3>GDPR rights (EEA residents)</h3>
+        <ul>
+          <li>Right to access, rectification, erasure, and data portability</li>
+          <li>Right to restrict or object to processing</li>
+          <li>Right to withdraw consent at any time</li>
+          <li>Right to lodge a complaint with a supervisory authority</li>
+        </ul>
+
+        <h3>CCPA rights (California residents)</h3>
+        <ul>
+          <li>Right to know what personal information is collected, used, and shared</li>
+          <li>Right to delete personal information</li>
+          <li>Right to opt out of the sale of personal information (we do not sell personal data)</li>
+          <li>Right to non-discrimination for exercising your rights</li>
+        </ul>
+
+        <h2>7. Data Retention</h2>
+        <p>
+          We retain your account data for the duration of your active subscription. Campaign data and lead
+          lists are retained for 12 months after the last campaign activity. Upon account deletion, we
+          remove your personal data within 30 days, except where retention is required by law or for
+          legitimate business purposes (such as billing records, which are retained for 7 years).
+        </p>
+
+        <h2>8. International Data Transfers</h2>
+        <p>
+          Your data may be processed in countries other than your own. We ensure appropriate safeguards
+          are in place, including Standard Contractual Clauses where applicable, to protect your data
+          during international transfers.
+        </p>
+
+        <h2>9. Children's Privacy</h2>
+        <p>
+          SendEmAll is not intended for use by individuals under 18 years of age. We do not knowingly
+          collect personal data from children.
+        </p>
+
+        <h2>10. Changes to This Policy</h2>
+        <p>
+          We may update this Privacy Policy from time to time. We will notify you of material changes
+          by posting the updated policy on our website and, where appropriate, by email.
+        </p>
+
+        <h2>11. Contact</h2>
+        <p>
+          If you have questions about this Privacy Policy or wish to exercise your data rights, contact us at:
+        </p>
+        <ul>
+          <li>Email: <a href="mailto:privacy@sendemall.com">privacy@sendemall.com</a></li>
+          <li>Or visit our <a href="/contact">Contact page</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,124 @@
+# Site Configuration
+[site]
+  title              = "SendEmAll"
+  description        = "The complete outbound platform. One tool replaces five. Signal-qualified leads, managed email infrastructure, AI personalization, and guaranteed replies — starting at $149/mo."
+  tagline            = "The Complete Outbound Platform"
+  taglineSeparator   = " — "
+  baseUrl            = "https://sendemall.com"
+  logo               = "/images/sendemall-logo-dark.svg"
+  logoHoverAnimation = false
+  logoText           = ""
+  logoWidth          = "140px"
+  logoHeight         = "36px"
+
+  trailingSlash = false
+
+  [site.favicon]
+    path  = "/images/favicons"
+    image = "/images/favicons/favicon.svg"
+
+  # msapplication tile color matches dark theme
+  msapplicationTileColor = "#0a0a1a"
+
+
+# SEO Metadata
+[seo]
+  author = "SendEmAll"
+  keywords = [
+    "cold email platform",
+    "outbound sales tool",
+    "email infrastructure",
+    "lead generation",
+    "AI personalization",
+    "email deliverability",
+    "sales automation",
+    "managed mailboxes",
+    "signal-qualified leads",
+  ]
+  robots = "index, follow"
+
+  [seo.robotsTxt]
+    enable = false  # We use our own robots.txt
+
+  [seo.sitemap]
+    enable = true
+    exclude = []
+
+
+[settings]
+  blogFolder        = "blog"
+  integrationFolder = "integration"
+
+  pagination   = 9
+  stickyHeader = true
+
+  contactFormAction   = "https://formsubmit.co/hello@sendemall.com"
+  contactFormProvider = "formsubmit.co"
+
+  footerDescription = "The complete outbound platform. One tool, one price, guaranteed replies."
+
+  [settings.copyright]
+    enable = true
+    text   = "© 2026 SendEmAll. All rights reserved."
+
+  [settings.subscription]
+    enable     = false
+    title      = ""
+    formAction = ""
+
+  [settings.multilingual]
+    enable               = false
+    defaultLanguage      = "en"
+    disableLanguages     = []
+    showDefaultLangInUrl = false
+
+  [settings.navigationButton]
+    enable = true
+    label  = "Start Free"
+    url    = "https://app.sendemall.com/signup"
+
+  [settings.markup.tableOfContents]
+    enable     = true
+    expanded   = true
+    endLevel   = 4
+    startLevel = 2
+
+
+# OpenGraph Metadata
+[opengraph]
+  image       = "/images/og-image.png"
+  ogLocale    = "en_US"
+  ogType      = "website"
+  twitter     = "@sendemall"
+  twitterCard = "summary_large_image"
+
+# Head Scripts (GA + Clarity + Intercom)
+[head]
+  content = """
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WT843MDLE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4WT843MDLE');
+  </script>
+  <!-- Microsoft Clarity -->
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "v4wj62uut2");
+  </script>
+  <!-- Intercom -->
+  <script>
+    window.intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "YOUR_INTERCOM_APP_ID"
+    };
+  </script>
+  <script>
+    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/YOUR_INTERCOM_APP_ID';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+  </script>
+  """

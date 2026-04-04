@@ -1,0 +1,614 @@
+---
+import Base from "@/layouts/Base.astro";
+import PricingSection from "@/components/sections/PricingSection.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Pricing — SendEmAll"
+  metaDescription="Simple, transparent pricing. 1 credit = 1 action. No hidden fees, no tool stacking. See plans from $0 to $599/mo."
+>
+  <!-- Section 1: Hero + Cost Comparison -->
+  <section class="py-20 md:py-28">
+    <div class="container">
+      <div class="text-center mb-16">
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+          data-aos="fade-up-sm"
+        >
+          Simple, transparent pricing
+        </h1>
+        <p
+          class="text-lg md:text-xl text-text-default max-w-2xl mx-auto"
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+        >
+          1 credit = 1 action. No hidden fees. No tool stacking. Cancel anytime.
+        </p>
+      </div>
+
+      <!-- Stack Tax vs SendEmAll -->
+      <div class="mx-auto max-w-4xl" data-aos="fade-up-sm" data-aos-delay="200">
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Stack Tax Side -->
+          <div class="bg-theme-dark border-border-light rounded-2xl border p-8">
+            <h3 class="font-secondary mb-6 text-center text-lg font-medium text-white/60">The "cheap" stack</h3>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Sending tool</span>
+                <span class="text-white font-medium">$47-97</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Lead database</span>
+                <span class="text-white font-medium">$49-119</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Email verification</span>
+                <span class="text-white font-medium">$20-50</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Warmup tool</span>
+                <span class="text-white font-medium">$25-59</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">AI copy tool</span>
+                <span class="text-white font-medium">$30-99</span>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Enrichment</span>
+                <span class="text-white font-medium">$49-149</span>
+              </div>
+            </div>
+            <div class="mt-6 rounded-xl bg-[#EF4444]/10 p-4 text-center">
+              <p class="text-sm text-[#EF4444]/70">Total monthly cost</p>
+              <p class="text-3xl font-bold text-[#EF4444]">$575+<span class="text-lg font-normal">/mo</span></p>
+            </div>
+          </div>
+
+          <!-- SendEmAll Side -->
+          <div class="bg-theme-dark rounded-2xl border-2 border-primary/50 p-8 relative">
+            <span class="absolute -top-3 right-6 rounded-full bg-[#14B8A6] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">Save 74%</span>
+            <h3 class="font-secondary mb-6 text-center text-lg font-medium text-primary">SendEmAll</h3>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Signal-qualified leads</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Managed email infrastructure</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Email verification</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">Smart Ramp-Up</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">AI personalization</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
+                <span class="text-text-default text-sm">18 data providers</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+            </div>
+            <div class="mt-6 rounded-xl bg-primary/10 p-4 text-center">
+              <p class="text-sm text-primary/70">Starting at</p>
+              <p class="text-3xl font-bold text-primary">$149<span class="text-lg font-normal">/mo</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Credit System Explanation -->
+  <section class="pb-20 md:pb-28">
+    <div class="container max-w-2xl">
+      <h2
+        class="text-2xl md:text-3xl font-bold text-white text-center mb-10"
+        data-aos="fade-up-sm"
+      >
+        What does a credit cost?
+      </h2>
+      <div
+        class="bg-theme-dark border border-border-light rounded-2xl overflow-hidden"
+        data-aos="fade-up-sm"
+        data-aos-delay="100"
+      >
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-b border-border-light">
+              <th class="px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider">Action</th>
+              <th class="px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider text-right">Credits</th>
+            </tr>
+          </thead>
+          <tbody class="text-text-default">
+            <tr class="border-b border-border-light/50">
+              <td class="px-6 py-3.5">Lead discovery</td>
+              <td class="px-6 py-3.5 text-right font-medium text-white">5</td>
+            </tr>
+            <tr class="border-b border-border-light/50">
+              <td class="px-6 py-3.5">Signal check</td>
+              <td class="px-6 py-3.5 text-right font-medium text-white">2</td>
+            </tr>
+            <tr class="border-b border-border-light/50">
+              <td class="px-6 py-3.5">Email enrichment</td>
+              <td class="px-6 py-3.5 text-right font-medium text-white">5</td>
+            </tr>
+            <tr class="border-b border-border-light/50">
+              <td class="px-6 py-3.5">Email verification</td>
+              <td class="px-6 py-3.5 text-right font-medium text-white">1</td>
+            </tr>
+            <tr class="border-b border-border-light/50">
+              <td class="px-6 py-3.5">AI personalization</td>
+              <td class="px-6 py-3.5 text-right font-medium text-white">2</td>
+            </tr>
+            <tr class="border-b border-border-light/50">
+              <td class="px-6 py-3.5">Email send</td>
+              <td class="px-6 py-3.5 text-right font-medium text-white">0.1</td>
+            </tr>
+            <tr class="bg-accent/50">
+              <td class="px-6 py-4 font-semibold text-white">Average per contacted buyer</td>
+              <td class="px-6 py-4 text-right font-bold text-primary">~7.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Pricing Cards -->
+  <section class="pb-20 md:pb-28">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Trial -->
+        <div
+          class="bg-theme-dark border border-border-light rounded-2xl p-8 flex flex-col"
+          data-aos="fade-up-sm"
+        >
+          <h3 class="text-lg font-semibold text-white mb-2">Trial</h3>
+          <div class="mb-1">
+            <span class="text-4xl font-bold text-white">$0</span>
+          </div>
+          <p class="text-sm text-text-default mb-6">one-time</p>
+          <div class="mb-6">
+            <p class="text-sm text-text-default">100 credits</p>
+            <p class="text-sm font-medium" style="color: #14B8A6;">~13 buyers reached</p>
+          </div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Full pipeline access
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              All 18 providers
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              API access
+            </li>
+          </ul>
+          <a href="https://app.sendemall.com/signup" class="btn btn-md btn-outline-white w-full text-center">
+            Start Free
+          </a>
+        </div>
+
+        <!-- Pro -->
+        <div
+          class="bg-theme-dark border border-border-light rounded-2xl p-8 flex flex-col"
+          data-aos="fade-up-sm"
+          data-aos-delay="100"
+        >
+          <h3 class="text-lg font-semibold text-white mb-2">Pro</h3>
+          <div class="mb-1">
+            <span class="text-4xl font-bold text-white">$149</span>
+            <span class="text-text-default">/mo</span>
+          </div>
+          <p class="text-sm text-text-default mb-6">15 mailboxes</p>
+          <div class="mb-6">
+            <p class="text-sm text-text-default">1,500 credits</p>
+            <p class="text-sm font-medium" style="color: #14B8A6;">~200 buyers reached</p>
+          </div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Everything in Trial
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Managed domains + mailboxes
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Smart Ramp-Up
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Email support
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              PAYG overage $0.05/credit
+            </li>
+          </ul>
+          <a href="https://app.sendemall.com/signup" class="btn btn-md btn-outline-white w-full text-center">
+            Get Started
+          </a>
+        </div>
+
+        <!-- Business (Featured) -->
+        <div
+          class="bg-theme-dark border-2 border-primary rounded-2xl p-8 flex flex-col relative"
+          data-aos="fade-up-sm"
+          data-aos-delay="200"
+        >
+          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
+            Most Popular
+          </span>
+          <h3 class="text-lg font-semibold text-white mb-2">Business</h3>
+          <div class="mb-1">
+            <span class="text-4xl font-bold text-white">$349</span>
+            <span class="text-text-default">/mo</span>
+          </div>
+          <p class="text-sm text-text-default mb-6">45 mailboxes</p>
+          <div class="mb-6">
+            <p class="text-sm text-text-default">5,000 credits</p>
+            <p class="text-sm font-medium" style="color: #14B8A6;">~650 buyers reached</p>
+          </div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Everything in Pro
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Reply guarantee (50+ in 90 days)
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Priority support
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Custom ICP training
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              PAYG overage $0.04/credit
+            </li>
+          </ul>
+          <a href="https://app.sendemall.com/signup" class="btn btn-md btn-primary w-full text-center">
+            Get Started
+          </a>
+        </div>
+
+        <!-- Scale -->
+        <div
+          class="bg-theme-dark border border-border-light rounded-2xl p-8 flex flex-col"
+          data-aos="fade-up-sm"
+          data-aos-delay="300"
+        >
+          <h3 class="text-lg font-semibold text-white mb-2">Scale</h3>
+          <div class="mb-1">
+            <span class="text-4xl font-bold text-white">$599</span>
+            <span class="text-text-default">/mo</span>
+          </div>
+          <p class="text-sm text-text-default mb-6">105 mailboxes</p>
+          <div class="mb-6">
+            <p class="text-sm text-text-default">15,000 credits</p>
+            <p class="text-sm font-medium" style="color: #14B8A6;">~2,000 buyers reached</p>
+          </div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Everything in Business
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Reply guarantee
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Dedicated CSM
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Custom integrations
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-default">
+              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              PAYG overage $0.03/credit
+            </li>
+          </ul>
+          <a href="https://app.sendemall.com/signup" class="btn btn-md btn-outline-white w-full text-center">
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3b: Feature Comparison Table -->
+  <section class="pb-20 md:pb-28">
+    <PricingSection layout="comparison" />
+  </section>
+
+  <!-- Section 4: Interactive Credit Calculator -->
+  <section class="pb-20 md:pb-28">
+    <div class="container max-w-2xl">
+      <div
+        class="bg-theme-dark border border-border-light rounded-2xl p-8 md:p-12"
+        data-aos="fade-up-sm"
+      >
+        <h2 class="text-2xl md:text-3xl font-bold text-white text-center mb-2">
+          Credit Calculator
+        </h2>
+        <p class="text-text-default text-center mb-10">
+          How many buyers do you want to reach per month?
+        </p>
+
+        <div class="mb-10">
+          <div class="flex justify-between text-sm text-text-default mb-2">
+            <span>10</span>
+            <span id="calc-buyers-display" class="text-white font-semibold text-lg">200</span>
+            <span>3,000</span>
+          </div>
+          <input
+            type="range"
+            id="calc-slider"
+            min="10"
+            max="3000"
+            step="10"
+            value="200"
+            class="w-full h-2 rounded-full appearance-none cursor-pointer bg-border-light"
+            style="accent-color: #D2B3F3;"
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          <div class="text-center">
+            <p class="text-sm text-text-default mb-1">Credits needed</p>
+            <p id="calc-credits" class="text-2xl font-bold text-white">1,500</p>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-text-default mb-1">Recommended plan</p>
+            <p id="calc-plan" class="text-2xl font-bold text-primary">Pro</p>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-text-default mb-1">Monthly cost</p>
+            <p id="calc-cost" class="text-2xl font-bold text-white">$149</p>
+          </div>
+          <div class="text-center">
+            <p class="text-sm text-text-default mb-1">Cost per buyer</p>
+            <p id="calc-per-buyer" class="text-2xl font-bold" style="color: #14B8A6;">$0.75</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const slider = document.getElementById("calc-slider");
+        const buyersDisplay = document.getElementById("calc-buyers-display");
+        const creditsEl = document.getElementById("calc-credits");
+        const planEl = document.getElementById("calc-plan");
+        const costEl = document.getElementById("calc-cost");
+        const perBuyerEl = document.getElementById("calc-per-buyer");
+
+        function getPlan(credits) {
+          if (credits <= 100) return { name: "Trial", cost: 0 };
+          if (credits <= 1500) return { name: "Pro", cost: 149 };
+          if (credits <= 5000) return { name: "Business", cost: 349 };
+          if (credits <= 15000) return { name: "Scale", cost: 599 };
+          return { name: "Enterprise", cost: null };
+        }
+
+        function update() {
+          const buyers = parseInt(slider.value, 10);
+          const credits = Math.round(buyers * 7.5);
+          const plan = getPlan(credits);
+
+          buyersDisplay.textContent = buyers.toLocaleString();
+          creditsEl.textContent = credits.toLocaleString();
+          planEl.textContent = plan.name;
+
+          if (plan.cost !== null) {
+            costEl.textContent = "$" + plan.cost;
+            const perBuyer = (plan.cost / buyers).toFixed(2);
+            perBuyerEl.textContent = "$" + perBuyer;
+          } else {
+            costEl.textContent = "Custom";
+            perBuyerEl.textContent = "Custom";
+          }
+        }
+
+        slider.addEventListener("input", update);
+        update();
+      })();
+    </script>
+  </section>
+
+  <!-- Section 5: Enterprise -->
+  <section class="pb-20 md:pb-28">
+    <div class="container max-w-3xl">
+      <div
+        class="bg-accent rounded-2xl p-10 md:p-14 text-center"
+        data-aos="fade-up-sm"
+      >
+        <span class="inline-block bg-primary/20 text-primary text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-6">
+          Enterprise
+        </span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">
+          Need more than 15,000 credits?
+        </h2>
+        <p class="text-text-default max-w-xl mx-auto mb-8">
+          Custom pricing, 150+ managed mailboxes, dedicated domains, SLA, white-glove onboarding, and a dedicated customer success manager.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">Custom credits</span>
+          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">150+ mailboxes</span>
+          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">Dedicated domains</span>
+          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">SLA</span>
+          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">White-glove onboarding</span>
+        </div>
+        <a href="/contact" class="btn btn-md btn-primary">
+          Talk to Sales
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Pricing FAQ -->
+  <section class="pb-20 md:pb-28">
+    <div class="container max-w-3xl">
+      <h2
+        class="text-2xl md:text-3xl font-bold text-white text-center mb-12"
+        data-aos="fade-up-sm"
+      >
+        Frequently asked questions
+      </h2>
+
+      <div class="hs-accordion-group space-y-4" data-aos="fade-up-sm" data-aos-delay="100">
+        <!-- Q1 -->
+        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-1">
+          <button
+            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
+            aria-expanded="false"
+            aria-controls="faq-1-body"
+          >
+            What counts as a credit?
+            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-1-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-1">
+            <p class="px-6 pb-5 text-text-default">
+              1 credit = 1 action in the pipeline. Lead discovery costs 5 credits, signal checks cost 2, email enrichment costs 5, verification costs 1, AI personalization costs 2, and each email send costs 0.1 credits. On average, reaching one buyer costs about 7.5 credits.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-2">
+          <button
+            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
+            aria-expanded="false"
+            aria-controls="faq-2-body"
+          >
+            Can I change plans?
+            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-2-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-2">
+            <p class="px-6 pb-5 text-text-default">
+              Yes, upgrade or downgrade anytime. Changes take effect on your next billing cycle. No penalties, no lock-in.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-3">
+          <button
+            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
+            aria-expanded="false"
+            aria-controls="faq-3-body"
+          >
+            What's the reply guarantee?
+            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-3-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-3">
+            <p class="px-6 pb-5 text-text-default">
+              On Business and Scale plans, if you don't receive 50+ qualified replies within your first 90 days, we'll add bonus credits to your account. We're that confident in the platform.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-4">
+          <button
+            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
+            aria-expanded="false"
+            aria-controls="faq-4-body"
+          >
+            Is there a contract?
+            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-4-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-4">
+            <p class="px-6 pb-5 text-text-default">
+              No contracts. Monthly billing, cancel anytime. We earn your business every month.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-5">
+          <button
+            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
+            aria-expanded="false"
+            aria-controls="faq-5-body"
+          >
+            What happens when I run out of credits?
+            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-5-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-5">
+            <p class="px-6 pb-5 text-text-default">
+              Enable pay-as-you-go overage to keep your campaigns running without interruption, or upgrade to a higher plan for a better per-credit rate.
+            </p>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-6">
+          <button
+            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
+            aria-expanded="false"
+            aria-controls="faq-6-body"
+          >
+            Do unused credits roll over?
+            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div id="faq-6-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-6">
+            <p class="px-6 pb-5 text-text-default">
+              Credits reset monthly. We recommend choosing a plan that matches your outbound volume so nothing goes to waste.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: CTA -->
+  <section class="pb-20 md:pb-28">
+    <div class="container text-center">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-white mb-6"
+        data-aos="fade-up-sm"
+      >
+        Ready to simplify your outbound?
+      </h2>
+      <div
+        class="flex flex-col sm:flex-row gap-4 justify-center"
+        data-aos="fade-up-sm"
+        data-aos-delay="100"
+      >
+        <a href="https://app.sendemall.com/signup" class="btn btn-md btn-primary">
+          Start Free — 100 Credits
+        </a>
+        <a href="/contact" class="btn btn-md btn-outline-white">
+          Book a Demo
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { HSAccordion } from "@preline/accordion";
+  HSAccordion?.autoInit();
+</script>

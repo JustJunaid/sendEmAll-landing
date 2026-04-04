@@ -1,0 +1,165 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Cookie Policy — SendEmAll"
+  metaDescription="How SendEmAll uses cookies and similar technologies. Last updated April 2026."
+>
+  <section class="py-24 lg:py-32">
+    <div class="container">
+      <div class="prose prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
+        <h1>Cookie Policy</h1>
+        <p class="text-text-default/60">Last updated: April 2026</p>
+
+        <p>
+          This Cookie Policy explains how SendEmAll ("we", "us", "our") uses cookies and similar
+          tracking technologies when you visit our website and use our platform.
+        </p>
+
+        <h2>1. What Are Cookies</h2>
+        <p>
+          Cookies are small text files stored on your device when you visit a website. They help the
+          website remember your preferences, understand how you use the site, and improve your experience.
+          Cookies may be "session" cookies (deleted when you close your browser) or "persistent" cookies
+          (stored until they expire or you delete them).
+        </p>
+
+        <h2>2. Cookies We Use</h2>
+        <p>The following table describes the cookies used on our website and platform:</p>
+
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Cookie / Technology</th>
+                <th>Provider</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>_ga</code></td>
+                <td>Google Analytics</td>
+                <td>Distinguishes unique visitors to track site usage and traffic patterns</td>
+                <td>2 years</td>
+              </tr>
+              <tr>
+                <td><code>_ga_4WT843MDLE</code></td>
+                <td>Google Analytics</td>
+                <td>Maintains session state for our analytics property (G-4WT843MDLE)</td>
+                <td>2 years</td>
+              </tr>
+              <tr>
+                <td><code>_gid</code></td>
+                <td>Google Analytics</td>
+                <td>Distinguishes users for analytics reporting within a 24-hour period</td>
+                <td>24 hours</td>
+              </tr>
+              <tr>
+                <td><code>_gat</code></td>
+                <td>Google Analytics</td>
+                <td>Throttles request rate to limit data collection on high-traffic pages</td>
+                <td>1 minute</td>
+              </tr>
+              <tr>
+                <td><code>_clck</code></td>
+                <td>Microsoft Clarity</td>
+                <td>Persists the Clarity user ID and session preferences (ID: v4wj62uut2)</td>
+                <td>1 year</td>
+              </tr>
+              <tr>
+                <td><code>_clsk</code></td>
+                <td>Microsoft Clarity</td>
+                <td>Connects multiple page views by a user into a single session recording</td>
+                <td>1 day</td>
+              </tr>
+              <tr>
+                <td><code>CLID</code></td>
+                <td>Microsoft Clarity</td>
+                <td>Identifies the first time Clarity saw this user on any site using Clarity</td>
+                <td>1 year</td>
+              </tr>
+              <tr>
+                <td>Session cookie</td>
+                <td>SendEmAll</td>
+                <td>Maintains your authenticated session while logged into the platform</td>
+                <td>Session</td>
+              </tr>
+              <tr>
+                <td>Cookie consent</td>
+                <td>SendEmAll</td>
+                <td>Remembers your cookie preferences so we don't ask again</td>
+                <td>1 year</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>3. How to Manage Cookies</h2>
+        <p>
+          You can control and manage cookies through your browser settings. Most browsers allow you to:
+        </p>
+        <ul>
+          <li>View what cookies are stored and delete them individually</li>
+          <li>Block third-party cookies</li>
+          <li>Block cookies from specific sites</li>
+          <li>Block all cookies</li>
+          <li>Delete all cookies when you close your browser</li>
+        </ul>
+        <p>
+          Please note that blocking or deleting cookies may affect your experience on our platform.
+          Essential cookies (session and consent cookies) are required for the platform to function
+          properly.
+        </p>
+        <p>Browser-specific instructions:</p>
+        <ul>
+          <li><strong>Chrome:</strong> Settings &rarr; Privacy and Security &rarr; Cookies and other site data</li>
+          <li><strong>Firefox:</strong> Settings &rarr; Privacy &amp; Security &rarr; Cookies and Site Data</li>
+          <li><strong>Safari:</strong> Preferences &rarr; Privacy &rarr; Manage Website Data</li>
+          <li><strong>Edge:</strong> Settings &rarr; Cookies and site permissions &rarr; Cookies and site data</li>
+        </ul>
+
+        <h2>4. Third-Party Cookies</h2>
+
+        <h3>Google Analytics (G-4WT843MDLE)</h3>
+        <p>
+          We use Google Analytics to understand how visitors interact with our website. Google Analytics
+          collects information such as pages visited, time spent on pages, traffic sources, and device
+          information. This data is aggregated and anonymous. You can opt out of Google Analytics by
+          installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
+        </p>
+
+        <h3>Microsoft Clarity (v4wj62uut2)</h3>
+        <p>
+          We use Microsoft Clarity to understand how users interact with our website through session
+          recordings and heatmaps. Clarity captures user behavior data such as clicks, scrolls, and
+          mouse movements. Personal information is masked in session recordings. Learn more about
+          <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent" target="_blank" rel="noopener noreferrer">Clarity's data practices</a>.
+        </p>
+
+        <h2>5. Updates to This Policy</h2>
+        <p>
+          We may update this Cookie Policy from time to time to reflect changes in the cookies we use
+          or for legal, regulatory, or operational reasons. The "Last updated" date at the top of this
+          page indicates when it was last revised.
+        </p>
+
+        <h2>6. Contact</h2>
+        <p>
+          If you have questions about our use of cookies, contact us at:
+        </p>
+        <ul>
+          <li>Email: <a href="mailto:privacy@sendemall.com">privacy@sendemall.com</a></li>
+          <li>Or visit our <a href="/contact">Contact page</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
