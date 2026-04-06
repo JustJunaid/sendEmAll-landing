@@ -18,12 +18,31 @@ export function getStaticPaths() {
 }
 
 const homepage = await getEntryCTM("homepage", "-index", Astro.currentLocale);
+const faqData = (await getEntryCTM("faq", "-index", Astro.currentLocale))?.data;
+
+// Build FAQPage schema for rich snippets
+const faqItems = faqData?.list?.flatMap((category: any) =>
+  category.list?.map((item: any) => ({
+    "@type": "Question",
+    name: item.title,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.content?.trim(),
+    },
+  })) ?? []
+) ?? [];
+
+const faqSchema = faqItems.length > 0 ? JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems,
+}) : null;
 ---
 
 <Base
   metaTitle="SendEmAll | The Complete Outbound Platform"
   disableTagline={true}
-  metaDescription="Your $37/mo cold email tool actually costs $600+. SendEmAll replaces 5+ tools with one platform — signal-qualified leads, managed infrastructure, AI personalization, and guaranteed replies. Starting at $149/mo."
+  metaDescription="Your $37/mo cold email tool actually costs $600+. SendEmAll replaces 5+ tools with one platform. Signal-qualified leads, managed infrastructure, AI personalization. Starting at $149/mo."
 >
   <HomeBanner />
   <Features />
@@ -202,4 +221,5 @@ const homepage = await getEntryCTM("homepage", "-index", Astro.currentLocale);
 
   <FaqSection content={homepage?.data?.faqSection} />
   <CallToAction />
+  {faqSchema && <script type="application/ld+json" set:html={faqSchema} />}
 </Base>

@@ -49,10 +49,11 @@ const videoButton = buttons.find((button) => button.type === "video");
         <div>
           {
             title && (
-              <AnimatedText
-                class="has-italic-text font-secondary mb-6 text-center text-5xl text-white capitalize md:text-7xl/tight"
-                content={markdownify(title)}
-              />
+              <h1 class="has-italic-text font-secondary mb-6 text-center text-5xl text-white capitalize md:text-7xl/tight">
+                <AnimatedText
+                  content={markdownify(title)}
+                />
+              </h1>
             )
           }
           {
