@@ -1,0 +1,171 @@
+---
+title: "MCP Server for Sales: How AI Agents Can Run Your Outbound"
+description: "How the Model Context Protocol lets AI agents manage cold email campaigns, check analytics, and trigger sends. Early but practical."
+date: 2026-04-06
+categories: ["developer"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "MCP lets AI agents like Claude interact with your outbound tools directly. Here's what that means for sales workflows and where it's headed."
+---
+
+## What MCP is and why it matters for sales
+
+The Model Context Protocol (MCP) is a standard that lets AI assistants interact with external tools. Instead of copying data between your AI chat and your sales tools, the AI accesses the tools directly.
+
+Think of it as an API designed for AI agents rather than human developers. An API requires you to write code. MCP lets an AI agent discover what tools are available, understand how to use them, and call them in the context of a conversation.
+
+For sales, this means you could say to Claude: "Check my campaign reply rate this week and draft follow-up emails for prospects who opened but didn't reply." The AI reads your campaign data through MCP, analyzes the results, and generates the copy — all in one conversation.
+
+## How MCP works (simplified)
+
+Three components:
+
+**MCP Host:** The AI application you're talking to (Claude Desktop, a custom AI assistant, etc.)
+
+**MCP Client:** The connector between the AI and the tool server. Handles authentication, manages connections.
+
+**MCP Server:** The tool provider. In this case, SendEmAll's MCP server, which exposes campaign management, analytics, and sending capabilities as tools the AI can call.
+
+When you ask the AI something that requires outbound data, it:
+1. Checks which tools are available via the MCP server
+2. Calls the relevant tool (e.g., "get campaign analytics for Q2")
+3. Receives structured data back
+4. Uses that data to answer your question or take an action
+
+The AI doesn't need to know our API endpoints. The MCP server describes its own capabilities, and the AI figures out which ones to use.
+
+## What SendEmAll's MCP server exposes
+
+Our MCP server provides tools in three categories:
+
+### Campaign management
+- **list_campaigns** — Get all campaigns with status, lead counts, and performance summary
+- **get_campaign_details** — Deep dive into a specific campaign: sequence steps, schedule, leads
+- **create_campaign** — Set up a new campaign with ICP definition, sequence, and schedule
+- **pause_campaign / resume_campaign** — Control sending
+- **update_sequence** — Modify email copy in an active campaign
+
+### Lead discovery and management
+- **discover_leads** — Find signal-qualified potential buyers matching an ICP definition
+- **add_leads_to_campaign** — Move discovered leads into an active campaign
+- **get_lead_details** — View enrichment data, signals, and email history for a specific lead
+
+### Analytics
+- **campaign_analytics** — Reply rates, open rates, bounce rates, positive reply percentage
+- **lead_analytics** — Per-lead engagement timeline (opens, clicks, replies)
+- **compare_campaigns** — Side-by-side performance of two or more campaigns
+
+## Example workflows
+
+### "How's my Q2 campaign doing?"
+
+You: "Check the performance of my Q2 Series B outreach campaign."
+
+The AI calls `campaign_analytics` with the campaign name, gets back:
+
+```json
+{
+  "campaign": "Q2 Series B Outreach",
+  "status": "active",
+  "leads_contacted": 342,
+  "emails_sent": 891,
+  "open_rate": 0.62,
+  "reply_rate": 0.087,
+  "positive_reply_rate": 0.058,
+  "bounced": 4,
+  "meetings_booked": 12
+}
+```
+
+The AI responds: "Your Q2 Series B campaign has contacted 342 potential buyers with a 62% open rate. Reply rate is 8.7%, with 5.8% positive — that's 20 positive replies and 12 meetings booked so far. Bounce rate is under 0.5%, which is excellent."
+
+### "Draft follow-ups for non-responders"
+
+You: "Write follow-up emails for prospects who opened my last email but didn't reply."
+
+The AI calls `lead_analytics` with a filter for "opened but not replied," gets a list of 47 prospects with their company data, role, and the email they opened. Then it drafts personalized follow-ups using that context.
+
+You review the drafts, approve them, and say "Add these to the campaign as step 3." The AI calls `update_sequence` to add the follow-up step.
+
+### "Find more companies like the ones that replied"
+
+You: "Look at the companies that gave positive replies in my Q1 campaign. Find 50 more like them."
+
+The AI calls `lead_analytics` to get positive responders, analyzes the patterns (industry, size, signals), then calls `discover_leads` with those patterns as the ICP definition. It returns 50 new signal-qualified potential buyers matching the profile of your best responders.
+
+## What's real today vs. what's coming
+
+Let's be honest about where this stands.
+
+**What works now:**
+- Reading campaign data and analytics through MCP
+- Getting actionable summaries without logging into a dashboard
+- Using AI to analyze patterns across campaigns
+- Generating campaign copy with full context of your performance data
+
+**What's emerging:**
+- Writing and sending campaigns entirely through AI conversation
+- Autonomous campaign optimization (AI adjusts sequences based on performance)
+- Multi-tool orchestration (AI checks your CRM + SendEmAll + calendar in one workflow)
+
+**What's still early:**
+- Fully autonomous outbound (AI runs everything, you just review meetings)
+- Real-time decision-making (AI pauses a campaign mid-send because bounce rates spike)
+
+MCP as a protocol is stable and well-specified. The tooling around it — how AI agents make complex multi-step decisions reliably — is where the development is happening. This is a practical tool today for reading data and generating content. It's a promising path toward autonomous workflows.
+
+## Who this is for
+
+**Technical GTM teams:** If your RevOps team writes Python scripts and manages Zapier workflows, MCP is the next step. Instead of building custom integrations for every workflow, the AI agent handles the orchestration.
+
+**Sales engineers:** You're already in Claude or ChatGPT daily. MCP lets you pull live campaign data into those conversations without switching tabs or exporting CSVs.
+
+**Founders doing their own outbound:** You don't have time for dashboards. Ask the AI "how's my outbound doing?" during your morning coffee and get an answer with context.
+
+## Setting up MCP with SendEmAll
+
+### Prerequisites
+- SendEmAll account with an API key
+- Claude Desktop (or another MCP-compatible AI host)
+
+### Configuration
+
+Add the SendEmAll MCP server to your Claude Desktop config:
+
+```json
+{
+  "mcpServers": {
+    "sendemall": {
+      "command": "npx",
+      "args": ["-y", "@sendemall/mcp-server"],
+      "env": {
+        "SENDEMALL_API_KEY": "your-api-key"
+      }
+    }
+  }
+}
+```
+
+Once configured, Claude can see and use all SendEmAll tools. Ask it "What SendEmAll tools do you have access to?" and it will list them.
+
+### Security considerations
+
+- Your API key is stored locally in the MCP config, never sent to the AI model
+- The MCP server runs on your machine and communicates directly with SendEmAll's API
+- All actions are logged and visible in your SendEmAll dashboard
+- Write operations (creating campaigns, adding leads) require explicit confirmation in the AI conversation
+
+## The bigger picture
+
+MCP isn't just about convenience. It changes how sales teams interact with their tools.
+
+Today: you log into 5 dashboards, export data, paste it into a spreadsheet, analyze it, then go back to each tool to make changes.
+
+With MCP: you have a conversation. The AI pulls data from all your tools, shows you what matters, and executes the changes you approve.
+
+The shift from "clicking through UIs" to "conversational tool use" is where sales operations is heading. Early adopters who build MCP into their workflow now will have a significant advantage as the tooling matures.
+
+Full documentation on our MCP server and all available tools: [/developers](/developers).
+
+[Get your API key](https://app.sendemall.com/signup) and connect your first MCP workflow today.

@@ -1,0 +1,193 @@
+---
+title: "Domain Reputation: How to Check, Monitor, and Fix It"
+description: "Domain reputation matters more than IP reputation in 2026. How to check yours, what damages it, and a recovery playbook if it's already bad."
+date: 2026-04-06
+categories: ["deliverability"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "Your domain reputation determines whether emails land in the inbox or spam. Here's how to check it, what factors matter, and how to recover if it's damaged."
+---
+
+## Domain reputation is your cold email credit score
+
+In 2026, domain reputation matters more than IP reputation. Google confirmed this shift years ago, and it's now the primary factor in inbox placement decisions.
+
+Your domain reputation is a score (maintained internally by ISPs) that reflects your sending history. Good reputation: inbox. Bad reputation: spam. Mediocre reputation: promotions tab.
+
+Unlike IP reputation — which changes when you switch servers — domain reputation follows your domain everywhere. Change IPs, switch providers, migrate platforms. Your domain reputation comes with you.
+
+## How to check your domain reputation
+
+### Google Postmaster Tools (free, essential)
+
+The single most important monitoring tool for anyone sending email.
+
+**Setup:** Go to [Google Postmaster Tools](https://postmaster.google.com/), verify your domain, and wait 24-48 hours for data to populate.
+
+**What you see:**
+- **Spam rate:** Percentage of your emails marked as spam by Gmail recipients. Keep this below 0.1%. Above 0.3% is critical.
+- **Domain reputation:** High, Medium, Low, or Bad. You want High.
+- **IP reputation:** Less important than domain reputation, but worth monitoring.
+- **Authentication:** SPF, DKIM, DMARC pass rates.
+- **Delivery errors:** Specific reasons emails failed.
+
+**Limitation:** Only shows data for emails sent to Gmail/Google Workspace recipients. If you send primarily to Outlook, this won't help.
+
+### MXToolbox (free + paid)
+
+Check DNS configuration, blacklist status, and general domain health.
+
+- **Blacklist check:** Scans 100+ blacklists. Being on even one can hurt deliverability.
+- **DNS check:** Validates SPF, DKIM, DMARC configuration.
+- **SMTP test:** Confirms your mail server is responding correctly.
+
+### Mail-Tester.com (free, 3 tests/day)
+
+Send a test email to their temporary address and get a score out of 10. Checks:
+- SPF/DKIM/DMARC configuration
+- Blacklist status
+- Content spam score
+- HTML formatting issues
+
+**Target score:** 9/10 or above. Below 7/10 means significant issues to fix.
+
+### Microsoft SNDS (free)
+
+If you send to Outlook/Microsoft 365 recipients, register for Microsoft's Smart Network Data Services. Shows your IP reputation and complaint rates specifically for Microsoft's ecosystem.
+
+## What factors determine domain reputation
+
+Not all factors are equal. Here's the hierarchy:
+
+### Tier 1: Critical factors
+
+**Spam complaint rate.** The biggest single factor. If recipients mark your emails as spam, your reputation drops fast. Below 0.1% is the target. Above 0.3% is an emergency.
+
+**Bounce rate.** High bounce rates signal that you're sending to bad addresses, which is a hallmark of spammers. Below 2% is the target.
+
+**Spam trap hits.** ISPs maintain "trap" addresses — emails that look real but are designed to catch spammers. Hitting even one is a major red flag. These come from buying lists, scraping, or not cleaning old data.
+
+### Tier 2: Important factors
+
+**Engagement rates.** Open rates, reply rates, click rates. High engagement tells ISPs your emails are wanted. Low engagement signals they're not.
+
+**Sending patterns.** Consistent, gradual volume is good. Sudden spikes are suspicious. Going from 50 emails/day to 5,000 emails/day overnight triggers alarms.
+
+**Authentication.** SPF, DKIM, and DMARC properly configured and passing. Without these, you're practically asking to be sent to spam.
+
+### Tier 3: Contributing factors
+
+**Domain age.** Newer domains have less trust. This isn't a factor you can control quickly, but it matters.
+
+**Content quality.** Excessive links, suspicious attachments, spam trigger words, excessive capitalization. Content analysis is more sophisticated than keyword matching in 2026, but basics still matter.
+
+**List hygiene.** How often you clean your list, remove bounces, and process unsubscribes.
+
+## Red flags that damage reputation
+
+| Red flag | What happens | How fast damage occurs |
+|----------|-------------|----------------------|
+| Sudden volume spike | ISPs flag the anomaly, increase spam filtering | Within 24-48 hours |
+| Bounce rate above 5% | Domain flagged as potentially compromised | Within 1-2 days of sustained bouncing |
+| Spam complaints above 0.3% | Reputation drops from High to Medium/Low | Within 48 hours |
+| Spam trap hit | Immediate reputation damage, potential blacklisting | Instant |
+| Sending from newly registered domain at high volume | Treated as spam by default | Immediate |
+| No SPF/DKIM/DMARC | Emails fail authentication, appear spoofed | From first send |
+| Sending to purchased/scraped lists | High bounce + complaints combo | Within first campaign |
+
+## The recovery playbook
+
+If your domain reputation is already damaged, here's the step-by-step recovery:
+
+### Step 1: Stop sending (immediately)
+
+Continuing to send from a damaged domain makes it worse. Every additional email with poor engagement deepens the damage.
+
+Pause all campaigns from the affected domain. Not reduce volume — stop entirely.
+
+### Step 2: Diagnose the cause
+
+Check these in order:
+
+1. **Google Postmaster Tools:** What does the spam rate show? When did it spike?
+2. **Bounce logs:** Were you sending to unverified addresses?
+3. **Blacklists:** Run an MXToolbox blacklist check. If you're listed, identify which list and follow their removal process.
+4. **Authentication:** Are SPF, DKIM, and DMARC all passing? Even one failure hurts.
+5. **Content review:** Did you recently change email templates? New content might trigger spam filters.
+
+### Step 3: Fix the root cause
+
+- **High bounces:** Verify every email address before re-sending. Remove all addresses that bounced.
+- **High spam rate:** Review your targeting. Are you reaching the wrong people? Are you sending too aggressively?
+- **Blacklisted:** Follow each blacklist's removal/delisting process. Some are automatic (wait 24-72 hours), some require manual requests.
+- **Authentication failure:** Fix DNS records. Test with Mail-Tester.com until you get 9+/10.
+
+### Step 4: Clean your list aggressively
+
+Remove:
+- All hard bounces (permanent)
+- All spam complainers (permanent)
+- Role-based addresses (info@, sales@)
+- Addresses that haven't engaged in 90+ days
+- Catch-all addresses with low engagement
+
+### Step 5: Resume at minimal volume
+
+Start sending again at 10% of your previous volume. If you were sending 500/day from this domain, start at 50/day.
+
+**Timeline:**
+- Week 1: 10% volume. Monitor deliverability daily.
+- Week 2: 25% volume if metrics are clean.
+- Week 3: 50% volume.
+- Week 4: 75% volume.
+- Week 5+: Back to full volume.
+
+This is essentially a [Smart Ramp-Up](/blog/smart-ramp-up-explained) process for a damaged domain. It takes 4-6 weeks for full recovery. Sometimes longer.
+
+### Step 6: If recovery fails
+
+Some domains are permanently burned. If after 6 weeks of reduced sending, your reputation hasn't improved:
+
+1. Retire the domain. Remove it from all campaigns.
+2. Start fresh with new domains.
+3. Apply Smart Ramp-Up to the new domains.
+4. Don't repeat whatever caused the original damage.
+
+This is painful. It's also why prevention matters more than cure.
+
+## Why multiple domains protect you
+
+Running all cold email through one domain is a single point of failure. If that domain's reputation drops, your entire outbound operation stops.
+
+**The multi-domain approach:**
+- Use 3-5 domains for cold outreach
+- Rotate sends across domains
+- If one domain gets flagged, the others keep sending
+- Retire damaged domains, add new ones
+
+The math: if you have 5 domains and one gets burned, you lose 20% capacity temporarily. If you have one domain and it gets burned, you lose 100%.
+
+SendEmAll's [managed domain approach](/solutions/email-infrastructure) includes automatic domain monitoring and rotation. When deliverability signals drop for a specific domain, sends are automatically shifted to healthier domains while the affected one is investigated.
+
+## Prevention checklist
+
+Before every campaign:
+
+- [ ] SPF record configured and passing
+- [ ] DKIM signing active and passing
+- [ ] DMARC policy set (start with p=none, move to p=quarantine)
+- [ ] Domain aged 14+ days (ideally 30+)
+- [ ] Smart Ramp-Up completed for new mailboxes
+- [ ] All emails verified (expected bounce rate under 2%)
+- [ ] Volume under 50 cold emails per mailbox per day
+- [ ] Google Postmaster Tools monitoring active
+- [ ] Blacklist monitoring active
+
+Skipping any of these is gambling with your domain's reputation. The stakes are weeks of recovery time and lost pipeline.
+
+## Protect your domain starting today
+
+Want to see your current deliverability health? [Start a free trial](https://app.sendemall.com/signup) and send a test campaign with 100 credits. We'll show you bounce rates, engagement, and domain health in one dashboard.
+
+[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)

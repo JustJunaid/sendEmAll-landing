@@ -1,0 +1,204 @@
+---
+/**
+ * Cookie Consent Banner
+ * Uses vanilla-cookieconsent v3 by Orestbida
+ * - GA4 Consent Mode v2 (defaults denied, updates on accept)
+ * - Conditional loading of Clarity and Intercom
+ * - Dark theme matching SendEmAll brand
+ */
+---
+
+<!-- GA4 Consent Mode v2: set defaults BEFORE gtag loads -->
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'functionality_storage': 'denied',
+    'personalization_storage': 'denied',
+    'security_storage': 'granted',
+    'wait_for_update': 500,
+  });
+</script>
+
+<script>
+  import "vanilla-cookieconsent/dist/cookieconsent.css";
+  import * as CookieConsent from "vanilla-cookieconsent";
+
+  // --- Script loaders (only called after consent) ---
+
+  function loadGA4() {
+    if (document.querySelector('script[src*="googletagmanager.com/gtag"]')) return;
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=G-4WT843MDLE";
+    document.head.appendChild(s);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(...args: any[]) { window.dataLayer.push(args); }
+    gtag("js", new Date());
+    gtag("config", "G-4WT843MDLE");
+  }
+
+  function loadClarity() {
+    if ((window as any).clarity) return;
+    (function (c: any, l: any, a: string, r: string, i: string) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      const t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      const y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "w7ehoee5jy");
+  }
+
+  function loadIntercom() {
+    if ((window as any).Intercom) return;
+    (window as any).intercomSettings = {
+      api_base: "https://api-iam.intercom.io",
+      app_id: "cefdxuko",
+    };
+    const w = window as any;
+    const d = document;
+    const i = function (...args: any[]) { i.c(args); } as any;
+    i.q = [] as any[];
+    i.c = function (args: any) { i.q.push(args); };
+    w.Intercom = i;
+    const s = d.createElement("script");
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://widget.intercom.io/widget/cefdxuko";
+    const x = d.getElementsByTagName("script")[0];
+    x.parentNode?.insertBefore(s, x);
+  }
+
+  // --- Update GA4 consent state ---
+
+  function updateConsent(analyticsGranted: boolean, marketingGranted: boolean) {
+    // @ts-expect-error gtag is defined inline above
+    gtag("consent", "update", {
+      analytics_storage: analyticsGranted ? "granted" : "denied",
+      ad_storage: marketingGranted ? "granted" : "denied",
+      ad_user_data: marketingGranted ? "granted" : "denied",
+      ad_personalization: marketingGranted ? "granted" : "denied",
+      functionality_storage: marketingGranted ? "granted" : "denied",
+      personalization_storage: marketingGranted ? "granted" : "denied",
+    });
+  }
+
+  // --- Initialize CookieConsent ---
+
+  CookieConsent.run({
+    guiOptions: {
+      consentModal: {
+        layout: "box inline",
+        position: "bottom right",
+      },
+      preferencesModal: {
+        layout: "box",
+      },
+    },
+
+    categories: {
+      necessary: {
+        enabled: true,
+        readOnly: true,
+      },
+      analytics: {
+        autoClear: {
+          cookies: [
+            { name: /^_ga/ },
+            { name: "_gid" },
+            { name: /^_clck/ },
+            { name: /^_clsk/ },
+            { name: "CLID" },
+          ],
+        },
+      },
+    },
+
+    onFirstConsent: ({ cookie }) => {
+      const hasAnalytics = cookie.categories.includes("analytics");
+      updateConsent(hasAnalytics, false);
+      if (hasAnalytics) { loadGA4(); loadClarity(); }
+    },
+
+    onConsent: ({ cookie }) => {
+      const hasAnalytics = cookie.categories.includes("analytics");
+      updateConsent(hasAnalytics, false);
+      if (hasAnalytics) { loadGA4(); loadClarity(); }
+    },
+
+    onChange: ({ cookie }) => {
+      const hasAnalytics = cookie.categories.includes("analytics");
+      updateConsent(hasAnalytics, false);
+      if (hasAnalytics) { loadGA4(); loadClarity(); }
+    },
+
+    language: {
+      default: "en",
+      translations: {
+        en: {
+          consentModal: {
+            title: "We value your privacy",
+            description:
+              "We use cookies for analytics and to improve your experience. You can choose which cookies to allow.",
+            acceptAllBtn: "Accept all",
+            acceptNecessaryBtn: "Reject all",
+            showPreferencesBtn: "Manage preferences",
+          },
+          preferencesModal: {
+            title: "Cookie Preferences",
+            acceptAllBtn: "Accept all",
+            acceptNecessaryBtn: "Reject all",
+            savePreferencesBtn: "Save preferences",
+            sections: [
+              {
+                title: "Essential Cookies",
+                description:
+                  "These cookies are required for the site to function and cannot be disabled.",
+                linkedCategory: "necessary",
+              },
+              {
+                title: "Analytics",
+                description:
+                  "We use Google Analytics and Microsoft Clarity to understand how visitors use our site. This helps us improve the experience.",
+                linkedCategory: "analytics",
+              },
+            ],
+          },
+        },
+      },
+    },
+  });
+
+  // Intercom loads always — it's customer support (legitimate interest), not marketing
+  loadIntercom();
+</script>
+
+<!-- Dark theme overrides matching SendEmAll brand -->
+<style is:global>
+  :root {
+    --cc-bg: #1a122e;
+    --cc-primary-color: #d2b3f3;
+    --cc-secondary-color: #a89bbe;
+    --cc-text: #e2dce8;
+    --cc-btn-primary-bg: #d2b3f3;
+    --cc-btn-primary-color: #1a122e;
+    --cc-btn-primary-hover-bg: #b896e8;
+    --cc-btn-primary-hover-color: #1a122e;
+    --cc-btn-secondary-bg: rgba(210, 179, 243, 0.1);
+    --cc-btn-secondary-color: #d2b3f3;
+    --cc-btn-secondary-hover-bg: rgba(210, 179, 243, 0.2);
+    --cc-btn-secondary-hover-color: #d2b3f3;
+    --cc-separator-border-color: rgba(210, 179, 243, 0.15);
+    --cc-cookie-category-block-bg: rgba(210, 179, 243, 0.05);
+    --cc-cookie-category-block-hover-bg: rgba(210, 179, 243, 0.1);
+    --cc-overlay-bg: rgba(10, 6, 20, 0.7);
+    --cc-toggle-on-bg: #d2b3f3;
+    --cc-toggle-off-bg: rgba(210, 179, 243, 0.2);
+    --cc-toggle-readonly-bg: rgba(210, 179, 243, 0.3);
+    --cc-modal-border-radius: 1rem;
+    --cc-btn-border-radius: 0.5rem;
+  }
+</style>

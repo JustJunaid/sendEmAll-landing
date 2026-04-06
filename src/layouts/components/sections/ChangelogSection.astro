@@ -49,7 +49,7 @@ let {
           <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
             <Subtitle content={subtitle} />
             {title && (
-              <h2
+              <h1
                 class="has-italic-text text-white capitalize"
                 set:html={markdownify(title)}
               />
@@ -92,7 +92,7 @@ let {
                               <OptimizedImage
                                 inlineSvg={true}
                                 src={item.icon}
-                                alt="icon"
+                                alt=""
                                 class="text-primary"
                               />
                               {markdownify(item.label)}

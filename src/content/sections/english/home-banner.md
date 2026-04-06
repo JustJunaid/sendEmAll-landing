@@ -1,16 +1,16 @@
 ---
 title: Your $37/mo cold email tool actually costs **$600+**
 description: One platform. One price. Reply guarantee. Replace 5+ tools with SendEmAll — signal-qualified leads, managed infrastructure, AI personalization, and sending. Starting at $149/mo.
-image: "/images/product-demo.png"
+image: "/images/dashboard-hero.svg"
 buttons:
   - enable: true
-    label: "Start Free — 100 Credits"
-    url: "https://app.sendemall.com/signup"
+    label: "See What You're Really Paying"
+    url: "#pricing"
     rel: ""
     target: ""
   - enable: true
-    label: "See the Math"
-    url: "#pricing"
+    label: "Get 100 Free Credits"
+    url: "https://app.sendemall.com/signup"
     rel: ""
     target: ""
 

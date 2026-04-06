@@ -8,6 +8,7 @@ import Head from "@/components/global/Head.astro";
 import type { JSONLDProps } from "@/lib/utils/JsonLdGenerator";
 import BreakpointIndicator from "./components/widgets/BreakpointIndicator.astro";
 import GlobalScripts from "./components/widgets/GlobalScripts.astro";
+import CookieConsent from "./components/widgets/CookieConsent.astro";
 import config from ".astro/config.generated.json";
 
 type Props = JSONLDProps & {
@@ -47,8 +48,6 @@ const sectionSpacingClass =
 
     <GlobalScripts />
     <BreakpointIndicator />
-
-    {/* Third-party analytics — loaded after page content for performance */}
-    {config.head?.content && <Fragment set:html={config.head?.content} />}
+    <CookieConsent />
   </body>
 </html>

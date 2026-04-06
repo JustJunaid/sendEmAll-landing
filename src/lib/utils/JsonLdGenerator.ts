@@ -44,6 +44,34 @@ export default function JsonLdGenerator(content: JSONLDProps, Astro: any) {
   };
 
   switch (pageType) {
+    case "blog":
+      jsonLdData["@type"] = "BlogPosting";
+      jsonLdData.headline = title;
+      jsonLdData.description = description;
+      jsonLdData.url = canonical;
+      if (image) {
+        jsonLdData.image = image;
+      }
+      if (content.datePublished) {
+        jsonLdData.datePublished = content.datePublished;
+      }
+      if (content.dateModified) {
+        jsonLdData.dateModified = content.dateModified;
+      }
+      if (content.author) {
+        jsonLdData.author = {
+          "@type": "Person",
+          name: content.author,
+        };
+      }
+      if (content.categories?.length) {
+        jsonLdData.keywords = content.categories.join(", ");
+      }
+      if (lang) {
+        jsonLdData.inLanguage = lang;
+      }
+      break;
+
     default:
       jsonLdData["@type"] = "WebPage";
       jsonLdData.name = title;

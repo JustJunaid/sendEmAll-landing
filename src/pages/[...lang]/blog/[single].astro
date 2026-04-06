@@ -77,7 +77,7 @@ if (headings) {
 }
 ---
 
-<Base {...post.data}>
+<Base {...post.data} pageType="blog" datePublished={post.data.date?.toISOString?.() ?? post.data.date}>
   <SinglePageLayout
     content={{
       ...post.data,

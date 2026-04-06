@@ -42,7 +42,7 @@ const { pathname } = Astro.url;
   {
     !menu.hasMegaMenu && menu.hasChildren && (
       <ul
-        class="nav-dropdown-list hs-dropdown-menu hs-dropdown-open:mt-2! hs-dropdown-open:pointer-events-auto hs-dropdown-open:opacity-100 pointer-events-none absolute top-0 mt-4 hidden opacity-0 transition-[opacity,margin] max-lg:m-0! max-lg:transform-none!"
+        class="nav-dropdown-list hs-dropdown-menu hs-dropdown-open:mt-2! hs-dropdown-open:pointer-events-auto hs-dropdown-open:opacity-100 pointer-events-none absolute top-0 mt-4 hidden min-w-56 opacity-0 transition-[opacity,margin] max-lg:m-0! max-lg:transform-none!"
         {...(recursive ? { "aria-orientation": "vertical" } : {})}>
         {menu.children?.map((child) =>
           child.hasChildren ? (

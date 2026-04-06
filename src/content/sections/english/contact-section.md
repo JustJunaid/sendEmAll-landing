@@ -9,13 +9,13 @@ contactList:
   list:
     - icon: "/images/icons/svg/phone.svg"
       label: "Call us now"
-      value: "+1-202-555-0190"
+      value: "+1 (936) 247-9525"
     - icon: "/images/icons/svg/email.svg"
       label: "Email us"
-      value: "example@gmail.com"
+      value: "contact@sendemall.com"
     - icon: "/images/icons/svg/whatsapp.svg"
       label: "Chat with us"
-      value: "@example"
+      value: "+91-9211662744"
 
 social:
   enable: true
@@ -140,7 +140,7 @@ form:
       type: "radio"
       halfWidth: true
       defaultValue: ""
-    - label: "I agree to the terms and conditions and [privacy policy](/contact/)." # only valid for type="checkbox" & type === "radio"
+    - label: "I agree to the terms and conditions and [privacy policy](/privacy)." # only valid for type="checkbox" & type === "radio"
       name: "Agreed Privacy" # This is crucial. Its indicate under which name you want to receive this field data
       value: "Agreed" # Value that will be submit (applicable for type="checkbox" & type === "radio")
       checked: false # only valid for type="checkbox" & type === "radio"

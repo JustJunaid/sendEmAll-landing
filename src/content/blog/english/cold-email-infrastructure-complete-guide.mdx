@@ -1,0 +1,385 @@
+---
+title: "Cold Email Infrastructure Setup: The Complete Guide for 2026"
+description: "Step-by-step guide to setting up cold email infrastructure: domains, Google Workspace, SPF, DKIM, DMARC, mailbox rotation, and sending limits."
+date: 2026-04-06
+categories: ["deliverability"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "Everything you need to set up cold email infrastructure from scratch: domain strategy, Google Workspace configuration, DNS authentication, Smart Ramp-Up, mailbox rotation, and sending limits. Detailed enough to follow without any tool."
+---
+
+## Why infrastructure matters more than copy
+
+You can write the best cold email ever crafted. If it lands in spam, nobody reads it.
+
+Infrastructure is the foundation. Get it wrong and nothing else matters — not your subject line, not your personalization, not your offer. Get it right and even mediocre emails get seen.
+
+This guide covers everything. Step by step. With actual DNS records, real configurations, and specific numbers. You can follow this guide with or without SendEmAll.
+
+**Time estimate for DIY setup:** 15-20 hours initially, plus 5-10 hours/month for ongoing maintenance.
+
+## Step 1: Domain strategy
+
+### Never send cold email from your primary domain
+
+This is the first rule. If your company is `acme.com`, you never send cold outreach from `@acme.com`. Ever.
+
+Why? Cold email carries deliverability risk. Even with perfect setup, some recipients will mark you as spam. That reputation damage should hit a secondary domain, not the domain your entire company uses for business email.
+
+### How many domains do you need?
+
+The math:
+
+- Safe sending limit: 30-50 cold emails per mailbox per day
+- Mailboxes per domain: 3-5 (more than this and the domain gets flagged)
+- Emails per domain per day: 90-250
+
+If you want to send 500 cold emails per day, you need:
+- 500 / 40 (emails per mailbox) = ~13 mailboxes
+- 13 / 4 (mailboxes per domain) = ~3-4 domains
+
+**Recommendation: Start with 5 domains.** This gives you room to grow and redundancy if one domain develops reputation issues.
+
+### Domain naming strategy
+
+Your secondary domains should look legitimate and be clearly associated with your brand. Don't use random domains — they look suspicious.
+
+**Good patterns:**
+
+| Primary domain | Secondary domains |
+|---------------|-------------------|
+| acme.com | getacme.com, acmehq.com, useacme.com, tryacme.com, acmeapp.com |
+| widgetcorp.io | widgetcorp.com, widget-corp.io, widgetcorphq.com |
+| saastools.com | saastoolshq.com, getsaastools.com, saastools.io |
+
+**Rules:**
+- Use the same brand name or close variation
+- Stick to `.com`, `.io`, `.co` — avoid `.xyz`, `.info`, `.biz`
+- Each domain costs $10-15/year from Namecheap, Cloudflare Registrar, or Google Domains
+- Buy them all from the same registrar for easier management
+
+### Where to buy domains
+
+| Registrar | Price (.com) | Notes |
+|-----------|-------------|-------|
+| Cloudflare Registrar | $9.15/year | At-cost pricing, excellent DNS |
+| Namecheap | $10-13/year | Good bulk pricing |
+| Porkbun | $9-11/year | Budget-friendly |
+| Google Domains (now Squarespace) | $12/year | Simple management |
+
+**Total domain cost:** 5 domains x $10/year = $50/year, or about $4/month.
+
+## Step 2: Google Workspace setup
+
+### Why Google Workspace?
+
+Google Workspace (formerly G Suite) is the standard for cold email sending. Gmail has the best deliverability reputation of any email provider. Microsoft 365 works too, but Google Workspace is more predictable for outbound.
+
+**Cost:** $7.20/user/month (Business Starter). For 15 mailboxes across 5 domains, that's $108/month.
+
+### Setup process
+
+1. **Sign up for Google Workspace** at workspace.google.com using your first secondary domain (e.g., `getacme.com`)
+
+2. **Add all your secondary domains** as additional domains in the Google Admin Console:
+   - Admin Console → Account → Domains → Manage domains → Add a domain
+   - Repeat for each domain
+
+3. **Create mailboxes** with real-looking names. Not `sales@` or `outreach@`. Use first names:
+
+| Good | Bad |
+|------|-----|
+| sarah@getacme.com | sales@getacme.com |
+| mike.chen@acmehq.com | outreach@acmehq.com |
+| jessica@useacme.com | noreply@useacme.com |
+| david.lee@tryacme.com | info@tryacme.com |
+
+Create 3-4 mailboxes per domain. Use a mix of first names that match your team or sound natural for your industry.
+
+4. **Set up profile photos and signatures** for each mailbox. Empty profiles look automated.
+
+## Step 3: DNS authentication — SPF, DKIM, DMARC
+
+This is the most technical part. It's also the most important for deliverability. Every domain needs all three records configured correctly.
+
+### SPF (Sender Policy Framework)
+
+SPF tells receiving mail servers which servers are authorized to send email on behalf of your domain.
+
+**How to set it up:**
+
+Add a TXT record to your domain's DNS:
+
+```
+Type: TXT
+Host: @
+Value: v=spf1 include:_spf.google.com ~all
+TTL: 3600
+```
+
+**What this means:**
+- `v=spf1` — this is an SPF record
+- `include:_spf.google.com` — Google's mail servers are authorized to send for this domain
+- `~all` — soft-fail everything else (recommended over `-all` for cold email; hard-fail can cause issues with forwarding)
+
+**If you also use other sending services** (like SendEmAll, Mailgun, etc.), add their includes:
+
+```
+v=spf1 include:_spf.google.com include:sendgrid.net ~all
+```
+
+**Important:** You can only have ONE SPF record per domain. If you need multiple includes, put them all in one record. Multiple SPF records will cause authentication failures.
+
+### DKIM (DomainKeys Identified Mail)
+
+DKIM adds a cryptographic signature to every email you send, proving it hasn't been tampered with in transit.
+
+**How to set it up with Google Workspace:**
+
+1. Go to Admin Console → Apps → Google Workspace → Gmail → Authenticate email
+2. Select your domain
+3. Click "Generate new record"
+4. Google gives you a TXT record to add to your DNS:
+
+```
+Type: TXT
+Host: google._domainkey
+Value: v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA... (your unique key)
+TTL: 3600
+```
+
+5. After adding the DNS record, go back to the Admin Console and click "Start authentication"
+6. **Wait 24-48 hours** for DNS propagation before testing
+
+**Repeat for every domain.** Each domain gets its own DKIM key.
+
+### DMARC (Domain-based Message Authentication, Reporting & Conformance)
+
+DMARC tells receiving servers what to do when SPF or DKIM fails, and sends you reports about authentication results.
+
+**Start with a monitoring-only policy:**
+
+```
+Type: TXT
+Host: _dmarc
+Value: v=DMARC1; p=none; rua=mailto:dmarc-reports@getacme.com; pct=100
+TTL: 3600
+```
+
+**What this means:**
+- `v=DMARC1` — this is a DMARC record
+- `p=none` — don't reject or quarantine failed emails yet (monitoring mode)
+- `rua=mailto:...` — send aggregate reports to this address
+- `pct=100` — apply to 100% of emails
+
+**After 2-4 weeks of monitoring** (and confirming everything passes), tighten the policy:
+
+```
+v=DMARC1; p=quarantine; rua=mailto:dmarc-reports@getacme.com; pct=100
+```
+
+And eventually:
+
+```
+v=DMARC1; p=reject; rua=mailto:dmarc-reports@getacme.com; pct=100
+```
+
+**Don't skip straight to `p=reject`.** Monitor first. If your SPF or DKIM is misconfigured, a reject policy will silently kill all your outbound email.
+
+### Verifying your DNS setup
+
+After configuring all three records, verify them:
+
+1. **Google Admin Toolbox:** [toolbox.googleapps.com/apps/checkmx](https://toolbox.googleapps.com/apps/checkmx) — enter your domain, checks MX, SPF, DKIM, DMARC
+2. **MXToolbox:** [mxtoolbox.com](https://mxtoolbox.com) — comprehensive DNS diagnostic
+3. **Mail-tester:** [mail-tester.com](https://mail-tester.com) — send a test email, get a deliverability score out of 10
+
+**Aim for 9/10 or higher on mail-tester.** Below 7/10 means something is misconfigured.
+
+### DNS setup checklist
+
+| Record | Host | Type | Status |
+|--------|------|------|--------|
+| MX | @ | MX | Points to Google (ASPMX.L.GOOGLE.COM, etc.) |
+| SPF | @ | TXT | v=spf1 include:_spf.google.com ~all |
+| DKIM | google._domainkey | TXT | Generated from Google Admin |
+| DMARC | _dmarc | TXT | v=DMARC1; p=none; rua=mailto:... |
+
+**Repeat for every domain.** 5 domains = 20 DNS records minimum.
+
+## Step 4: Smart Ramp-Up
+
+New mailboxes have zero reputation. Sending 50 cold emails on day one from a fresh mailbox is a fast track to the spam folder.
+
+Smart Ramp-Up is the process of gradually increasing sending volume while building positive engagement signals.
+
+### The manual approach
+
+| Week | Daily volume per mailbox | What to send |
+|------|--------------------------|-------------|
+| Week 1 | 2-3 emails | Personal emails to people you know (who will reply) |
+| Week 2 | 5-10 emails | Mix of personal and cold (to best-fit prospects only) |
+| Week 3 | 10-20 emails | Mostly cold, highly targeted |
+| Week 4 | 20-30 emails | Normal cold outreach |
+| Week 5-6 | 30-40 emails | Increasing toward steady state |
+| Week 7+ | 40-50 emails | Full volume |
+
+**The key metric during Smart Ramp-Up:** reply rate. Receiving servers use engagement (replies, opens, clicks) to build your sender reputation. If you ramp up volume but nobody replies, you're telling Gmail "this sender sends email nobody wants."
+
+### Automated Smart Ramp-Up tools
+
+If you're managing 15+ mailboxes, manual Smart Ramp-Up isn't practical. Tools that automate this:
+
+| Tool | Price | How it works |
+|------|-------|-------------|
+| MailReach | $25-99/mo | Sends emails between a network of real inboxes, generating replies |
+| Warmbox | $15-69/mo | Similar network-based approach |
+| Instantly (built-in) | Included | Uses their own network |
+| Lemlist (built-in) | Included | Lemwarm feature |
+| SendEmAll (built-in) | Included | Managed Smart Ramp-Up across all your mailboxes |
+
+**Duration:** Plan for 3-4 weeks of Smart Ramp-Up before reaching full volume. Some mailboxes ramp faster, some slower. Monitor each individually.
+
+## Step 5: Mailbox rotation
+
+Once you have multiple mailboxes ready, you need to rotate sending across them. This means distributing your daily email volume evenly and rotating which mailbox sends to which prospect.
+
+### Why rotate?
+
+- **Even reputation distribution:** No single mailbox carries all the load
+- **Recovery:** If one mailbox gets flagged, the others keep sending
+- **Natural patterns:** Rotation mimics how real teams send email
+
+### Rotation strategy
+
+| Sending volume | Mailboxes needed | Emails per mailbox/day |
+|---------------|-----------------|----------------------|
+| 100/day | 3-4 | 25-33 |
+| 250/day | 6-8 | 31-42 |
+| 500/day | 12-15 | 33-42 |
+| 1,000/day | 25-30 | 33-40 |
+
+**Rules:**
+- Never send more than 50/day from any single mailbox
+- Use different mailboxes for initial emails vs. follow-ups
+- If a mailbox's bounce rate exceeds 3%, pause it immediately
+- Rotate domains, not just mailboxes — don't send all volume from one domain
+
+Most sending platforms (Instantly, Smartlead, Saleshandy, SendEmAll) handle rotation automatically. If you're using a tool without built-in rotation, you'll need to manage this manually with spreadsheets. Don't.
+
+## Step 6: Sending limits by provider
+
+Know your limits. Exceeding them gets your account suspended.
+
+| Provider | Daily sending limit | Cold email safe zone | Notes |
+|----------|-------------------|---------------------|-------|
+| Gmail (free) | 500/day | Don't use for cold email | Too low, too risky |
+| Google Workspace | 2,000/day (total) | 30-50 cold/day per mailbox | 2,000 is total including replies and internal |
+| Microsoft 365 | 10,000/day | 30-50 cold/day per mailbox | Higher limit but stricter spam filters |
+| Amazon SES | 50,000/day (with approval) | Varies | Requires IP warm-up |
+| Mailgun | 300/day (free), 100K/mo (paid) | Varies | Transactional focus |
+| SendGrid | 100/day (free), 100K/mo (paid) | Varies | Similar to Mailgun |
+
+**The safe zone is always 30-50 cold emails per mailbox per day**, regardless of the provider's technical limit. The provider limit is how many you *can* send. The safe zone is how many you *should* send.
+
+Exceeding the safe zone doesn't trigger an immediate block. It gradually degrades your sender reputation. You might not notice for 2-3 weeks — then suddenly your open rates drop from 55% to 20% and you're landing in spam. Recovery takes 4-8 weeks of reduced volume.
+
+## Step 7: Ongoing maintenance
+
+Setup isn't a one-time thing. Infrastructure requires ongoing attention.
+
+### Weekly tasks (1-2 hours)
+
+- **Monitor deliverability:** Check open rates per mailbox. Sudden drops indicate problems.
+- **Check bounce rates:** Per mailbox and per domain. Pause anything above 3%.
+- **Review spam reports:** Google Postmaster Tools shows spam complaint rates for your domains.
+- **Rotate underperformers:** If a mailbox consistently underperforms, replace it.
+
+### Monthly tasks (2-3 hours)
+
+- **Audit DNS records:** Verify SPF, DKIM, DMARC are still correctly configured (registrar updates can sometimes break records).
+- **Check blacklists:** Use MXToolbox to check if any of your domains or IPs are blacklisted.
+- **Review sending patterns:** Are any mailboxes sending too much? Too little? Rebalance.
+- **Refresh test scores:** Run mail-tester.com tests on each domain monthly.
+
+### Quarterly tasks (3-5 hours)
+
+- **Add new domains:** Rotate in fresh domains to replace any that have accumulated negative reputation.
+- **Review Google Postmaster Tools trends:** Look for long-term reputation trends.
+- **Update DMARC policy:** If still on `p=none`, tighten to `quarantine` or `reject`.
+- **Evaluate new providers:** Sending landscape changes. New options may offer better deliverability.
+
+## The DIY time budget
+
+| Task | Hours (initial) | Hours (monthly ongoing) |
+|------|----------------|------------------------|
+| Domain purchase and configuration | 2-3 | 0.5 |
+| Google Workspace setup | 3-4 | 0.5 |
+| DNS authentication (SPF/DKIM/DMARC) | 4-6 | 1 |
+| Smart Ramp-Up management | 3-4 | 1-2 |
+| Mailbox rotation setup | 1-2 | 0.5 |
+| Deliverability monitoring | 1-2 | 3-4 |
+| Troubleshooting issues | 2-3 | 2-3 |
+| **Total** | **16-24 hours** | **8-12 hours/month** |
+
+At $50/hour for a technical ops person, that's $800-1,200 to set up and $400-600/month to maintain. Plus the tool costs from our [true cost breakdown](/blog/true-cost-cold-email-2026).
+
+## How SendEmAll handles this
+
+Everything above — domains, mailboxes, DNS, Smart Ramp-Up, rotation, monitoring — is managed for you.
+
+| What you'd do manually | What SendEmAll does |
+|------------------------|---------------------|
+| Buy and configure 5+ domains | Managed domains included in your plan |
+| Set up Google Workspace ($108/mo) | Mailboxes included (15 on Pro, 45 on Business, 105 on Scale) |
+| Configure SPF/DKIM/DMARC on every domain | Pre-configured and monitored |
+| Manage Smart Ramp-Up for 3-4 weeks per mailbox | Automated Smart Ramp-Up |
+| Set up mailbox rotation | Intelligent rotation built-in |
+| Monitor deliverability weekly | Real-time deliverability dashboard |
+| Replace underperforming domains quarterly | Automatic domain health management |
+
+You upload your potential buyers (or let our [signal-qualified lead discovery](/solutions/lead-generation) find them). You write your message (or let our [AI personalization](/solutions/ai-personalization) write it). SendEmAll handles everything between "potential buyer identified" and "reply received."
+
+This infrastructure is included in every plan. Pro ($149/mo) includes 15 mailboxes. Business ($349/mo) includes 45. Scale ($599/mo) includes 105. See [pricing details](/pricing).
+
+## Troubleshooting common issues
+
+### "My emails are going to spam"
+
+**Check in this order:**
+
+1. SPF record configured correctly? (MXToolbox SPF lookup)
+2. DKIM record configured and verified in Google Admin? (Google Admin → Authenticate email)
+3. DMARC record present? (even `p=none` is better than nothing)
+4. Mail-tester.com score above 7/10?
+5. Are you exceeding 50 emails/mailbox/day?
+6. Is your bounce rate above 2%?
+7. Are you using spammy words in subject lines? ("FREE", "ACT NOW", "LIMITED TIME")
+8. Is your domain less than 30 days old? (New domains need Smart Ramp-Up time)
+
+### "My open rates dropped suddenly"
+
+- Check if the specific mailbox or domain is the issue (isolate the variable)
+- Check Google Postmaster Tools for spam complaint spikes
+- Check if your domain got blacklisted (MXToolbox blacklist check)
+- Reduce volume by 50% for 2 weeks, then gradually increase
+
+### "I'm getting bounced by Microsoft/Outlook"
+
+Microsoft is the strictest major email provider. Steps:
+
+1. Ensure your DMARC policy is at least `p=quarantine`
+2. Reduce sending volume to Microsoft domains (fewer than 20/day from any domain)
+3. Register at [postmaster.live.com](https://postmaster.live.com) — Microsoft's equivalent of Google Postmaster Tools
+4. Consider sending from Microsoft 365 mailboxes to Microsoft recipients (same-ecosystem advantage)
+
+## Start here
+
+If you want to do this yourself, start with Step 1. Buy your domains today — they need time to age before you start sending.
+
+If you'd rather skip the 15-20 hours of setup and the ongoing maintenance, [start with SendEmAll](https://app.sendemall.com/signup). Infrastructure is included from day one.
+
+Either way, the infrastructure matters. Don't skip it.
+
+[Start free — 100 credits, infrastructure included →](https://app.sendemall.com/signup)

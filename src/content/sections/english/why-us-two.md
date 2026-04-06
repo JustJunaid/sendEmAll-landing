@@ -1,11 +1,11 @@
 ---
 enable: true # Control the visibility of this section across all pages where it is used
-subtitle: Instant Insights
-title: Real-Time Insights & **Comprehensive** Tracking
+subtitle: Why SendEmAll
+title: Everything You Need in **One Transparent** Price
 layoutType: modern # creative / modern
 
 list:
-  - title: Data available in seconds, not days. Signal-qualified leads are immediately available on your dashboard
+  - title: "True Cost Transparency — Your $37/mo tool actually costs $600+ when you add domains, warm-up, verification, and enrichment. We bundle everything into one price starting at $149/mo."
     titleSize: sm # sm | md (default - md)
     image: "/images/why-us/4.png"
     descriptionFontSize: "" # sm | lg (default - sm)
@@ -13,10 +13,10 @@ list:
     ctaBtn:
       enable: true
       label: "Sign Up Now"
-      url: /contact/
+      url: https://app.sendemall.com/signup
       rel: ""
       target: ""
-  - title: Know which languages are the most popular among your visitors to help you tailor your content.
+  - title: "Signal-Qualified Buyers — We don't just scrape databases. 18 providers check hiring signals, funding rounds, and tech stack to find potential buyers ready to talk."
     titleSize: sm # sm | md (default - md)
     image: "/images/why-us/5.png"
     descriptionFontSize: "" # sm | lg (default - sm)
@@ -24,10 +24,10 @@ list:
     ctaBtn:
       enable: true
       label: "Sign Up Now"
-      url: ""
+      url: https://app.sendemall.com/signup
       rel: ""
       target: ""
-  - title: Track everything that happens on your website **like signup and cart checkouts** using custom events.
+  - title: "Reply Guarantee — 50+ replies in 90 days on Business and Scale plans. Or we add bonus credits to your account. No fine print."
     titleSize: sm # sm | md (default - md)
     image: "/images/why-us/6.png"
     descriptionFontSize: "" # sm | lg (default - sm)
@@ -35,7 +35,7 @@ list:
     ctaBtn:
       enable: true
       label: "Sign Up Now"
-      url: ""
+      url: https://app.sendemall.com/signup
       rel: ""
       target: ""
 ---

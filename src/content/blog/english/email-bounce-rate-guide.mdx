@@ -1,0 +1,162 @@
+---
+title: "Email Bounce Rate: What's Normal and How to Fix It"
+description: "Bounce rate benchmarks, hard vs soft bounces, top causes, and a step-by-step fix playbook. Keep your bounce rate under 2%."
+date: 2026-04-06
+categories: ["deliverability"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "A 5% bounce rate isn't just bad — it's actively destroying your domain reputation. Here's what normal looks like, what causes bounces, and how to fix them before the damage is permanent."
+---
+
+## The number that quietly kills your outbound
+
+Open rates get all the attention. Reply rates get celebrated. Bounce rates? They sit in a dashboard tab nobody clicks until something breaks.
+
+Then your emails start landing in spam. Your domain reputation tanks. And the root cause was a bounce rate that crept from 2% to 5% while you weren't watching.
+
+## What's a normal bounce rate?
+
+| Bounce rate | Status | Action |
+|------------|--------|--------|
+| Below 1% | Excellent | Keep doing what you're doing |
+| 1-2% | Acceptable | Monitor closely, verify new lists |
+| 2-3% | Concerning | Clean your list immediately |
+| 3-5% | Dangerous | Pause sending, full list audit |
+| Above 5% | Critical | Stop all sending. Fix before resuming. |
+
+For cold email specifically, your target is under 2%. Ideally under 1%.
+
+Why so strict? Because cold email already has higher risk factors than marketing email. You're emailing people who didn't opt in. ISPs scrutinize cold senders more heavily. A 3% bounce rate on an opt-in newsletter is a warning. A 3% bounce rate on cold outreach is a death sentence for your domain.
+
+## Hard bounces vs. soft bounces
+
+Not all bounces are equal.
+
+### Hard bounces
+
+**Definition:** The email address doesn't exist. The receiving server permanently rejects delivery.
+
+**Common causes:**
+- The person left the company and their email was deactivated
+- You have a typo (john@compnay.com instead of john@company.com)
+- The domain no longer exists
+- The address was never real (fake form submissions, scraped junk data)
+
+**Impact:** Severe. Every hard bounce is a black mark on your sender reputation. ISPs track hard bounce rates per sender. Above 2%, you're flagged.
+
+**Rule:** Remove hard bounces immediately. Never retry. Never re-add to a future campaign.
+
+### Soft bounces
+
+**Definition:** The email address exists, but delivery failed temporarily.
+
+**Common causes:**
+- Recipient's mailbox is full
+- Server is temporarily down
+- Message is too large
+- Rate limiting (you're sending too fast to that domain)
+- Auto-reply loop detection
+
+**Impact:** Moderate. One soft bounce is fine. Repeated soft bounces to the same address become a problem. After 3-5 soft bounces to the same address, treat it as a hard bounce.
+
+**Rule:** Retry soft bounces once or twice. If they keep failing, remove them.
+
+## What causes high bounce rates
+
+### 1. Old or purchased lists
+
+The number one cause. You bought a list of 10,000 "decision makers" from a data broker. Half the emails are 2+ years old. People have changed jobs, companies have shut down, domains have expired.
+
+**Expected bounce rate from purchased lists:** 8-15%. That's campaign-ending.
+
+### 2. No verification before sending
+
+You exported contacts from Apollo or LinkedIn Sales Navigator and loaded them straight into your sending tool. No verification step.
+
+Apollo's data accuracy hovers around 85-90% for email addresses. That means 10-15% of emails are wrong. After verification, you can get that under 2%.
+
+### 3. Catch-all domains
+
+A catch-all domain accepts email to any address — whether it exists or not. So john@catchall.com, asdfjkl@catchall.com, and nobody@catchall.com all "deliver" successfully.
+
+The problem: many catch-all domains accept the email but silently discard it if the mailbox doesn't exist. Or they accept it, detect it's cold outreach, and report it as spam.
+
+Catch-all addresses verify as "valid" but may have a 30-40% effective bounce rate. Treat them carefully. Send in small batches and monitor engagement.
+
+### 4. Role-based addresses
+
+info@, sales@, support@, admin@ — these are role-based addresses. They often have aggressive spam filtering, shared inboxes (nobody owns them), and higher complaint rates.
+
+Sending to role-based addresses inflates your bounce and complaint rates. Remove them from cold outreach campaigns.
+
+### 5. Sending too fast to one domain
+
+If you're targeting a specific company and you have 50 contacts there, don't email all 50 in one hour. The receiving mail server will rate-limit you, causing soft bounces on the excess emails.
+
+Spread domain-specific sends across days.
+
+## The fix playbook
+
+### Step 1: Verify before every campaign
+
+Run every email address through verification before sending. Every time. Not just when you first acquire the list.
+
+**Why every time?** Because email addresses decay at roughly 2-3% per month. A list that was 98% valid three months ago is now 92-94% valid. That's above the danger threshold.
+
+SendEmAll includes [6-layer email verification](/solutions/email-verification) on every plan. Emails are verified at the point of sending, not just at import. If an address goes bad between import and send, it gets caught.
+
+### Step 2: Clean existing lists
+
+If you already have a high bounce rate, stop sending and clean your list:
+
+1. Remove all hard bounces permanently
+2. Remove addresses that soft-bounced 3+ times
+3. Remove role-based addresses (info@, sales@, etc.)
+4. Re-verify every remaining address
+5. Remove unverifiable and risky addresses
+
+### Step 3: Monitor per-domain bounce rates
+
+Your overall bounce rate might be 2%. But if one specific domain is bouncing at 15%, that domain is dragging your reputation down.
+
+Check bounce rates per sending domain and per recipient domain. If a specific recipient domain (like a large company) is bouncing consistently, their spam filter might be blocking you specifically.
+
+### Step 4: Set up real-time alerts
+
+Don't wait for weekly reports. Set alerts for:
+
+- Any campaign exceeding 3% bounce rate → auto-pause
+- Any single domain exceeding 5% bounce rate → flag for review
+- Any hard bounce → immediate removal from all lists
+
+### Step 5: Segment catch-all domains
+
+Move catch-all addresses into a separate segment. Send to them in smaller batches (10-20/day) and monitor deliverability closely. If engagement is low and bounces creep up, remove them.
+
+### Step 6: Implement feedback loops
+
+Register for feedback loops (FBLs) with major ISPs. When someone marks your email as spam, the FBL notifies you so you can remove them immediately. This prevents the same person from receiving future emails and filing more complaints.
+
+## The 6-layer verification that prevents bounces
+
+SendEmAll's verification checks every email through six layers:
+
+| Layer | What it checks | What it catches |
+|-------|---------------|-----------------|
+| 1. Syntax validation | Format correctness | Typos, malformed addresses |
+| 2. Domain check | MX records exist | Dead domains, parked domains |
+| 3. SMTP handshake | Server accepts mail | Invalid mailboxes |
+| 4. Catch-all detection | Domain catch-all status | Risky catch-all addresses |
+| 5. Disposable detection | Temporary email services | Guerrilla Mail, Temp Mail, etc. |
+| 6. Risk scoring | Historical bounce data | Known problematic addresses |
+
+This runs automatically. You don't upload CSVs to a separate verification tool and re-import results. Every email is verified before it's sent.
+
+## Prevention beats recovery
+
+Fixing a damaged domain reputation takes 2-4 weeks of reduced sending. Preventing bounces in the first place takes one step: verify before you send.
+
+If your current bounce rate is above 2%, [start a free trial](https://app.sendemall.com/signup) and verify your list through SendEmAll. 100 credits — no card required. See how many of your "verified" emails are actually at risk.
+
+[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)

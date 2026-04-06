@@ -6,6 +6,7 @@
     "styles": ["normal"],
     "subsets": ["latin"],
     "preload": true,
+    "display": "swap",
     "cssVariable": "--font-primary",
     "fallback": "sans-serif"
   },
@@ -16,6 +17,7 @@
     "styles": ["normal"],
     "subsets": ["latin"],
     "preload": true,
+    "display": "swap",
     "cssVariable": "--font-secondary",
     "fallback": "sans-serif"
   },
@@ -26,6 +28,7 @@
     "styles": ["normal"],
     "subsets": ["latin"],
     "preload": true,
+    "display": "swap",
     "cssVariable": "--font-tertiary",
     "fallback": "serif"
   }

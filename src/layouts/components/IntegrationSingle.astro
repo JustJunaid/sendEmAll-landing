@@ -19,8 +19,8 @@ type Props = {
 };
 
 if (!Astro.props.content) {
-  console.log("[IntegrationSingle.astro]: content is not provided");
-  return;
+  throw new Error("[IntegrationSingle.astro]: content is not provided");
+
 }
 
 let { collection } = Astro.props.content;

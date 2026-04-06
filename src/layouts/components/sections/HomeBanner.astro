@@ -74,19 +74,25 @@ const videoButton = buttons.find((button) => button.type === "video");
           class="has-video-modal flex flex-wrap items-center justify-center gap-5">
           {
             buttons &&
-              buttons.map((button: Button) =>
+              buttons.map((button: Button, index: number) =>
                 button.type !== "video" ? (
-                  <ButtonLink
-                    content={button}
-                    class="btn-md btn-primary btn-has-icon group relative z-0 flex items-center gap-4 [&>.label]:z-20">
-                    <span class="flex h-6 w-12 items-center justify-center rounded-full bg-dark/15">
-                      <OptimizedImage
-                        alt="icon"
-                        class="h-5 w-5 transition-all duration-300 group-hover:rotate-180"
-                        src="/images/icons/svg/star.svg"
-                      />
-                    </span>
-                  </ButtonLink>
+                  button.url?.includes("signup") ? (
+                    <ButtonLink
+                      content={button}
+                      class="btn-md btn-primary btn-has-icon group relative z-0 flex items-center gap-4 [&>.label]:z-20">
+                      <span class="flex h-6 w-12 items-center justify-center rounded-full bg-dark/15">
+                        <OptimizedImage
+                          alt=""
+                          class="h-5 w-5 transition-all duration-300 group-hover:translate-x-1"
+                          src="/images/icons/svg/star.svg"
+                        />
+                      </span>
+                    </ButtonLink>
+                  ) : (
+                    <ButtonLink
+                      content={button}
+                      class="btn-md btn-outline-primary" />
+                  )
                 ) : (
                   <ButtonLink
                     tag={"button"}
@@ -101,7 +107,7 @@ const videoButton = buttons.find((button) => button.type === "video");
                     class="video-modal-toggle btn-md btn-primary btn-has-icon group after:bg-primary/25 relative z-0 flex items-center gap-4 after:pointer-events-none after:absolute after:inset-0 after:z-10 after:size-full [&>.label]:z-20">
                     <span class="has-animated-waves waves-white waves-sm relative z-20 flex h-6 w-6 items-center justify-center rounded-full">
                       <OptimizedImage
-                        alt="icon"
+                        alt=""
                         inlineSvg={true}
                         class="text-primary ml-px h-2 w-2"
                         src="/images/icons/svg/play-icon.svg"
@@ -151,13 +157,25 @@ const videoButton = buttons.find((button) => button.type === "video");
           class="relative mx-4 mt-12 -mb-4 max-w-screen-xl md:m-0 md:mx-auto md:mt-20">
           <div class="bg-body relative z-10 overflow-hidden rounded-t-2xl px-0.5 pt-0.5 md:rounded-t-3xl">
             <div class="after:bg-primary/10 relative z-20 overflow-hidden rounded-t-2xl bg-black after:absolute after:inset-0 after:size-full after:rounded-t-2xl after:content-[''] md:rounded-t-3xl">
-              <OptimizedImage
-                class="rounded-t-2xl md:rounded-t-3xl"
-                src={image}
-                alt={"About " + plainify(title).toLowerCase()}
-                loading="eager"
-                fetchpriority="high"
-              />
+              {image.endsWith(".svg") ? (
+                <img
+                  class="rounded-t-2xl md:rounded-t-3xl w-full h-auto"
+                  src={image}
+                  alt={"About " + plainify(title).toLowerCase()}
+                  width="1200"
+                  height="720"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              ) : (
+                <OptimizedImage
+                  class="rounded-t-2xl md:rounded-t-3xl"
+                  src={image}
+                  alt={"About " + plainify(title).toLowerCase()}
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              )}
             </div>
 
             {/* Gradient Animated Background Image */}

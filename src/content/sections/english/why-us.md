@@ -51,7 +51,7 @@ list:
         - Drag me!
     ctaBtn:
       enable: true
-      label: "Start Free — 100 Credits"
+      label: "See It In Action"
       url: "https://app.sendemall.com/signup"
       rel: ""
       target: ""

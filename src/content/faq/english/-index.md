@@ -23,7 +23,7 @@ list:
         content: |
           Yes. If you already use Instantly, Smartlead, Woodpecker, or Lemlist for sending, you can use SendEmAll for lead generation, enrichment, and personalization, then export to your existing tool.
       - active: false
-        title: "How are your leads different from other databases?"
+        title: "How are your potential buyers different from other databases?"
         content: |
           We don't just scrape databases. We use signal qualification — hiring patterns, funding events, tech stack changes, authority mapping — to find buyers who are actually in-market. That's why our reply rates are 3-5x industry average.
       - active: false

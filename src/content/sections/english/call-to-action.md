@@ -5,7 +5,7 @@ ratingContent: 4.8 / 5 <br /> From 200+ outbound teams
 
 ctaBtn:
   enable: true
-  label: Start Free — 100 Credits
+  label: Replace Your Stack Now
   url: "https://app.sendemall.com/signup"
   rel: ""
   target: ""

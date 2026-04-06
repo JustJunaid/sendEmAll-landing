@@ -1,0 +1,238 @@
+---
+title: "SPF, DKIM, and DMARC Setup for Cold Email (Not Marketing Email)"
+description: "DNS authentication guide built for cold email senders running 10+ domains. SPF flattening, DKIM rotation, DMARC policies, and common mistakes."
+date: 2026-04-06
+categories: ["deliverability"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "Most SPF/DKIM/DMARC guides are written for marketing teams with one domain. Cold email senders run 10-50 domains. The setup is completely different."
+---
+
+## Why marketing email guides don't help you
+
+Every email authentication guide you've read was written for marketers. One domain. One ESP. One set of DNS records.
+
+Cold email is a different animal. You're managing 10, 20, maybe 50+ sending domains. Each needs its own authentication. Each has different reputational risk. And if you get one record wrong, your entire sending infrastructure takes the hit.
+
+This guide is for cold email operators. If you're running multiple domains through tools like SendEmAll, Instantly, or Smartlead, this is the setup that keeps you out of spam.
+
+## SPF: Sender Policy Framework
+
+SPF tells receiving mail servers which IP addresses are allowed to send email from your domain. It's a TXT record in your DNS.
+
+### Basic SPF record
+
+```
+v=spf1 include:_spf.google.com ~all
+```
+
+This says: "Google Workspace IPs can send on behalf of this domain. Soft-fail everything else."
+
+### The 10-lookup limit problem
+
+SPF has a hard cap: 10 DNS lookups per record. Every `include:` statement triggers one or more lookups. Here's how fast they add up:
+
+| Include Statement | Lookups Used |
+|-------------------|-------------|
+| `include:_spf.google.com` | 4 |
+| `include:sendgrid.net` | 3 |
+| `include:spf.protection.outlook.com` | 2 |
+| `include:amazonses.com` | 1 |
+
+If you're running Google Workspace for mailboxes plus a sending tool that uses SendGrid for delivery, you've already used 7 of your 10 lookups. Add one more tool and you're over the limit.
+
+When you exceed 10 lookups, SPF returns `permerror`. That means SPF *completely fails*. Not soft-fail — hard failure. Your emails get flagged.
+
+### SPF flattening for multi-domain cold email
+
+Flattening replaces `include:` statements with the actual IP addresses they resolve to. Instead of:
+
+```
+v=spf1 include:_spf.google.com include:sendgrid.net ~all
+```
+
+You get:
+
+```
+v=spf1 ip4:209.85.128.0/17 ip4:74.125.0.0/16 ip4:142.250.0.0/15 ip4:108.177.8.0/21 ip4:167.89.0.0/17 ip4:208.117.48.0/20 ~all
+```
+
+Zero lookups. Problem solved — until those IPs change. Google and SendGrid update their IP ranges periodically, so flattened records need monitoring.
+
+**Tools for SPF flattening:** AutoSPF ($5-30/month), EasyDMARC, dmarcian. Or build a cron job that resolves and updates automatically.
+
+**For cold email specifically:** Keep each sending domain's SPF as simple as possible. Ideally, one sending provider per domain. If a domain only sends through Google Workspace, your SPF is just `include:_spf.google.com` — 4 lookups, well within limits.
+
+### SPF for cold email domains: keep it clean
+
+Best practice for outbound-only domains:
+
+```
+v=spf1 include:_spf.google.com -all
+```
+
+Note the `-all` (hard fail) instead of `~all` (soft fail). For cold email domains, you know exactly who should be sending. Hard fail everything else. This tells mailbox providers you're serious about authentication.
+
+## DKIM: DomainKeys Identified Mail
+
+DKIM adds a cryptographic signature to every email. The receiving server checks this signature against a public key published in your DNS. If it matches, the email hasn't been tampered with in transit.
+
+### Basic DKIM DNS record
+
+DKIM records are TXT records at a specific selector subdomain:
+
+```
+selector._domainkey.yourdomain.com TXT "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3..."
+```
+
+Google Workspace uses a default selector called `google`. You can generate a custom DKIM key in the Google Admin console under Apps > Google Workspace > Gmail > Authenticate Email.
+
+### Key rotation for cold email
+
+Marketing teams rarely rotate DKIM keys. Cold email operators should rotate every 3-6 months, especially on high-volume domains. Why:
+
+1. **Reputation isolation.** If a key gets associated with spam reports, rotating gives you a fresh start.
+2. **Key length.** 2048-bit keys are standard. If you're still on 1024-bit (some older setups), rotation is your opportunity to upgrade.
+3. **Selector management.** Use a naming convention: `s202604`, `s202610`, etc. This makes it clear when each key was created.
+
+### DKIM for multiple sending domains
+
+Each domain needs its own DKIM key pair. There's no shortcut. If you're running 20 sending domains, that's 20 DKIM records to generate, publish, and maintain.
+
+The setup for each domain:
+
+1. Generate key pair in your sending provider (Google Workspace, SMTP service, etc.)
+2. Publish the public key as a TXT record at `selector._domainkey.domain.com`
+3. Verify the record propagated (use `dig TXT selector._domainkey.domain.com` or MXToolbox)
+4. Send a test email and check the DKIM-Signature header
+
+This is one of the most tedious parts of scaling cold email infrastructure. Every domain needs this done correctly before a single email sends.
+
+## DMARC: Domain-based Message Authentication, Reporting, and Conformance
+
+DMARC ties SPF and DKIM together and tells receiving servers what to do when authentication fails. It also generates reports so you can monitor who's sending email from your domains.
+
+### The DMARC rollout path
+
+Never start with a strict DMARC policy. The rollout should be:
+
+**Phase 1: Monitor (2-4 weeks)**
+```
+_dmarc.yourdomain.com TXT "v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com; ruf=mailto:dmarc@yourdomain.com"
+```
+
+`p=none` means "don't do anything with failures, just report them to me." This lets you discover all legitimate sending sources before you start blocking.
+
+**Phase 2: Quarantine (2-4 weeks)**
+```
+_dmarc.yourdomain.com TXT "v=DMARC1; p=quarantine; pct=25; rua=mailto:dmarc@yourdomain.com"
+```
+
+`p=quarantine` with `pct=25` means "quarantine 25% of messages that fail DMARC." Gradually increase the percentage as you confirm no legitimate mail is failing.
+
+**Phase 3: Reject**
+```
+_dmarc.yourdomain.com TXT "v=DMARC1; p=reject; rua=mailto:dmarc@yourdomain.com"
+```
+
+`p=reject` tells receiving servers to bounce anything that fails DMARC. This is the end goal for your primary domain.
+
+### DMARC for cold email domains vs your primary domain
+
+**Your primary domain** (company.com): Aggressive DMARC policy (p=reject). Never send cold email from it.
+
+**Your sending domains** (getcompany.com, trycompany.com, etc.): Start at p=none, graduate to p=quarantine. Going to p=reject on cold email domains is optional — the risk is that if something misconfigures, you silently lose emails.
+
+### The subdomain trap
+
+DMARC has a `sp=` tag for subdomain policy. If you don't set it, subdomains inherit the parent domain's policy.
+
+```
+_dmarc.yourdomain.com TXT "v=DMARC1; p=reject; sp=none; rua=mailto:dmarc@yourdomain.com"
+```
+
+This says: "Reject failures on the main domain, but don't enforce on subdomains." Useful if you're sending from subdomains like `mail.yourdomain.com`.
+
+But for cold email, you're typically using entirely separate domains, not subdomains. So `sp=` matters less. Each separate domain gets its own DMARC record.
+
+## Common mistakes cold email senders make
+
+### 1. Using your primary domain for cold outreach
+
+Your company's main domain carries years of reputation. One spam complaint wave from a cold campaign can tank your marketing email deliverability, your transactional emails, even your team's personal emails.
+
+**Always** use dedicated sending domains. Variations like `get[company].com`, `try[company].com`, or `[company]app.com` keep your primary domain insulated.
+
+### 2. Forgetting authentication on new domains
+
+You buy 5 new domains. You connect them to your mailboxes. You start sending. Three days later, half your emails are in spam.
+
+Why? The domains have no SPF, no DKIM, no DMARC. Without authentication, most modern mailbox providers (Gmail, Outlook) treat your emails as suspicious by default.
+
+**Before any domain sends a single email:**
+- SPF record published
+- DKIM key generated and DNS record live
+- DMARC record at p=none minimum
+- DNS propagation confirmed (allow 24-48 hours)
+
+### 3. Not monitoring DMARC reports
+
+Those `rua=` reports in your DMARC record? They send you daily XML reports showing who's sending email from your domain and whether they're passing authentication.
+
+Most senders set up the `rua` address and never check it. Those reports tell you:
+- If your SPF or DKIM is misconfigured (failures from your own IPs)
+- If someone is spoofing your domain (failures from unknown IPs)
+- Which mailbox providers are seeing the most failures
+
+Free tools to parse DMARC reports: DMARC Analyzer, Postmark's DMARC digests, dmarcian (free tier).
+
+### 4. Setting SPF to +all
+
+```
+v=spf1 +all
+```
+
+This means "everyone on the internet is authorized to send email from this domain." It's the same as having no SPF at all. Sounds obvious, but we've seen it in production.
+
+### 5. Not testing after DNS changes
+
+DNS changes take time to propagate. After updating SPF, DKIM, or DMARC records:
+
+1. Wait 1-4 hours (TTL dependent)
+2. Verify with `dig TXT yourdomain.com` or MXToolbox
+3. Send a test email to mail-tester.com or GlockApps
+4. Check the email headers for `spf=pass`, `dkim=pass`, `dmarc=pass`
+
+## How SendEmAll handles authentication automatically
+
+Setting up SPF, DKIM, and DMARC across 15-100+ mailboxes on multiple domains is a full day of DNS work. And it needs ongoing monitoring.
+
+With [SendEmAll's managed infrastructure](/solutions/email-infrastructure), authentication is handled for you:
+
+- **SPF** configured per domain with proper includes for the sending provider
+- **DKIM** keys generated with 2048-bit encryption and published automatically
+- **DMARC** deployed with monitoring-first rollout (p=none to p=quarantine)
+- **Ongoing monitoring** catches authentication failures before they impact deliverability
+- **Smart Ramp-Up** respects authentication warming — new domains build reputation gradually alongside their DNS records
+
+You don't touch a DNS record. You don't parse XML reports. You focus on writing emails that get replies, and the infrastructure handles itself.
+
+## Your authentication checklist
+
+For every cold email domain, verify these before sending:
+
+| Check | Record | Passing? |
+|-------|--------|----------|
+| SPF published | `v=spf1 include:... -all` | Use dig or MXToolbox |
+| SPF under 10 lookups | Count includes | Flatten if over |
+| DKIM published | `selector._domainkey.domain.com` | Check with DKIM validator |
+| DKIM key is 2048-bit | Check key length | Upgrade if 1024-bit |
+| DMARC published | `_dmarc.domain.com` | Start at p=none |
+| DMARC reports configured | `rua=` tag present | Set up parsing tool |
+| Primary domain isolated | Not used for cold email | Separate domains only |
+| DNS propagation confirmed | All records resolving | Test from multiple locations |
+
+Get this right once, and your deliverability foundation is solid. Get it wrong, and no amount of good copy or targeting will save your campaigns from the spam folder.
+
+Need this handled for you? [SendEmAll's managed infrastructure](https://app.sendemall.com/signup) includes full authentication setup, monitoring, and rotation across all your sending domains.

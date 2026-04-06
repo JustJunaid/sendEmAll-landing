@@ -1,5 +1,5 @@
 ---
 title: Changelog
-metaDescription: This is a example description
+metaDescription: Product updates, new features, and improvements to the SendEmAll outbound platform.
 draft: false
 ---

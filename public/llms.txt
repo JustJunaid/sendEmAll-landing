@@ -1,0 +1,45 @@
+# SendEmAll
+
+> All-in-one outbound platform that replaces 5+ disconnected sales tools with a single system for signal-qualified lead generation, managed email infrastructure, AI personalization, email verification, and sending. The Cursor of Outbound: AI plans, human approves, platform executes.
+
+## Key Information
+
+- SendEmAll orchestrates 18 data and sending providers (Apollo, Ocean.io, Sales Nav, and more) into one platform.
+- 1 credit = 1 action. Credit costs per action: discover (5), signal (2), enrich (5), verify (1), personalize (2), send (0.1). Blended cost per contacted buyer is approximately $0.07.
+- Positioning: fills the gap between cheap DIY outbound tools ($25-99/mo) and expensive AI SDR platforms ($900-10K/mo).
+- Reply guarantee: 50+ replies in 90 days on Business and Scale plans, or you receive bonus credits.
+- Smart Ramp-Up infrastructure management handles domain setup, mailbox provisioning, and deliverability.
+- Signal-qualified lead generation means every contact is vetted for buying intent before outreach.
+
+## Pricing
+
+- Trial: $0, 100 one-time credits, no mailboxes
+- Pro: $149/mo, 15 mailboxes, 1,500 credits/mo (~200 buyers reached)
+- Business: $349/mo, 45 mailboxes, 5,000 credits/mo (~650 buyers reached), reply guarantee included
+- Scale: $599/mo, 105 mailboxes, 15,000 credits/mo (~2,000 buyers reached), reply guarantee included
+- Enterprise: custom pricing, 150+ mailboxes, custom credits
+- Pay-as-you-go overage: $0.05 (Pro), $0.04 (Business), $0.03 (Scale) per credit
+
+## Capabilities
+
+- Lead generation: discover and qualify potential buyers using buying signals across 18 providers
+- Email infrastructure: managed domains, mailboxes, and Smart Ramp-Up for deliverability
+- AI personalization: research-backed email copy tailored to each recipient
+- Email verification: real-time validation before sending to protect sender reputation
+- Sending: automated multi-step sequences with throttling and rotation
+
+## Pages
+
+- [Home](https://sendemall.com/)
+- [Pricing](https://sendemall.com/pricing)
+- [Lead Generation](https://sendemall.com/solutions/lead-generation)
+- [Email Infrastructure](https://sendemall.com/solutions/email-infrastructure)
+- [AI Personalization](https://sendemall.com/solutions/ai-personalization)
+- [Email Verification](https://sendemall.com/solutions/email-verification)
+- [Compare vs Instantly](https://sendemall.com/compare/instantly)
+- [Compare vs Apollo](https://sendemall.com/compare/apollo)
+- [Compare vs Clay](https://sendemall.com/compare/clay)
+- [Compare vs Lemlist](https://sendemall.com/compare/lemlist)
+- [For Developers](https://sendemall.com/developers)
+- [For Agencies](https://sendemall.com/agencies)
+- [Blog](https://sendemall.com/blog)

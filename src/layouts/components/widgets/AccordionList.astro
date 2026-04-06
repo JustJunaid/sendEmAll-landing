@@ -84,14 +84,16 @@ const { content: list, changelogContent, ...rest } = Astro.props;
 
     accordions.forEach((accordion) => {
       setTimeout(() => {
-        const { element } = HSAccordion.getInstance(
+        const instance = HSAccordion.getInstance(
           `#${accordion.getAttribute("id")}`,
           true,
         );
 
-        element.on("open", () => {
-          AOS.refresh();
-        });
+        if (instance?.element) {
+          instance.element.on("open", () => {
+            AOS.refresh();
+          });
+        }
       }, 1000);
     });
   });

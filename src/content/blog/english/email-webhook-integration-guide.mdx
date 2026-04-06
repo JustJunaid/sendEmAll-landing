@@ -1,0 +1,356 @@
+---
+title: "Email Webhook Integration: Real-Time Campaign Events for Developers"
+description: "Set up webhooks for cold email events: opens, replies, bounces. Payload examples, signature verification, retry handling, and integration patterns."
+date: 2026-04-06
+categories: ["developer"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "Get instant notifications when emails are opened, replied to, or bounced. Here's the complete webhook integration guide with payload examples and error handling."
+---
+
+## What webhooks do (and why polling is worse)
+
+A webhook is a reverse API call. Instead of your application asking "did anything happen?" every 30 seconds, SendEmAll tells your application the moment something happens.
+
+Email opened? Your server gets a POST request. Reply received? Another POST. Bounce? Another.
+
+The alternative — polling — means making API calls on a timer. It wastes rate limit budget, introduces delay (you only learn about events at your next poll interval), and scales poorly. With 10 campaigns running, you'd need to poll each one constantly.
+
+Webhooks solve all three problems. Zero wasted calls. Sub-second notification. Scales to any number of campaigns with zero additional polling load.
+
+## Supported events
+
+| Event | Fires when | Typical use |
+|-------|-----------|-------------|
+| `email.sent` | Email leaves SendEmAll's servers | Track send volume, verify delivery pipeline |
+| `email.delivered` | Receiving server accepts the email | Confirm inbox placement |
+| `email.opened` | Recipient opens the email (pixel tracked) | Trigger engagement scoring in your CRM |
+| `email.clicked` | Recipient clicks a link | Track interest level, identify hot leads |
+| `email.replied` | Recipient replies to the email | Alert sales team, update CRM, pause sequence |
+| `email.bounced` | Email bounces (hard or soft) | Remove bad addresses, flag data quality issues |
+| `email.unsubscribed` | Recipient clicks unsubscribe | Suppress from all future campaigns |
+| `campaign.completed` | All leads in a campaign have finished the sequence | Trigger reporting or next-campaign logic |
+
+You can subscribe to all events or specific ones. Most integrations start with `email.replied` and `email.bounced` — the two events that almost always require action.
+
+## Setting up webhooks
+
+### Step 1: Register your endpoint
+
+```bash
+curl -X POST https://api.sendemall.com/v1/webhooks \
+  -H "Content-Type: application/json" \
+  -H "x-user-context: your-api-key" \
+  -d '{
+    "url": "https://your-app.com/webhooks/sendemall",
+    "events": [
+      "email.replied",
+      "email.bounced",
+      "email.opened",
+      "email.unsubscribed"
+    ],
+    "secret": "whsec_your-signing-secret"
+  }'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "whk_abc123",
+    "url": "https://your-app.com/webhooks/sendemall",
+    "events": ["email.replied", "email.bounced", "email.opened", "email.unsubscribed"],
+    "status": "active",
+    "created_at": "2026-04-06T12:00:00Z"
+  }
+}
+```
+
+### Step 2: Verify the signature
+
+Every webhook request includes a `X-SendEmAll-Signature` header. Verify it before processing the payload.
+
+**Python:**
+```python
+import hmac
+import hashlib
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+WEBHOOK_SECRET = "whsec_your-signing-secret"
+
+@app.route("/webhooks/sendemall", methods=["POST"])
+def handle_webhook():
+    payload = request.get_data()
+    signature = request.headers.get("X-SendEmAll-Signature", "")
+
+    expected = hmac.new(
+        WEBHOOK_SECRET.encode(),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+
+    if not hmac.compare_digest(f"sha256={expected}", signature):
+        return jsonify({"error": "Invalid signature"}), 401
+
+    event = request.json
+    process_event(event)
+    return jsonify({"received": True}), 200
+```
+
+**JavaScript (Express):**
+```javascript
+const crypto = require("crypto");
+const express = require("express");
+const app = express();
+
+const WEBHOOK_SECRET = "whsec_your-signing-secret";
+
+app.post("/webhooks/sendemall", express.raw({ type: "application/json" }), (req, res) => {
+  const signature = req.headers["x-sendemall-signature"];
+  const expected = `sha256=${crypto
+    .createHmac("sha256", WEBHOOK_SECRET)
+    .update(req.body)
+    .digest("hex")}`;
+
+  if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) {
+    return res.status(401).json({ error: "Invalid signature" });
+  }
+
+  const event = JSON.parse(req.body);
+  processEvent(event);
+  res.json({ received: true });
+});
+```
+
+### Step 3: Handle retries
+
+If your endpoint returns a non-2xx status code or times out (10-second limit), SendEmAll retries:
+
+| Attempt | Delay |
+|---------|-------|
+| 1st retry | 30 seconds |
+| 2nd retry | 5 minutes |
+| 3rd retry | 30 minutes |
+
+After 3 failed retries, the event is sent to a dead letter queue. You can retrieve failed events via the API:
+
+```bash
+curl https://api.sendemall.com/v1/webhooks/whk_abc123/failed-events \
+  -H "x-user-context: your-api-key"
+```
+
+## Payload examples
+
+### email.replied
+
+```json
+{
+  "event": "email.replied",
+  "id": "evt_reply_001",
+  "timestamp": "2026-04-06T14:23:17Z",
+  "data": {
+    "campaign_id": "cmp_abc123",
+    "campaign_name": "Q2 Series B Outreach",
+    "lead_id": "lead_xyz789",
+    "lead_email": "sarah@example.com",
+    "lead_name": "Sarah Chen",
+    "lead_company": "Acme Corp",
+    "sequence_step": 1,
+    "reply_sentiment": "positive",
+    "reply_preview": "Thanks for reaching out. We're actually looking at this right now. Can you do Thursday at 2pm?",
+    "thread_id": "thrd_def456"
+  }
+}
+```
+
+The `reply_sentiment` field is one of: `positive`, `neutral`, `negative`, `out_of_office`, `unsubscribe`. This is AI-classified and available in real-time.
+
+### email.bounced
+
+```json
+{
+  "event": "email.bounced",
+  "id": "evt_bounce_001",
+  "timestamp": "2026-04-06T10:05:33Z",
+  "data": {
+    "campaign_id": "cmp_abc123",
+    "lead_id": "lead_xyz789",
+    "lead_email": "john@defunct-company.com",
+    "bounce_type": "hard",
+    "bounce_code": "550",
+    "bounce_message": "Mailbox not found",
+    "sequence_step": 1
+  }
+}
+```
+
+`bounce_type` is either `hard` (permanent — remove this address) or `soft` (temporary — retry may work). Always remove hard bounces from your lists immediately.
+
+### email.opened
+
+```json
+{
+  "event": "email.opened",
+  "id": "evt_open_001",
+  "timestamp": "2026-04-06T09:15:44Z",
+  "data": {
+    "campaign_id": "cmp_abc123",
+    "lead_id": "lead_xyz789",
+    "lead_email": "sarah@example.com",
+    "sequence_step": 1,
+    "open_count": 3,
+    "first_opened_at": "2026-04-06T08:12:00Z",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X...)",
+    "ip_country": "US"
+  }
+}
+```
+
+Note: `open_count` tracks total opens. Multiple opens from the same lead indicate re-reading — a strong interest signal.
+
+### email.unsubscribed
+
+```json
+{
+  "event": "email.unsubscribed",
+  "id": "evt_unsub_001",
+  "timestamp": "2026-04-06T11:30:00Z",
+  "data": {
+    "campaign_id": "cmp_abc123",
+    "lead_id": "lead_xyz789",
+    "lead_email": "mike@company.com",
+    "sequence_step": 2,
+    "suppressed_globally": true
+  }
+}
+```
+
+When `suppressed_globally` is true, this address is automatically excluded from all future campaigns. You should mirror this suppression in your CRM.
+
+## Integration patterns
+
+### Update CRM on reply
+
+The most common integration. When a reply comes in, update the lead's status in your CRM and notify the sales rep.
+
+```python
+def process_event(event):
+    if event["event"] == "email.replied":
+        data = event["data"]
+
+        # Update CRM
+        crm.update_contact(
+            email=data["lead_email"],
+            status="replied",
+            sentiment=data["reply_sentiment"],
+            last_activity=event["timestamp"]
+        )
+
+        # Notify sales rep if positive
+        if data["reply_sentiment"] == "positive":
+            slack.send_message(
+                channel="#sales-replies",
+                text=f"Positive reply from {data['lead_name']} at {data['lead_company']}: {data['reply_preview']}"
+            )
+```
+
+### Alert Slack on meeting request
+
+Filter for replies that contain meeting-related language:
+
+```python
+MEETING_KEYWORDS = ["calendar", "schedule", "thursday", "friday", "next week", "available", "let's talk"]
+
+def process_event(event):
+    if event["event"] == "email.replied":
+        preview = event["data"]["reply_preview"].lower()
+        if any(kw in preview for kw in MEETING_KEYWORDS):
+            slack.send_message(
+                channel="#meetings",
+                text=f"Possible meeting request from {event['data']['lead_name']}. Check reply."
+            )
+```
+
+### Pause campaign on bounce spike
+
+If bounce rate exceeds a threshold, something is wrong with your list. Pause and investigate.
+
+```python
+from collections import defaultdict
+import time
+
+bounce_counts = defaultdict(lambda: {"total": 0, "bounces": 0, "window_start": time.time()})
+
+def process_event(event):
+    campaign_id = event["data"]["campaign_id"]
+    tracker = bounce_counts[campaign_id]
+
+    # Reset window every hour
+    if time.time() - tracker["window_start"] > 3600:
+        tracker["total"] = 0
+        tracker["bounces"] = 0
+        tracker["window_start"] = time.time()
+
+    tracker["total"] += 1
+    if event["event"] == "email.bounced":
+        tracker["bounces"] += 1
+
+    bounce_rate = tracker["bounces"] / max(tracker["total"], 1)
+    if bounce_rate > 0.05 and tracker["total"] > 20:
+        # Bounce rate over 5% with meaningful sample
+        sendemall.pause_campaign(campaign_id)
+        slack.alert(f"Campaign {campaign_id} paused: {bounce_rate:.1%} bounce rate")
+```
+
+## Error handling best practices
+
+**Idempotency:** Webhooks can be delivered more than once (network retries, server restarts). Use the `id` field to deduplicate:
+
+```python
+processed_events = set()  # In production, use Redis or a database
+
+def handle_webhook(event):
+    if event["id"] in processed_events:
+        return  # Already processed
+    processed_events.add(event["id"])
+    process_event(event)
+```
+
+**Respond fast:** Return a 200 within 10 seconds. If your processing takes longer, acknowledge the webhook immediately and process asynchronously:
+
+```python
+from queue import Queue
+import threading
+
+event_queue = Queue()
+
+@app.route("/webhooks/sendemall", methods=["POST"])
+def handle_webhook():
+    # Verify signature first
+    event = request.json
+    event_queue.put(event)  # Queue for async processing
+    return jsonify({"received": True}), 200
+
+def worker():
+    while True:
+        event = event_queue.get()
+        process_event(event)
+
+threading.Thread(target=worker, daemon=True).start()
+```
+
+**Dead letter recovery:** Check for failed events daily and reprocess:
+
+```python
+failed = sendemall.get_failed_webhook_events(webhook_id="whk_abc123")
+for event in failed:
+    process_event(event)
+    sendemall.acknowledge_failed_event(event["id"])
+```
+
+For the full webhook reference, event schemas, and testing tools, visit the [developer documentation](/developers).
+
+[Start building](https://app.sendemall.com/signup) — webhook configuration is available on all plans.

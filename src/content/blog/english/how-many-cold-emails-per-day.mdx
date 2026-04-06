@@ -1,0 +1,130 @@
+---
+title: "How Many Cold Emails Can You Send Per Day in 2026?"
+description: "Provider limits, safe sending zones, and the math behind scaling cold email with mailbox rotation. Real numbers, not guesses."
+date: 2026-04-06
+categories: ["deliverability"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "Gmail caps you at 500/day, Google Workspace at 2,000. But safe cold email volume is way lower. Here's the real math on daily sending limits and how to scale with mailbox rotation."
+---
+
+## The short answer: 30-50 per mailbox per day
+
+That's it. Not 500. Not 2,000. Thirty to fifty cold emails per mailbox per day is the safe zone for outbound in 2026.
+
+Everything above that is playing with fire. Here's why, and how to scale without getting burned.
+
+## Provider limits vs. safe cold email limits
+
+Email providers set sending limits. But those limits are for all email — newsletters, transactional, personal, cold outreach combined. They're not permission slips for cold email.
+
+| Provider | Official daily limit | Safe cold email limit |
+|----------|--------------------:|---------------------:|
+| Gmail (free) | 500/day | 10-15/day |
+| Google Workspace | 2,000/day | 30-50/day |
+| Outlook (free) | 300/day | 10-15/day |
+| Microsoft 365 | 10,000/day | 30-50/day |
+| SMTP (Postal, custom) | No hard cap | 50-100/day (depends on IP reputation) |
+
+The gap between official limits and safe limits is enormous. Google Workspace technically allows 2,000 emails per day. But if you blast 2,000 cold emails from one mailbox, here's what happens:
+
+1. **Immediate throttling.** Google detects the pattern and slows your sending.
+2. **Spam folder placement.** Recipients' mail servers flag the volume spike.
+3. **Temporary suspension.** Google locks your account for 24-72 hours.
+4. **Reputation damage.** Your domain reputation drops, affecting all future sends.
+
+Microsoft 365 is slightly more lenient on raw volume but equally aggressive on pattern detection. Sending 500 cold emails from one M365 mailbox will trigger abuse filters.
+
+## Why 30-50 is the magic number
+
+Three factors converge at 30-50 emails per day:
+
+**1. Engagement ratios stay natural.** A real person might send 30-50 emails in a workday. 200? That's obviously automated. Mail servers track this.
+
+**2. Bounce rates stay manageable.** Even with verified lists, 1-2% bounce is normal. At 50 emails/day, that's 0-1 bounces daily — invisible. At 500/day, that's 5-10 bounces daily — a red flag.
+
+**3. Spam complaints stay below threshold.** Industry standard: stay below 0.1% spam complaint rate. At 50/day, one complaint every 20 days is fine. At 500/day, you need zero complaints to stay clean. That's unrealistic.
+
+## The scaling math
+
+You want to send 500+ cold emails per day. Here's how:
+
+**Multiply mailboxes, not volume per mailbox.**
+
+| Target daily volume | Mailboxes needed (at 40/day each) | Monthly volume |
+|--------------------:|----------------------------------:|---------------:|
+| 200/day | 5 | ~4,000 |
+| 400/day | 10 | ~8,000 |
+| 600/day | 15 | ~12,000 |
+| 1,000/day | 25 | ~20,000 |
+| 2,000/day | 50 | ~40,000 |
+
+SendEmAll's [Pro plan](/pricing) includes 15 managed mailboxes. At 40 emails per mailbox per day, that's 600 emails/day or roughly 12,000/month. The [Business plan](/pricing) bumps that to 45 mailboxes — 1,800 emails/day capacity.
+
+## What happens when you exceed limits
+
+We see this pattern constantly with teams trying to scale too fast:
+
+**Week 1:** Send 100/day from one mailbox. Feels great. High open rates.
+
+**Week 2:** Bump to 200/day. Still working. Getting bold.
+
+**Week 3:** Push to 300/day. Open rates drop from 55% to 30%. Spam placement starting.
+
+**Week 4:** 400/day. Google sends a warning. Account suspended for 24 hours.
+
+**Week 5:** Resume at 200/day. But the damage is done. Domain reputation is tanked. Open rates are now 20% even at lower volume.
+
+Recovery takes 2-4 weeks of reduced sending. Sometimes the domain is permanently damaged and you need to start fresh.
+
+## Mailbox rotation: how it works
+
+Mailbox rotation distributes your sends across multiple mailboxes automatically. Instead of one mailbox sending 200 emails, four mailboxes each send 50.
+
+**Basic rotation strategies:**
+
+- **Round-robin:** Each mailbox takes the next email in sequence. Mailbox A sends email 1, Mailbox B sends email 2, Mailbox C sends email 3, repeat.
+- **Weighted rotation:** Newer mailboxes get fewer sends during Smart Ramp-Up. A 90-day-old mailbox gets 50/day while a 14-day-old mailbox gets 15/day.
+- **Domain-based rotation:** Spread sends across multiple domains, not just multiple mailboxes on one domain.
+
+SendEmAll uses weighted, domain-based rotation by default. New mailboxes automatically get less volume during [Smart Ramp-Up](/blog/smart-ramp-up-explained), then gradually increase. You don't configure anything.
+
+## The DIY cost of scaling
+
+Doing this yourself means:
+
+- **Domains:** 5-10 separate domains at $10-15/year each = $50-150/year
+- **Google Workspace:** 15 mailboxes at $7.20/mo each = $108/mo
+- **DNS setup:** SPF, DKIM, DMARC for every domain — 30 minutes per domain, ongoing monitoring
+- **Smart Ramp-Up:** 2-3 weeks per new mailbox before it can send at full capacity
+- **Rotation tool:** You need software to manage which mailbox sends what. That's either your sending platform (if it supports it) or a custom integration.
+- **Monitoring:** Checking deliverability per mailbox, per domain, daily.
+
+Total: $120+/mo in infrastructure costs, plus 5-10 hours/month in management time.
+
+Or use [managed infrastructure](/solutions/email-infrastructure) where all of this is handled. SendEmAll's Pro plan includes 15 mailboxes, managed domains, automatic rotation, and Smart Ramp-Up for $149/mo.
+
+## Quick reference: daily sending limits by plan
+
+| SendEmAll Plan | Mailboxes | Daily capacity (at 40/day) | Monthly capacity |
+|---------------|----------:|---------------------------:|-----------------:|
+| Pro ($149/mo) | 15 | 600/day | ~12,000/mo |
+| Business ($349/mo) | 45 | 1,800/day | ~36,000/mo |
+| Scale ($599/mo) | 105 | 4,200/day | ~84,000/mo |
+| Enterprise (custom) | 150+ | 6,000+/day | ~120,000+/mo |
+
+## The rules that matter
+
+1. **Never exceed 50 cold emails per mailbox per day.** This is the hard ceiling.
+2. **Scale with mailboxes, not volume.** Want more sends? Add more mailboxes.
+3. **Use separate domains.** Never send cold email from your primary business domain.
+4. **Ramp gradually.** New mailboxes start at 5-10/day and increase over 2-3 weeks.
+5. **Monitor per-mailbox.** One bad mailbox can drag down your entire domain reputation.
+6. **Spread across domains.** If one domain gets flagged, the others keep sending.
+
+## Ready to scale safely?
+
+Start with 100 free credits. No mailboxes needed for the trial — we handle the infrastructure. See how managed rotation works before committing.
+
+[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)

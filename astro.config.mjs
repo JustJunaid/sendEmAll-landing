@@ -22,7 +22,7 @@ let {
 
 // https://astro.build/config
 export default defineConfig({
-  site: config.site.baseUrl ? config.site.baseUrl : "http://examplesite.com",
+  site: config.site.baseUrl ? config.site.baseUrl : "https://sendemall.com",
   trailingSlash: config.site.trailingSlash ? "always" : "never",
   image: {
     layout: "constrained",
@@ -75,12 +75,11 @@ export default defineConfig({
       theme: "github-dark", // https://shiki.style/themes
       wrap: false,
     },
-    extendDefaultPlugins: true,
   },
   vite: {
     plugins: [tailwindcss()],
     build: {
-      sourcemap: true,
+      sourcemap: false,
     },
   },
 });

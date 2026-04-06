@@ -6,10 +6,62 @@ import { generatePaths } from "@/lib/utils/i18nUtils";
 export function getStaticPaths() {
   return generatePaths();
 }
+
+// Product + Offer structured data for pricing rich snippets
+const pricingSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "SendEmAll",
+  description: "All-in-one outbound platform. Signal-qualified leads, managed email infrastructure, AI personalization, and sending.",
+  brand: { "@type": "Brand", name: "SendEmAll" },
+  url: "https://sendemall.com/pricing",
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Trial",
+      price: "0",
+      priceCurrency: "USD",
+      description: "100 one-time credits. Try SendEmAll free.",
+      availability: "https://schema.org/InStock",
+      url: "https://sendemall.com/pricing",
+    },
+    {
+      "@type": "Offer",
+      name: "Pro",
+      price: "149",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
+      description: "15 mailboxes, 1,500 credits/mo, ~200 buyers reached.",
+      availability: "https://schema.org/InStock",
+      url: "https://sendemall.com/pricing",
+    },
+    {
+      "@type": "Offer",
+      name: "Business",
+      price: "349",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
+      description: "45 mailboxes, 5,000 credits/mo, ~650 buyers reached. Reply guarantee included.",
+      availability: "https://schema.org/InStock",
+      url: "https://sendemall.com/pricing",
+    },
+    {
+      "@type": "Offer",
+      name: "Scale",
+      price: "599",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
+      description: "105 mailboxes, 15,000 credits/mo, ~2,000 buyers reached. Reply guarantee included.",
+      availability: "https://schema.org/InStock",
+      url: "https://sendemall.com/pricing",
+    },
+  ],
+});
 ---
 
 <Base
   metaTitle="Pricing | SendEmAll"
+  disableTagline={true}
   metaDescription="Simple, transparent pricing. 1 credit = 1 action. No hidden fees, no tool stacking. See plans from $0 to $599/mo."
 >
   <!-- Section 1: Hero + Cost Comparison -->
@@ -51,7 +103,7 @@ export function getStaticPaths() {
                 <span class="text-white font-medium">$20-50</span>
               </div>
               <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Warmup tool</span>
+                <span class="text-text-default text-sm">Ramp-up tool</span>
                 <span class="text-white font-medium">$25-59</span>
               </div>
               <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
@@ -181,7 +233,7 @@ export function getStaticPaths() {
           <p class="text-sm text-text-default mb-6">one-time</p>
           <div class="mb-6">
             <p class="text-sm text-text-default">100 credits</p>
-            <p class="text-sm font-medium" style="color: #14B8A6;">~13 buyers reached</p>
+            <p class="text-sm font-medium text-teal-500">~13 buyers reached</p>
           </div>
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-2 text-sm text-text-default">
@@ -216,7 +268,7 @@ export function getStaticPaths() {
           <p class="text-sm text-text-default mb-6">15 mailboxes</p>
           <div class="mb-6">
             <p class="text-sm text-text-default">1,500 credits</p>
-            <p class="text-sm font-medium" style="color: #14B8A6;">~200 buyers reached</p>
+            <p class="text-sm font-medium text-teal-500">~200 buyers reached</p>
           </div>
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-2 text-sm text-text-default">
@@ -262,7 +314,7 @@ export function getStaticPaths() {
           <p class="text-sm text-text-default mb-6">45 mailboxes</p>
           <div class="mb-6">
             <p class="text-sm text-text-default">5,000 credits</p>
-            <p class="text-sm font-medium" style="color: #14B8A6;">~650 buyers reached</p>
+            <p class="text-sm font-medium text-teal-500">~650 buyers reached</p>
           </div>
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-2 text-sm text-text-default">
@@ -305,7 +357,7 @@ export function getStaticPaths() {
           <p class="text-sm text-text-default mb-6">105 mailboxes</p>
           <div class="mb-6">
             <p class="text-sm text-text-default">15,000 credits</p>
-            <p class="text-sm font-medium" style="color: #14B8A6;">~2,000 buyers reached</p>
+            <p class="text-sm font-medium text-teal-500">~2,000 buyers reached</p>
           </div>
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-2 text-sm text-text-default">
@@ -369,8 +421,7 @@ export function getStaticPaths() {
             max="3000"
             step="10"
             value="200"
-            class="w-full h-2 rounded-full appearance-none cursor-pointer bg-border-light"
-            style="accent-color: #D2B3F3;"
+            class="w-full h-2 rounded-full appearance-none cursor-pointer bg-border-light accent-[#D2B3F3]"
           />
         </div>
 
@@ -389,7 +440,7 @@ export function getStaticPaths() {
           </div>
           <div class="text-center">
             <p class="text-sm text-text-default mb-1">Cost per buyer</p>
-            <p id="calc-per-buyer" class="text-2xl font-bold" style="color: #14B8A6;">$0.75</p>
+            <p id="calc-per-buyer" class="text-2xl font-bold text-teal-500">$0.75</p>
           </div>
         </div>
       </div>
@@ -606,6 +657,7 @@ export function getStaticPaths() {
       </div>
     </div>
   </section>
+  <script type="application/ld+json" set:html={pricingSchema} />
 </Base>
 
 <script>

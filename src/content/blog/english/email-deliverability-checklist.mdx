@@ -1,0 +1,208 @@
+---
+title: "The Cold Email Deliverability Checklist: 14 Checks Before You Hit Send"
+description: "14 checks to run before every cold email campaign. SPF, DKIM, list verification, volume limits, and more. Print this and use it."
+date: 2026-04-06
+categories: ["deliverability"]
+image: ""
+draft: false
+author: "SendEmAll Team"
+excerpt: "Most deliverability problems are preventable. Run these 14 checks before every campaign and you'll avoid 90% of the issues that land emails in spam."
+---
+
+## The checklist that prevents 90% of deliverability disasters
+
+Every week, we see campaigns fail for the same preventable reasons. No DMARC record. Unverified list. Volume too high for a new domain. Sending from a primary business domain.
+
+None of these are hard to fix. But they're easy to forget when you're rushing to get a campaign out the door.
+
+This is the pre-send checklist. Run it before every campaign. No exceptions.
+
+## Authentication (checks 1-3)
+
+These three records tell receiving mail servers that you're who you claim to be. Without them, your emails look like spoofing attempts.
+
+### 1. SPF record configured
+
+**What it is:** Sender Policy Framework. A DNS TXT record that lists which servers are authorized to send email from your domain.
+
+**How to check:** Use MXToolbox SPF lookup. Enter your domain. You should see a valid SPF record that includes your email provider (e.g., `include:_spf.google.com` for Google Workspace).
+
+**Common mistakes:**
+- No SPF record at all (surprisingly common)
+- SPF record with too many DNS lookups (limit is 10)
+- SPF record that doesn't include your sending platform
+- Multiple SPF records (you can only have one per domain)
+
+### 2. DKIM signing active
+
+**What it is:** DomainKeys Identified Mail. A cryptographic signature that proves the email hasn't been modified in transit.
+
+**How to check:** Send a test email to Mail-Tester.com. Check the DKIM section. It should show "signed" with a valid key.
+
+**Common mistakes:**
+- DKIM not enabled in your email provider settings
+- DKIM DNS record not published
+- DKIM key rotated but DNS not updated
+
+### 3. DMARC policy set
+
+**What it is:** Domain-based Message Authentication, Reporting, and Conformance. Tells receiving servers what to do when SPF or DKIM fails.
+
+**How to check:** Look up `_dmarc.yourdomain.com` TXT record in DNS.
+
+**Recommended starting policy:** `v=DMARC1; p=none; rua=mailto:dmarc-reports@yourdomain.com`
+
+Start with `p=none` (monitor only). After 2-4 weeks of clean data, move to `p=quarantine`. Eventually `p=reject` for maximum protection.
+
+**Common mistakes:**
+- No DMARC record at all
+- Going straight to `p=reject` before verifying all sending sources
+- Not monitoring DMARC reports (the `rua` address)
+
+## Domain health (checks 4-5)
+
+### 4. Domain aged 14+ days
+
+**Why it matters:** Brand new domains have zero reputation. ISPs treat them with maximum suspicion. Sending cold email from a domain registered yesterday is practically guaranteed to hit spam.
+
+**Minimum:** 14 days. **Ideal:** 30+ days. **Best:** 90+ days (aged domains).
+
+**If you need to send sooner:** Use existing domains that have been aged and have clean history. Don't rush new domains.
+
+### 5. Smart Ramp-Up completed
+
+**Why it matters:** Even with an aged domain, new mailboxes need gradual volume increases. Jumping from 0 to 50 emails/day triggers anomaly detection.
+
+**Check:** Is this mailbox past the [Smart Ramp-Up](/blog/smart-ramp-up-explained) period? Has it been sending for 14-21 days with gradually increasing volume?
+
+**If not:** Start with 5-10 emails/day and increase over 2-3 weeks. Don't skip this.
+
+## List quality (check 6)
+
+### 6. List verified (expected bounce rate under 2%)
+
+**Why it matters:** This single check prevents the most common deliverability disaster. Sending to unverified addresses leads to high bounce rates, which leads to reputation damage, which leads to spam placement for all future emails.
+
+**How to verify:**
+- Run every address through an [email verification service](/solutions/email-verification)
+- Remove invalid, risky, and disposable addresses
+- Flag catch-all domains for careful sending
+- Target: less than 2% expected bounce rate after verification
+
+**When to verify:** Before every campaign. Not just when you first acquire the list. Email addresses decay at 2-3% per month.
+
+## Content (checks 7-8)
+
+### 7. No spam trigger words in subject or body
+
+**Reality check:** Spam filters in 2026 are more sophisticated than keyword matching. They analyze context, intent, and patterns. But certain words still increase your spam score, especially in combination.
+
+**Words to avoid or use carefully:**
+- "Free," "guaranteed," "no risk," "act now," "limited time"
+- "Buy," "order," "purchase," "discount," "deal"
+- Excessive capitalization ("FREE OFFER")
+- Excessive exclamation marks ("Amazing opportunity!!!")
+- "Dear friend," "dear sir/madam"
+
+**Better approach:** Write like a human sending a business email. If it reads like marketing copy, it'll get filtered like marketing copy.
+
+### 8. Unsubscribe link present
+
+**Why it matters:** CAN-SPAM requires an unsubscribe mechanism in commercial email. Beyond legal compliance, an unsubscribe link actually helps deliverability. Gmail gives extra inbox credit to emails that include one.
+
+**How to implement:** A simple text link at the bottom: "If this isn't relevant, reply 'unsubscribe' or click here to opt out."
+
+**Don't hide it.** A visible unsubscribe link reduces spam complaints because people unsubscribe instead of hitting the spam button. Spam complaints hurt you 10x more than unsubscribes.
+
+## Infrastructure (checks 9-12)
+
+### 9. Sending from a separate domain (not primary)
+
+**Why it matters:** If your cold email domain gets burned, you want it to be `outreach-yourcompany.com`, not `yourcompany.com`. Damage to your primary domain affects all business email — internal, customer communication, transactional.
+
+**Best practice:** Use 3-5 separate domains for cold outreach. Keep your primary domain for regular business email only.
+
+**Domain naming:** Similar to your primary domain but clearly separate. If your company is `acme.com`, use `acme-mail.com`, `tryacme.com`, `acmehq.com`, etc.
+
+### 10. Volume under 50 per mailbox per day
+
+**Why it matters:** Exceeding 50 cold emails per mailbox per day triggers volume-based spam detection. This is the hard ceiling, not a suggestion.
+
+**Check before sending:** Total emails in campaign / number of active mailboxes / campaign days = emails per mailbox per day. If it's above 40, add more mailboxes or extend the campaign timeline.
+
+See our [guide on daily sending limits](/blog/how-many-cold-emails-per-day) for the full breakdown.
+
+### 11. Custom tracking domain set up
+
+**Why it matters:** Default tracking domains from your email platform are shared with thousands of other senders. If other users spam through the same tracking domain, it gets blacklisted — and your tracking breaks.
+
+**How to set up:** Most sending platforms let you add a custom tracking domain (e.g., `track.yourcompany.com`) via a CNAME DNS record. Takes 5 minutes.
+
+### 12. Reply-to address monitored
+
+**Why it matters:** If someone replies and nobody responds, two bad things happen: you lose a potential deal, and the prospect is more likely to mark future emails as spam.
+
+**Check:** Is the reply-to address connected to a monitored inbox? Is someone checking it at least twice daily? Are auto-replies configured for evenings/weekends?
+
+## Sequence design (checks 13-14)
+
+### 13. Follow-up sequence spaced 3+ days apart
+
+**Why it matters:** Following up the next day feels aggressive. It also triggers "high-frequency sender" patterns that ISPs watch for.
+
+**Recommended spacing:**
+- Email 1 → Follow-up 1: 3-4 days
+- Follow-up 1 → Follow-up 2: 4-5 days
+- Follow-up 2 → Follow-up 3: 5-7 days
+- Total sequence span: 15-21 days
+
+### 14. Test email sent and checked in multiple clients
+
+**Why it matters:** Your email looks different in Gmail, Outlook, Apple Mail, and mobile. Links might break. Formatting might shift. Images might not load. Variables might not merge correctly.
+
+**Before launching:**
+1. Send a test to your personal Gmail
+2. Send a test to an Outlook account
+3. Check on mobile (both iOS and Android)
+4. Verify all personalization variables populated correctly
+5. Click every link to confirm they work
+6. Check the email shows no HTML artifacts or broken formatting
+
+## The quick-reference version
+
+Print this. Tape it next to your monitor. Run it before every campaign.
+
+| # | Check | Status |
+|---|-------|--------|
+| 1 | SPF record configured | &#9744; |
+| 2 | DKIM signing active | &#9744; |
+| 3 | DMARC policy set | &#9744; |
+| 4 | Domain aged 14+ days | &#9744; |
+| 5 | Smart Ramp-Up completed | &#9744; |
+| 6 | List verified (under 2% bounce expected) | &#9744; |
+| 7 | No spam trigger words | &#9744; |
+| 8 | Unsubscribe link present | &#9744; |
+| 9 | Sending from separate domain | &#9744; |
+| 10 | Volume under 50/mailbox/day | &#9744; |
+| 11 | Custom tracking domain configured | &#9744; |
+| 12 | Reply-to address monitored | &#9744; |
+| 13 | Follow-ups spaced 3+ days | &#9744; |
+| 14 | Test email sent and checked | &#9744; |
+
+## What SendEmAll handles automatically
+
+Of these 14 checks, SendEmAll manages 9 automatically:
+
+- **SPF, DKIM, DMARC** — configured on all managed domains
+- **Domain age** — managed domains are pre-aged
+- **Smart Ramp-Up** — automatic for new mailboxes
+- **List verification** — built-in [6-layer verification](/solutions/email-verification)
+- **Separate domains** — managed domains are separate from your primary
+- **Volume limits** — automatic [mailbox rotation](/blog/mailbox-rotation-explained) keeps each under 50/day
+- **Custom tracking domain** — pre-configured on managed domains
+- **Reply monitoring** — unified inbox in the dashboard
+- **Follow-up spacing** — enforced minimums in sequence builder
+
+You're responsible for: content quality, unsubscribe link, and sending the test email. That's it.
+
+[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)
