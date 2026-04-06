@@ -3,7 +3,7 @@
   title              = "SendEmAll"
   description        = "The complete outbound platform. One tool replaces five. Signal-qualified leads, managed email infrastructure, AI personalization, and guaranteed replies — starting at $149/mo."
   tagline            = "The Complete Outbound Platform"
-  taglineSeparator   = " — "
+  taglineSeparator   = " | "
   baseUrl            = "https://sendemall.com"
   logo               = "/images/sendemall-logo-dark.svg"
   logoHoverAnimation = false
