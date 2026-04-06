@@ -32,6 +32,14 @@ const fontVariables = fontsJson.map((font) => font.cssVariable) as any[];
     content="#000"
   />
   <meta name="generator" content={Astro.generator} />
+
+  <!-- Preconnect to critical third-party origins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.clarity.ms" />
+  <link rel="dns-prefetch" href="https://widget.intercom.io" />
+
   {/* Third-party scripts moved to before </body> in Base.astro for performance */}
   <OpenGraph {...Astro.props} />
   <Favicons />
