@@ -58,9 +58,18 @@ vite.config.ts.timestamp-*
 # Astro
 .astro/
 
+# Service account keys (NEVER commit)
+*.iam.gserviceaccount.com.json
+sendemall-*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.jest.json
+
 # Claude Code
 .claude/
 .remember/
+.mcp.json
 
 # Playwright MCP
 .playwright-mcp/
