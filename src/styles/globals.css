@@ -4,7 +4,12 @@
 @plugin "../plugins/fontTailwindPlugin.js";
 
 /* Preline UI */
-@source "../../node_modules/preline/dist/*.js";
+@source "../../node_modules/preline/dist/accordion.js";
+@source "../../node_modules/preline/dist/collapse.js";
+@source "../../node_modules/preline/dist/dropdown.js";
+@source "../../node_modules/preline/dist/overlay.js";
+@source "../../node_modules/preline/dist/tabs.js";
+@source "../../node_modules/preline/dist/select.js";
 @import "../../node_modules/preline/variants.css";
 
 @plugin "@tailwindcss/forms";

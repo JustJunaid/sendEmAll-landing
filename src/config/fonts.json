@@ -2,7 +2,7 @@
   {
     "name": "Sora",
     "provider": "google",
-    "weights": [300, 400, 500, 600, 700, 800],
+    "weights": [400, 500, 600, 700],
     "styles": ["normal"],
     "subsets": ["latin"],
     "preload": true,
@@ -12,7 +12,7 @@
   {
     "name": "Sora",
     "provider": "google",
-    "weights": [500, 600, 700, 800],
+    "weights": [500, 600, 700],
     "styles": ["normal"],
     "subsets": ["latin"],
     "preload": true,

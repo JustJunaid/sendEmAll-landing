@@ -154,6 +154,8 @@ const videoButton = buttons.find((button) => button.type === "video");
                 class="rounded-t-2xl md:rounded-t-3xl"
                 src={image}
                 alt={"About " + plainify(title).toLowerCase()}
+                loading="eager"
+                fetchpriority="high"
               />
             </div>
 

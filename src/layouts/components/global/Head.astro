@@ -32,13 +32,7 @@ const fontVariables = fontsJson.map((font) => font.cssVariable) as any[];
     content="#000"
   />
   <meta name="generator" content={Astro.generator} />
-  {
-    config.head?.content && (
-      // Injecting custom scripts such as Google Analytics, Google Tag Manager, etc. tracking code,
-      // which should be placed in <head> tag
-      <Fragment set:html={config.head?.content} />
-    )
-  }
+  {/* Third-party scripts moved to before </body> in Base.astro for performance */}
   <OpenGraph {...Astro.props} />
   <Favicons />
   <JsonLD
