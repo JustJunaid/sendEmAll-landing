@@ -85,10 +85,10 @@ Mailbox rotation distributes your sends across multiple mailboxes automatically.
 **Basic rotation strategies:**
 
 - **Round-robin:** Each mailbox takes the next email in sequence. Mailbox A sends email 1, Mailbox B sends email 2, Mailbox C sends email 3, repeat.
-- **Weighted rotation:** Newer mailboxes get fewer sends during Smart Ramp-Up. A 90-day-old mailbox gets 50/day while a 14-day-old mailbox gets 15/day.
+- **Weighted rotation:** Newer mailboxes get fewer sends during warmup. A 90-day-old mailbox gets 50/day while a 14-day-old mailbox gets 15/day.
 - **Domain-based rotation:** Spread sends across multiple domains, not just multiple mailboxes on one domain.
 
-SendEmAll uses weighted, domain-based rotation by default. New mailboxes automatically get less volume during [Smart Ramp-Up](/blog/smart-ramp-up-explained), then gradually increase. You don't configure anything.
+SendEmAll uses weighted, domain-based rotation by default. New mailboxes automatically get less volume during [warmup](/blog/smart-ramp-up-explained), then gradually increase. You don't configure anything.
 
 ## The DIY cost of scaling
 
@@ -97,13 +97,13 @@ Doing this yourself means:
 - **Domains:** 5-10 separate domains at $10-15/year each = $50-150/year
 - **Google Workspace:** 15 mailboxes at $7.20/mo each = $108/mo
 - **DNS setup:** SPF, DKIM, DMARC for every domain — 30 minutes per domain, ongoing monitoring
-- **Smart Ramp-Up:** 2-3 weeks per new mailbox before it can send at full capacity
+- **warmup:** 2-3 weeks per new mailbox before it can send at full capacity
 - **Rotation tool:** You need software to manage which mailbox sends what. That's either your sending platform (if it supports it) or a custom integration.
 - **Monitoring:** Checking deliverability per mailbox, per domain, daily.
 
 Total: $120+/mo in infrastructure costs, plus 5-10 hours/month in management time.
 
-Or use [managed infrastructure](/solutions/email-infrastructure) where all of this is handled. SendEmAll's Pro plan includes 15 mailboxes, managed domains, automatic rotation, and Smart Ramp-Up for $149/mo.
+Or use [managed infrastructure](/services/cold-email-infrastructure) where all of this is handled. SendEmAll's Pro plan includes 15 mailboxes, managed domains, automatic rotation, and warmup for $149/mo.
 
 ## Quick reference: daily sending limits by plan
 
@@ -127,4 +127,4 @@ Or use [managed infrastructure](/solutions/email-infrastructure) where all of th
 
 Start with 100 free credits. No mailboxes needed for the trial — we handle the infrastructure. See how managed rotation works before committing.
 
-[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)
+[Start free — 100 credits, no card required →](/services/free-leads)

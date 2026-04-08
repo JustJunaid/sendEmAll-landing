@@ -1,0 +1,114 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Outbound for Startups | SendEmAll"
+  disableTagline={true}
+  metaDescription="Your first 100 customers on a founder's budget. Signal-based outbound for early-stage startups. Free 100 leads to start."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">For Startups</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        Your First 100 Customers. On a Founder's Budget.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        Signal-based outbound for early-stage startups. Start free. Scale when you're ready.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="/services/free-leads" class="btn btn-md btn-primary">Get 100 free potential buyers</a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Every founder's dilemma</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <p class="text-lg leading-relaxed text-text-default/80">
+            You can't afford a $5,500/mo SDR. You can't afford $600+/mo in tools. But you need pipeline. You need customers to get revenue, and revenue to get customers. Every dollar counts. Every hour counts more.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Solve It -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Built for founders who can't waste a dollar</h2>
+        <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">Everything you need to build pipeline, nothing you don't.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', title: "Start free", desc: "100 signal-qualified potential buyers at $0. Test the waters before you spend anything." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>', title: "Full pipeline from $149/mo", desc: "Less than a team lunch. 15 mailboxes, 1,500 credits, ~200 potential buyers reached per month." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 19a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-1"/><path d="M6 19a2 2 0 0 1-2-2v-1a4 4 0 0 1 4-4h1"/><circle cx="15" cy="7" r="3"/><circle cx="9" cy="7" r="3"/></svg>', title: "No SDR needed", desc: "Automated sequences handle follow-ups. You focus on closing, not chasing." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>', title: "Signal-based targeting", desc: "Find companies that need what you're building. Not random lists. Companies with budget, pain, and urgency." },
+        ].map((f, i) => (
+          <div class="rounded-2xl border border-border-light bg-accent p-8" data-aos="fade-up-sm" data-aos-delay={i * 50}>
+            <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary" set:html={f.svg} />
+            <h3 class="mb-2 text-xl font-semibold">{f.title}</h3>
+            <p class="text-text-default/70">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- The Math -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">The startup outbound math</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-500/20 text-sm font-bold text-red-400">X</span>
+              <div>
+                <p class="font-semibold text-text-default">The old way: $600+/mo</p>
+                <p class="text-text-default/70">Lead database ($99) + email tool ($59) + verification ($49) + warmup ($49) + enrichment ($199) + personalization ($149). Six tools. Six bills. Six logins.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500/20 text-sm font-bold text-green-400">&#10003;</span>
+              <div>
+                <p class="font-semibold text-text-default">SendEmAll: $149/mo</p>
+                <p class="text-text-default/70">Lead discovery + email infrastructure + verification + warmup + personalization + sending. One platform. One price.</p>
+              </div>
+            </div>
+            <div class="mt-4 rounded-xl bg-primary/5 p-4">
+              <p class="text-center font-semibold text-primary">You save $451+/mo. That's $5,412/year back in your runway.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Get 100 Free Potential Buyers. Zero Risk.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Tell us who you're building for. We'll deliver 100 signal-qualified potential buyers to your inbox. No credit card. No commitment. No catch.</p>
+        <a href="/services/free-leads" class="btn btn-md btn-primary mt-8">Get your free list</a>
+      </div>
+    </div>
+  </section>
+</Base>

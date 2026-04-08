@@ -1,0 +1,106 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Cold Email for Agencies | SendEmAll"
+  disableTagline={true}
+  metaDescription="Scale client outbound without scaling your team. Source leads, manage infrastructure, and run campaigns across multiple clients from one platform."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">For Agencies</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        Scale Client Outbound Without Scaling Your Team.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        Source signal-qualified potential buyers, manage infrastructure, and run campaigns across multiple clients. One platform. One login.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="/services/free-leads" class="btn btn-md btn-primary">Get 100 free leads for your next client</a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">The agency scaling problem</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <p class="text-lg leading-relaxed text-text-default/80">
+            Each new client means new domains, new mailboxes, new warmup, new lead lists. Your margins shrink as you add headcount to manage it all. Five clients feels manageable. Fifteen feels like chaos. Your ops team becomes the bottleneck, not your sales team.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Solve It -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">How SendEmAll solves it</h2>
+        <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">Everything your agency needs to manage outbound at scale, without hiring more people.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {[
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 19a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-1"/><path d="M6 19a2 2 0 0 1-2-2v-1a4 4 0 0 1 4-4h1"/><circle cx="15" cy="7" r="3"/><circle cx="9" cy="7" r="3"/></svg>', title: "Multi-client infrastructure", desc: "Buy mailboxes in bulk, manage domains per client, and run separate campaigns from one dashboard. No more juggling logins." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>', title: "Signal-based lead sourcing", desc: "Build targeted lead lists for each client's ICP using real buying signals. No more generic databases." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', title: "Volume pricing", desc: "Agency-tier pricing that improves your margins as you add clients. The more you send, the less you pay per credit." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>', title: "Centralized billing", desc: "One invoice. Allocate credits across client accounts and track usage per client in real time." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', title: "White-label ready", desc: "Reports and dashboards with your agency branding. Your clients see your name, not ours." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>', title: "warmup automation", desc: "Automated domain and mailbox warmup across all client accounts. Set it and forget it." },
+        ].map((f, i) => (
+          <div class="rounded-2xl border border-border-light bg-accent p-8" data-aos="fade-up-sm" data-aos-delay={i * 50}>
+            <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary" set:html={f.svg} />
+            <h3 class="mb-2 text-xl font-semibold">{f.title}</h3>
+            <p class="text-text-default/70">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">How it works</h2>
+      </div>
+      <div class="mx-auto grid max-w-4xl gap-12 lg:grid-cols-3">
+        {[
+          { num: "01", title: "Onboard your client", desc: "Set up an isolated workspace with dedicated domains and sending infrastructure. Takes 10 minutes." },
+          { num: "02", title: "We source and qualify", desc: "Define the client's ICP. Our engine finds signal-qualified potential buyers from 8+ providers." },
+          { num: "03", title: "Launch campaigns", desc: "Personalized sequences go out on auto-pilot. Share white-labeled reports with your client." },
+        ].map((s, i) => (
+          <div class="text-center" data-aos="fade-up-sm" data-aos-delay={i * 100}>
+            <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary text-lg font-bold text-dark">{s.num}</span>
+            <h3 class="mb-2 text-xl font-semibold">{s.title}</h3>
+            <p class="text-text-default/70">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Get 100 Free Leads for Your Next Client</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Tell us the client's ICP. We'll deliver 100 signal-qualified potential buyers. Free. No commitment.</p>
+        <a href="/services/free-leads" class="btn btn-md btn-primary mt-8">Get your free list</a>
+      </div>
+    </div>
+  </section>
+</Base>

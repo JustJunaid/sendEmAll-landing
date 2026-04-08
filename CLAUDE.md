@@ -54,19 +54,22 @@ Marketing site for SendEmAll — the all-in-one outbound platform. Replaces the 
 - Domains shared across customers (NEVER expose mailbox-per-domain ratio)
 - Reply guarantee on Business + Scale: 50+ replies in 90 days → bonus credits
 - PAYG overage: $0.05/$0.04/$0.03 per credit by tier
-- "Smart Ramp-Up" not "Warmup"
+- "warmup" on landing page (industry keyword for SEO). "Smart Ramp-Up" is internal nomenclature only.
 
-## Sitemap (20+ pages)
+## Sitemap (30+ pages)
 - Home, Pricing, Blog, Blog Posts
-- 4 Service pages: `/solutions/lead-generation`, `/solutions/email-infrastructure`, `/solutions/ai-personalization`, `/solutions/email-verification`
-- 4 Comparison pages: `/compare/instantly`, `/compare/apollo`, `/compare/clay`, `/compare/lemlist`
-- For Agencies, Developers, About, Contact, Privacy, Terms, Cookies, Changelog
+- 4 Product pages: `/products/cold-email`, `/products/email-warmup`, `/products/email-verification`, `/products/email-finder`
+- 5 Service pages: `/services/apollo-scraper`, `/services/sales-navigator-scraper`, `/services/custom-scraping`, `/services/cold-email-infrastructure`, `/services/free-leads`
+- 5 Use Case pages: `/use-cases/saas`, `/use-cases/agencies`, `/use-cases/recruiters`, `/use-cases/consultants`, `/use-cases/startups`
+- 1 Tool page: `/tools/email-deliverability-test`
+- 4 Comparison pages (footer only): `/compare/instantly`, `/compare/apollo`, `/compare/clay`, `/compare/lemlist`
+- Developers, About, Contact, Privacy, Terms, Cookies, Changelog
 
 ## Assets to Preserve
-- Logo SVG: `public/img/sendemall-logo-new.svg`
-- Favicon: `public/favicon/` (if exists)
+- Logo SVG: `src/assets/images/sendemall-logo-dark.svg`
+- Favicon: `public/images/favicons/`
 - GA: G-4WT843MDLE
-- Clarity: v4wj62uut2
+- Clarity: w7ehoee5jy
 
 ## What NOT to Do
 - Don't fight the Upstart template's design language — work WITH it, not against it

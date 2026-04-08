@@ -8,40 +8,43 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Sending", competitor: "Multi-channel", sendemall: "Email only" },
-  { name: "Lead generation", competitor: "With add-ons", sendemall: "Built-in" },
-  { name: "Infrastructure", competitor: "BYO", sendemall: "Managed" },
-  { name: "Personalization", competitor: "Templates", sendemall: "Full AI research" },
-  { name: "Verification", competitor: "Basic", sendemall: "Multi-layer" },
-  { name: "Per-seat pricing", competitor: "Yes", sendemall: "No" },
+  { name: "Personalization", competitor: "Image/video personalization", sendemall: "AI copy from company research" },
+  { name: "Lead discovery", competitor: "Limited email finder", sendemall: "18+ signal sources" },
+  { name: "Buying signals", competitor: "No", sendemall: "Real-time monitoring" },
+  { name: "Warmup", competitor: "lemwarm add-on $29-49/inbox", sendemall: "Included" },
+  { name: "Infrastructure", competitor: "BYO", sendemall: "Fully managed" },
+  { name: "Verification", competitor: "Built-in", sendemall: "Built-in" },
+  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
 ];
 
 const theyDoBetter = [
-  { title: "Multi-channel", description: "LinkedIn + email sequences. If you need multi-channel outreach, Lemlist has it." },
-  { title: "Visual sequence builder", description: "Drag-and-drop campaign builder is intuitive." },
+  { title: "Visual personalization", description: "Lemlist pioneered image and video personalization in cold emails. If personalized visuals are core to your outreach strategy, they do it best." },
+  { title: "Multi-channel sequences", description: "LinkedIn steps plus email in one sequence. If you need coordinated multi-channel outreach, Lemlist supports it natively." },
+  { title: "Established brand and community", description: "Large community with extensive tutorials, templates, and shared campaigns to learn from." },
 ];
 
 const weDoBetter = [
-  { title: "No per-seat pricing", description: "Lemlist charges per seat. Scale your team without multiplying costs." },
-  { title: "Managed infrastructure", description: "We handle domains, mailboxes, DNS, and deliverability." },
-  { title: "Signal-qualified leads", description: "Built-in lead generation with buying signal qualification." },
+  { title: "Signal-based lead discovery", description: "Lemlist personalizes emails. It does not find the right people to personalize for. We monitor 18+ sources for buying signals to surface potential buyers before you write a single line of copy." },
+  { title: "Full infrastructure management", description: "Lemlist expects you to bring your own domains and mailboxes. We provision, configure, and manage everything." },
+  { title: "Warmup included", description: "Lemlist charges $29-49 per inbox for lemwarm. With 15 mailboxes, that is $435-735/mo just for warmup. We include it at no extra cost." },
+  { title: "One platform replaces 5+ tools", description: "With Lemlist you still need separate tools for lead finding, enrichment, verification, and infrastructure. SendEmAll includes all of it from $149/mo." },
 ];
 ---
 
 <Base
-  title="SendEmAll vs Lemlist | Cost & Feature Comparison"
+  title="Best Lemlist Alternative for Cold Email (2026) | SendEmAll"
   disableTagline={true}
-  description="Compare SendEmAll and Lemlist side by side. See why managed infrastructure and no per-seat pricing make the difference."
+  description="Lemlist personalizes emails. SendEmAll personalizes AND finds the right people to personalize for. Signal-based outbound from discovery to delivery."
 >
   <ComparePage
     competitor="Lemlist"
-    description="Side-by-side cost and feature comparison"
-    competitorPrice="$69–$99/mo per seat"
-    competitorPriceNote="Per-seat pricing. Multi-channel but no managed infrastructure."
+    description="Lemlist personalizes emails. SendEmAll personalizes AND finds the right people to personalize for. Signal-based outbound from discovery to delivery."
+    competitorPrice="$69-$99/mo per seat"
+    competitorPriceNote="Per-seat pricing. lemwarm costs $29-49/inbox extra. No managed infrastructure or signal-based lead discovery."
     sendemallPrice="$149/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}
-    integrationNote="Use SendEmAll for lead gen and enrichment, export to Lemlist for multi-channel sequences."
+    integrationNote="Use SendEmAll for signal-based lead discovery and enrichment, then export to Lemlist for multi-channel sequences if you need LinkedIn outreach. Or handle everything in SendEmAll if email is your primary channel."
   />
 </Base>

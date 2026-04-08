@@ -1,6 +1,6 @@
 ---
 title: "Email Infrastructure: DIY vs Managed (Full Cost Breakdown)"
-description: "Build your own cold email infrastructure or use managed? Full cost comparison including domains, mailboxes, DNS, Smart Ramp-Up, monitoring, and time."
+description: "Build your own cold email infrastructure or use managed? Full cost comparison including domains, mailboxes, DNS, warmup, monitoring, and time."
 date: 2026-04-06
 categories: ["pricing"]
 image: ""
@@ -13,7 +13,7 @@ excerpt: "DIY cold email infrastructure costs $193-367/month plus 5-10 hours of 
 
 When people think about cold email costs, they think about the sending tool. That's the tip of the iceberg.
 
-Below the surface: domains, mailboxes, DNS records, Smart Ramp-Up, deliverability monitoring, reputation management, and the ongoing time to maintain it all.
+Below the surface: domains, mailboxes, DNS records, warmup, deliverability monitoring, reputation management, and the ongoing time to maintain it all.
 
 This guide breaks down every cost of running cold email infrastructure yourself versus using a managed solution. No vague estimates — real prices from real providers.
 
@@ -60,19 +60,19 @@ For one domain, setup takes 15-30 minutes if you know what you're doing. For 3 d
 
 If DNS configuration is unfamiliar, expect 2-4 hours of learning plus troubleshooting. [SPF, DKIM, and DMARC](/blog/spf-dkim-dmarc-cold-email) are not optional — misconfigured authentication means your emails go to spam.
 
-### Smart Ramp-Up — $25-99/month
+### Warmup: $25-99/month
 
-Fresh mailboxes can't blast 50 emails on day one. They need to build sending reputation gradually. Smart Ramp-Up (what some call "warmup") is the process of sending and receiving emails to establish that your mailbox is real and trustworthy.
+Fresh mailboxes can't blast 50 emails on day one. They need to build sending reputation gradually. Warmup (what some call "warmup") is the process of sending and receiving emails to establish that your mailbox is real and trustworthy.
 
-**Dedicated Smart Ramp-Up tools:**
+**Dedicated warmup tools:**
 | Tool | Price | Mailboxes |
 |------|-------|-----------|
 | Warmup Inbox | $15/mo per inbox | Per inbox |
 | Lemwarm | Included with Lemlist ($39/mo+) | With subscription |
 | Mailreach | $25/mo (3 inboxes) | 3 |
-| Instantly Smart Ramp-Up | Included with Instantly ($37/mo+) | With subscription |
+| Instantly warmup | Included with Instantly ($37/mo+) | With subscription |
 
-For 15 mailboxes, standalone Smart Ramp-Up tools cost $75-225/month. Some sending platforms include it, but then you're paying for the platform.
+For 15 mailboxes, standalone warmup tools cost $75-225/month. Some sending platforms include it, but then you're paying for the platform.
 
 Budget: **$25-99/month** depending on approach.
 
@@ -101,7 +101,7 @@ This is the cost nobody includes in their spreadsheet.
 | Task | Time |
 |------|------|
 | DNS management and troubleshooting | 1-2 hours |
-| Smart Ramp-Up monitoring | 1-2 hours |
+| warmup monitoring | 1-2 hours |
 | Deliverability monitoring and response | 1-2 hours |
 | Domain rotation (adding new, retiring old) | 1-2 hours |
 | Mailbox management | 0.5-1 hour |
@@ -116,7 +116,7 @@ At an average fully-loaded cost of $50-100/hour (what your time is worth), that'
 |-----------|-------------|
 | Domains | $8-12 |
 | Google Workspace (15 mailboxes) | $108 |
-| Smart Ramp-Up tool | $25-99 |
+| warmup tool | $25-99 |
 | Deliverability monitoring | $50-150 |
 | **Subtotal (cash)** | **$191-369** |
 | Your time (5-12 hours × $50-100/hr) | $250-1,200 |
@@ -133,7 +133,7 @@ With [SendEmAll](/pricing), email infrastructure is included in every plan:
 | Sending domains | $8-12/mo | Included |
 | Mailboxes | $108/mo | Included |
 | DNS configuration | Your time | Managed for you |
-| Smart Ramp-Up | $25-99/mo | Automatic |
+| warmup | $25-99/mo | Automatic |
 | Deliverability monitoring | $50-150/mo | Built-in dashboard |
 | Domain rotation | Your time | Automatic |
 | Reputation management | Your time | Managed |
@@ -189,4 +189,4 @@ For everyone else.
 
 The trend in 2026 is clear: teams that used to run their own infrastructure are moving to managed solutions. Not because they can't do it — because the ROI of their time is better spent elsewhere.
 
-[See what's included in managed infrastructure](https://app.sendemall.com/signup) — start a free trial and let us handle the plumbing.
+[See what's included in managed infrastructure](/services/free-leads) — start a free trial and let us handle the plumbing.

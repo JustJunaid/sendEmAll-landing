@@ -1,0 +1,199 @@
+---
+import Base from "@/layouts/Base.astro";
+import AirtableForm from "@/layouts/components/widgets/AirtableForm.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "Get 100 Free Signal-Qualified Leads | SendEmAll",
+  description: "100 companies matched to your ICP showing real buying signals. Verified decision maker contacts. Delivered in 48 hours. Free, no commitment.",
+  disableTagline: true,
+};
+
+const whatYouGet = [
+  { title: "100 signal-qualified companies", description: "Not random names from a database. Companies showing real buying signals that match your ideal customer profile." },
+  { title: "Verified decision maker contacts", description: "Names, titles, verified emails, and direct phone numbers for the people who actually make buying decisions." },
+  { title: "CSV delivery in 48 hours", description: "Clean, formatted, ready to import into your CRM or outreach tool. No cleanup required." },
+];
+
+const steps = [
+  { num: "01", title: "Describe your ideal customer", description: "Industry, company size, titles you target, geography, and any specific signals you care about." },
+  { num: "02", title: "We match and verify", description: "Our engine finds companies showing buying signals that match your ICP. Every contact is verified before delivery." },
+  { num: "03", title: "Get your leads", description: "100 signal-qualified potential buyers delivered to your inbox within 48 hours. Ready for outreach." },
+];
+
+const differences = [
+  { title: "Signal-qualified", description: "These companies are showing buying signals right now. Hiring, funding, tech stack changes, ad spend. Not just names from a stale database." },
+  { title: "ICP-matched", description: "Every company scored against your ideal customer profile. You get prospects that actually fit your targeting, not bulk filler." },
+  { title: "Verified contacts", description: "Multi-step email verification on every record. Deliverability rates above 95%. No catch-all addresses, no bounces." },
+];
+
+const trustSignals = [
+  "Signal-qualified, not random exports",
+  "Verified emails, not catch-all junk",
+  "Delivered in 48 hours",
+  "No credit card required",
+  "No commitment, no strings",
+];
+---
+
+<Base metaTitle={meta.title} metaDescription={meta.description} disableTagline={true}>
+
+  <!-- Hero -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+          Free Leads
+        </span>
+        <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          Get 100 qualified potential buyers. Free. Matched to your ICP.
+        </h1>
+        <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+          100 companies showing real buying signals. Verified decision maker contacts. Delivered in 48 hours. No credit card. No commitment.
+        </p>
+        <a href="#lead-form" class="btn btn-md btn-primary">
+          Get Your Free Leads
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You Get -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          What You Get
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          100 potential buyers, ready for outreach
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {whatYouGet.map((item, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <h3 class="mb-3 text-xl font-semibold text-white">{item.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          How It Works
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Three steps. Leads in 48 hours.
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {steps.map((step, i) => (
+          <div
+            class="text-center px-6 py-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 150}
+          >
+            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <span class="text-xl font-bold text-primary">{step.num}</span>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">{step.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why These Are Different -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+          Not Another Export
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          What makes these different from Apollo exports
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {differences.map((item, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <h3 class="mb-3 text-xl font-semibold text-white">{item.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section id="lead-form" class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+        <AirtableForm
+          formUrl="https://airtable.com/embed/FORM_A_ID"
+          title="Describe your ideal customer"
+          description="We'll match 100 companies showing buying signals to your ICP and deliver verified decision maker contacts within 48 hours."
+          height="700px"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl" data-aos="fade-up-sm">
+        <div class="flex flex-wrap items-center justify-center gap-6">
+          {trustSignals.map((signal) => (
+            <div class="flex items-center gap-2">
+              <svg class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="text-sm font-medium text-[#C8C1D4]">{signal}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div
+        class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+        data-aos="fade-up-sm"
+      >
+        <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+          Ready to see the difference?
+        </h2>
+        <p class="mb-8 text-lg text-[#C8C1D4]">
+          100 signal-qualified potential buyers. Free. No commitment. 48-hour delivery.
+        </p>
+        <a href="#lead-form" class="btn btn-md btn-primary">
+          Get Your Free Leads
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Base>

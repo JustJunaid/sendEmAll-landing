@@ -3,7 +3,7 @@ enable: true # Control the visibility of this section across all pages where it 
 title: Changelog - **What's New**
 
 list:
-  - title: Smart Ramp-Up 2.0
+  - title: Warmup 2.0
     version: 2.4.0
     date: 28 Mar, 2026
     content: |
@@ -32,7 +32,7 @@ list:
     version: 2.3.0
     date: 14 Mar, 2026
     content: |
-      Connect SendEmAll to any AI agent via our Model Context Protocol server. Full campaign management — create campaigns, manage potential buyer lists, check credit usage, and monitor replies — all from your AI workflow.
+      Connect SendEmAll to any AI agent via our Model Context Protocol server. Full campaign management: create campaigns, manage potential buyer lists, check credit usage, and monitor replies, all from your AI workflow.
     types:
       - icon: /images/icons/svg/feature.svg
         label: New Feature
@@ -57,7 +57,7 @@ list:
     version: 2.2.0
     date: 01 Mar, 2026
     content: |
-      Real-time credit usage breakdown by action type — enrichment, verification, and sending. Export usage reports as CSV. Set budget alerts per campaign so you never overspend.
+      Real-time credit usage breakdown by action type: enrichment, verification, and sending. Export usage reports as CSV. Set budget alerts per campaign so you never overspend.
     types:
       - icon: /images/icons/svg/feature.svg
         label: New Feature

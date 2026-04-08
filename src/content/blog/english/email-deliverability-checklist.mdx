@@ -69,11 +69,11 @@ Start with `p=none` (monitor only). After 2-4 weeks of clean data, move to `p=qu
 
 **If you need to send sooner:** Use existing domains that have been aged and have clean history. Don't rush new domains.
 
-### 5. Smart Ramp-Up completed
+### 5. Warmup Completed
 
 **Why it matters:** Even with an aged domain, new mailboxes need gradual volume increases. Jumping from 0 to 50 emails/day triggers anomaly detection.
 
-**Check:** Is this mailbox past the [Smart Ramp-Up](/blog/smart-ramp-up-explained) period? Has it been sending for 14-21 days with gradually increasing volume?
+**Check:** Is this mailbox past the [warmup](/blog/smart-ramp-up-explained) period? Has it been sending for 14-21 days with gradually increasing volume?
 
 **If not:** Start with 5-10 emails/day and increase over 2-3 weeks. Don't skip this.
 
@@ -84,7 +84,7 @@ Start with `p=none` (monitor only). After 2-4 weeks of clean data, move to `p=qu
 **Why it matters:** This single check prevents the most common deliverability disaster. Sending to unverified addresses leads to high bounce rates, which leads to reputation damage, which leads to spam placement for all future emails.
 
 **How to verify:**
-- Run every address through an [email verification service](/solutions/email-verification)
+- Run every address through an [email verification service](/products/email-verification)
 - Remove invalid, risky, and disposable addresses
 - Flag catch-all domains for careful sending
 - Target: less than 2% expected bounce rate after verification
@@ -178,7 +178,7 @@ Print this. Tape it next to your monitor. Run it before every campaign.
 | 2 | DKIM signing active | &#9744; |
 | 3 | DMARC policy set | &#9744; |
 | 4 | Domain aged 14+ days | &#9744; |
-| 5 | Smart Ramp-Up completed | &#9744; |
+| 5 | warmup completed | &#9744; |
 | 6 | List verified (under 2% bounce expected) | &#9744; |
 | 7 | No spam trigger words | &#9744; |
 | 8 | Unsubscribe link present | &#9744; |
@@ -195,8 +195,8 @@ Of these 14 checks, SendEmAll manages 9 automatically:
 
 - **SPF, DKIM, DMARC** — configured on all managed domains
 - **Domain age** — managed domains are pre-aged
-- **Smart Ramp-Up** — automatic for new mailboxes
-- **List verification** — built-in [6-layer verification](/solutions/email-verification)
+- **warmup** — automatic for new mailboxes
+- **List verification** — built-in [6-layer verification](/products/email-verification)
 - **Separate domains** — managed domains are separate from your primary
 - **Volume limits** — automatic [mailbox rotation](/blog/mailbox-rotation-explained) keeps each under 50/day
 - **Custom tracking domain** — pre-configured on managed domains
@@ -205,4 +205,4 @@ Of these 14 checks, SendEmAll manages 9 automatically:
 
 You're responsible for: content quality, unsubscribe link, and sending the test email. That's it.
 
-[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)
+[Start free — 100 credits, no card required →](/services/free-leads)

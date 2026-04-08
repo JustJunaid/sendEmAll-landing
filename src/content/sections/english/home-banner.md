@@ -1,38 +1,48 @@
 ---
-title: Your $37/mo cold email tool actually costs **$600+**
-description: One platform. One price. Reply guarantee. Replace 5+ tools with SendEmAll — signal-qualified leads, managed infrastructure, AI personalization, and sending. Starting at $149/mo.
+title: What if you only emailed people who were already **looking to buy?**
+description: Most outbound is a guessing game. We track real buying behaviour to find companies actively looking for what you sell, reach their decision makers, and hand you a pipeline ready to close.
 image: "/images/dashboard-hero.svg"
 buttons:
   - enable: true
-    label: "See What You're Really Paying"
-    url: "#pricing"
+    label: "Get 100 Qualified Potential Buyers. Free."
+    url: "/services/free-leads"
     rel: ""
     target: ""
   - enable: true
-    label: "Get 100 Free Credits"
-    url: "https://app.sendemall.com/signup"
+    label: "See How It Works"
+    url: "#how-it-works"
     rel: ""
     target: ""
 
 customers:
   enable: true
-  description: "Trusted by 200+ outbound teams"
+  description: "Built on 18+ providers"
 
   marquee:
     elementWidthAuto: true
     pauseOnHover: false
     reverse: ""
-    duration: "20s"
+    duration: "25s"
 
   list:
-    - src: "/images/customers/1.png"
-      alt: "TechFlow"
-    - src: "/images/customers/2.png"
-      alt: "DataStack"
-    - src: "/images/customers/3.png"
-      alt: "GrowthOps"
-    - src: "/images/customers/4.png"
-      alt: "RevOps Co"
-    - src: "/images/customers/5.png"
-      alt: "ScaleHQ"
+    - src: "/images/integration/apollo.png"
+      alt: "Apollo"
+    - src: "/images/integration/hunter.png"
+      alt: "Hunter"
+    - src: "/images/integration/google-workspace.png"
+      alt: "Google Workspace"
+    - src: "/images/integration/sales-navigator.png"
+      alt: "Sales Navigator"
+    - src: "/images/integration/ocean-io.png"
+      alt: "Ocean.io"
+    - src: "/images/integration/instantly.png"
+      alt: "Instantly"
+    - src: "/images/integration/deepseek.png"
+      alt: "DeepSeek"
+    - src: "/images/integration/zerobounce.png"
+      alt: "ZeroBounce"
+    - src: "/images/integration/dropcontact.png"
+      alt: "Dropcontact"
+    - src: "/images/integration/snov-io.png"
+      alt: "Snov.io"
 ---

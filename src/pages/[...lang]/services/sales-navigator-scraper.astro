@@ -1,0 +1,197 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "LinkedIn Sales Navigator Scraper | SendEmAll",
+  description: "Extract decision maker profiles, verified emails, and company data from LinkedIn Sales Navigator. Enriched with signals. Delivered in 48 hours.",
+  disableTagline: true,
+};
+
+const extractFeatures = [
+  { title: "Decision maker profiles", description: "Full names, current titles, seniority, department, and years in role." },
+  { title: "Verified email addresses", description: "We find and verify the email for every profile. No guessing, no catch-alls." },
+  { title: "Company details", description: "Company name, industry, headcount, revenue range, HQ location, and LinkedIn company URL." },
+  { title: "Phone numbers", description: "Direct dials and mobile numbers when available across our data sources." },
+  { title: "LinkedIn profile URLs", description: "Direct links to every prospect's LinkedIn profile for research and social selling." },
+  { title: "Buying signals", description: "Hiring activity, job changes, funding rounds, and tech stack data layered on every record." },
+];
+
+const differentiators = [
+  { title: "Signal enrichment", description: "Raw Sales Navigator exports give you names and titles. We add buying signals: funding rounds, hiring patterns, tech stack changes, ad spend. You see who is actually in-market." },
+  { title: "Email discovery and verification", description: "Sales Navigator does not give you emails. We find them, then run multi-step verification. Deliverability rates above 95%." },
+  { title: "ICP scoring", description: "Every profile scored against your ideal customer profile. Focus your outreach on the best-fit prospects, not everyone in your search." },
+  { title: "Bulk processing", description: "Share one search URL or twenty. We handle extraction at whatever scale you need." },
+];
+
+const steps = [
+  { num: "01", title: "Share your search", description: "Send us your Sales Navigator search URL or describe your targeting criteria. Titles, industries, company size, geography." },
+  { num: "02", title: "We extract, enrich, and verify", description: "We pull every matching profile, find verified emails, enrich with company data and buying signals, and score against your ICP." },
+  { num: "03", title: "Get your data in 48 hours", description: "Clean CSV delivered to your inbox. Deduplicated, verified, and ready for outreach." },
+];
+---
+
+<Base metaTitle={meta.title} metaDescription={meta.description} disableTagline={true}>
+
+  <!-- Hero -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+          Sales Navigator Scraper
+        </span>
+        <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          LinkedIn Sales Navigator Data. Extracted, Verified, Delivered.
+        </h1>
+        <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+          Share your Sales Nav search URL or describe your targeting. We extract decision maker profiles, find verified emails, enrich with company signals, and deliver ready-to-use lead lists.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/services/free-leads" class="btn btn-md btn-primary">
+            Get 100 Free Leads
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Extract -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          Data Points
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          What we extract from Sales Navigator
+        </h2>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {extractFeatures.map((feature, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-6"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold text-white">{feature.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What Makes Us Different -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+          Why Us
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          More than a scraper
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          Sales Navigator gives you profiles. We give you pipeline-ready prospect data.
+        </p>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2">
+        {differentiators.map((item, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <h3 class="mb-3 text-xl font-semibold text-white">{item.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          How It Works
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Three steps. Data in 48 hours.
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {steps.map((step, i) => (
+          <div
+            class="text-center px-6 py-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 150}
+          >
+            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <span class="text-xl font-bold text-primary">{step.num}</span>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">{step.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F59E0B]">
+          Compliance
+        </span>
+        <h2 class="mb-6 text-3xl font-bold text-white sm:text-4xl">
+          Ethical data handling
+        </h2>
+        <p class="text-lg text-[#C8C1D4] leading-relaxed">
+          We respect LinkedIn's terms. Data is processed ethically and GDPR-compliantly. We do not store your data beyond delivery, and all processing follows applicable data protection regulations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div
+        class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+        data-aos="fade-up-sm"
+      >
+        <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+          Get your first 100 leads free
+        </h2>
+        <p class="mb-8 text-lg text-[#C8C1D4]">
+          Signal-qualified, verified, and matched to your ICP. Delivered in 48 hours.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/services/free-leads" class="btn btn-md btn-primary">
+            Get 100 Free Leads
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Need a custom extraction? Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>

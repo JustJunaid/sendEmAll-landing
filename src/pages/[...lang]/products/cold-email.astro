@@ -1,0 +1,41 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ProductPage from "@/layouts/components/sections/ProductPage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Cold Email Platform | SendEmAll"
+  metaDescription="Multi-step sequences, A/B testing, smart scheduling. Cold email campaigns that feel personal at scale. Signal-qualified leads feed directly into your pipeline."
+  disableTagline={true}
+>
+  <ProductPage
+    hero={{
+      headline: "Cold email that doesn't feel cold.",
+      subheadline: "Multi-step sequences with A/B testing, smart scheduling, and AI personalization. Send campaigns that feel 1-to-1 at scale.",
+    }}
+    problem={{
+      title: "Generic sequences don't get replies.",
+      description: "Copy-paste templates. No personalization context. No signal data. Your emails look like every other cold email in their inbox. That's why reply rates stay below 1%.",
+    }}
+    features={[
+      { title: "Multi-step sequences", description: "Build automated email sequences with custom delays, conditions, and branching logic." },
+      { title: "A/B testing", description: "Test subject lines, copy, and send times. Let data pick the winner." },
+      { title: "Smart scheduling", description: "Send when your prospect is most likely to open. Timezone-aware, day-of-week optimized." },
+      { title: "Lead management", description: "Import, organize, and track leads through your pipeline. Custom fields, tags, and filters." },
+      { title: "Unified inbox", description: "All replies in one place. Thread tracking, sentiment detection, and one-click responses." },
+      { title: "Campaign analytics", description: "Opens, clicks, replies, bounces. Track what works and scale it." },
+    ]}
+    differentiator="Unlike standalone sequencers, SendEmAll feeds signal-qualified leads directly into your campaigns. You're not just sending faster. You're sending to the right people at the right time."
+    faq={[
+      { title: "How many emails can I send per day?", content: "Depends on your plan and mailbox count. Pro plan with 15 mailboxes supports approximately 450 emails/day at safe sending limits." },
+      { title: "Can I import my existing leads?", content: "Yes. CSV import with custom field mapping. Bulk upload thousands of leads in minutes." },
+      { title: "Do you support email personalization?", content: "Yes. Variable substitution (first name, company, etc.), Spintax for dynamic variations, and AI-generated personalization based on company research." },
+      { title: "Can I use my own sending domain?", content: "Yes. Bring your own domains or use our managed infrastructure. We handle SPF, DKIM, and DMARC configuration." },
+    ]}
+  />
+</Base>

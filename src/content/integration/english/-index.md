@@ -1,6 +1,6 @@
 ---
 title: "Providers"
-metaDescription: "18 providers orchestrated by SendEmAll — discovery, signals, enrichment, verification, personalization, infrastructure, and sending."
+metaDescription: "18 providers orchestrated by SendEmAll. Discovery, signals, enrichment, verification, personalization, infrastructure, and sending."
 draft: false
 
 sections:

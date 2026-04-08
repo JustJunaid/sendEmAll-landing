@@ -1,0 +1,203 @@
+---
+import Base from "@/layouts/Base.astro";
+import AirtableForm from "@/layouts/components/widgets/AirtableForm.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "Custom Data Scraping Service | SendEmAll",
+  description: "Any data source, any format. Tell us what you need and we'll scrape, clean, and deliver it. Conference lists, directories, job boards, and more.",
+  disableTagline: true,
+};
+
+const steps = [
+  { num: "01", title: "Describe what you need", description: "Tell us the data source, the fields you want, and how many records. We will review and send you a quote within 24 hours." },
+  { num: "02", title: "We build and run the scraper", description: "Our team builds a custom scraper for your source. We extract, clean, deduplicate, and verify the data." },
+  { num: "03", title: "Get clean data delivered", description: "CSV, JSON, or direct API delivery. Formatted exactly the way you need it." },
+];
+
+const useCases = [
+  { title: "Conference attendee lists", description: "Extract speaker and attendee data from event websites. Names, titles, companies, and contact info." },
+  { title: "Industry directories", description: "Pull structured data from niche directories. Lawyers, doctors, contractors, SaaS companies. Any vertical." },
+  { title: "Job board scraping", description: "Monitor job postings as hiring signals. Track which companies are scaling specific teams." },
+  { title: "Government records", description: "Public business registrations, permits, and filings turned into clean prospect lists." },
+  { title: "Review sites and marketplaces", description: "G2, Capterra, Product Hunt, app stores. Extract companies, contacts, and competitive intelligence." },
+  { title: "Real estate and property data", description: "Property listings, owner information, and transaction records from public sources." },
+];
+
+const turnarounds = [
+  { volume: "Under 1,000 records", time: "24-48 hours" },
+  { volume: "1,000 to 10,000 records", time: "2-5 business days" },
+  { volume: "10,000 to 100,000 records", time: "5-10 business days" },
+  { volume: "100,000+ records", time: "Custom timeline" },
+];
+---
+
+<Base metaTitle={meta.title} metaDescription={meta.description} disableTagline={true}>
+
+  <!-- Hero -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+          Custom Scraping
+        </span>
+        <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          Any Data Source. Any Format. We Handle It.
+        </h1>
+        <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+          Have a specific data source in mind? Conference attendee lists, industry directories, niche databases, government records, job boards. Describe what you need. We quote within 24 hours.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="#request-form" class="btn btn-md btn-primary">
+            Submit a Request
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          How It Works
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Three steps. Quote in 24 hours.
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {steps.map((step, i) => (
+          <div
+            class="text-center px-6 py-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 150}
+          >
+            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <span class="text-xl font-bold text-primary">{step.num}</span>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">{step.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Example Use Cases -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+          Use Cases
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          What our customers scrape
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          These are the most common requests. If your source is not listed, ask anyway. We have not said no yet.
+        </p>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {useCases.map((useCase, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-6"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold text-white">{useCase.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{useCase.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Turnaround Times -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          Turnaround
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Typical delivery times
+        </h2>
+      </div>
+
+      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+        <div class="overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-border-light">
+                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Volume</th>
+                <th class="px-6 py-4 text-right text-sm font-semibold text-white">Delivery</th>
+              </tr>
+            </thead>
+            <tbody>
+              {turnarounds.map((row, i) => (
+                <tr class={i < turnarounds.length - 1 ? "border-b border-border-light" : ""}>
+                  <td class="px-6 py-4 text-[#C8C1D4]">{row.volume}</td>
+                  <td class="px-6 py-4 text-right font-semibold text-white">{row.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Request Form -->
+  <section id="request-form" class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+        <AirtableForm
+          formUrl="https://airtable.com/embed/FORM_B_ID"
+          title="Tell us what you need"
+          description="Describe the data source, the fields you want, and approximate volume. We will send a quote within 24 hours."
+          height="700px"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div
+        class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+        data-aos="fade-up-sm"
+      >
+        <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+          Have a data source in mind?
+        </h2>
+        <p class="mb-8 text-lg text-[#C8C1D4]">
+          Describe what you need. Quote in 24 hours. No commitment.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="#request-form" class="btn btn-md btn-primary">
+            Submit a Request
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Prefer to talk? Contact us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>

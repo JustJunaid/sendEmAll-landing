@@ -1,0 +1,40 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ProductPage from "@/layouts/components/sections/ProductPage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Email Warmup Tool | SendEmAll"
+  metaDescription="Protect your sender reputation from day one. Gradual volume ramp-up, automated engagement, deliverability monitoring. Included free in every SendEmAll plan."
+  disableTagline={true}
+>
+  <ProductPage
+    hero={{
+      headline: "Send from day one. Land in the inbox from day one.",
+      subheadline: "New domains and mailboxes land in spam by default. Our warmup engine builds your sender reputation automatically so your emails reach the inbox.",
+    }}
+    problem={{
+      title: "New mailboxes go straight to spam.",
+      description: "You bought fresh domains, set up new mailboxes, configured DNS. Then you hit send and 60% lands in spam. Manual warmup takes 2-3 weeks of careful volume ramping. Most people get it wrong.",
+    }}
+    features={[
+      { title: "Gradual volume ramp-up", description: "Automated daily email volume increase following best practices. No manual scheduling required." },
+      { title: "Engagement network", description: "Real inboxes that open, reply, and interact with your warmup emails. Builds authentic sender reputation." },
+      { title: "Spam folder rescue", description: "Automated detection and removal of your emails from spam folders across the engagement network." },
+      { title: "Deliverability monitoring", description: "Real-time tracking of inbox placement, bounce rates, and sender reputation scores." },
+      { title: "DNS and blacklist alerts", description: "Continuous monitoring of SPF, DKIM, DMARC configuration and major blacklist databases." },
+    ]}
+    differentiator="Most warmup tools charge $15-$49 per inbox per month. With 15 mailboxes, that's $225-$735/mo just for warmup. SendEmAll includes warmup free in every plan. Zero extra cost."
+    faq={[
+      { title: "How long does warmup take?", content: "Most mailboxes reach good sender reputation in 14-21 days. Our system monitors progress and adjusts automatically." },
+      { title: "Can I warmup mailboxes from other providers?", content: "Yes. Connect any SMTP/IMAP mailbox. Google Workspace, Microsoft 365, or custom SMTP." },
+      { title: "Is warmup included in all plans?", content: "Yes. Unlimited warmup is included in Pro, Business, and Scale plans at no additional cost." },
+      { title: "What happens if my reputation drops?", content: "Our monitoring system alerts you immediately. Auto-pause prevents further damage. Recommendations guide recovery." },
+    ]}
+  />
+</Base>

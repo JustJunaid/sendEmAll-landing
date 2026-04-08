@@ -1,13 +1,15 @@
 ---
 enable: true
 subtitle: The Problem
-title: The outbound stack is **broken**
+title: "Cold email is **broken.** Here's why."
 
 list:
-  - title: 5+ tools, $600+/mo
-    description: Lead databases, enrichment, email infrastructure, verification, AI writing — you're stitching together a Frankenstein stack that barely talks to itself.
-  - title: Generic leads, <1% reply rate
-    description: Scraping random email lists isn't prospecting. Without signal qualification, you're sending to people who'll never open your email.
-  - title: Zero infrastructure control
-    description: Shared IPs, no domain rotation, no deliverability monitoring. Your emails land in spam and you don't even know it.
+  - title: "Static lists. Buying names from a database."
+    description: "We use live signals. Outreach triggered by hiring, funding, and research activity."
+  - title: "Blind outreach. Guessing who might need you."
+    description: "We track buying behaviour. Data showing they are actively evaluating solutions now."
+  - title: "Volume-first. Spray 1,000 emails for 1 reply."
+    description: "Precision-first. 50 emails to the 50 people most likely to buy today."
+  - title: "5+ tools stitched together. Fragile, expensive."
+    description: "One platform. Discovery to delivery in a single pipeline."
 ---

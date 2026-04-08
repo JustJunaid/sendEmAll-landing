@@ -1,17 +1,17 @@
 ---
 enable: true
-title: Stop paying $600/mo for a <br /> **Frankenstein stack.**
+title: "Stop emailing strangers. Start **closing buyers.**"
 ratingContent: 4.8 / 5 <br /> From 200+ outbound teams
 
 ctaBtn:
   enable: true
-  label: Replace Your Stack Now
-  url: "https://app.sendemall.com/signup"
+  label: Get My Free Potential Buyers
+  url: "/services/free-leads"
   rel: ""
   target: ""
 
 features:
-  - No credit card required
-  - 18 providers included
-  - Reply guarantee on Business+
+  - 100 signal-qualified leads
+  - Matched to your ICP
+  - Delivered in 48 hours
 ---

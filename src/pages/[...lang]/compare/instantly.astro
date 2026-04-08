@@ -8,42 +8,44 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Lead generation", competitor: "Add-on $47–197", sendemall: "Included" },
-  { name: "Email enrichment", competitor: "No", sendemall: "Yes" },
-  { name: "Email verification", competitor: "No", sendemall: "Yes" },
-  { name: "AI personalization", competitor: "No", sendemall: "Yes" },
-  { name: "Managed infrastructure", competitor: "No", sendemall: "Yes" },
+  { name: "Lead discovery", competitor: "No", sendemall: "18+ signal sources" },
+  { name: "Buying intent signals", competitor: "No", sendemall: "Yes" },
+  { name: "Email finder", competitor: "No", sendemall: "Included" },
+  { name: "Email verification", competitor: "Add-on", sendemall: "Included" },
+  { name: "Warmup", competitor: "Included", sendemall: "Included" },
+  { name: "Infrastructure", competitor: "BYO domains", sendemall: "Fully managed" },
+  { name: "Personalization", competitor: "Basic merge fields", sendemall: "AI-personalized from company research" },
   { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
-  { name: "Sending", competitor: "Yes", sendemall: "Yes" },
-  { name: "Multi-channel", competitor: "Email only", sendemall: "Email only" },
 ];
 
 const theyDoBetter = [
-  { title: "Sending at scale", description: "Instantly is built specifically for high-volume sending. If you only need sending, they're solid." },
-  { title: "Larger user base", description: "More tutorials, community resources, and third-party integrations." },
+  { title: "Large sending network", description: "Instantly has built a massive sending infrastructure. If all you need is volume sending, they handle it well." },
+  { title: "Established community", description: "More tutorials, community resources, and third-party integrations from a larger user base." },
+  { title: "Lower starting price", description: "Instantly starts at $47/mo for sending only. If you already have your own lead sources and infrastructure, that entry price is lower." },
 ];
 
 const weDoBetter = [
-  { title: "All-in-one platform", description: "No need to buy separate lead credits. Everything from discovery to sending in one tool." },
-  { title: "Managed infrastructure", description: "We handle domains, mailboxes, DNS, and Smart Ramp-Up. You don't touch a thing." },
-  { title: "Signal-qualified leads", description: "Not just scraped emails — leads qualified by hiring, funding, and tech signals." },
+  { title: "Signal-based lead discovery", description: "Instantly sends emails. It does not find the right people to email. We monitor 18+ sources for hiring, funding, and tech signals to surface actual potential buyers." },
+  { title: "Full pipeline from ICP to inbox", description: "Describe your ideal customer. We find them, verify their email, write personalized copy, and deliver it. No extra tools needed." },
+  { title: "Managed infrastructure included", description: "We handle domains, mailboxes, DNS records, and Warmup. You never configure a single DNS record." },
+  { title: "No separate tools needed", description: "Instantly requires separate subscriptions for lead finding, enrichment, and verification. SendEmAll includes all of it from $149/mo." },
 ];
 ---
 
 <Base
-  title="SendEmAll vs Instantly | Cost & Feature Comparison"
+  title="Best Instantly Alternative for Cold Email (2026) | SendEmAll"
   disableTagline={true}
-  description="Compare SendEmAll and Instantly side by side. See the real cost difference when you add lead generation, enrichment, and infrastructure."
+  description="Instantly sends emails. SendEmAll finds the right people to email. Signal-based lead discovery plus full sending infrastructure in one platform."
 >
   <ComparePage
     competitor="Instantly"
-    description="Side-by-side cost and feature comparison"
-    competitorPrice="$47–$358/mo"
-    competitorPriceNote="Outreach + lead finder sold separately. No enrichment, verification, or AI."
+    description="Instantly sends emails. SendEmAll finds the right people to email. Signal-based lead discovery plus full sending infrastructure in one platform."
+    competitorPrice="$47-$358/mo"
+    competitorPriceNote="Outreach and lead finder sold separately. No enrichment, verification, or managed infrastructure included."
     sendemallPrice="$149/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}
-    integrationNote="Use SendEmAll for lead generation and enrichment, export to Instantly for sending."
+    integrationNote="Use SendEmAll for signal-based lead discovery and enrichment, then export to Instantly for sending if you prefer their platform. Or skip the extra tool and send directly from SendEmAll."
   />
 </Base>

@@ -1,29 +1,32 @@
 ---
 enable: true # Control the visibility of this section across all pages where it is used
-description: "Trusted By Thousands of Companies"
+description: "Built on 18+ providers"
 
 marquee:
-  # elementWidth: # width in rem (eg: 10rem or blank if width should be based on item width)
   elementWidthAuto: true
-  elementHeight: # width in rem (eg: 10rem or blank if width should be based on item width)
-  # elementWidthInSmallDevices: # width in rem (eg: 5rem or blank if width should be based on item width)
   pauseOnHover: false
-  reverse: "" # reverse / ""
-  duration: "20s"
+  reverse: ""
+  duration: "25s"
 
 list:
-  - src: "/images/customers/1.png"
-    alt: "TechFlow"
-  - src: "/images/customers/2.png"
-    alt: "DataStack"
-  - src: "/images/customers/3.png"
-    alt: "GrowthOps"
-  - src: "/images/customers/4.png"
-    alt: "RevOps Co"
-  - src: "/images/customers/5.png"
-    alt: "ScaleHQ"
-  - src: "/images/customers/1.png"
-    alt: "TechFlow"
-  - src: "/images/customers/2.png"
-    alt: "DataStack"
+  - src: "/images/integration/apollo.png"
+    alt: "Apollo"
+  - src: "/images/integration/hunter.png"
+    alt: "Hunter"
+  - src: "/images/integration/google-workspace.png"
+    alt: "Google Workspace"
+  - src: "/images/integration/sales-navigator.png"
+    alt: "Sales Navigator"
+  - src: "/images/integration/ocean-io.png"
+    alt: "Ocean.io"
+  - src: "/images/integration/instantly.png"
+    alt: "Instantly"
+  - src: "/images/integration/deepseek.png"
+    alt: "DeepSeek"
+  - src: "/images/integration/zerobounce.png"
+    alt: "ZeroBounce"
+  - src: "/images/integration/dropcontact.png"
+    alt: "Dropcontact"
+  - src: "/images/integration/snov-io.png"
+    alt: "Snov.io"
 ---

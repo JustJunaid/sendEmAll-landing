@@ -208,13 +208,13 @@ DNS changes take time to propagate. After updating SPF, DKIM, or DMARC records:
 
 Setting up SPF, DKIM, and DMARC across 15-100+ mailboxes on multiple domains is a full day of DNS work. And it needs ongoing monitoring.
 
-With [SendEmAll's managed infrastructure](/solutions/email-infrastructure), authentication is handled for you:
+With [SendEmAll's managed infrastructure](/services/cold-email-infrastructure), authentication is handled for you:
 
 - **SPF** configured per domain with proper includes for the sending provider
 - **DKIM** keys generated with 2048-bit encryption and published automatically
 - **DMARC** deployed with monitoring-first rollout (p=none to p=quarantine)
 - **Ongoing monitoring** catches authentication failures before they impact deliverability
-- **Smart Ramp-Up** respects authentication warming — new domains build reputation gradually alongside their DNS records
+- **warmup** respects authentication warming — new domains build reputation gradually alongside their DNS records
 
 You don't touch a DNS record. You don't parse XML reports. You focus on writing emails that get replies, and the infrastructure handles itself.
 
@@ -235,4 +235,4 @@ For every cold email domain, verify these before sending:
 
 Get this right once, and your deliverability foundation is solid. Get it wrong, and no amount of good copy or targeting will save your campaigns from the spam folder.
 
-Need this handled for you? [SendEmAll's managed infrastructure](https://app.sendemall.com/signup) includes full authentication setup, monitoring, and rotation across all your sending domains.
+Need this handled for you? [SendEmAll's managed infrastructure](/services/free-leads) includes full authentication setup, monitoring, and rotation across all your sending domains.

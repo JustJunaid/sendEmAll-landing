@@ -33,7 +33,7 @@ list:
 
     features:
       - 15 managed mailboxes
-      - Smart Ramp-Up included
+      - Warmup included
       - All 18 providers
       - API access
       - Email support
@@ -56,8 +56,8 @@ list:
 
     ctaBtn:
       enable: true
-      label: Get Started
-      url: "https://app.sendemall.com/signup"
+      label: Get Access
+      url: "/services/free-leads"
       rel: ""
       target: ""
 
@@ -81,8 +81,8 @@ list:
 
     features:
       - 45 managed mailboxes
-      - "**Reply guarantee** — 50+ in 90 days"
-      - Smart Ramp-Up included
+      - "**Reply guarantee.** 50+ in 90 days"
+      - Warmup included
       - Priority support
       - Custom ICP training
       - "~650 potential buyers reached"
@@ -104,8 +104,8 @@ list:
 
     ctaBtn:
       enable: true
-      label: Get Started
-      url: "https://app.sendemall.com/signup"
+      label: Get Access
+      url: "/services/free-leads"
       rel: ""
       target: ""
 
@@ -151,8 +151,8 @@ list:
 
     ctaBtn:
       enable: true
-      label: Get Started
-      url: "https://app.sendemall.com/signup"
+      label: Get Access
+      url: "/services/free-leads"
       rel: ""
       target: ""
 
@@ -192,7 +192,7 @@ comparison:
           - "15"
           - "45"
           - "105"
-      - value: Smart Ramp-Up
+      - value: Warmup
         included:
           - true
           - true
