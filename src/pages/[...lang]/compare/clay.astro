@@ -8,40 +8,43 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Enrichment", competitor: "Powerful workflows", sendemall: "Automated" },
-  { name: "Sending", competitor: "None", sendemall: "Full" },
-  { name: "Infrastructure", competitor: "None", sendemall: "Managed" },
-  { name: "Lead generation", competitor: "With integrations", sendemall: "Built-in" },
-  { name: "Ease of use", competitor: "Technical", sendemall: "Guided self-serve" },
-  { name: "API", competitor: "Yes", sendemall: "Yes" },
+  { name: "Data enrichment", competitor: "150+ providers", sendemall: "18+ focused on signals" },
+  { name: "Workflow builder", competitor: "Spreadsheet-based", sendemall: "Automated pipeline" },
+  { name: "Email sending", competitor: "No", sendemall: "Full campaign platform" },
+  { name: "warmup", competitor: "No", sendemall: "Included" },
+  { name: "Infrastructure", competitor: "No", sendemall: "Fully managed" },
+  { name: "Pricing model", competitor: "Credits from $185/mo", sendemall: "All-inclusive from $149/mo" },
+  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
 ];
 
 const theyDoBetter = [
-  { title: "Flexibility", description: "Clay's workflow builder is incredibly powerful for custom enrichment flows." },
-  { title: "Enrichment depth", description: "80+ data providers. If you need custom waterfall enrichment, Clay excels." },
+  { title: "Flexible data orchestration", description: "Clay's spreadsheet-based workflow builder is powerful for custom enrichment flows. If you need maximum flexibility in how you combine data sources, Clay is hard to beat." },
+  { title: "150+ data providers", description: "More raw data provider integrations than any other tool. Great for teams that need very specific enrichment combinations." },
+  { title: "Developer-friendly workflows", description: "Technical teams love building custom Clay tables with formulas, API calls, and conditional logic." },
 ];
 
 const weDoBetter = [
-  { title: "End-to-end platform", description: "Clay enriches. We discover, enrich, verify, personalize, AND send." },
-  { title: "No technical setup", description: "Clay requires building workflows. We're guided self-serve — describe your buyer, we handle the rest." },
-  { title: "Managed infrastructure", description: "Clay doesn't send emails. You'd need another tool for that." },
+  { title: "Full execution, not just data", description: "Clay stops at enrichment. We discover, enrich, verify, personalize, and send. One platform replaces your entire outbound stack." },
+  { title: "Managed infrastructure", description: "Clay does not send emails. You still need a sending tool, domains, mailboxes, and warmup. We include all of it." },
+  { title: "Simpler pricing", description: "Clay charges per-row credits that deplete unpredictably. Our pricing is straightforward: $149/mo for 1,500 credits, everything included. No per-row math." },
+  { title: "Signal-based qualification built in", description: "Clay enriches contacts you already have. We find the right contacts in the first place by monitoring buying signals across 18+ sources." },
 ];
 ---
 
 <Base
-  title="SendEmAll vs Clay | Cost & Feature Comparison"
+  title="Best Clay Alternative for Cold Email (2026) | SendEmAll"
   disableTagline={true}
-  description="Compare SendEmAll and Clay side by side. See how an end-to-end platform compares to a powerful enrichment tool."
+  description="Clay orchestrates data. SendEmAll orchestrates your entire outbound pipeline. From signal detection to inbox delivery."
 >
   <ComparePage
     competitor="Clay"
-    description="Side-by-side cost and feature comparison"
-    competitorPrice="$149–$800/mo"
-    competitorPriceNote="Enrichment and workflow automation only. No sending, no infrastructure."
+    description="Clay orchestrates data. SendEmAll orchestrates your entire outbound pipeline. From signal detection to inbox delivery."
+    competitorPrice="$185-$800/mo"
+    competitorPriceNote="Enrichment and workflow automation only. No sending, no infrastructure, no lead discovery."
     sendemallPrice="$149/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}
-    integrationNote="Clay is great for enrichment workflows. Use SendEmAll if you want the full pipeline without building it yourself."
+    integrationNote="Clay is great for complex enrichment workflows. If you want the full pipeline without building it yourself, SendEmAll handles everything from signal detection to inbox delivery."
   />
 </Base>

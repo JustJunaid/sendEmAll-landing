@@ -76,3 +76,4 @@ sendemall-*.json
 
 # Jest
 coverage/
+.superpowers/

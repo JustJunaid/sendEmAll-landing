@@ -62,7 +62,7 @@ Different mailboxes get different volumes based on their health and age.
 | 31-60 days | 0.75x | 30/day |
 | 60+ days (established) | 1.0x | 40/day |
 
-**Pros:** Protects new mailboxes during Smart Ramp-Up. Maximizes volume from established mailboxes.
+**Pros:** Protects new mailboxes during warmup. Maximizes volume from established mailboxes.
 **Cons:** More complex. Requires tracking mailbox age and adjusting weights.
 
 ### Domain-based rotation
@@ -114,7 +114,7 @@ Setting up rotation yourself means:
 | Domains (5-10) | $50-150/year | Separate cold email domains |
 | Google Workspace (15 mailboxes) | $108/mo | $7.20/user/month |
 | DNS management | $0 (your time) | SPF, DKIM, DMARC per domain |
-| Smart Ramp-Up tool | $25-99/mo | MailReach, Warmbox, etc. |
+| warmup tool | $25-99/mo | MailReach, Warmbox, etc. |
 | **Annual total** | **$1,646-2,638/yr** | **$137-220/mo** |
 
 ### Management time
@@ -146,7 +146,7 @@ The common failure modes:
 When you set up a campaign on SendEmAll, rotation is automatic:
 
 1. **Mailbox pool is pre-configured.** Your plan includes a set number of managed mailboxes, already set up with proper DNS and authentication.
-2. **New mailboxes enter Smart Ramp-Up automatically.** Volume starts low and increases based on deliverability signals.
+2. **New mailboxes enter warmup automatically.** Volume starts low and increases based on deliverability signals.
 3. **Rotation is weighted by health.** High-performing mailboxes get more volume. Struggling mailboxes get throttled.
 4. **Domain-level distribution** ensures no single domain handles more than its share.
 5. **Real-time monitoring** flags issues before they become reputation damage.
@@ -170,4 +170,4 @@ DIY rotation costs roughly the same as SendEmAll's Pro plan for infrastructure a
 
 Get 100 free credits to see how automatic mailbox rotation works. No domains to buy, no DNS to configure, no mailboxes to set up.
 
-[Start free — 100 credits, no card required →](https://app.sendemall.com/signup)
+[Start free — 100 credits, no card required →](/services/free-leads)

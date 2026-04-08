@@ -1,0 +1,197 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "Apollo Scraper | Export and Enrich Apollo Leads | SendEmAll",
+  description: "Extract contacts, companies, and verified emails from Apollo.io at scale. Signal-enriched, ICP-matched, delivered within 48 hours.",
+  disableTagline: true,
+};
+
+const extractFeatures = [
+  { title: "Contact details", description: "Full names, job titles, seniority levels, and departments for every prospect." },
+  { title: "Verified emails", description: "Every email triple-verified. No catch-alls, no bounces, no wasted sends." },
+  { title: "Direct phone numbers", description: "Mobile and direct dials when available. Skip the switchboard." },
+  { title: "Company data", description: "Industry, headcount, revenue range, tech stack, and funding status." },
+  { title: "Social profiles", description: "LinkedIn URLs for every contact so you can research before reaching out." },
+  { title: "Custom fields", description: "Need specific data points? Tell us what you need and we will pull it." },
+];
+
+const differentiators = [
+  { title: "Signal enrichment", description: "We layer buying signals on top of raw Apollo data. Hiring activity, funding rounds, tech stack changes, ad spend. You get context, not just contact info." },
+  { title: "Email verification", description: "Every email runs through multi-step verification. Deliverability rates above 95% or we replace the record." },
+  { title: "ICP matching", description: "Your data is scored against your ideal customer profile. Only contacts that match your targeting criteria make the final list." },
+  { title: "Deduplication", description: "We clean duplicates across your entire export. No paying to reach the same person twice." },
+];
+
+const steps = [
+  { num: "01", title: "Share your criteria", description: "Tell us your ICP, target titles, industries, company size, and any Apollo filters you want applied." },
+  { num: "02", title: "We scrape, enrich, and verify", description: "We pull the data, layer on buying signals, verify every email, and score against your ICP." },
+  { num: "03", title: "Get your CSV in 48 hours", description: "Clean, deduplicated, signal-enriched data delivered to your inbox. Ready for outreach." },
+];
+---
+
+<Base metaTitle={meta.title} metaDescription={meta.description} disableTagline={true}>
+
+  <!-- Hero -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+          Apollo Scraper
+        </span>
+        <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          The Apollo Scraper That Actually Delivers Clean Data.
+        </h1>
+        <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+          Export Apollo contacts at any scale. We enrich with buying signals, verify every email, and match to your ICP. Not raw data dumps. Pipeline-ready leads.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/services/free-leads" class="btn btn-md btn-primary">
+            Get 100 Free Leads
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Need ongoing scraping? Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Extract -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          Data Points
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          What we extract from Apollo
+        </h2>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {extractFeatures.map((feature, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-6"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+              <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold text-white">{feature.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- What Makes Us Different -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+          Why Us
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Not just another data dump
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          Anyone can export from Apollo. We deliver pipeline-ready data you can actually use.
+        </p>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2">
+        {differentiators.map((item, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <h3 class="mb-3 text-xl font-semibold text-white">{item.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          How It Works
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Three steps. Data in 48 hours.
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {steps.map((step, i) => (
+          <div
+            class="text-center px-6 py-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 150}
+          >
+            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+              <span class="text-xl font-bold text-primary">{step.num}</span>
+            </div>
+            <h3 class="mb-3 text-xl font-semibold text-white">{step.title}</h3>
+            <p class="text-[#C8C1D4] leading-relaxed">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Volume -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F59E0B]">
+          Scale
+        </span>
+        <h2 class="mb-6 text-3xl font-bold text-white sm:text-4xl">
+          100 contacts or 100,000+. Same quality.
+        </h2>
+        <p class="text-lg text-[#C8C1D4] leading-relaxed">
+          Whether you need a targeted list of 100 decision makers or a full-scale export of 100,000+ contacts, every record goes through the same enrichment, verification, and ICP matching pipeline. Volume pricing available for large orders.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div
+        class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+        data-aos="fade-up-sm"
+      >
+        <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+          Get your first 100 leads free
+        </h2>
+        <p class="mb-8 text-lg text-[#C8C1D4]">
+          Signal-qualified, verified, and matched to your ICP. Delivered in 48 hours. No commitment.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/services/free-leads" class="btn btn-md btn-primary">
+            Get 100 Free Leads
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Need ongoing scraping? Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>

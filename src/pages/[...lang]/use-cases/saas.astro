@@ -1,0 +1,109 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Outbound for B2B SaaS | SendEmAll"
+  disableTagline={true}
+  metaDescription="Find companies already evaluating your category. Signal-based outbound for B2B SaaS at every stage. From first 10 customers to scaling past $10M ARR."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">For B2B SaaS</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        Outbound for B2B SaaS. Find companies already evaluating your category.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        From your first 10 customers to scaling past $10M ARR. Signal-based outbound finds companies with budget, pain, and urgency.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="/services/free-leads" class="btn btn-md btn-primary">Get 100 free potential buyers</a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">The problem with SaaS outbound</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <p class="text-lg leading-relaxed text-text-default/80">
+            Your ICP is "B2B SaaS, 50-200 employees." So is everyone else's. Without signals, you're competing with every other vendor emailing the same list. Generic targeting means generic results. You need to know who is actively evaluating your category right now.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signals for SaaS -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Signals that matter for SaaS</h2>
+        <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">We track buying signals specific to software purchases so you reach companies at the right moment.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>', title: "Tech stack changes", desc: "Companies that just adopted or removed your competitor. They're evaluating alternatives right now." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>', title: "Competitor research", desc: "Companies reading G2 reviews in your category. Active evaluation means active buying intent." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 19a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-1"/><path d="M6 19a2 2 0 0 1-2-2v-1a4 4 0 0 1 4-4h1"/><circle cx="15" cy="7" r="3"/><circle cx="9" cy="7" r="3"/></svg>', title: "Hiring SDRs and AEs", desc: "Companies scaling their own outbound. They have revenue targets and budget to invest in tools." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', title: "Series A-C funding", desc: "Fresh capital means budget to buy. Funded companies are 3x more likely to purchase new software." },
+        ].map((f, i) => (
+          <div class="rounded-2xl border border-border-light bg-accent p-8" data-aos="fade-up-sm" data-aos-delay={i * 50}>
+            <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary" set:html={f.svg} />
+            <h3 class="mb-2 text-xl font-semibold">{f.title}</h3>
+            <p class="text-text-default/70">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Example Pipeline -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Example: CRM software company</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">1</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Signal detected:</strong> Company just removed Salesforce from their tech stack.</p>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">2</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Second signal:</strong> Same company is hiring a RevOps lead.</p>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">3</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Result:</strong> They have budget, pain, and urgency. Your email lands when they're actively looking for a replacement.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Get 100 Qualified Potential Buyers. Free.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Tell us your ICP. We'll deliver 100 signal-qualified potential buyers to your inbox. No credit card. No commitment.</p>
+        <a href="/services/free-leads" class="btn btn-md btn-primary mt-8">Get your free list</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,251 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "Cold Email Infrastructure | Mailboxes, Domains, DNS Setup | SendEmAll",
+  description: "Buy Google Workspace, Microsoft 365, or custom SMTP mailboxes for cold email. Pre-configured DNS, optional warmup, and managed setup for your sequencer.",
+  disableTagline: true,
+};
+
+const selfServeProviders = [
+  { provider: "Google Workspace", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_GWS_10" },
+  { provider: "Microsoft 365", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_M365_10" },
+  { provider: "Custom SMTP", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_SMTP_10" },
+];
+
+const preWarmedProviders = [
+  { provider: "Google Workspace (pre-warmed)", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_GWS_PW" },
+  { provider: "Microsoft 365 (pre-warmed)", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_M365_PW" },
+  { provider: "Custom SMTP (pre-warmed)", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_SMTP_PW" },
+];
+
+const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
+---
+
+<Base metaTitle={meta.title} metaDescription={meta.description} disableTagline={true}>
+
+  <!-- Hero -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+          Email Infrastructure
+        </span>
+        <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          Cold Email Infrastructure That Actually Lands in the Inbox.
+        </h1>
+        <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+          Mailboxes, domains, DNS, warmup. Fully managed. Ready to send.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="#self-serve" class="btn btn-md btn-primary">
+            Buy Mailboxes
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Need custom setup? Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tier 1: Self-Serve -->
+  <section id="self-serve" class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          Tier 1
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Self-serve mailboxes
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          Buy mailboxes, get credentials, add to your sequencer yourself. DNS pre-configured. Ready in minutes.
+        </p>
+      </div>
+
+      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+        <div class="overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-border-light">
+                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Provider</th>
+                <th class="px-6 py-4 text-center text-sm font-semibold text-white">Price</th>
+                <th class="px-6 py-4 text-right text-sm font-semibold text-white"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {selfServeProviders.map((row, i) => (
+                <tr class={i < selfServeProviders.length - 1 ? "border-b border-border-light" : ""}>
+                  <td class="px-6 py-4 text-[#C8C1D4]">{row.provider}</td>
+                  <td class="px-6 py-4 text-center font-semibold text-white">{row.price}</td>
+                  <td class="px-6 py-4 text-right">
+                    <a href={row.stripeUrl} class="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-dark transition hover:bg-primary/90">
+                      Buy Now
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-center text-sm text-[#C8C1D4]/70">
+          All mailboxes include pre-configured SPF, DKIM, and DMARC records.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tier 2: Pre-Warmed -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+          Tier 2
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Pre-warmed mailboxes
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          Already warmed for 2-3 weeks. Premium price. Ready to send from day one. No waiting.
+        </p>
+      </div>
+
+      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+        <div class="overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-border-light">
+                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Provider</th>
+                <th class="px-6 py-4 text-center text-sm font-semibold text-white">Price</th>
+                <th class="px-6 py-4 text-right text-sm font-semibold text-white"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {preWarmedProviders.map((row, i) => (
+                <tr class={i < preWarmedProviders.length - 1 ? "border-b border-border-light" : ""}>
+                  <td class="px-6 py-4 text-[#C8C1D4]">{row.provider}</td>
+                  <td class="px-6 py-4 text-center font-semibold text-white">{row.price}</td>
+                  <td class="px-6 py-4 text-right">
+                    <a href={row.stripeUrl} class="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-dark transition hover:bg-primary/90">
+                      Buy Now
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-center text-sm text-[#C8C1D4]/70">
+          Pre-warmed accounts have 2-3 weeks of established sending history. Skip the ramp-up period entirely.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tier 3: Managed Setup -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-16 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F59E0B]">
+          Tier 3
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Fully managed setup
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          We buy domains, configure DNS, create accounts, warm them, and add to your sequencer. You do nothing.
+        </p>
+      </div>
+
+      <div class="mx-auto max-w-3xl" data-aos="fade-up-sm">
+        <div class="rounded-2xl border border-border-light bg-theme-dark p-8">
+          <div class="mb-8">
+            <h3 class="mb-4 text-xl font-semibold text-white">What's included</h3>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3">
+                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="text-[#C8C1D4]">Domain purchasing and rotation strategy</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="text-[#C8C1D4]">Full DNS configuration (SPF, DKIM, DMARC, MX records)</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="text-[#C8C1D4]">Mailbox creation across Google Workspace, Microsoft 365, or Custom SMTP</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="text-[#C8C1D4]">2-3 week warmup period before handoff</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span class="text-[#C8C1D4]">Sequencer integration (+$0.50/account)</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="mb-4 text-xl font-semibold text-white">Supported sequencers</h3>
+            <div class="flex flex-wrap gap-3">
+              {sequencers.map((name) => (
+                <span class="rounded-full border border-border-light bg-theme-dark px-4 py-1.5 text-sm text-[#C8C1D4]">
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Comparison -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          Value
+        </span>
+        <h2 class="mb-6 text-3xl font-bold text-white sm:text-4xl">
+          Why buy through us?
+        </h2>
+        <p class="text-lg text-[#C8C1D4] leading-relaxed">
+          Google Workspace direct: $8.40/mailbox/mo. Through us: $X/mo with full DNS setup, deliverability configuration, and ongoing monitoring included. No Googling SPF record syntax. No wondering why your DKIM is failing. No spending 3 hours per domain on setup you will forget how to do next month.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div
+        class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+        data-aos="fade-up-sm"
+      >
+        <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+          Ready to set up your sending infrastructure?
+        </h2>
+        <p class="mb-8 text-lg text-[#C8C1D4]">
+          Self-serve in minutes or let us handle everything. Your call.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="#self-serve" class="btn btn-md btn-primary">
+            Buy Mailboxes
+          </a>
+          <a href="/contact" class="btn btn-md btn-outline-white">
+            Need custom setup? Talk to us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Base>

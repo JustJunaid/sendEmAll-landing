@@ -1,36 +1,36 @@
 ---
 enable: true
-subtitle: Why SendEmAll
-title: 18 providers. 4 stages. <br /> **One pipeline.**
+subtitle: How It Works
+title: "From ICP to closed deal. **Four steps.**"
 layoutType: creative
 
 list:
-  - title: Discover & Qualify
+  - title: You describe your buyer
     image: "/images/why-us/1.png"
     descriptionFontSize: ""
     description: |
-      Signal-qualified leads, not random lists. We use Apollo, Ocean.io, Sales Nav, and 5 more providers to find buyers showing real purchase signals — hiring patterns, funding events, tech stack changes.
+      You tell us your ICP or business details. Our system builds a targeting profile: industry, company size, tech stack, job titles, geography.
     ctaBtn:
       enable: false
       label: ""
       url: ""
       rel: ""
       target: ""
-  - title: Enrich & Verify
+  - title: We find who's ready to buy
     image: "/images/why-us/2.png"
     descriptionFontSize: ""
     description: |
-      Multi-source enrichment from 5+ providers. Every email verified. Catch-all detection, disposable filtering, bounce prediction. Only valid, enriched contacts reach your campaigns.
+      We monitor 18+ signal sources. Hiring surges, funding rounds, tech stack changes, competitor research, ad spend. When a company matches your ICP AND shows buying behaviour, they enter your pipeline.
     ctaBtn:
       enable: false
       label: ""
       url: ""
       rel: ""
       target: ""
-  - title: Personalize & Send
+  - title: We reach their decision makers
     descriptionFontSize: ""
     description: |
-      AI researches each prospect, matches them to your ICP, and writes personalized copy that gets replies. Managed domains, Google Workspace mailboxes, Smart Ramp-Up, and deliverability monitoring — all included.
+      Verified emails for the right people. Personalized copy trained on the best cold email practices. Managed infrastructure (domains, mailboxes, warmup) so your emails actually land.
     bouncedContent:
       enable: true
       bgImage: "/images/why-us/3.png"
@@ -50,9 +50,19 @@ list:
         - Dropcontact
         - Drag me!
     ctaBtn:
+      enable: false
+      label: ""
+      url: ""
+      rel: ""
+      target: ""
+  - title: You hit send, manage replies, and close
+    descriptionFontSize: ""
+    description: |
+      Review the campaign, approve it, hit send. Replies land in your unified inbox. You focus on closing, not prospecting.
+    ctaBtn:
       enable: true
-      label: "See It In Action"
-      url: "https://app.sendemall.com/signup"
+      label: "Get 100 Qualified Potential Buyers. Free."
+      url: "/services/free-leads"
       rel: ""
       target: ""
 ---

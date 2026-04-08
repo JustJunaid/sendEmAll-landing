@@ -1,0 +1,203 @@
+---
+import AccordionList from "@/layouts/components/widgets/AccordionList.astro";
+
+interface Props {
+  hero: {
+    headline: string;
+    subheadline: string;
+  };
+  problem: {
+    title: string;
+    description: string;
+  };
+  features: Array<{
+    title: string;
+    description: string;
+  }>;
+  differentiator: string;
+  socialProof?: {
+    quote: string;
+    author: string;
+    role: string;
+  };
+  faq: Array<{
+    title: string;
+    content: string;
+  }>;
+  ctaLabel?: string;
+  ctaUrl?: string;
+}
+
+const {
+  hero,
+  problem,
+  features,
+  differentiator,
+  socialProof,
+  faq,
+  ctaLabel = "Get Access",
+  ctaUrl = "/services/free-leads",
+} = Astro.props;
+---
+
+<!-- Hero -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+      <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        {hero.headline}
+      </h1>
+      <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+        {hero.subheadline}
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href={ctaUrl} class="btn btn-md btn-primary">
+          {ctaLabel}
+        </a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">
+          View Pricing
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Problem -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F87171]">
+        The Problem
+      </span>
+      <h2 class="mb-6 text-3xl font-bold text-white sm:text-4xl">
+        {problem.title}
+      </h2>
+      <p class="text-lg text-[#C8C1D4] leading-relaxed">
+        {problem.description}
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="mb-16 text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+        What's Included
+      </span>
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">
+        Everything you need, built in
+      </h2>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {features.map((feature, i) => (
+        <div
+          class="rounded-2xl border border-border-light bg-theme-dark p-6"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 100}
+        >
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+            <svg class="h-6 w-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <h3 class="mb-2 text-lg font-semibold text-white">{feature.title}</h3>
+          <p class="text-[#C8C1D4] leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Differentiator -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div
+      class="mx-auto max-w-3xl rounded-2xl border border-primary/30 bg-primary/5 p-8 text-center sm:p-12"
+      data-aos="fade-up-sm"
+    >
+      <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-primary">
+        Why We're Different
+      </span>
+      <p class="text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
+        {differentiator}
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof -->
+{socialProof && (
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div
+        class="mx-auto max-w-3xl text-center"
+        data-aos="fade-up-sm"
+      >
+        <svg class="mx-auto mb-6 h-10 w-10 text-primary/40" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.3 2.5c-1.2.7-2.2 1.5-3 2.5-.8 1-1.4 2-1.8 3.2-.4 1.1-.6 2.3-.6 3.4 0 1.3.3 2.4.8 3.4.6 1 1.3 1.7 2.3 2.2 1 .5 2.1.8 3.3.8.8 0 1.5-.1 2.2-.4-.3 1.1-.8 2-1.5 2.8-.7.8-1.5 1.4-2.5 1.8l.8 1.8c1.5-.5 2.8-1.3 3.8-2.5 1-1.1 1.8-2.4 2.3-3.9.5-1.5.7-3 .7-4.6 0-1.5-.3-2.9-.8-4.2-.6-1.3-1.4-2.3-2.5-3.1-1.1-.8-2.4-1.2-3.9-1.2h-.6zm-9 0c-1.2.7-2.2 1.5-3 2.5-.8 1-1.4 2-1.8 3.2-.4 1.1-.6 2.3-.6 3.4 0 1.3.3 2.4.8 3.4.6 1 1.3 1.7 2.3 2.2 1 .5 2.1.8 3.3.8.8 0 1.5-.1 2.2-.4-.3 1.1-.8 2-1.5 2.8-.7.8-1.5 1.4-2.5 1.8l.8 1.8c1.5-.5 2.8-1.3 3.8-2.5 1-1.1 1.8-2.4 2.3-3.9.5-1.5.7-3 .7-4.6 0-1.5-.3-2.9-.8-4.2-.6-1.3-1.4-2.3-2.5-3.1C3.7 2.9 2.4 2.5.9 2.5h-.6z"/>
+        </svg>
+        <blockquote class="mb-6 text-xl text-white leading-relaxed sm:text-2xl">
+          "{socialProof.quote}"
+        </blockquote>
+        <div>
+          <p class="font-semibold text-white">{socialProof.author}</p>
+          <p class="text-sm text-[#C8C1D4]">{socialProof.role}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- FAQ -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div class="space-y-12 md:space-y-16">
+      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
+          FAQ
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Common questions
+        </h2>
+      </div>
+      <div
+        class="mx-auto max-w-4xl"
+        data-aos="fade-up-sm"
+        data-aos-delay="300"
+      >
+        <div class="bg-primary/5 rounded-lg border p-6 lg:rounded-3xl lg:p-12">
+          <AccordionList
+            content={faq}
+            tabIndex="product-faq"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="py-20 sm:py-28">
+  <div class="container">
+    <div
+      class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-theme-dark p-12 text-center"
+      data-aos="fade-up-sm"
+    >
+      <h2 class="mb-4 text-3xl font-bold text-white sm:text-4xl">
+        Ready to get started?
+      </h2>
+      <p class="mb-8 text-lg text-[#C8C1D4]">
+        Start with 100 free credits. No credit card required.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href={ctaUrl} class="btn btn-md btn-primary">
+          {ctaLabel}
+        </a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">
+          View Pricing
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

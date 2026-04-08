@@ -1,8 +1,8 @@
 # Site Configuration
 [site]
   title              = "SendEmAll"
-  description        = "The complete outbound platform. One tool replaces five. Signal-qualified leads, managed email infrastructure, AI personalization, and guaranteed replies — starting at $149/mo."
-  tagline            = "The Complete Outbound Platform"
+  description        = "Signal-based outbound platform. Find companies already looking to buy what you sell. Managed infrastructure, AI personalization, and guaranteed replies — starting at $149/mo."
+  tagline            = "Signal-Based Outbound Platform"
   taglineSeparator   = " | "
   baseUrl            = "https://sendemall.com"
   logo               = "/images/sendemall-logo-dark.svg"
@@ -25,6 +25,7 @@
 [seo]
   author = "SendEmAll"
   keywords = [
+    "signal-based outbound",
     "cold email platform",
     "outbound sales tool",
     "email infrastructure",
@@ -34,6 +35,8 @@
     "sales automation",
     "managed mailboxes",
     "signal-qualified leads",
+    "buyer intent signals",
+    "intent-based prospecting",
   ]
   robots = "index, follow"
 
@@ -55,7 +58,7 @@
   contactFormAction   = "https://formsubmit.co/hello@sendemall.com"
   contactFormProvider = "formsubmit.co"
 
-  footerDescription = "The complete outbound platform. One tool, one price, guaranteed replies."
+  footerDescription = "Signal-based outbound platform. Find companies already looking to buy what you sell."
 
   [settings.copyright]
     enable = true
@@ -74,8 +77,8 @@
 
   [settings.navigationButton]
     enable = true
-    label  = "Try It Free"
-    url    = "https://app.sendemall.com/signup"
+    label  = "Get 100 Free Potential Buyers"
+    url    = "/services/free-leads"
 
   [settings.markup.tableOfContents]
     enable     = true

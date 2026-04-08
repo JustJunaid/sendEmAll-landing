@@ -1,0 +1,40 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ProductPage from "@/layouts/components/sections/ProductPage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Email Finder Tool | SendEmAll"
+  metaDescription="Find verified decision maker emails from any company. Domain to contacts, name + company to verified email. Waterfall enrichment across multiple sources."
+  disableTagline={true}
+>
+  <ProductPage
+    hero={{
+      headline: "Company name in. Decision maker's verified email out.",
+      subheadline: "You know the company. You know the role. But you need a verified email address. Our finder searches multiple sources and validates every result.",
+    }}
+    problem={{
+      title: "You know who to reach. But not how.",
+      description: "You've identified your target company. Maybe even the right person. But without a verified email address, you're stuck. LinkedIn messages get ignored. Contact forms go to a black hole. You need a direct line.",
+    }}
+    features={[
+      { title: "Domain to decision maker", description: "Enter a company domain. Get verified emails for key decision makers. Job titles, departments, and seniority levels." },
+      { title: "Name + domain to email", description: "Have a name and company? We generate and verify the most likely email patterns. 8 permutations tested against live mailservers." },
+      { title: "Waterfall enrichment", description: "We search multiple data sources in sequence. If one source doesn't have it, the next one might. Higher coverage than any single provider." },
+      { title: "Bulk processing", description: "Upload a list of companies or names. Get verified emails back in bulk. No manual one-by-one searching." },
+      { title: "Confidence scoring", description: "Every result includes a confidence score. Know which emails are verified, likely, or risky before you send." },
+    ]}
+    differentiator="Standalone email finders give you addresses. SendEmAll finds the RIGHT person. When integrated with our signal engine, we find the decision maker at companies already showing buying intent. Not just any contact. The one who can say yes."
+    faq={[
+      { title: "How many email patterns do you check?", content: "8 common B2B email patterns per name/domain combination. We test each against live mailservers via SMTP verification." },
+      { title: "What data sources do you use?", content: "Waterfall enrichment across multiple providers including public databases, MX record analysis, and pattern matching. We aggregate results for maximum coverage." },
+      { title: "Can I find emails in bulk?", content: "Yes. Upload a CSV of companies or names. Results are processed and returned as a downloadable file." },
+      { title: "How is this different from Hunter.io?", content: "Hunter finds emails. SendEmAll finds the right person at companies showing buying signals. Our finder is integrated into a full outbound pipeline, not a standalone lookup tool." },
+    ]}
+  />
+</Base>

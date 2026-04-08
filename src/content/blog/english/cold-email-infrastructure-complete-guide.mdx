@@ -6,7 +6,7 @@ categories: ["deliverability"]
 image: ""
 draft: false
 author: "SendEmAll Team"
-excerpt: "Everything you need to set up cold email infrastructure from scratch: domain strategy, Google Workspace configuration, DNS authentication, Smart Ramp-Up, mailbox rotation, and sending limits. Detailed enough to follow without any tool."
+excerpt: "Everything you need to set up cold email infrastructure from scratch: domain strategy, Google Workspace configuration, DNS authentication, warmup, mailbox rotation, and sending limits. Detailed enough to follow without any tool."
 ---
 
 ## Why infrastructure matters more than copy
@@ -208,11 +208,11 @@ After configuring all three records, verify them:
 
 **Repeat for every domain.** 5 domains = 20 DNS records minimum.
 
-## Step 4: Smart Ramp-Up
+## Step 4: Warmup
 
 New mailboxes have zero reputation. Sending 50 cold emails on day one from a fresh mailbox is a fast track to the spam folder.
 
-Smart Ramp-Up is the process of gradually increasing sending volume while building positive engagement signals.
+Warmup is the process of gradually increasing sending volume while building positive engagement signals.
 
 ### The manual approach
 
@@ -225,11 +225,11 @@ Smart Ramp-Up is the process of gradually increasing sending volume while buildi
 | Week 5-6 | 30-40 emails | Increasing toward steady state |
 | Week 7+ | 40-50 emails | Full volume |
 
-**The key metric during Smart Ramp-Up:** reply rate. Receiving servers use engagement (replies, opens, clicks) to build your sender reputation. If you ramp up volume but nobody replies, you're telling Gmail "this sender sends email nobody wants."
+**The key metric during warmup:** reply rate. Receiving servers use engagement (replies, opens, clicks) to build your sender reputation. If you ramp up volume but nobody replies, you're telling Gmail "this sender sends email nobody wants."
 
-### Automated Smart Ramp-Up tools
+### Automated Warmup Tools
 
-If you're managing 15+ mailboxes, manual Smart Ramp-Up isn't practical. Tools that automate this:
+If you're managing 15+ mailboxes, manual warmup isn't practical. Tools that automate this:
 
 | Tool | Price | How it works |
 |------|-------|-------------|
@@ -237,9 +237,9 @@ If you're managing 15+ mailboxes, manual Smart Ramp-Up isn't practical. Tools th
 | Warmbox | $15-69/mo | Similar network-based approach |
 | Instantly (built-in) | Included | Uses their own network |
 | Lemlist (built-in) | Included | Lemwarm feature |
-| SendEmAll (built-in) | Included | Managed Smart Ramp-Up across all your mailboxes |
+| SendEmAll (built-in) | Included | Managed warmup across all your mailboxes |
 
-**Duration:** Plan for 3-4 weeks of Smart Ramp-Up before reaching full volume. Some mailboxes ramp faster, some slower. Monitor each individually.
+**Duration:** Plan for 3-4 weeks of warmup before reaching full volume. Some mailboxes ramp faster, some slower. Monitor each individually.
 
 ## Step 5: Mailbox rotation
 
@@ -317,7 +317,7 @@ Setup isn't a one-time thing. Infrastructure requires ongoing attention.
 | Domain purchase and configuration | 2-3 | 0.5 |
 | Google Workspace setup | 3-4 | 0.5 |
 | DNS authentication (SPF/DKIM/DMARC) | 4-6 | 1 |
-| Smart Ramp-Up management | 3-4 | 1-2 |
+| warmup management | 3-4 | 1-2 |
 | Mailbox rotation setup | 1-2 | 0.5 |
 | Deliverability monitoring | 1-2 | 3-4 |
 | Troubleshooting issues | 2-3 | 2-3 |
@@ -327,19 +327,19 @@ At $50/hour for a technical ops person, that's $800-1,200 to set up and $400-600
 
 ## How SendEmAll handles this
 
-Everything above — domains, mailboxes, DNS, Smart Ramp-Up, rotation, monitoring — is managed for you.
+Everything above — domains, mailboxes, DNS, warmup, rotation, monitoring — is managed for you.
 
 | What you'd do manually | What SendEmAll does |
 |------------------------|---------------------|
 | Buy and configure 5+ domains | Managed domains included in your plan |
 | Set up Google Workspace ($108/mo) | Mailboxes included (15 on Pro, 45 on Business, 105 on Scale) |
 | Configure SPF/DKIM/DMARC on every domain | Pre-configured and monitored |
-| Manage Smart Ramp-Up for 3-4 weeks per mailbox | Automated Smart Ramp-Up |
+| Manage warmup for 3-4 weeks per mailbox | Automated warmup |
 | Set up mailbox rotation | Intelligent rotation built-in |
 | Monitor deliverability weekly | Real-time deliverability dashboard |
 | Replace underperforming domains quarterly | Automatic domain health management |
 
-You upload your potential buyers (or let our [signal-qualified lead discovery](/solutions/lead-generation) find them). You write your message (or let our [AI personalization](/solutions/ai-personalization) write it). SendEmAll handles everything between "potential buyer identified" and "reply received."
+You upload your potential buyers (or let our [signal-qualified lead discovery](/services/apollo-scraper) find them). You write your message (or let our [AI personalization](/products/cold-email) write it). SendEmAll handles everything between "potential buyer identified" and "reply received."
 
 This infrastructure is included in every plan. Pro ($149/mo) includes 15 mailboxes. Business ($349/mo) includes 45. Scale ($599/mo) includes 105. See [pricing details](/pricing).
 
@@ -356,7 +356,7 @@ This infrastructure is included in every plan. Pro ($149/mo) includes 15 mailbox
 5. Are you exceeding 50 emails/mailbox/day?
 6. Is your bounce rate above 2%?
 7. Are you using spammy words in subject lines? ("FREE", "ACT NOW", "LIMITED TIME")
-8. Is your domain less than 30 days old? (New domains need Smart Ramp-Up time)
+8. Is your domain less than 30 days old? (New domains need warmup time)
 
 ### "My open rates dropped suddenly"
 
@@ -378,8 +378,8 @@ Microsoft is the strictest major email provider. Steps:
 
 If you want to do this yourself, start with Step 1. Buy your domains today — they need time to age before you start sending.
 
-If you'd rather skip the 15-20 hours of setup and the ongoing maintenance, [start with SendEmAll](https://app.sendemall.com/signup). Infrastructure is included from day one.
+If you'd rather skip the 15-20 hours of setup and the ongoing maintenance, [start with SendEmAll](/services/free-leads). Infrastructure is included from day one.
 
 Either way, the infrastructure matters. Don't skip it.
 
-[Start free — 100 credits, infrastructure included →](https://app.sendemall.com/signup)
+[Start free — 100 credits, infrastructure included →](/services/free-leads)

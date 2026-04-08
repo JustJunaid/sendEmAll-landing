@@ -2,30 +2,43 @@
   "main": [
     {
       "enable": true,
-      "name": "Solutions",
+      "name": "Products",
       "weight": 1,
       "hasChildren": true,
       "children": [
-        { "enable": true, "name": "Lead Generation", "url": "/solutions/lead-generation", "weight": 1 },
-        { "enable": true, "name": "Email Infrastructure", "url": "/solutions/email-infrastructure", "weight": 2 },
-        { "enable": true, "name": "AI Personalization", "url": "/solutions/ai-personalization", "weight": 3 },
-        { "enable": true, "name": "Email Verification", "url": "/solutions/email-verification", "weight": 4 },
-        { "enable": true, "name": "Deliverability Test ✦", "url": "/deliverability-test", "weight": 5 }
+        { "enable": true, "name": "Cold Email Platform", "url": "/products/cold-email", "weight": 1 },
+        { "enable": true, "name": "Email Warmup", "url": "/products/email-warmup", "weight": 2 },
+        { "enable": true, "name": "Email Verification", "url": "/products/email-verification", "weight": 3 },
+        { "enable": true, "name": "Email Finder", "url": "/products/email-finder", "weight": 4 },
+        { "enable": true, "name": "Email Deliverability Test", "url": "/tools/email-deliverability-test", "weight": 5 }
       ]
     },
     {
       "enable": true,
-      "name": "Compare",
+      "name": "Services",
       "weight": 2,
       "hasChildren": true,
       "children": [
-        { "enable": true, "name": "vs Instantly", "url": "/compare/instantly", "weight": 1 },
-        { "enable": true, "name": "vs Apollo", "url": "/compare/apollo", "weight": 2 },
-        { "enable": true, "name": "vs Clay", "url": "/compare/clay", "weight": 3 },
-        { "enable": true, "name": "vs Lemlist", "url": "/compare/lemlist", "weight": 4 }
+        { "enable": true, "name": "Apollo Scraper", "url": "/services/apollo-scraper", "weight": 1 },
+        { "enable": true, "name": "Sales Navigator Scraper", "url": "/services/sales-navigator-scraper", "weight": 2 },
+        { "enable": true, "name": "Custom Scraping", "url": "/services/custom-scraping", "weight": 3 },
+        { "enable": true, "name": "Cold Email Infrastructure", "url": "/services/cold-email-infrastructure", "weight": 4 },
+        { "enable": true, "name": "Free Leads", "url": "/services/free-leads", "weight": 5 }
       ]
     },
-    { "enable": true, "name": "Agencies", "url": "/agencies", "weight": 3 },
+    {
+      "enable": true,
+      "name": "Use Cases",
+      "weight": 3,
+      "hasChildren": true,
+      "children": [
+        { "enable": true, "name": "For SaaS Companies", "url": "/use-cases/saas", "weight": 1 },
+        { "enable": true, "name": "For Agencies", "url": "/use-cases/agencies", "weight": 2 },
+        { "enable": true, "name": "For Recruiters", "url": "/use-cases/recruiters", "weight": 3 },
+        { "enable": true, "name": "For Consultants", "url": "/use-cases/consultants", "weight": 4 },
+        { "enable": true, "name": "For Startups", "url": "/use-cases/startups", "weight": 5 }
+      ]
+    },
     { "enable": true, "name": "Pricing", "url": "/pricing", "weight": 4 }
   ],
   "footerMenu": [
@@ -35,15 +48,17 @@
   ],
   "footerMenuQuickLink": [
     { "enable": true, "name": "Pricing", "url": "/pricing", "weight": 1 },
-    { "enable": true, "name": "For Agencies", "url": "/agencies", "weight": 2 },
-    { "enable": true, "name": "Developers", "url": "/developers", "weight": 3 },
-    { "enable": true, "name": "Changelog", "url": "/changelog", "weight": 4 },
-    { "enable": true, "name": "Deliverability Test", "url": "/deliverability-test", "weight": 5 }
+    { "enable": true, "name": "Developers", "url": "/developers", "weight": 2 },
+    { "enable": true, "name": "Changelog", "url": "/changelog", "weight": 3 }
   ],
   "footerMenuResources": [
     { "enable": true, "name": "About", "url": "/about", "weight": 1 },
     { "enable": true, "name": "Contact", "url": "/contact", "weight": 2 },
-    { "enable": true, "name": "Blog", "url": "/blog", "weight": 3 }
+    { "enable": true, "name": "Blog", "url": "/blog", "weight": 3 },
+    { "enable": true, "name": "vs Instantly", "url": "/compare/instantly", "weight": 4 },
+    { "enable": true, "name": "vs Apollo", "url": "/compare/apollo", "weight": 5 },
+    { "enable": true, "name": "vs Clay", "url": "/compare/clay", "weight": 6 },
+    { "enable": true, "name": "vs Lemlist", "url": "/compare/lemlist", "weight": 7 }
   ],
   "footerMenuLegal": [
     { "enable": true, "name": "Terms of Service", "url": "/terms", "weight": 1 },

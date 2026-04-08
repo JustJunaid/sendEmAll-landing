@@ -1,0 +1,109 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Cold Email for Recruiters | SendEmAll"
+  disableTagline={true}
+  metaDescription="Find passive candidates who are actually open to moving. Signal-based outreach for recruiting firms and talent acquisition teams."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">For Recruiters</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        Find Passive Candidates Who Are Actually Open to Moving.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        Signal-based outreach for recruiting firms and talent acquisition teams. Reach the right people at the right moment.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="/services/free-leads" class="btn btn-md btn-primary">Get 100 qualified candidates free</a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">The recruiting outreach problem</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <p class="text-lg leading-relaxed text-text-default/80">
+            LinkedIn InMails get ignored. Job boards attract active seekers, not top talent. The best candidates are passive. They're not looking. But some of them are open to a conversation, if you catch them at the right moment. The question is: how do you find that moment?
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signals for Recruiting -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Signals that surface open candidates</h2>
+        <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">We track workplace signals that indicate when top talent might be ready for a change.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 19a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-1"/><path d="M6 19a2 2 0 0 1-2-2v-1a4 4 0 0 1 4-4h1"/><circle cx="15" cy="7" r="3"/><circle cx="9" cy="7" r="3"/></svg>', title: "Company layoffs", desc: "Talent suddenly available at companies going through reductions. Reach them before competitors do." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>', title: "Leadership changes", desc: "New direction means team rebuilds. Employees under new leadership are 2x more likely to explore options." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: "Hiring freezes", desc: "Competitors with hiring freezes often have frustrated employees. Ambition with no room to grow." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>', title: "Glassdoor sentiment", desc: "Declining workplace satisfaction scores. Employees at 3-star companies respond 40% more to outreach." },
+        ].map((f, i) => (
+          <div class="rounded-2xl border border-border-light bg-accent p-8" data-aos="fade-up-sm" data-aos-delay={i * 50}>
+            <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary" set:html={f.svg} />
+            <h3 class="mb-2 text-xl font-semibold">{f.title}</h3>
+            <p class="text-text-default/70">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Example Pipeline -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Example: Recruiting senior engineers</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">1</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Signal detected:</strong> Company just announced a round of layoffs in their engineering division.</p>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">2</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Second signal:</strong> Same company's Glassdoor rating dropped from 4.2 to 3.1 in the last quarter.</p>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">3</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Result:</strong> Senior engineers there aren't job hunting yet. But they're open to a conversation. Your personalized outreach lands at exactly the right moment.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Get 100 Qualified Candidates. Free.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Tell us the role and target profile. We'll deliver 100 signal-qualified candidates to your inbox. No credit card required.</p>
+        <a href="/services/free-leads" class="btn btn-md btn-primary mt-8">Get your free list</a>
+      </div>
+    </div>
+  </section>
+</Base>

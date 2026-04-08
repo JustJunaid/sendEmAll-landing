@@ -1,0 +1,109 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Cold Email for Consultants | SendEmAll"
+  disableTagline={true}
+  metaDescription="Fill your pipeline without cold calling. Signal-based outbound finds companies that need your expertise right now."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary" data-aos="fade-up-sm">For Consultants</span>
+      <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl" data-aos="fade-up-sm" data-aos-delay="100">
+        Fill Your Pipeline Without Cold Calling.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
+        Signal-based outbound finds companies that need your expertise right now. Not next quarter. Not eventually. Right now.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="/services/free-leads" class="btn btn-md btn-primary">Get 100 qualified potential buyers free</a>
+        <a href="/pricing" class="btn btn-md btn-outline-white">See pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">The consultant's pipeline problem</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <p class="text-lg leading-relaxed text-text-default/80">
+            Referrals are great when they come. But you can't scale word-of-mouth. Cold calling takes hours for one meeting. Your expertise is valuable. Your time finding clients shouldn't cost more than the engagement itself.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signals for Consultants -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Signals that mean they need you now</h2>
+        <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">We find companies actively experiencing the problems you solve.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 19a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-1"/><path d="M6 19a2 2 0 0 1-2-2v-1a4 4 0 0 1 4-4h1"/><circle cx="15" cy="7" r="3"/><circle cx="9" cy="7" r="3"/></svg>', title: "Hiring for your expertise", desc: "Companies posting jobs for the problem you solve. They need help now but haven't found the right person yet." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', title: "Funding rounds", desc: "Fresh capital means budget for external help. Funded companies are 3x more likely to hire consultants in the first 90 days." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: "Tech stack changes", desc: "Companies migrating platforms need implementation expertise. They have the tool but not the knowledge." },
+          { svg: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>', title: "Leadership changes", desc: "New CXOs bring new direction and new priorities. They need trusted advisors to execute their vision." },
+        ].map((f, i) => (
+          <div class="rounded-2xl border border-border-light bg-accent p-8" data-aos="fade-up-sm" data-aos-delay={i * 50}>
+            <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary" set:html={f.svg} />
+            <h3 class="mb-2 text-xl font-semibold">{f.title}</h3>
+            <p class="text-text-default/70">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Example Pipeline -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto mb-12 max-w-2xl text-center">
+          <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Example: Marketing consultant</h2>
+        </div>
+        <div class="rounded-2xl border border-border-light bg-accent p-8 lg:p-12" data-aos="fade-up-sm" data-aos-delay="100">
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">1</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Signal detected:</strong> Company just hired a new CMO.</p>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">2</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Second signal:</strong> Same company has no marketing agency listed in their tech stack or vendor relationships.</p>
+            </div>
+            <div class="flex items-start gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-dark">3</span>
+              <p class="text-text-default/80"><strong class="text-text-default">Result:</strong> They have mandate, budget, and an empty chair next to the new hire that your expertise fills. Your outreach arrives when they're building their team.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Get 100 Qualified Potential Buyers. Free.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Tell us your expertise and ideal client profile. We'll deliver 100 signal-qualified potential buyers. No credit card. No commitment.</p>
+        <a href="/services/free-leads" class="btn btn-md btn-primary mt-8">Get your free list</a>
+      </div>
+    </div>
+  </section>
+</Base>

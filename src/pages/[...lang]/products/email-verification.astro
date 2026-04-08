@@ -1,0 +1,40 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import ProductPage from "@/layouts/components/sections/ProductPage.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+---
+
+<Base
+  metaTitle="Email Verification Tool | SendEmAll"
+  metaDescription="Multi-layer email validation with catch-all detection, disposable email filtering, and real-time API. Never waste a send on a dead address. Built into your pipeline."
+  disableTagline={true}
+>
+  <ProductPage
+    hero={{
+      headline: "Never send to a dead address again.",
+      subheadline: "Bounces destroy your sender reputation. Our multi-layer verification catches bad addresses, catch-all domains, and disposable emails before you hit send.",
+    }}
+    problem={{
+      title: "Bounces kill your deliverability.",
+      description: "Every bounced email damages your sender reputation. Catch-all domains accept everything but deliver nothing. Disposable emails disappear after one use. If you're not verifying before sending, you're gambling with your infrastructure.",
+    }}
+    features={[
+      { title: "Multi-layer SMTP validation", description: "Direct mailserver verification. Not just syntax checking. We confirm the mailbox actually exists." },
+      { title: "Catch-all detection", description: "Identify domains that accept all emails regardless of whether the address exists. Prevents wasted sends." },
+      { title: "Disposable email filtering", description: "Detect and remove temporary/throwaway email addresses that will bounce within hours." },
+      { title: "Bulk list cleaning", description: "Upload your entire list. Get it cleaned in minutes. Export only verified addresses." },
+      { title: "Real-time API", description: "Verify emails on the fly via API. Integrate into your signup forms, imports, or custom workflows." },
+    ]}
+    differentiator="Most verification tools are standalone. Upload CSV, wait, download CSV, import to another tool. SendEmAll verifies inline. Every lead is verified before it enters your campaign. No exports. No imports. No manual steps."
+    faq={[
+      { title: "How accurate is the verification?", content: "Our multi-layer approach achieves 97%+ accuracy. We combine SMTP validation, MX record checks, and pattern analysis." },
+      { title: "Do you support bulk verification?", content: "Yes. Upload lists of any size. Processing speed depends on volume. Most lists under 10,000 complete in minutes." },
+      { title: "Is there an API?", content: "Yes. RESTful API with real-time verification. Verify single emails or batch process. Full documentation available." },
+      { title: "How many verifications are included?", content: "Verification credits are included in your plan's credit allocation. 1 credit = 1 verification." },
+    ]}
+  />
+</Base>

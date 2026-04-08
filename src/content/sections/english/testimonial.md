@@ -14,70 +14,70 @@ marquee:
 list:
   - enable: true
     content: |
-      We replaced Apollo, Instantly, and Clay with SendEmAll. Saved $430/mo and reply rates went from 0.8% to 3.2%. The signal-qualified potential buyers are genuinely better than what we were pulling from databases.
+      3.2% reply rate in our first month. We were averaging 0.8% before. The difference was targeting. When you're emailing people who actually have budget and timing, the conversations are completely different.
     customer:
       image: "/images/customers/avatar/1.jpg"
       name: "Sarah Chen"
       role: "Head of Growth, TechFlow"
   - enable: true
     content: |
-      Setting up cold email infrastructure used to take my team two weeks. Buying domains, configuring DNS, warming mailboxes. SendEmAll handles all of it. We were sending on day one.
+      First campaign was live within 24 hours of signing up. No domain purchases, no DNS headaches, no two-week ramp period. We sent 200 emails that first week and booked 4 meetings.
     customer:
       image: "/images/customers/avatar/2.jpg"
       name: "Adeola Okonkwo"
       role: "Founder, Springboard GTM"
   - enable: true
     content: |
-      52 replies in our first 40 days on the Business plan. We've tried every outbound tool out there. The difference is the targeting. These aren't random contacts from a list.
+      52 replies in 40 days on the Business plan. 11 of those turned into demos, 3 closed. That's $87K in pipeline from one month of outbound. The targeting is the difference.
     customer:
       image: "/images/customers/avatar/3.jpg"
       name: "Meera Kapoor"
       role: "VP Sales, ScaleHQ"
   - enable: true
     content: |
-      We run outbound for 12 agency clients. Before SendEmAll, each client needed their own tool stack at $600+/mo. One platform, separate pipelines, one invoice. Our margins doubled overnight.
+      We run outbound for 12 agency clients. Average reply rate across all accounts is 2.8%. Best client hit 4.6% last quarter. Separate pipelines, one dashboard, one invoice. Our margins doubled.
     customer:
       image: "/images/customers/avatar/4.jpg"
       name: "David Park"
       role: "CEO, GrowthOps Agency"
   - enable: true
     content: |
-      The API is what sold us. Our sales engineers built campaign triggers directly into our product. New enterprise trial signup? Outbound sequence fires automatically. That's not possible with most tools.
+      Our engineering team connected the API to our product in half a day. Now when an enterprise trial signs up, a personalized outbound sequence fires automatically. We're booking 6 meetings a week from that trigger alone.
     customer:
       image: "/images/customers/avatar/5.jpg"
       name: "Priya Sharma"
       role: "Head of Engineering, DataStack"
   - enable: true
     content: |
-      I was paying $97/mo for Instantly plus $79 for Apollo plus $149 for Clay. That's $325 before I even verify an email. SendEmAll Pro at $149 does everything. The math is embarrassingly simple.
+      $149/mo. That's it. I was spending $325/mo across three tools and still had to manually verify emails. Booked 9 demos last month. My cost per meeting dropped from $180 to $16.
     customer:
       image: "/images/customers/avatar/6.jpg"
       name: "Kofi Mensah"
       role: "Founder, PipelineAI"
   - enable: true
     content: |
-      Our SDR team of 3 books 40+ meetings a month now. Before SendEmAll, it was 12. Same team, same ICP. The only variable that changed was the tool and the quality of targeting.
+      Our SDR team of 3 went from 12 meetings a month to 40+. Same reps, same ICP, same messaging framework. The only thing that changed was the quality of potential buyers we were reaching.
     customer:
       image: "/images/customers/avatar/7.jpg"
       name: "Ananya Reddy"
       role: "SDR Manager, CloudFirst"
   - enable: true
     content: |
-      I was skeptical about the reply guarantee. We hit 67 replies in 58 days. The AI personalization reads each prospect's website and writes something specific. Not merge tags. Actually specific.
+      67 replies in 58 days. I was skeptical about the reply guarantee, but we hit it early. The personalization actually references what each company is working on. Not merge tags. Real context.
     customer:
       image: "/images/customers/avatar/8.jpg"
       name: "James Mitchell"
       role: "Director of Sales, Kompass"
   - enable: true
     content: |
-      We switched from Lemlist because the per-seat pricing was killing us. 5 reps at $69/seat is $345/mo just for sending. SendEmAll Business at $349 gives us everything including leads and infrastructure.
+      We onboarded 5 sales reps on the Business plan. They're collectively booking 22 meetings a week. Before, same team was doing maybe 8. The signal-qualified targeting means fewer emails, more replies.
     customer:
       image: "/images/customers/avatar/9.jpg"
       name: "Fatima Al-Rashid"
       role: "Revenue Operations, Zenith"
   - enable: true
     content: |
-      As a solo founder, I can't afford a $600/mo tool stack or a $5K/mo SDR. SendEmAll Pro lets me run real outbound for $149. Booked 8 demos in my first month. That's a customer acquisition cost I can actually sustain.
+      Solo founder. $149/mo. Booked 8 demos my first month, closed 2. That's $24K in ARR from $149 in spend. I'm not hiring an SDR anytime soon.
     customer:
       image: "/images/customers/avatar/10.jpg"
       name: "Raj Patel"

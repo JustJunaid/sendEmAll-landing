@@ -5,7 +5,6 @@ import { generatePaths } from "@/lib/utils/i18nUtils";
 import HomeBanner from "@/components/sections/HomeBanner.astro";
 import Features from "@/components/sections/FeaturesSection.astro";
 import WhyUs from "@/components/sections/WhyUs.astro";
-import IntegrationSection from "@/components/sections/IntegrationSection.astro";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
 import PricingSection from "@/components/sections/PricingSection.astro";
@@ -40,83 +39,233 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
 ---
 
 <Base
-  metaTitle="SendEmAll | The Complete Outbound Platform"
+  metaTitle="SendEmAll | Signal-Based Outbound Platform"
   disableTagline={true}
-  metaDescription="Your $37/mo cold email tool actually costs $600+. SendEmAll replaces 5+ tools — leads, infrastructure, AI personalization, sending. From $149/mo."
+  metaDescription="Find companies already looking to buy what you sell. Signal-based lead discovery, verified decision maker contacts, and personalized outreach. All in one platform."
 >
+  <!-- 1. Hero -->
   <HomeBanner />
+
+  <!-- 2. Problem / Old Way vs New Way -->
   <Features />
-  <WhyUs />
-  <!-- How It Works -->
+
+  <!-- 3. How It Works -->
+  <section id="how-it-works">
+    <WhyUs />
+  </section>
+
+  <!-- 4. Signal + Intent Explainer -->
   <section class="section-gradient py-16 md:py-24">
     <div class="container">
       <div class="mb-14 text-center" data-aos="fade-up-sm">
-        <Subtitle content="How It Works" />
+        <Subtitle content="Why It Works" />
         <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
-          Three steps. <strong class="font-tertiary italic">That's it.</strong>
+          Why signals and buying intent <strong class="font-tertiary italic">change everything</strong>
         </h2>
       </div>
 
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- Step 1 -->
+        <!-- Card 1 -->
         <div
-          class="bg-theme-dark border-border-light rounded-2xl border p-8 text-center"
+          class="bg-theme-dark border-border-light rounded-2xl border p-8"
           data-aos="fade-up-sm"
           data-aos-delay="0"
         >
-          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold">
-            01
+          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold">
+            !
           </div>
-          <h3 class="font-secondary mb-3 text-xl">Describe your buyer</h3>
-          <p class="text-text-default/70">
-            Tell us your ICP — industry, company size, tech stack, signals. Our AI builds your targeting profile in minutes.
+          <h3 class="font-secondary mb-3 text-xl text-center">Signals alone = Noise</h3>
+          <p class="text-text-default/70 text-center">
+            A company hired a new CMO. So what? Thousands of companies hire CMOs. Without knowing if they need what you sell, it's just noise.
           </p>
         </div>
 
-        <!-- Step 2 -->
+        <!-- Card 2 -->
         <div
-          class="bg-theme-dark border-border-light rounded-2xl border p-8 text-center"
+          class="bg-theme-dark border-border-light rounded-2xl border p-8"
           data-aos="fade-up-sm"
           data-aos-delay="100"
         >
-          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold">
-            02
+          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold">
+            ?
           </div>
-          <h3 class="font-secondary mb-3 text-xl">We build your pipeline</h3>
-          <p class="text-text-default/70">
-            We discover signal-qualified leads, verify emails, set up domains and mailboxes, and write personalized copy. You approve.
+          <h3 class="font-secondary mb-3 text-xl text-center">Intent alone = Anonymous</h3>
+          <p class="text-text-default/70 text-center">
+            Someone from Company X is reading G2 reviews about cold email tools. But who? Which team? Are they serious or just browsing?
           </p>
         </div>
 
-        <!-- Step 3 -->
+        <!-- Card 3 -->
         <div
-          class="bg-theme-dark border-border-light rounded-2xl border p-8 text-center"
+          class="bg-theme-dark border-border-light rounded-2xl border p-8"
           data-aos="fade-up-sm"
           data-aos-delay="200"
         >
-          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full text-2xl font-bold">
-            03
+          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold">
+            &#x2713;
           </div>
-          <h3 class="font-secondary mb-3 text-xl">Launch & watch replies</h3>
-          <p class="text-text-default/70">
-            Review the campaign, hit send. Track opens, replies, and meetings from one dashboard.
+          <h3 class="font-secondary mb-3 text-xl text-center">Signals + Intent = Your highest-probability buyer</h3>
+          <p class="text-text-default/70 text-center">
+            A company hired a new CMO (signal), AND they're actively comparing your top competitors on G2 (intent). They have budget, mandate, and urgency. That's who we put in your pipeline.
           </p>
         </div>
       </div>
 
       <div class="mt-12 text-center" data-aos="fade-up-sm" data-aos-delay="300">
-        <ButtonLink
-          class="btn-md btn-primary"
-          content={{ enable: true, label: "Build Your First Campaign", url: "https://app.sendemall.com/signup" }}
-        />
-        <p class="text-text-default/50 mt-4 text-sm">No credit card required</p>
+        <p class="text-text-default/70 mx-auto max-w-2xl text-lg">
+          Multi-signal outreach converts at <strong class="text-primary">45-65%</strong>. Single-signal converts at <strong class="text-text-default/50">5-15%</strong>. We combine both.
+        </p>
       </div>
     </div>
   </section>
 
+  <!-- 5. Signals Showcase -->
+  <section class="bg-primary/5 py-16 md:py-24">
+    <div class="container">
+      <div class="mb-14 text-center" data-aos="fade-up-sm">
+        <Subtitle content="Signal Sources" />
+        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
+          18+ signal sources. <strong class="font-tertiary italic">One pipeline.</strong>
+        </h2>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {[
+          { title: "Hiring surges", example: "Company X posted 5 SDR roles this month", insight: "They're scaling outbound" },
+          { title: "Funding rounds", example: "Series B, $20M raised last week", insight: "Fresh budget, new priorities" },
+          { title: "Tech stack changes", example: "Just added HubSpot, removed Salesforce", insight: "In transition, open to vendors" },
+          { title: "Ad spend signals", example: "Started running Google Ads for 'cold email tool'", insight: "Actively investing" },
+          { title: "Competitor research", example: "Evaluating Instantly and Smartlead pricing", insight: "Comparing options now" },
+          { title: "Authority signals", example: "CEO featured on 3 podcasts this quarter", insight: "Growing brand, scaling up" },
+        ].map((signal, i) => (
+          <div
+            class="bg-theme-dark border-border-light rounded-2xl border p-6"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 75}
+          >
+            <h3 class="font-secondary mb-2 text-lg font-semibold">{signal.title}</h3>
+            <p class="text-text-default/60 mb-3 text-sm italic">"{signal.example}"</p>
+            <p class="text-primary text-sm font-medium">{signal.insight}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-12 text-center" data-aos="fade-up-sm" data-aos-delay="500">
+        <ButtonLink
+          class="btn-md btn-primary"
+          content={{ enable: true, label: "Get 100 Qualified Potential Buyers. Free.", url: "/services/free-leads" }}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Platform Preview -->
+  <section class="section-gradient py-16 md:py-24">
+    <div class="container">
+      <div class="mb-14 text-center" data-aos="fade-up-sm">
+        <Subtitle content="The Platform" />
+        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
+          Everything you need. <strong class="font-tertiary italic">Nothing you don't.</strong>
+        </h2>
+      </div>
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          {
+            title: "Cold Email Platform",
+            desc: "Sequences, A/B testing, smart scheduling. Send campaigns that feel 1-to-1 at scale.",
+            url: "/products/cold-email",
+          },
+          {
+            title: "Email Warmup",
+            desc: "Protect your sender reputation. Gradual ramp-up, deliverability monitoring. Included in every plan.",
+            url: "/products/email-warmup",
+          },
+          {
+            title: "Email Verification",
+            desc: "Multi-layer validation. Catch-all detection. Never waste a send on a dead address.",
+            url: "/products/email-verification",
+          },
+          {
+            title: "Email Finder",
+            desc: "Domain to decision maker. Name + company to verified email. Waterfall enrichment.",
+            url: "/products/email-finder",
+          },
+        ].map((card, i) => (
+          <a
+            href={card.url}
+            class="bg-theme-dark border-border-light rounded-2xl border p-6 transition hover:border-primary/50 block"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <h3 class="font-secondary mb-3 text-lg font-semibold">{card.title}</h3>
+            <p class="text-text-default/70 text-sm mb-4">{card.desc}</p>
+            <span class="text-primary text-sm font-medium">Learn more &rarr;</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-12 text-center" data-aos="fade-up-sm" data-aos-delay="400">
+        <ButtonLink
+          class="btn-md btn-primary"
+          content={{ enable: true, label: "Get Access", url: "/services/free-leads" }}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Pricing -->
   <PricingSection />
 
-  <!-- Works With Your Stack -->
+  <!-- Pricing value framing -->
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <div class="bg-theme-dark border-border-light mx-auto max-w-4xl rounded-2xl border p-8 md:p-12" data-aos="fade-up-sm">
+        <h3 class="font-secondary mb-6 text-center text-2xl md:text-3xl">
+          What you'd pay to do this <strong class="font-tertiary italic">separately</strong>
+        </h3>
+        <div class="grid gap-3 sm:grid-cols-2 mb-8">
+          {[
+            { tool: "Apollo/Clay for discovery", cost: "$99-$495/mo" },
+            { tool: "Hunter for email finding", cost: "$49-$199/mo" },
+            { tool: "ZeroBounce for verification", cost: "$39-$159/mo" },
+            { tool: "Warmbox for warmup", cost: "$225-$735/mo" },
+            { tool: "Instantly for sending", cost: "$47-$358/mo" },
+            { tool: "Google Workspace mailboxes", cost: "$126-$882/mo" },
+          ].map((item) => (
+            <div class="flex items-center justify-between rounded-lg bg-primary/5 px-4 py-3">
+              <span class="text-text-default/70 text-sm">{item.tool}</span>
+              <span class="text-text-default/50 text-sm line-through">{item.cost}</span>
+            </div>
+          ))}
+        </div>
+        <div class="text-center">
+          <p class="text-text-default/50 mb-2 text-lg">Total: <span class="line-through">$600-$2,800+/mo</span></p>
+          <p class="text-primary text-2xl font-bold">SendEmAll: $149-$599/mo. Everything included.</p>
+          <p class="text-text-default/50 mt-4 text-sm">Platform launching soon. Reserve your spot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Reply Guarantee (moved after pricing) -->
+  <section class="bg-accent py-16 md:py-24">
+    <div class="container text-center" data-aos="fade-up-sm">
+      <span class="mb-4 inline-block rounded-full bg-[#14B8A6]/10 px-4 py-1.5 text-sm font-semibold text-[#14B8A6]">Reply Guarantee</span>
+      <h2 class="font-secondary mx-auto mb-6 max-w-3xl text-4xl capitalize md:text-5xl/tight">
+        50+ replies in 90 days. Or we <strong class="font-tertiary italic">double</strong> your credits.
+      </h2>
+      <p class="text-text-default/70 mx-auto mb-10 max-w-2xl">
+        On Business and Scale plans, if you don't receive 50+ qualified replies in your first 90 days, we add bonus credits to your account. No questions asked.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="100">
+        <span class="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-6 py-2 font-medium text-[#14B8A6]">Business: +5,000 credits</span>
+        <span class="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-6 py-2 font-medium text-[#14B8A6]">Scale: +15,000 credits</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Works With Your Stack -->
   <section class="bg-primary/5 py-16 md:py-20">
     <div class="container text-center">
       <Subtitle content="Works With Your Stack" />
@@ -134,7 +283,7 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
         Already using a sending platform? No problem. Push signal-qualified leads directly from SendEmAll into your existing workflow.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-3 mb-8" data-aos="fade-up-sm" data-aos-delay="100">
-        {["Instantly", "Smartlead", "Lemlist", "Woodpecker", "Plusvibe"].map((platform, i) => (
+        {["Instantly", "Smartlead", "Lemlist", "Woodpecker", "Plusvibe", "EmailBison"].map((platform, i) => (
           <span
             class="rounded-full border border-border-light bg-theme-dark px-5 py-2.5 text-sm font-medium text-text-default/90 transition hover:border-primary/50 hover:text-primary"
             data-aos="fade-up-sm"
@@ -155,26 +304,10 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
     </div>
   </section>
 
-  <!-- Reply Guarantee -->
-  <section class="bg-accent py-16 md:py-24">
-    <div class="container text-center" data-aos="fade-up-sm">
-      <span class="mb-4 inline-block rounded-full bg-[#14B8A6]/10 px-4 py-1.5 text-sm font-semibold text-[#14B8A6]">Reply Guarantee</span>
-      <h2 class="font-secondary mx-auto mb-6 max-w-3xl text-4xl capitalize md:text-5xl/tight">
-        50+ replies in 90 days. Or we <strong class="font-tertiary italic">double</strong> your credits.
-      </h2>
-      <p class="text-text-default/70 mx-auto mb-10 max-w-2xl">
-        On Business and Scale plans, if you don't receive 50+ qualified replies in your first 90 days, we add bonus credits to your account. No questions asked.
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="100">
-        <span class="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-6 py-2 font-medium text-[#14B8A6]">Business: +5,000 credits</span>
-        <span class="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-6 py-2 font-medium text-[#14B8A6]">Scale: +15,000 credits</span>
-      </div>
-    </div>
-  </section>
-
+  <!-- 10. Testimonials -->
   <TestimonialSection />
-  <IntegrationSection />
-  <!-- Developer Teaser -->
+
+  <!-- 11. Developer Teaser -->
   <section class="bg-primary/5 py-16 md:py-24">
     <div class="container text-center">
       <div data-aos="fade-up-sm">
@@ -219,7 +352,10 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
     </div>
   </section>
 
+  <!-- 12. FAQ -->
   <FaqSection content={homepage?.data?.faqSection} />
+
+  <!-- 13. Final CTA -->
   <CallToAction />
   {faqSchema && <script type="application/ld+json" set:html={faqSchema} />}
 </Base>

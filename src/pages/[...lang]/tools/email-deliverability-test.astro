@@ -1,0 +1,189 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const checks = [
+  { icon: "shield", title: "SPF configuration", description: "Verify your Sender Policy Framework record is correctly configured." },
+  { icon: "key", title: "DKIM authentication", description: "Check your DomainKeys Identified Mail signatures." },
+  { icon: "lock", title: "DMARC policy", description: "Validate your Domain-based Message Authentication policy." },
+  { icon: "alert", title: "Blacklist status", description: "Scan major email blacklists for your domain and IP." },
+  { icon: "inbox", title: "Inbox placement", description: "Test where your emails land across Gmail, Outlook, Yahoo." },
+  { icon: "chart", title: "Authentication score", description: "Overall sending authentication health score." },
+];
+
+const steps = [
+  { number: "01", title: "Enter your domain", description: "Type in the domain you send emails from. No login required." },
+  { number: "02", title: "We run the checks", description: "SPF, DKIM, DMARC, blacklists, and inbox placement. Takes about 60 seconds." },
+  { number: "03", title: "Get your report", description: "See exactly what's passing, what's failing, and how to fix it." },
+];
+
+const stats = [
+  { value: "21%", label: "of legitimate emails never reach the inbox" },
+  { value: "45%", label: "of all email worldwide is classified as spam" },
+  { value: "10x", label: "higher reply rates when emails land in primary" },
+  { value: "$0", label: "cost to run this test. No credit card. No signup." },
+];
+
+const iconPaths: Record<string, string> = {
+  shield: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+  key: "M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4",
+  lock: "M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM7 11V7a5 5 0 0 1 10 0v4",
+  alert: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01",
+  inbox: "M22 12h-6l-2 3H10l-2-3H2M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z",
+  chart: "M18 20V10M12 20V4M6 20v-6",
+};
+---
+
+<Base
+  metaTitle="Free Email Deliverability Test | SendEmAll"
+  disableTagline={true}
+  metaDescription="Check where your emails actually land. Free DNS audit, blacklist check, and inbox placement test across Gmail, Outlook, and Yahoo. Results in minutes."
+>
+  <!-- Hero -->
+  <section class="py-24 lg:py-32">
+    <div class="container text-center">
+      <span
+        class="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary"
+        data-aos="fade-up-sm"
+      >
+        Free Tool
+      </span>
+      <h1
+        class="mx-auto max-w-4xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
+        data-aos="fade-up-sm"
+        data-aos-delay="100"
+      >
+        Free Email Deliverability Test
+      </h1>
+      <p
+        class="mx-auto mt-4 max-w-3xl text-2xl font-semibold text-white/90"
+        data-aos="fade-up-sm"
+        data-aos-delay="150"
+      >
+        See where your emails actually land.
+      </p>
+      <p
+        class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70"
+        data-aos="fade-up-sm"
+        data-aos-delay="200"
+      >
+        If your emails land in spam, nothing else matters. Not your copy, not your list, not your sequencer. Test your sending domain in minutes.
+      </p>
+      <div class="mt-10" data-aos="fade-up-sm" data-aos-delay="300">
+        <a
+          href="https://app.sendemall.com/deliverability-test"
+          class="btn btn-lg btn-primary"
+        >
+          Test My Deliverability
+        </a>
+        <p class="mt-3 text-sm text-text-default/50">No signup required. Results in under 2 minutes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Check -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">What we check</h2>
+        <p class="mt-4 text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">
+          Six critical checks that determine whether your emails reach the inbox or disappear into spam.
+        </p>
+      </div>
+      <div class="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {checks.map((check, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-accent p-8"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 75}
+          >
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+              <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d={iconPaths[check.icon]} />
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-white">{check.title}</h3>
+            <p class="mt-2 text-sm text-text-default/70">{check.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">How it works</h2>
+        <p class="mt-4 text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">
+          Three steps. Under two minutes. No account needed.
+        </p>
+      </div>
+      <div class="mx-auto grid max-w-4xl gap-8 md:grid-cols-3">
+        {steps.map((step, i) => (
+          <div class="text-center" data-aos="fade-up-sm" data-aos-delay={i * 100}>
+            <span class="mb-4 inline-block text-5xl font-bold text-primary/30">{step.number}</span>
+            <h3 class="text-xl font-semibold text-white">{step.title}</h3>
+            <p class="mt-3 text-text-default/70">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why It Matters -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-16 max-w-2xl text-center">
+        <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Why deliverability matters</h2>
+        <p class="mt-4 text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">
+          You can write the perfect email. If it lands in spam, nobody reads it.
+        </p>
+      </div>
+      <div class="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((item, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-accent p-8 text-center"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 75}
+          >
+            <span class="block text-4xl font-bold text-primary">{item.value}</span>
+            <p class="mt-3 text-sm text-text-default/70">{item.label}</p>
+          </div>
+        ))}
+      </div>
+      <div class="mx-auto mt-12 max-w-3xl" data-aos="fade-up-sm" data-aos-delay="300">
+        <div class="rounded-2xl border border-border-light bg-accent p-10">
+          <div class="space-y-4 text-lg text-text-default/80">
+            <p>
+              Most senders have no idea their emails are going to spam. They blame low reply rates on bad copy or a weak offer. The real problem is simpler: their DNS records are broken, their domain is on a blacklist, or their authentication is misconfigured.
+            </p>
+            <p>
+              A single missing SPF record can tank your deliverability overnight. A DMARC policy set to "none" leaves your domain open to spoofing. These are fixable problems, but only if you know they exist.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secondary CTA -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold sm:text-4xl">Fix your deliverability issues</h2>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">
+          SendEmAll manages your entire email infrastructure. SPF, DKIM, DMARC, warmup, and domain health monitoring. All included in every plan.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a href="/services/free-leads" class="btn btn-md btn-primary">Get Access to SendEmAll</a>
+          <a href="/pricing" class="btn btn-md btn-outline-white">See pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -8,40 +8,43 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Lead database", competitor: "Large but generic", sendemall: "Signal-qualified" },
-  { name: "Email sending", competitor: "Limited", sendemall: "Full" },
-  { name: "Enrichment", competitor: "Basic", sendemall: "5+ providers" },
-  { name: "Infrastructure", competitor: "None", sendemall: "Managed" },
-  { name: "AI personalization", competitor: "Basic templates", sendemall: "Full AI research" },
-  { name: "Verification", competitor: "Basic", sendemall: "Multi-layer" },
+  { name: "Database size", competitor: "275M+ contacts", sendemall: "18+ sources aggregated" },
+  { name: "Buying signals", competitor: "Limited filters", sendemall: "Real-time monitoring" },
+  { name: "Email sending", competitor: "Basic sequences", sendemall: "Full campaign platform" },
+  { name: "warmup", competitor: "No", sendemall: "Included" },
+  { name: "Infrastructure", competitor: "No", sendemall: "Fully managed" },
+  { name: "Verification", competitor: "Included", sendemall: "Included" },
+  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
 ];
 
 const theyDoBetter = [
-  { title: "Massive database", description: "2B+ contacts. If you need raw volume, Apollo's database is huge." },
-  { title: "CRM features", description: "Built-in CRM, sequences, and deal tracking." },
+  { title: "Massive contact database", description: "275M+ contacts in one searchable database. If you need raw volume and filtering by firmographics, Apollo has scale." },
+  { title: "CRM features", description: "Built-in CRM with deal tracking, sequences, and pipeline management. Useful if you want outreach and CRM in one tool." },
+  { title: "Free tier with 50 credits/mo", description: "Apollo offers a free plan with limited credits. Good for testing before committing." },
 ];
 
 const weDoBetter = [
-  { title: "Signal qualification", description: "We don't just give you emails — we find buyers showing purchase signals." },
-  { title: "Cost transparency", description: "No per-seat pricing. No email credit limits. One price, everything included." },
-  { title: "Full infrastructure", description: "Apollo doesn't set up your mailboxes or manage deliverability." },
+  { title: "Signal-based qualification", description: "Apollo gives you a database to filter. We monitor hiring, funding, and tech adoption signals to find potential buyers who are actively looking. Filters are not signals." },
+  { title: "Full sending infrastructure", description: "Apollo has basic sequences but no managed infrastructure. We handle domains, mailboxes, DNS, and warmup so your emails actually land in inboxes." },
+  { title: "Managed warmup and domains", description: "Apollo expects you to bring your own sending setup. We provision and manage everything for you." },
+  { title: "We use Apollo as one of our 18+ data sources", description: "You get Apollo's data plus 17 more sources, enriched with buying signals. No need to choose between us." },
 ];
 ---
 
 <Base
-  title="SendEmAll vs Apollo | Cost & Feature Comparison"
+  title="Best Apollo Alternative for Cold Email (2026) | SendEmAll"
   disableTagline={true}
-  description="Compare SendEmAll and Apollo side by side. See why signal-qualified leads and managed infrastructure beat a generic database."
+  description="Apollo gives you a database. SendEmAll gives you buyers who are actually looking. Signal-based outbound vs. static lists."
 >
   <ComparePage
     competitor="Apollo"
-    description="Side-by-side cost and feature comparison"
-    competitorPrice="$49–$119/mo"
-    competitorPriceNote="Data access with limited sending. Email credits deplete quickly."
+    description="Apollo gives you a database. SendEmAll gives you potential buyers who are actually looking. Signal-based outbound vs. static lists."
+    competitorPrice="$49-$119/mo"
+    competitorPriceNote="Database access with limited sending. Email credits deplete quickly at scale."
     sendemallPrice="$149/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}
-    integrationNote="We actually use Apollo as one of our 18 providers. Get Apollo data + 17 more sources through SendEmAll."
+    integrationNote="We use Apollo as one of our 18+ data sources. You get Apollo's data plus 17 more sources, enriched with buying signals. No need to pick one or the other."
   />
 </Base>
