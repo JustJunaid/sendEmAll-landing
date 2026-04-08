@@ -9,7 +9,8 @@
         { "enable": true, "name": "Lead Generation", "url": "/solutions/lead-generation", "weight": 1 },
         { "enable": true, "name": "Email Infrastructure", "url": "/solutions/email-infrastructure", "weight": 2 },
         { "enable": true, "name": "AI Personalization", "url": "/solutions/ai-personalization", "weight": 3 },
-        { "enable": true, "name": "Email Verification", "url": "/solutions/email-verification", "weight": 4 }
+        { "enable": true, "name": "Email Verification", "url": "/solutions/email-verification", "weight": 4 },
+        { "enable": true, "name": "Deliverability Test ✦", "url": "/deliverability-test", "weight": 5 }
       ]
     },
     {
@@ -36,7 +37,8 @@
     { "enable": true, "name": "Pricing", "url": "/pricing", "weight": 1 },
     { "enable": true, "name": "For Agencies", "url": "/agencies", "weight": 2 },
     { "enable": true, "name": "Developers", "url": "/developers", "weight": 3 },
-    { "enable": true, "name": "Changelog", "url": "/changelog", "weight": 4 }
+    { "enable": true, "name": "Changelog", "url": "/changelog", "weight": 4 },
+    { "enable": true, "name": "Deliverability Test", "url": "/deliverability-test", "weight": 5 }
   ],
   "footerMenuResources": [
     { "enable": true, "name": "About", "url": "/about", "weight": 1 },

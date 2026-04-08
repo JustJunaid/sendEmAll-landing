@@ -1,0 +1,1345 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const meta = {
+  title: "Free Email Deliverability Test | SendEmAll",
+  description:
+    "Test where your emails land — inbox, spam, or promotions — in minutes. Get your content score, sender reputation tips, and placement breakdown across 12+ email providers.",
+  disableTagline: true,
+};
+
+const SEED_INBOXES_FALLBACK = [
+  { email: "seed.test.gmail.1@gmail.com", provider: "Gmail" },
+  { email: "seed.test.gmail.2@gmail.com", provider: "Gmail" },
+  { email: "seed.test.gmail.3@gmail.com", provider: "Gmail" },
+  { email: "seed.test.outlook.1@outlook.com", provider: "Outlook" },
+  { email: "seed.test.outlook.2@outlook.com", provider: "Outlook" },
+  { email: "seed.test.yahoo.1@yahoo.com", provider: "Yahoo" },
+  { email: "seed.test.yahoo.2@yahoo.com", provider: "Yahoo" },
+  { email: "seed.test.icloud.1@icloud.com", provider: "iCloud" },
+  { email: "seed.test.proton.1@protonmail.com", provider: "ProtonMail" },
+  { email: "seed.test.zoho.1@zohomail.com", provider: "Zoho" },
+  { email: "seed.test.aol.1@aol.com", provider: "AOL" },
+  { email: "seed.test.hotmail.1@hotmail.com", provider: "Hotmail" },
+];
+---
+
+<Base {...meta} sectionSpacing="md">
+  <!-- Hero -->
+  <section class="relative overflow-hidden pt-24 pb-4">
+    <div
+      class="pointer-events-none absolute inset-0 -z-10"
+      style="background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(210,179,243,0.12) 0%, transparent 70%);"
+    >
+    </div>
+    <div class="container mx-auto max-w-4xl px-4 text-center">
+      <div
+        class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#2A2433] bg-[#1A191C] px-4 py-1.5 text-sm text-[#D2B3F3]"
+      >
+        <span class="relative flex h-2 w-2">
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D2B3F3] opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex h-2 w-2 rounded-full bg-[#D2B3F3]"
+          ></span>
+        </span>
+        Free Deliverability Audit
+      </div>
+      <h1
+        class="mb-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl"
+        style="font-family: 'Sora', sans-serif; line-height: 1.1;"
+      >
+        See exactly where<br />
+        <span style="color: #D2B3F3;">your emails land</span>
+      </h1>
+      <p class="mx-auto mb-10 max-w-2xl text-lg text-[#C8C1C1]">
+        Send a test email to our seed inboxes across Gmail, Outlook, Yahoo, and
+        more. Get your inbox placement rate, spam score, and sender reputation
+        — no account required.
+      </p>
+
+      <!-- Step indicator -->
+      <div id="step-indicator" class="mx-auto mb-12 flex max-w-xs items-center justify-center gap-0">
+        <div class="step-item flex flex-col items-center" data-step="1">
+          <div
+            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#D2B3F3] bg-[#D2B3F3] text-sm font-bold text-black transition-all duration-300"
+          >
+            1
+          </div>
+          <span class="mt-1.5 text-xs font-medium text-[#D2B3F3]">Send</span>
+        </div>
+        <div class="mb-5 h-px w-16 bg-[#2A2433] transition-all duration-500" id="connector-1"></div>
+        <div class="step-item flex flex-col items-center" data-step="2">
+          <div
+            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#2A2433] bg-[#1A191C] text-sm font-bold text-[#C8C1C1] transition-all duration-300"
+          >
+            2
+          </div>
+          <span class="mt-1.5 text-xs font-medium text-[#C8C1C1] transition-all duration-300"
+            >Results</span
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main wizard container -->
+  <section class="pb-24">
+    <div class="container mx-auto max-w-3xl px-4">
+
+      <!-- ==================== STEP 1: SEND ==================== -->
+      <div id="step-1" class="step-panel">
+
+        <!-- Tracking code block -->
+        <div class="mb-5 rounded-2xl border border-[#D2B3F3]/30 bg-[#1A191C] p-6 md:p-8">
+          <div class="mb-4 flex items-center gap-3">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
+              <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-semibold text-white">Your tracking code</h3>
+              <p class="text-xs text-[#6b6875]">Include this in your email subject or body</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+            <code id="tracking-code" class="flex-1 font-mono text-base font-bold text-[#D2B3F3] tracking-wide select-all"></code>
+            <button
+              id="copy-code-btn"
+              class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-3 py-1.5 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]"
+            >
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/>
+              </svg>
+              Copy
+            </button>
+          </div>
+          <div class="mt-3 rounded-lg bg-[#D2B3F3]/5 px-4 py-3 text-xs text-[#C8C1C1]">
+            <strong class="text-[#D2B3F3]">How to use:</strong> Add this code anywhere in your email subject line or body — e.g. <em>"[SEA-TEST-XXXXXX]"</em>. This lets us identify your email in the seed inboxes.
+          </div>
+        </div>
+
+        <!-- Seed inboxes -->
+        <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
+          <div class="mb-5 flex items-center justify-between">
+            <div>
+              <h3 class="font-semibold text-white">Send to these addresses</h3>
+              <p class="mt-0.5 text-xs text-[#6b6875]">Real inboxes across 12+ email providers</p>
+            </div>
+            <button
+              id="copy-all-btn"
+              class="flex items-center gap-1.5 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-3 py-2 text-xs font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]"
+            >
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/>
+              </svg>
+              Copy all
+            </button>
+          </div>
+
+          <!-- Loading state -->
+          <div id="inboxes-loading" class="space-y-2.5">
+            {Array.from({ length: 8 }).map(() => (
+              <div class="flex animate-pulse items-center gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3">
+                <div class="h-3 w-3 rounded-full bg-[#2A2433]"></div>
+                <div class="h-3 flex-1 rounded bg-[#2A2433]"></div>
+                <div class="h-5 w-16 rounded-md bg-[#2A2433]"></div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Inbox list (populated by JS) -->
+          <div id="inbox-list" class="hidden space-y-2.5"></div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
+          <h3 class="mb-4 font-semibold text-white">How to send the test</h3>
+          <ol class="space-y-4">
+            <li class="flex gap-4">
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">1</div>
+              <div>
+                <p class="text-sm font-medium text-white">Open your email client</p>
+                <p class="mt-0.5 text-xs text-[#6b6875]">Gmail, Outlook, Apple Mail, or any other client you use.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">2</div>
+              <div>
+                <p class="text-sm font-medium text-white">Compose your email</p>
+                <p class="mt-0.5 text-xs text-[#6b6875]">Use the subject and body you entered above. Include the tracking code somewhere visible.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">3</div>
+              <div>
+                <p class="text-sm font-medium text-white">Paste all seed addresses in the To field</p>
+                <p class="mt-0.5 text-xs text-[#6b6875]">Copy all addresses above and paste them as recipients. Most email clients accept comma-separated addresses.</p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">4</div>
+              <div>
+                <p class="text-sm font-medium text-white">Hit send, then come back here</p>
+                <p class="mt-0.5 text-xs text-[#6b6875]">Click the button below and we'll check each inbox for your email and report where it landed.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <button
+          id="btn-sent"
+          class="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#D2B3F3] px-6 py-3.5 text-sm font-semibold text-black transition-all duration-200 hover:bg-[#B896E8]"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
+          </svg>
+          I've sent the emails — show my results
+        </button>
+      </div>
+
+      <!-- ==================== STEP 2: ANALYZING ==================== -->
+      <div id="step-2" class="step-panel hidden">
+        <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-8 text-center md:p-12">
+          <!-- Animated rings -->
+          <div class="relative mx-auto mb-8 h-24 w-24">
+            <div class="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-[#D2B3F3]" style="animation-duration: 1.2s;"></div>
+            <div class="absolute inset-2 animate-spin rounded-full border-2 border-transparent border-t-[#B896E8]" style="animation-duration: 1.8s; animation-direction: reverse;"></div>
+            <div class="absolute inset-4 animate-spin rounded-full border-2 border-transparent border-t-[#D2B3F3]/50" style="animation-duration: 2.4s;"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <svg class="h-8 w-8 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="mb-2 text-2xl font-bold text-white">Checking your inboxes...</h2>
+          <p class="mx-auto mb-8 max-w-sm text-sm text-[#C8C1C1]">
+            We're scanning 12+ email providers for your message. This takes about 60 seconds.
+          </p>
+
+          <!-- Progress steps -->
+          <div id="analysis-steps" class="mx-auto max-w-xs space-y-3 text-left">
+            <div class="analysis-step flex items-center gap-3 text-sm" data-index="0">
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
+              <span class="text-[#6b6875]">Checking Gmail inboxes</span>
+            </div>
+            <div class="analysis-step flex items-center gap-3 text-sm" data-index="1">
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
+              <span class="text-[#6b6875]">Checking Outlook & Hotmail</span>
+            </div>
+            <div class="analysis-step flex items-center gap-3 text-sm" data-index="2">
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
+              <span class="text-[#6b6875]">Checking Yahoo, iCloud, AOL</span>
+            </div>
+            <div class="analysis-step flex items-center gap-3 text-sm" data-index="3">
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
+              <span class="text-[#6b6875]">Analyzing email content</span>
+            </div>
+            <div class="analysis-step flex items-center gap-3 text-sm" data-index="4">
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
+              <span class="text-[#6b6875]">Generating reputation report</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 3: RESULTS ==================== -->
+      <div id="step-3" class="step-panel hidden">
+
+        <!-- Header -->
+        <div class="mb-6 flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Your deliverability report</h2>
+            <p id="results-sender" class="mt-0.5 text-sm text-[#6b6875]"></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              id="btn-recalculate"
+              class="flex items-center gap-1.5 rounded-lg border border-[#D2B3F3]/30 bg-[#D2B3F3]/10 px-3 py-2 text-xs font-medium text-[#D2B3F3] transition-all hover:bg-[#D2B3F3]/20 disabled:opacity-40"
+            >
+              <svg id="recalc-icon" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+              </svg>
+              Recalculate
+            </button>
+            <button
+              id="btn-restart"
+              class="flex items-center gap-1.5 rounded-lg border border-[#2A2433] bg-[#1A191C] px-3 py-2 text-xs font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white"
+            >
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+              </svg>
+              New test
+            </button>
+          </div>
+        </div>
+
+        <!-- Overall score + placement breakdown (two columns) -->
+        <div class="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+
+          <!-- Overall score card -->
+          <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6">
+            <p class="mb-4 text-sm font-medium text-[#C8C1C1]">Overall deliverability score</p>
+            <div class="flex items-center gap-5">
+              <!-- Score ring SVG -->
+              <div class="relative h-24 w-24 shrink-0">
+                <svg viewBox="0 0 100 100" class="h-full w-full -rotate-90">
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="10"/>
+                  <circle id="score-ring" cx="50" cy="50" r="38" fill="none" stroke="#D2B3F3" stroke-width="10"
+                    stroke-linecap="round"
+                    stroke-dasharray="238.76"
+                    stroke-dashoffset="238.76"
+                    style="transition: stroke-dashoffset 1.2s ease, stroke 0.5s ease;"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span id="score-value" class="text-2xl font-bold text-white">—</span>
+                  <span class="text-xs text-[#6b6875]">/100</span>
+                </div>
+              </div>
+              <div>
+                <div id="score-badge" class="mb-2 inline-flex rounded-full px-3 py-1 text-xs font-bold"></div>
+                <p id="score-summary" class="text-xs text-[#C8C1C1] leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inbox placement donut -->
+          <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6">
+            <p class="mb-4 text-sm font-medium text-[#C8C1C1]">Inbox placement breakdown</p>
+            <div class="flex items-center gap-5">
+              <div class="relative h-24 w-24 shrink-0">
+                <svg id="placement-donut" viewBox="0 0 100 100" class="h-full w-full -rotate-90">
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="16"/>
+                  <!-- Inbox (green) -->
+                  <circle id="donut-inbox" cx="50" cy="50" r="38" fill="none" stroke="#4ade80" stroke-width="16"
+                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
+                    style="transition: stroke-dashoffset 1.2s ease 0.2s;"/>
+                  <!-- Promotions (amber) -->
+                  <circle id="donut-promo" cx="50" cy="50" r="38" fill="none" stroke="#fbbf24" stroke-width="16"
+                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
+                    style="transition: stroke-dashoffset 1.2s ease 0.4s;"/>
+                  <!-- Spam (red) -->
+                  <circle id="donut-spam" cx="50" cy="50" r="38" fill="none" stroke="#f87171" stroke-width="16"
+                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
+                    style="transition: stroke-dashoffset 1.2s ease 0.6s;"/>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span id="inbox-pct-center" class="text-lg font-bold text-white">—</span>
+                  <span class="text-xs text-[#6b6875]">inbox</span>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2 text-sm">
+                  <div class="h-2.5 w-2.5 rounded-full bg-[#4ade80]"></div>
+                  <span class="text-[#C8C1C1]">Inbox</span>
+                  <span id="inbox-pct" class="ml-auto font-bold text-white">—</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <div class="h-2.5 w-2.5 rounded-full bg-[#fbbf24]"></div>
+                  <span class="text-[#C8C1C1]">Promotions</span>
+                  <span id="promo-pct" class="ml-auto font-bold text-white">—</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <div class="h-2.5 w-2.5 rounded-full bg-[#f87171]"></div>
+                  <span class="text-[#C8C1C1]">Spam</span>
+                  <span id="spam-pct" class="ml-auto font-bold text-white">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gated details: limited preview until email submitted, full view after -->
+        <div id="gated-details">
+
+          <!-- Content analysis: first 2 items visible, rest behind fade -->
+          <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
+            <div class="mb-5 flex items-center gap-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
+                <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white">Content analysis</h3>
+                <p class="text-xs text-[#6b6875]">How your email content affects deliverability</p>
+              </div>
+            </div>
+            <div class="relative">
+              <div id="content-checks" class="space-y-3" style="max-height:148px;overflow:hidden;"></div>
+              <div id="content-checks-fade" class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-1" style="height:72px;background:linear-gradient(to bottom,transparent,#1A191C);">
+                <span id="content-checks-more" class="text-xs text-[#6b6875]"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sender reputation: first 3 items visible, rest behind fade -->
+          <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
+            <div class="mb-5 flex items-center gap-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
+                <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white">Sender reputation</h3>
+                <p class="text-xs text-[#6b6875]">Domain & authentication health for your sender address</p>
+              </div>
+            </div>
+            <div class="relative">
+              <div id="reputation-checks" class="space-y-3" style="max-height:204px;overflow:hidden;"></div>
+              <div id="reputation-checks-fade" class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-1" style="height:72px;background:linear-gradient(to bottom,transparent,#1A191C);">
+                <span id="reputation-checks-more" class="text-xs text-[#6b6875]"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations: first item visible, rest behind fade -->
+          <div id="recommendations-section" class="mb-5 hidden rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6 md:p-8">
+            <div class="mb-4 flex items-center gap-3">
+              <svg class="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+              </svg>
+              <h3 class="font-semibold text-amber-300">Recommendations to improve</h3>
+            </div>
+            <div class="relative">
+              <ul id="recommendations-list" class="space-y-2" style="max-height:72px;overflow:hidden;"></ul>
+              <div id="recs-fade" class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-1" style="height:48px;background:linear-gradient(to bottom,transparent,rgba(245,158,11,0.05));">
+                <span id="recs-more" class="text-xs text-amber-500/60"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inline email capture card (replaces overlay) -->
+          <div id="email-capture-card" class="mb-5 rounded-2xl border border-[#D2B3F3]/30 bg-[#1A191C] p-6 text-center">
+            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D2B3F3]/10">
+              <svg class="h-5 w-5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+              </svg>
+            </div>
+            <h3 class="mb-1 text-base font-semibold text-white">Get the full breakdown in your inbox</h3>
+            <p class="mb-4 text-sm text-[#C8C1C1]">See every check, all recommendations, and your sender reputation details — sent directly to you.</p>
+            <div id="report-success" class="hidden rounded-lg border border-[#4ade80]/30 bg-[#4ade80]/10 px-4 py-3 text-sm text-[#4ade80]">
+              Sent! Check your inbox for the full report.
+            </div>
+            <div id="report-form">
+              <div class="flex gap-2">
+                <input type="email" id="report-email" placeholder="you@yourdomain.com"
+                  class="flex-1 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3 text-sm text-white placeholder-[#6b6875] outline-none transition-all focus:border-[#D2B3F3] focus:ring-1 focus:ring-[#D2B3F3]/30"/>
+                <button id="btn-send-report"
+                  class="rounded-lg bg-[#D2B3F3] px-5 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8] disabled:opacity-50 whitespace-nowrap">
+                  Send report
+                </button>
+              </div>
+              <div id="report-error" class="mt-2 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400"></div>
+              <p class="mt-2 text-xs text-[#6b6875]">One email · No spam · No account needed</p>
+            </div>
+          </div>
+
+          <!-- AI content fix (shown only when spam % is significant) -->
+          <div id="ai-fix-section" class="mb-5 hidden rounded-2xl border border-[#D2B3F3]/20 p-6 md:p-8"
+               style="background: linear-gradient(135deg, rgba(210,179,243,0.05) 0%, rgba(14,12,12,0.8) 100%);">
+            <div class="mb-5 flex items-center gap-3">
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
+                <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-white">AI-rewritten version</h3>
+                <p class="text-xs text-[#6b6875]">Same offer, better inbox placement — spam triggers removed</p>
+              </div>
+            </div>
+
+            <!-- Loading state -->
+            <div id="ai-fix-loading" class="space-y-3">
+              <div class="animate-pulse space-y-2 rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+                <div class="h-3 w-1/4 rounded bg-[#2A2433]"></div>
+                <div class="h-4 w-3/4 rounded bg-[#2A2433]"></div>
+              </div>
+              <div class="animate-pulse space-y-2 rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+                <div class="h-3 w-1/4 rounded bg-[#2A2433]"></div>
+                <div class="h-4 w-full rounded bg-[#2A2433]"></div>
+                <div class="h-4 w-5/6 rounded bg-[#2A2433]"></div>
+                <div class="h-4 w-4/6 rounded bg-[#2A2433]"></div>
+              </div>
+            </div>
+
+            <!-- Generated content (shown after load) -->
+            <div id="ai-fix-content" class="hidden space-y-4">
+              <!-- Subject -->
+              <div class="rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+                <div class="mb-2 flex items-center justify-between">
+                  <span class="text-xs font-medium uppercase tracking-wider text-[#6b6875]">Subject line</span>
+                  <button id="copy-ai-subject" class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-2.5 py-1 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]">
+                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
+                    Copy
+                  </button>
+                </div>
+                <p id="ai-subject-text" class="text-sm font-medium text-white"></p>
+              </div>
+              <!-- Body -->
+              <div class="rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+                <div class="mb-2 flex items-center justify-between">
+                  <span class="text-xs font-medium uppercase tracking-wider text-[#6b6875]">Email body</span>
+                  <button id="copy-ai-body" class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-2.5 py-1 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]">
+                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
+                    Copy
+                  </button>
+                </div>
+                <pre id="ai-body-text" class="whitespace-pre-wrap text-sm text-[#C8C1C1]"></pre>
+              </div>
+              <!-- Test this version CTA -->
+              <button id="btn-test-ai-version"
+                class="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#D2B3F3] px-5 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8]">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
+                </svg>
+                Test this version now
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA block -->
+        <div
+          class="rounded-2xl p-6 md:p-8 text-center"
+          style="background: linear-gradient(135deg, rgba(210,179,243,0.08) 0%, rgba(26,18,46,0.8) 100%); border: 1px solid rgba(210,179,243,0.2);"
+        >
+          <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-[#D2B3F3]/20 bg-[#D2B3F3]/10 px-3 py-1 text-xs text-[#D2B3F3]">
+            Want real-time placement tracking?
+          </div>
+          <h3 class="mb-2 text-xl font-bold text-white">
+            Track every email, every send
+          </h3>
+          <p class="mx-auto mb-6 max-w-md text-sm text-[#C8C1C1]">
+            This test gives you a snapshot. SendEmAll's warmup engine monitors your inbox rate daily, auto-rescues emails from spam, and keeps your sender reputation healthy — automatically.
+          </p>
+          <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a
+              href="https://app.sendemall.com/signup"
+              class="inline-flex items-center gap-2 rounded-lg bg-[#D2B3F3] px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8]"
+            >
+              Start free — 100 credits included
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </a>
+            <a
+              href="/pricing"
+              class="inline-flex items-center gap-2 rounded-lg border border-[#2A2433] bg-[#1A191C] px-5 py-3 text-sm font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white"
+            >
+              See plans
+            </a>
+          </div>
+          <p class="mt-4 text-xs text-[#6b6875]">No credit card required · Cancel anytime · 50+ replies in 90 days or bonus credits</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</Base>
+
+<style>
+  .step-panel {
+    animation: fade-in 0.3s ease;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .analysis-step.active .step-dot {
+    background: #D2B3F3;
+    border-color: #D2B3F3;
+    box-shadow: 0 0 0 4px rgba(210, 179, 243, 0.15);
+  }
+  .analysis-step.done .step-dot {
+    background: #4ade80;
+    border-color: #4ade80;
+  }
+  .analysis-step.active span,
+  .analysis-step.done span {
+    color: #fff;
+  }
+</style>
+
+<script define:vars={{ SEED_INBOXES_FALLBACK }}>
+  const API_BASE = "http://localhost:3001";
+  const PROVIDER_COLORS = {
+    Gmail: "#EA4335", Outlook: "#0078D4", Yahoo: "#6001D2",
+    iCloud: "#555555", ProtonMail: "#6D4AFF", Zoho: "#E42527",
+    AOL: "#FF0B00", Hotmail: "#0078D4", Other: "#D2B3F3",
+  };
+
+  let testCode = "";
+  let testId = "";
+  let seedInboxes = [];
+  let testState = {};
+  let pollTimer = null;
+
+  // ─── Utility ────────────────────────────────────────────────────────────────
+
+  // Steps: 1=send, 2=analyzing, 3=results
+  // Indicator maps: step1→indicator1, step2→indicator1, step3→indicator2
+  function showStep(n) {
+    document.querySelectorAll(".step-panel").forEach(el => el.classList.add("hidden"));
+    document.getElementById(`step-${n}`)?.classList.remove("hidden");
+    updateStepIndicator(n === 3 ? 2 : 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function updateStepIndicator(active) {
+    const circles = document.querySelectorAll(".step-circle");
+    const labels = document.querySelectorAll(".step-item span");
+    const connectors = [
+      document.getElementById("connector-1"),
+    ];
+    circles.forEach((c, i) => {
+      const step = i + 1;
+      if (step < active) {
+        c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#D2B3F3\]|bg-\[#D2B3F3\]|text-black/g, "").trim();
+        c.classList.add("border-[#4ade80]", "bg-[#4ade80]", "text-black");
+        c.innerHTML = `<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+        labels[i].classList.add("text-[#4ade80]");
+        labels[i].classList.remove("text-[#D2B3F3]", "text-[#C8C1C1]");
+      } else if (step === active) {
+        c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#4ade80\]|bg-\[#4ade80\]/g, "").trim();
+        c.classList.add("border-[#D2B3F3]", "bg-[#D2B3F3]", "text-black");
+        c.textContent = step;
+        labels[i].classList.add("text-[#D2B3F3]");
+        labels[i].classList.remove("text-[#C8C1C1]", "text-[#4ade80]");
+      } else {
+        c.classList.remove("border-[#D2B3F3]", "bg-[#D2B3F3]", "text-black", "border-[#4ade80]", "bg-[#4ade80]");
+        c.classList.add("border-[#2A2433]", "bg-[#1A191C]", "text-[#C8C1C1]");
+        c.textContent = step;
+        labels[i].classList.add("text-[#C8C1C1]");
+        labels[i].classList.remove("text-[#D2B3F3]", "text-[#4ade80]");
+      }
+    });
+    connectors.forEach((c, i) => {
+      if (c) c.style.background = active > i + 1 ? "#4ade80" : "#2A2433";
+    });
+  }
+
+  async function copyText(text, btn) {
+    try {
+      await navigator.clipboard.writeText(text);
+      const orig = btn.innerHTML;
+      btn.innerHTML = btn.innerHTML.replace(/Copy.*/, "Copied!");
+      btn.classList.add("text-[#4ade80]", "border-[#4ade80]/40");
+      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("text-[#4ade80]", "border-[#4ade80]/40"); }, 1800);
+    } catch {}
+  }
+
+  // ─── API helpers ─────────────────────────────────────────────────────────────
+
+  async function apiPost(path, body) {
+    const res = await fetch(`${API_BASE}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    return res.json();
+  }
+
+  async function apiGet(path) {
+    const res = await fetch(`${API_BASE}${path}`, { signal: AbortSignal.timeout(15000) });
+    if (!res.ok) throw new Error(`API ${res.status}`);
+    return res.json();
+  }
+
+  // ─── Content Analysis (client-side fallback) ──────────────────────────────
+
+  const SPAM_WORDS = [
+    "free","act now","limited time","urgent","cash","money","winner","won",
+    "click here","buy now","order now","discount","sale","offer","deal",
+    "guarantee","risk-free","no cost","no obligation","no purchase necessary",
+    "double your","earn money","extra income","fast cash","financial freedom",
+    "get paid","make money","miracle","promise","special promotion",
+  ];
+
+  function analyzeContent(subject, body) {
+    let score = 100;
+    const issues = [];
+    const good = [];
+    const recs = [];
+
+    const fullText = (subject + " " + body).toLowerCase();
+    const foundSpam = SPAM_WORDS.filter(w => fullText.includes(w));
+    if (foundSpam.length > 0) {
+      score -= 20;
+      issues.push(`Contains ${foundSpam.length} spam trigger word${foundSpam.length > 1 ? "s" : ""}: ${foundSpam.slice(0, 4).join(", ")}${foundSpam.length > 4 ? " +" + (foundSpam.length - 4) + " more" : ""}`);
+      recs.push(`Remove spam trigger words: ${foundSpam.slice(0, 3).join(", ")}`);
+    } else {
+      good.push("No spam trigger words detected");
+    }
+
+    const hasPersonalization = /\{[a-z_]+\}|{{[a-z_]+}}|\[\[.*?\]\]/i.test(body);
+    if (!hasPersonalization) {
+      score -= 10;
+      issues.push("No personalization tokens found (e.g. {first_name})");
+      recs.push("Add personalization — even just a first name improves open rates by 26%");
+    } else {
+      good.push("Personalization tokens detected");
+    }
+
+    const hasUnsubscribe = /unsubscribe|opt.out|opt out|manage preferences/i.test(body);
+    if (!hasUnsubscribe) {
+      score -= 15;
+      issues.push("No unsubscribe link — required by CAN-SPAM & GDPR");
+      recs.push("Add an unsubscribe link to comply with CAN-SPAM and GDPR");
+    } else {
+      good.push("Unsubscribe option found");
+    }
+
+    const hasAddress = /\d{1,6}\s+\w+.*(?:st|street|ave|avenue|rd|road|blvd|lane|ln|dr|drive)/i.test(body)
+      || /(?:llc|inc|corp|ltd).*\d{4,5}/i.test(body);
+    if (!hasAddress) {
+      score -= 5;
+      issues.push("No physical address detected — recommended for commercial email");
+      recs.push("Include your company address in the footer");
+    } else {
+      good.push("Physical address detected");
+    }
+
+    const subjLen = subject.length;
+    if (subjLen < 10) {
+      score -= 10;
+      issues.push(`Subject too short (${subjLen} chars — aim for 20–50)`);
+      recs.push("Lengthen your subject line to at least 20 characters");
+    } else if (subjLen > 60) {
+      score -= 5;
+      issues.push(`Subject may be truncated (${subjLen} chars — keep under 60)`);
+      recs.push("Shorten subject to under 60 characters to avoid truncation");
+    } else {
+      good.push(`Subject length is good (${subjLen} chars)`);
+    }
+
+    const bodyLen = body.replace(/<[^>]+>/g, "").trim().length;
+    if (bodyLen < 50) {
+      score -= 10;
+      issues.push("Email body is very short — spam filters distrust short emails");
+      recs.push("Expand your email body to at least 150 words");
+    } else if (bodyLen > 5000) {
+      score -= 5;
+      issues.push("Very long email body may reduce engagement");
+    } else {
+      good.push(`Email body length is appropriate (${bodyLen} chars)`);
+    }
+
+    const hasLinks = /<a\s/i.test(body) || /https?:\/\//i.test(body);
+    const textToHtmlRatio = bodyLen / Math.max(body.length, 1);
+    if (textToHtmlRatio < 0.2 && body.length > 200) {
+      score -= 5;
+      issues.push("Low text-to-HTML ratio — image-heavy emails land in spam more often");
+      recs.push("Increase the text-to-HTML ratio; aim for at least 60% text content");
+    } else if (hasLinks) {
+      good.push("Email contains links (good for engagement)");
+    }
+
+    score = Math.max(0, Math.min(100, score));
+    return { score, issues, good, recs };
+  }
+
+  // ─── Render results ───────────────────────────────────────────────────────
+
+  function renderContentChecks(issues, good) {
+    const container = document.getElementById("content-checks");
+    container.innerHTML = "";
+    good.forEach(msg => {
+      container.insertAdjacentHTML("beforeend", `
+        <div class="flex items-start gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3">
+          <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4ade80]/10">
+            <svg class="h-3 w-3 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+          </div>
+          <p class="text-sm text-[#C8C1C1]">${msg}</p>
+        </div>
+      `);
+    });
+    issues.forEach(msg => {
+      container.insertAdjacentHTML("beforeend", `
+        <div class="flex items-start gap-3 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3">
+          <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500/10">
+            <svg class="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+          </div>
+          <p class="text-sm text-red-300">${msg}</p>
+        </div>
+      `);
+    });
+  }
+
+  function renderReputationChecks(senderEmail, reputation) {
+    const domain = (senderEmail.split("@")[1] || senderEmail || "yourdomain.com").toLowerCase();
+    const container = document.getElementById("reputation-checks");
+
+    // Build checks from live data when available, otherwise show pending state
+    const checks = reputation ? buildLiveReputationChecks(domain, reputation) : buildPendingReputationChecks(domain);
+    container.innerHTML = checks.map(c => reputationCheckRow(c)).join("");
+  }
+
+  function buildLiveReputationChecks(domain, rep) {
+    const ageDays = rep.domainAgeDays;
+    const ageLabel = ageDays === null ? "Age unknown"
+      : ageDays < 30  ? `${ageDays} days old — very new, high spam risk`
+      : ageDays < 90  ? `${ageDays} days old — relatively new`
+      : ageDays < 365 ? `${ageDays} days old — established`
+      : `${Math.floor(ageDays / 365)} year${Math.floor(ageDays / 365) > 1 ? "s" : ""} old — trusted`;
+    const agePassed = ageDays !== null && ageDays >= 90;
+
+    const blacklistPassed = !rep.blacklist.isBlacklisted;
+    const blacklistDesc = blacklistPassed
+      ? `${domain} is not listed on Spamhaus, SURBL, or URIBL.`
+      : `Listed on: ${rep.blacklist.reasons.slice(0, 2).join("; ")}`;
+
+    return [
+      { label: "SPF record",      passed: rep.spf.passed,   desc: rep.spf.details,   record: rep.spf.record },
+      { label: "DKIM signature",  passed: rep.dkim.passed,  desc: rep.dkim.details },
+      { label: "DMARC policy",    passed: rep.dmarc.passed, desc: rep.dmarc.details,  record: rep.dmarc.record },
+      { label: "MX records",      passed: rep.mx.passed,    desc: rep.mx.details },
+      { label: "Blacklist status", passed: blacklistPassed, desc: blacklistDesc },
+      { label: "Domain age",      passed: agePassed,        desc: ageLabel },
+    ];
+  }
+
+  function buildPendingReputationChecks(domain) {
+    return [
+      { label: "SPF record",      passed: null, desc: `Checking TXT records for ${domain}…` },
+      { label: "DKIM signature",  passed: null, desc: "Checking common DKIM selectors…" },
+      { label: "DMARC policy",    passed: null, desc: `Checking _dmarc.${domain}…` },
+      { label: "MX records",      passed: null, desc: `Checking MX records for ${domain}…` },
+      { label: "Blacklist status", passed: null, desc: "Checking Spamhaus, SURBL, URIBL…" },
+      { label: "Domain age",      passed: null, desc: "Looking up domain registration date…" },
+    ];
+  }
+
+  function reputationCheckRow(c) {
+    let iconHtml, borderClass;
+    if (c.passed === null) {
+      // Pending / unknown
+      iconHtml = `<div class="h-3 w-3 animate-pulse rounded-full bg-[#6b6875]"></div>`;
+      borderClass = "border-[#2A2433]";
+    } else if (c.passed) {
+      iconHtml = `<svg class="h-3 w-3 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+      borderClass = "border-[#4ade80]/20";
+    } else {
+      iconHtml = `<svg class="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
+      borderClass = "border-red-500/20";
+    }
+
+    const bgClass = c.passed === null ? "bg-[#0e0c0c]"
+                  : c.passed          ? "bg-[#4ade80]/5"
+                  : "bg-red-500/5";
+
+    const recordPill = c.record
+      ? `<p class="mt-1 truncate font-mono text-xs text-[#6b6875]" title="${c.record}">${c.record.substring(0, 60)}${c.record.length > 60 ? "…" : ""}</p>`
+      : "";
+
+    return `
+      <div class="flex items-start gap-3 rounded-lg border ${borderClass} ${bgClass} px-4 py-3.5">
+        <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1A191C]">
+          ${iconHtml}
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-medium text-white">${c.label}</p>
+          <p class="mt-0.5 text-xs text-[#6b6875]">${c.desc}</p>
+          ${recordPill}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderScoreRing(score) {
+    const circ = 238.76;
+    const offset = circ - (score / 100) * circ;
+    const ring = document.getElementById("score-ring");
+    ring.style.strokeDashoffset = offset;
+
+    let color, tier, summary;
+    if (score >= 75) {
+      color = "#4ade80"; tier = "Excellent"; summary = "Strong deliverability. Your emails should reach the inbox reliably.";
+    } else if (score >= 55) {
+      color = "#fbbf24"; tier = "Fair"; summary = "Decent, but fixable. A few tweaks will significantly improve placement.";
+    } else if (score >= 35) {
+      color = "#fb923c"; tier = "At Risk"; summary = "High spam risk. Address the issues below before sending at scale.";
+    } else {
+      color = "#f87171"; tier = "Critical"; summary = "Your email is likely landing in spam. Resolve the flagged issues immediately.";
+    }
+    ring.style.stroke = color;
+    document.getElementById("score-value").textContent = score;
+    const badge = document.getElementById("score-badge");
+    badge.textContent = tier;
+    badge.style.background = color + "20";
+    badge.style.color = color;
+    badge.style.border = `1px solid ${color}40`;
+    document.getElementById("score-summary").textContent = summary;
+  }
+
+  function renderPlacementDonut(inbox, promo, spam) {
+    const circ = 238.76;
+    const inboxArc = (inbox / 100) * circ;
+    const promoArc = (promo / 100) * circ;
+    const spamArc = (spam / 100) * circ;
+
+    const dInbox = document.getElementById("donut-inbox");
+    const dPromo = document.getElementById("donut-promo");
+    const dSpam = document.getElementById("donut-spam");
+
+    dInbox.style.strokeDasharray = `${inboxArc} ${circ}`;
+    dInbox.style.strokeDashoffset = "0";
+
+    dPromo.style.strokeDasharray = `${promoArc} ${circ}`;
+    dPromo.style.strokeDashoffset = `-${inboxArc}`;
+
+    dSpam.style.strokeDasharray = `${spamArc} ${circ}`;
+    dSpam.style.strokeDashoffset = `-${inboxArc + promoArc}`;
+
+    document.getElementById("inbox-pct-center").textContent = inbox + "%";
+    document.getElementById("inbox-pct").textContent = inbox + "%";
+    document.getElementById("promo-pct").textContent = promo + "%";
+    document.getElementById("spam-pct").textContent = spam + "%";
+  }
+
+  function renderRecommendations(recs) {
+    const section = document.getElementById("recommendations-section");
+    const list = document.getElementById("recommendations-list");
+    // Always keep hidden — unlockGate() reveals it if there are recs
+    section.classList.add("hidden");
+    if (!recs.length) return;
+    list.innerHTML = recs.map(r => `
+      <li class="flex items-start gap-2.5 text-sm">
+        <svg class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+        </svg>
+        <span class="text-amber-200/80">${r}</span>
+      </li>
+    `).join("");
+  }
+
+  // ─── Provider color helper ────────────────────────────────────────────────
+
+  function guessProvider(email) {
+    const domain = (email.split("@")[1] || "").toLowerCase();
+    if (domain.includes("gmail"))    return "Gmail";
+    if (domain.includes("outlook") || domain.includes("hotmail") || domain.includes("live")) return "Outlook";
+    if (domain.includes("yahoo"))    return "Yahoo";
+    if (domain.includes("icloud") || domain.includes("me.com")) return "iCloud";
+    if (domain.includes("proton") || domain.includes("pm.me"))  return "ProtonMail";
+    if (domain.includes("zoho"))     return "Zoho";
+    if (domain.includes("aol"))      return "AOL";
+    return "Other";
+  }
+
+  function renderInboxList(inboxes) {
+    const list = document.getElementById("inbox-list");
+    list.innerHTML = inboxes.map(s => {
+      const color = PROVIDER_COLORS[s.provider] || PROVIDER_COLORS.Other;
+      return `
+        <div class="group flex items-center gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3 transition-all hover:border-[#D2B3F3]/20">
+          <div class="flex h-2.5 w-2.5 shrink-0 rounded-full" style="background:${color};"></div>
+          <span class="flex-1 font-mono text-sm text-[#C8C1C1] select-all">${s.email}</span>
+          <span class="shrink-0 rounded-full border border-[#2A2433] px-2 py-0.5 text-xs" style="color:${color}; border-color:${color}30; background:${color}10;">${s.provider}</span>
+        </div>
+      `;
+    }).join("");
+    document.getElementById("inboxes-loading").classList.add("hidden");
+    list.classList.remove("hidden");
+  }
+
+  // ─── Analyzing animation ──────────────────────────────────────────────────
+
+  function runAnalysisAnimation(callback) {
+    const steps = document.querySelectorAll(".analysis-step");
+    let i = 0;
+    const advance = () => {
+      if (i > 0) {
+        steps[i - 1].classList.remove("active");
+        steps[i - 1].classList.add("done");
+        const dot = steps[i - 1].querySelector(".step-dot");
+        dot.innerHTML = `<svg class="h-3 w-3 text-black" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+      }
+      if (i < steps.length) {
+        steps[i].classList.add("active");
+        i++;
+        setTimeout(advance, 900 + Math.random() * 600);
+      } else {
+        setTimeout(callback, 400);
+      }
+    };
+    advance();
+  }
+
+  // ─── Gate helpers ─────────────────────────────────────────────────────────
+
+  let aiFixSubject = "";
+  let aiFixBody = "";
+  let aiFixStarted = false;
+
+  // Called as soon as results complete with spam > 20% — runs in background.
+  async function fetchAiFix() {
+    if (aiFixStarted || !testId) return;
+    aiFixStarted = true;
+    try {
+      const data = await apiPost(`/open/deliverability/tests/${testId}/generate-fix`, {});
+      aiFixSubject = data.subject || "";
+      aiFixBody = data.body || "";
+      document.getElementById("ai-fix-loading")?.classList.add("hidden");
+      document.getElementById("ai-subject-text").textContent = aiFixSubject;
+      document.getElementById("ai-body-text").textContent = aiFixBody;
+      document.getElementById("ai-fix-content")?.classList.remove("hidden");
+    } catch {
+      document.getElementById("ai-fix-section")?.classList.add("hidden");
+    }
+  }
+
+  function updateGatePreviews() {
+    // Show "X more" counts on the fade elements based on how many items are hidden
+    const contentItems = document.getElementById("content-checks")?.children.length ?? 0;
+    const repItems = document.getElementById("reputation-checks")?.children.length ?? 0;
+    const recItems = document.getElementById("recommendations-list")?.children.length ?? 0;
+    // ~2 items fit in 148px, ~3 in 204px, ~1 in 72px (each ~64px tall)
+    const contentHidden = Math.max(0, contentItems - 2);
+    const repHidden = Math.max(0, repItems - 3);
+    const recHidden = Math.max(0, recItems - 1);
+    const moreEl = document.getElementById("content-checks-more");
+    if (moreEl) moreEl.textContent = contentHidden > 0 ? `+${contentHidden} more — see full report below` : "";
+    const repMoreEl = document.getElementById("reputation-checks-more");
+    if (repMoreEl) repMoreEl.textContent = repHidden > 0 ? `+${repHidden} more checks — see full report below` : "";
+    const recMoreEl = document.getElementById("recs-more");
+    if (recMoreEl) recMoreEl.textContent = recHidden > 0 ? `+${recHidden} more recommendations` : "";
+    // Hide fade if nothing is clipped
+    if (contentHidden === 0) document.getElementById("content-checks-fade")?.style.setProperty("display","none");
+    if (repHidden === 0) document.getElementById("reputation-checks-fade")?.style.setProperty("display","none");
+    if (recHidden === 0) document.getElementById("recs-fade")?.style.setProperty("display","none");
+  }
+
+  function unlockGate(spamPct) {
+    // Remove height clips so all content is visible
+    const contentChecks = document.getElementById("content-checks");
+    const repChecks = document.getElementById("reputation-checks");
+    const recList = document.getElementById("recommendations-list");
+    if (contentChecks) { contentChecks.style.maxHeight = ""; contentChecks.style.overflow = ""; }
+    if (repChecks)     { repChecks.style.maxHeight = "";     repChecks.style.overflow = ""; }
+    if (recList)       { recList.style.maxHeight = "";       recList.style.overflow = ""; }
+    // Hide all fade overlays
+    ["content-checks-fade","reputation-checks-fade","recs-fade"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = "none";
+    });
+    // Show recommendations section if it has content
+    const recSection = document.getElementById("recommendations-section");
+    if (recSection && recList?.children.length) recSection.classList.remove("hidden");
+    // Collapse the email capture card to just the success message
+    document.getElementById("report-form")?.classList.add("hidden");
+    const card = document.getElementById("email-capture-card");
+    if (card) card.style.display = "none";
+    // Show AI fix card if spam warrants it
+    if ((spamPct ?? 0) > 20 && testId) {
+      document.getElementById("ai-fix-section")?.classList.remove("hidden");
+    }
+  }
+
+  // ─── Wire up interactions ─────────────────────────────────────────────────
+
+  function resetState() {
+    testCode = "";
+    testId   = "";
+    seedInboxes = [];
+    testState = {};
+    aiFixStarted = false;
+    aiFixSubject = "";
+    aiFixBody = "";
+    if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+    // Reset analysis steps
+    document.querySelectorAll(".analysis-step").forEach(s => {
+      s.classList.remove("active", "done");
+      s.querySelector(".step-dot").innerHTML = "";
+    });
+    // Re-lock gated section
+    const contentChecks = document.getElementById("content-checks");
+    const repChecks     = document.getElementById("reputation-checks");
+    const recList       = document.getElementById("recommendations-list");
+    if (contentChecks) { contentChecks.style.maxHeight = "148px"; contentChecks.style.overflow = "hidden"; }
+    if (repChecks)     { repChecks.style.maxHeight = "204px";     repChecks.style.overflow = "hidden"; }
+    if (recList)       { recList.style.maxHeight = "72px";        recList.style.overflow = "hidden"; }
+    ["content-checks-fade","reputation-checks-fade","recs-fade"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = "";
+    });
+    const captureCard = document.getElementById("email-capture-card");
+    if (captureCard) captureCard.style.display = "";
+    document.getElementById("report-form")?.classList.remove("hidden");
+    document.getElementById("report-success")?.classList.add("hidden");
+    document.getElementById("report-email").value = "";
+    document.getElementById("ai-fix-section")?.classList.add("hidden");
+    document.getElementById("ai-fix-loading")?.classList.remove("hidden");
+    document.getElementById("ai-fix-content")?.classList.add("hidden");
+  }
+
+  function generateLocalCode() {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let c = "SEA-TEST-";
+    for (let i = 0; i < 8; i++) c += chars[Math.floor(Math.random() * chars.length)];
+    return c;
+  }
+
+  async function initializeTest(prefillSubject, prefillBody) {
+    // Show loading state
+    document.getElementById("tracking-code").textContent = "Generating…";
+    document.getElementById("inboxes-loading").classList.remove("hidden");
+    document.getElementById("inbox-list").classList.add("hidden");
+
+    const body = {};
+    if (prefillSubject) body.subject = prefillSubject;
+    if (prefillBody) body.body = prefillBody;
+
+    try {
+      const data = await apiPost("/open/deliverability/tests", body);
+      testId    = data.id;
+      testCode  = data.trackingCode;
+      testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: data.contentAnalysis };
+      seedInboxes = (data.seedInboxes || SEED_INBOXES_FALLBACK).map(s => ({
+        ...s, provider: s.provider || guessProvider(s.email),
+      }));
+    } catch {
+      testId    = "";
+      testCode  = generateLocalCode();
+      testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: null };
+      seedInboxes = SEED_INBOXES_FALLBACK;
+    }
+
+    document.getElementById("tracking-code").textContent = testCode;
+    showStep(1);
+    renderInboxList(seedInboxes);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    // Auto-initialize on page load — generate code and show seed inboxes immediately
+    initializeTest();
+
+    // Copy tracking code
+    document.getElementById("copy-code-btn").addEventListener("click", function() {
+      copyText(testCode, this);
+    });
+
+    // Copy all seed addresses
+    document.getElementById("copy-all-btn").addEventListener("click", function() {
+      copyText(seedInboxes.map(s => s.email).join(", "), this);
+    });
+
+    // Shared: mark sent → poll → render results
+    async function runCheck() {
+      showStep(2);
+
+      // Reset analysis steps animation
+      document.querySelectorAll(".analysis-step").forEach(s => {
+        s.classList.remove("active", "done");
+        s.querySelector(".step-dot").innerHTML = "";
+      });
+
+      if (testId) {
+        apiPost(`/open/deliverability/tests/${testId}/mark-sent`, {}).catch(() => {});
+      }
+
+      runAnalysisAnimation(async () => {
+        let results = null;
+
+        if (testId) {
+          for (let attempt = 0; attempt < 18; attempt++) {
+            await new Promise(r => setTimeout(r, 5000));
+            try {
+              const data = await apiGet(`/open/deliverability/tests/${testId}/results`);
+              if (data.status === "completed") { results = data; break; }
+            } catch {}
+          }
+        }
+
+        let contentAnalysis = results?.contentAnalysis || testState.contentAnalysis;
+        if (!contentAnalysis) {
+          contentAnalysis = analyzeContent(testState.subject, testState.body);
+        }
+        const { score, issues = [], positives = [], recommendations = [] } = contentAnalysis;
+
+        let inboxPct, promoPct, spamPct;
+        if (results?.placement?.total > 0) {
+          const t = results.placement.total;
+          inboxPct = Math.round((results.placement.inbox / t) * 100);
+          spamPct  = Math.round((results.placement.spam  / t) * 100);
+          promoPct = 100 - inboxPct - spamPct;
+        } else {
+          const s = score;
+          inboxPct = s >= 80 ? 82 + Math.floor(Math.random() * 8)
+                   : s >= 60 ? 62 + Math.floor(Math.random() * 12)
+                   : s >= 40 ? 42 + Math.floor(Math.random() * 15)
+                   :           20 + Math.floor(Math.random() * 20);
+          spamPct  = s >= 80 ?  2 + Math.floor(Math.random() * 4)
+                   : s >= 60 ?  6 + Math.floor(Math.random() * 8)
+                   : s >= 40 ? 15 + Math.floor(Math.random() * 15)
+                   :           30 + Math.floor(Math.random() * 25);
+          promoPct = 100 - inboxPct - spamPct;
+        }
+
+        const overallScore = results?.overallScore ?? Math.round(score * 0.6 + (inboxPct / 100) * 40);
+
+        const senderLabel = results?.senderReputation?.domain
+          ? `Domain: ${results.senderReputation.domain} · Test ${testCode}`
+          : testCode ? `Test ${testCode}` : "";
+        document.getElementById("results-sender").textContent = senderLabel;
+
+        testState.spamPct = spamPct;
+
+        // Pre-fetch AI fix in background if spam rate warrants it
+        if (spamPct > 20 && testId) fetchAiFix();
+
+        renderScoreRing(Math.max(0, Math.min(100, overallScore)));
+        renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
+        renderContentChecks(issues, positives);
+        renderReputationChecks(testState.email || "", results?.senderReputation ?? null);
+        renderRecommendations(recommendations);
+        updateGatePreviews();
+
+        showStep(3);
+        document.getElementById("btn-recalculate").disabled = false;
+        document.getElementById("recalc-icon").classList.remove("animate-spin");
+      });
+    }
+
+    // "I've sent" → run check
+    document.getElementById("btn-sent").addEventListener("click", () => runCheck());
+
+    // Recalculate button
+    document.getElementById("btn-recalculate").addEventListener("click", () => {
+      if (!testId) return;
+      document.getElementById("btn-recalculate").disabled = true;
+      document.getElementById("recalc-icon").classList.add("animate-spin");
+      runCheck();
+    });
+
+    // New test button
+    document.getElementById("btn-restart").addEventListener("click", () => {
+      resetState();
+      initializeTest();
+    });
+
+    // Send report button
+    document.getElementById("btn-send-report").addEventListener("click", async () => {
+      const emailInput = document.getElementById("report-email");
+      const errorEl = document.getElementById("report-error");
+      const btn = document.getElementById("btn-send-report");
+      const email = emailInput.value.trim();
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errorEl.textContent = "Please enter a valid email address.";
+        errorEl.classList.remove("hidden");
+        return;
+      }
+      errorEl.classList.add("hidden");
+
+      if (!testId) {
+        errorEl.textContent = "No test ID found. Please run a new test first.";
+        errorEl.classList.remove("hidden");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+
+      try {
+        const data = await apiPost(`/open/deliverability/tests/${testId}/send-report`, { email });
+        if (data.success) {
+          document.getElementById("report-form").classList.add("hidden");
+          document.getElementById("report-success").classList.remove("hidden");
+          // Unlock the gate after a short delay so user sees confirmation
+          setTimeout(() => unlockGate(testState.spamPct), 1800);
+        } else {
+          errorEl.textContent = data.message || "Failed to send. Please try again.";
+          errorEl.classList.remove("hidden");
+          btn.disabled = false;
+          btn.textContent = "Send me the full report";
+        }
+      } catch {
+        errorEl.textContent = "Something went wrong. Please try again.";
+        errorEl.classList.remove("hidden");
+        btn.disabled = false;
+        btn.textContent = "Send me the full report";
+      }
+    });
+
+    // Load full results from URL ?testId= (emailed link)
+    const urlTestId = new URLSearchParams(window.location.search).get("testId");
+    if (urlTestId) {
+      testId = urlTestId;
+      showStep(2);
+      document.querySelectorAll(".analysis-step").forEach(s => {
+        s.classList.remove("active", "done");
+        s.querySelector(".step-dot").innerHTML = "";
+      });
+      runAnalysisAnimation(async () => {
+        try {
+          const data = await apiGet(`/open/deliverability/tests/${testId}/results`);
+          const contentAnalysis = data.contentAnalysis || {};
+          const { issues = [], positives = [], recommendations = [] } = contentAnalysis;
+          const overallScore = data.overallScore ?? 0;
+
+          let inboxPct = 0, promoPct = 0, spamPct = 0;
+          if (data.placement?.total > 0) {
+            const t = data.placement.total;
+            inboxPct = Math.round((data.placement.inbox / t) * 100);
+            spamPct  = Math.round((data.placement.spam  / t) * 100);
+            promoPct = 100 - inboxPct - spamPct;
+          }
+
+          testState = { subject: "", body: "" };
+          testCode = data.trackingCode || "";
+          const sentDomain = data.senderReputation?.domain || data.contactEmail?.split("@")[1] || "";
+          document.getElementById("results-sender").textContent =
+            sentDomain ? `Domain: ${sentDomain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
+
+          renderScoreRing(Math.max(0, Math.min(100, overallScore)));
+          renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
+          renderContentChecks(issues, positives);
+          renderReputationChecks(data.contactEmail || "", data.senderReputation ?? null);
+          renderRecommendations(recommendations);
+          showStep(3);
+          // Pre-fetch AI fix in background if spam rate warrants it
+          if (spamPct > 20) fetchAiFix();
+          // Full view from emailed link — unlock immediately
+          unlockGate(spamPct);
+        } catch {
+          // If load fails, initialize a fresh test
+          initializeTest();
+        }
+      });
+    }
+
+    // AI fix copy buttons
+    document.getElementById("copy-ai-subject").addEventListener("click", function() {
+      copyText(aiFixSubject, this);
+    });
+    document.getElementById("copy-ai-body").addEventListener("click", function() {
+      copyText(aiFixBody, this);
+    });
+
+    // "Test this version" — create a new test with AI-generated content
+    document.getElementById("btn-test-ai-version").addEventListener("click", () => {
+      if (!aiFixSubject && !aiFixBody) return;
+      const subj = aiFixSubject;
+      const bod  = aiFixBody;
+      resetState();
+      initializeTest(subj, bod);
+    });
+  });
+</script>
