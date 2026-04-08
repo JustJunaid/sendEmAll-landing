@@ -74,8 +74,8 @@
 
   [settings.navigationButton]
     enable = true
-    label  = "Try It Free"
-    url    = "https://app.sendemall.com/signup"
+    label  = "Get 100 Free Potential Buyers"
+    url    = "/services/free-leads"
 
   [settings.markup.tableOfContents]
     enable     = true
