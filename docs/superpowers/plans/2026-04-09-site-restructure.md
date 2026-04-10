@@ -882,5 +882,230 @@ git commit -m "Content audit: remove em dashes, enforce warmup keyword, update o
 | 7: Validation | 14-15 | 0 | Airtable setup + content audit |
 
 **Total new pages:** ~15 new + 4 rewritten + 5 deleted = net +14 pages
-**Estimated commits:** 15
-**Dependencies:** Task 14 (Airtable setup) requires user to create the Airtable base first. Task 6 (infrastructure page) requires user to provide actual Stripe product links and mailbox pricing. Task 8 (deliverability test) requires user to confirm the public tool URL.
+**Estimated commits:** 18
+**Dependencies:** Task 14 (Airtable setup) requires user to create the Airtable base first. Task 6 (infrastructure page) requires user to provide actual Stripe product links and mailbox pricing. Task 8 (deliverability test) requires user to confirm the public tool URL. Task 16 requires Airtable API key and base/table IDs.
+
+---
+
+## Phase 8: Post-Launch (Forms, Placeholders, Visual QA)
+
+> **Status:** NOT STARTED. All tasks below are the remaining work after the signal-based positioning rewrite shipped.
+
+### Task 16: Replace Airtable Iframe with Custom HTML Forms
+
+**Why:** Airtable iframes break GTM/GA attribution tracking. UTM parameters, referrer, and session data cannot be passed into an iframe. This means we lose all attribution on form submissions — we can't tell which channel, campaign, or page drove the conversion.
+
+**Solution:** Replace the `AirtableForm.astro` iframe component with custom HTML forms that POST to Airtable's API via a lightweight serverless function (Cloudflare Worker or Astro API route). Hidden fields capture UTMs from the URL and pass them with the submission.
+
+**Files:**
+- Modify: `src/layouts/components/widgets/AirtableForm.astro` (replace iframe with custom form)
+- Create: `src/layouts/components/widgets/LeadMagnetForm.astro` (Form A — 4 fields)
+- Create: `src/layouts/components/widgets/ServiceRequestForm.astro` (Form B — 4 fields)
+- Create: `src/layouts/components/widgets/ProductInterestForm.astro` (Form C — 4 fields)
+- Create: API endpoint for form submission (Cloudflare Worker or `src/pages/api/form-submit.ts`)
+- Modify: Pages that embed AirtableForm (swap to new components)
+
+**Pages using forms:**
+- `src/pages/[...lang]/services/free-leads.astro` — Form A (lead magnet)
+- `src/pages/[...lang]/services/custom-scraping.astro` — Form B (service request)
+- `src/pages/[...lang]/services/cold-email-infrastructure.astro` — Form B (service request)
+- Any future pages using Form C (product interest/waitlist)
+
+- [ ] **Step 1: Set up Airtable API access**
+
+User action: Get the Airtable Personal Access Token and note the Base ID and Table IDs for all 3 tables created in Task 14. Store the token as an environment variable (`AIRTABLE_API_KEY`).
+
+- [ ] **Step 2: Create the form submission API endpoint**
+
+Create a serverless endpoint (Vercel Serverless Function recommended since the site deploys to Vercel, or an Astro SSR API route) that:
+1. Accepts POST with JSON body (form fields + UTM params)
+2. Validates required fields (work email, company name)
+3. POSTs to Airtable API (`https://api.airtable.com/v0/{baseId}/{tableId}`)
+4. Returns success/error JSON response
+5. Handles CORS if the worker is on a different subdomain
+
+Environment variables needed:
+- `AIRTABLE_API_KEY` — Personal Access Token
+- `AIRTABLE_BASE_ID` — Base ID from Airtable
+- `AIRTABLE_TABLE_LEAD_MAGNET` — Table ID for Form A
+- `AIRTABLE_TABLE_SERVICE_REQUEST` — Table ID for Form B
+- `AIRTABLE_TABLE_PRODUCT_INTEREST` — Table ID for Form C
+
+- [ ] **Step 3: Create LeadMagnetForm.astro (Form A)**
+
+Custom HTML form with these fields:
+- Work Email (email input, required)
+- Company Name (text input, required)
+- Describe Your Ideal Customer (textarea, required)
+- Monthly Email Volume (select: "Just testing (100)", "500-1,000", "1,000-5,000", "5,000+")
+
+Hidden fields (auto-populated via JS from URL params):
+- `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`
+- `referrer` (document.referrer)
+- `landing_page` (window.location.href)
+- `submitted_at` (ISO timestamp)
+
+Styling: Match existing dark theme (rounded-2xl, border-border-light, bg-theme-dark). Use Tailwind classes consistent with the rest of the site. Add client-side validation, loading state on submit button, success/error messages.
+
+- [ ] **Step 4: Create ServiceRequestForm.astro (Form B)**
+
+Fields:
+- Work Email (email input, required)
+- Company Name (text input, required)
+- What Do You Need? (textarea, required)
+- Website (URL input, optional)
+
+Same hidden UTM fields and styling as Form A.
+
+- [ ] **Step 5: Create ProductInterestForm.astro (Form C)**
+
+Fields:
+- Work Email (email input, required)
+- Company Name (text input, required)
+- Products Interested In (multi-select checkboxes: "Cold Email Platform", "Email Warmup", "Email Verification", "Email Finder", "Everything")
+- Current Outbound Tool (text input, optional)
+
+Same hidden UTM fields and styling as Form A.
+
+- [ ] **Step 6: Replace AirtableForm embeds on all pages**
+
+Update each page to import and use the new form components instead of AirtableForm:
+- `free-leads.astro`: Replace `<AirtableForm formUrl="...FORM_A_ID" ...>` with `<LeadMagnetForm />`
+- `custom-scraping.astro`: Replace with `<ServiceRequestForm />`
+- `cold-email-infrastructure.astro`: Replace with `<ServiceRequestForm />`
+
+- [ ] **Step 7: Add UTM capture script**
+
+Create a small client-side script (can be inline in the form components or a shared `src/scripts/utm-capture.ts`) that:
+1. On page load, reads UTM params from `window.location.search`
+2. Stores them in `sessionStorage` (persists across page navigations within the session)
+3. On form render, populates hidden fields from `sessionStorage`
+
+This ensures UTMs are captured even if the user navigates to the form page from a different page.
+
+- [ ] **Step 8: Test end-to-end**
+
+1. Build the site: `npm run build`
+2. Test form submission locally (use Airtable API with test base)
+3. Verify UTM params flow through: visit `/?utm_source=test&utm_medium=email` -> navigate to /services/free-leads -> submit form -> check Airtable record has UTM fields
+4. Verify success/error states render correctly
+5. Verify the form works without JavaScript (noscript fallback: link to Airtable form directly)
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add src/layouts/components/widgets/ src/pages/ src/scripts/
+git commit -m "Replace Airtable iframe forms with custom HTML forms
+
+Custom forms POST to Airtable API via serverless endpoint.
+Hidden UTM fields enable full GTM/GA attribution tracking.
+Three form variants: lead magnet, service request, product interest."
+```
+
+---
+
+### Task 17: Fill Placeholder Values
+
+**Why:** Several pages shipped with placeholder values that need real data before going live.
+
+**Files:**
+- Modify: `src/pages/[...lang]/services/cold-email-infrastructure.astro`
+- Modify: `src/pages/[...lang]/tools/email-deliverability-test.astro`
+
+- [ ] **Step 1: Infrastructure page — Stripe links and pricing**
+
+User action: Create Stripe products/checkout links for each mailbox tier:
+- Google Workspace mailbox — `$X/mo` (replace placeholder)
+- Microsoft 365 mailbox — `$X/mo`
+- Custom SMTP mailbox — `$X/mo`
+- Pre-warmed mailbox — `$X/mo`
+
+Update `cold-email-infrastructure.astro`:
+- Replace all `$X/mo` placeholders with actual prices
+- Replace all `https://buy.stripe.com/PLACEHOLDER_*` URLs with real Stripe checkout links
+
+- [ ] **Step 2: Deliverability test — confirm tool URL**
+
+User action: Confirm the public URL for the email deliverability test tool. Currently set to `https://app.sendemall.com/deliverability-test`.
+
+If the URL is different, update `email-deliverability-test.astro`.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/pages/
+git commit -m "Fill placeholder prices, Stripe links, and tool URLs"
+```
+
+---
+
+### Task 18: Visual QA on Deployed Site
+
+**Why:** The site was built and pushed but never visually reviewed on the live URL. Responsive design, animations, form embeds, and navigation dropdowns need manual verification.
+
+- [ ] **Step 1: Desktop QA (1440px+)**
+
+Check every page in the navigation. Verify:
+- Hero sections render correctly (headline, subheadline, CTA buttons)
+- Feature grids are evenly spaced
+- Pricing table aligns properly
+- FAQ accordions open/close
+- Navigation dropdowns (Products, Services, Use Cases) open on hover/click
+- Footer links all resolve to correct pages
+- All images load (check for broken image references)
+- AOS animations fire on scroll
+
+- [ ] **Step 2: Mobile QA (375px)**
+
+Check the same pages on mobile width. Verify:
+- Hamburger menu works
+- Dropdown menus work inside mobile nav
+- No horizontal scroll overflow
+- Text doesn't overflow containers
+- Buttons are tappable (min 44px height)
+- Forms are usable on mobile
+
+- [ ] **Step 3: Link audit**
+
+Run a broken link checker on the deployed site:
+```bash
+npx broken-link-checker https://sendemall.com --ordered --recursive
+```
+
+Fix any broken internal links (especially old /solutions/* URLs that might still be referenced somewhere).
+
+- [ ] **Step 4: Fix issues and commit**
+
+```bash
+git add -A
+git commit -m "Fix visual QA issues from post-deploy review"
+```
+
+---
+
+### Task 13 (Deferred): Exit Intent Popups
+
+**Status:** Low priority. Implement after Tasks 16-18 are complete and the site is stable.
+
+See the original Task 13 above for the implementation plan. The exit intent popup should show different offers based on page context:
+- Homepage/Use Cases: "Get 100 free potential buyers" (Form A)
+- Product pages: "Free deliverability test" (tool link)
+- Service pages: "Talk to us about your project" (Form B)
+- Pricing page: "Not sure which plan? Get 100 free leads first" (Form A)
+
+---
+
+## Updated Summary
+
+| Phase | Tasks | Status | Key Deliverable |
+|-------|-------|--------|-----------------|
+| 1: Foundation | 1-3 | DONE | Nav restructure + homepage rewrite |
+| 2: Products | 4-5 | DONE | Product landing pages |
+| 3: Services | 6 | DONE | Service pages + lead magnet + Stripe |
+| 4: Use Cases + Tools | 7-9 | DONE | Use cases + deliverability tool + compare rewrites |
+| 5: Cleanup | 10-12 | DONE | Old pages removed, CTAs updated, config synced |
+| 6: Exit Intent | 13 | DEFERRED | Popup component (low priority) |
+| 7: Validation | 14-15 | PARTIAL | Airtable setup (user action) + content audit done |
+| **8: Post-Launch** | **16-18** | **NOT STARTED** | **Custom forms, placeholders, visual QA** |
+
+**Next up for developer:** Task 16 (custom forms) is the highest priority remaining task. It requires the Airtable base from Task 14 to be set up first.
