@@ -185,13 +185,15 @@ form = {
                 </div>
               )}
           </div>
-          {form && (
+          {(form || Astro.slots.has("form")) && (
             <div
               data-aos="fade-up-sm"
               data-aos-delay="200"
               class="mt-10 w-full lg:mt-0 lg:max-w-2xl lg:p-10">
+              <slot name="form" />
               <form
                 id="contact-form"
+                class:list={[Astro.slots.has("form") && "hidden"]}
                 {...{
                   "data-netlify":
                     contactFormProvider === "netlify" ? "true" : undefined,
