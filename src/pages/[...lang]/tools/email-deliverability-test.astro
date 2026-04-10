@@ -16,9 +16,9 @@ const checks = [
 ];
 
 const steps = [
-  { number: "01", title: "Enter your domain", description: "Type in the domain you send emails from. No login required." },
-  { number: "02", title: "We run the checks", description: "SPF, DKIM, DMARC, blacklists, and inbox placement. Takes about 60 seconds." },
-  { number: "03", title: "Get your report", description: "See exactly what's passing, what's failing, and how to fix it." },
+  { number: "01", title: "Get your tracking code", description: "We generate a unique tracking code and a list of seed inboxes. No login, no domain input required." },
+  { number: "02", title: "Send a test email", description: "Compose an email from your actual sending account, include the tracking code in the subject or body, and send it to the seed addresses." },
+  { number: "03", title: "Get your report", description: "We check where your email landed across Gmail, Outlook, Yahoo, and more. See your inbox rate, spam rate, and content score instantly." },
 ];
 
 const stats = [
@@ -75,7 +75,7 @@ const iconPaths: Record<string, string> = {
       </p>
       <div class="mt-10" data-aos="fade-up-sm" data-aos-delay="300">
         <a
-          href="https://app.sendemall.com/deliverability-test"
+          href="/deliverability-test"
           class="btn btn-lg btn-primary"
         >
           Test My Deliverability
@@ -120,7 +120,7 @@ const iconPaths: Record<string, string> = {
       <div class="mx-auto mb-16 max-w-2xl text-center">
         <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">How it works</h2>
         <p class="mt-4 text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">
-          Three steps. Under two minutes. No account needed.
+          Three steps. No account. No domain input. Just send a test email.
         </p>
       </div>
       <div class="mx-auto grid max-w-4xl gap-8 md:grid-cols-3">

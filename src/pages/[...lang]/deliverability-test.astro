@@ -255,198 +255,169 @@ const SEED_INBOXES_FALLBACK = [
       <!-- ==================== STEP 3: RESULTS ==================== -->
       <div id="step-3" class="step-panel hidden">
 
-        <!-- Header -->
-        <div class="mb-6 flex items-center justify-between">
-          <div>
-            <h2 class="text-2xl font-bold text-white">Your deliverability report</h2>
-            <p id="results-sender" class="mt-0.5 text-sm text-[#6b6875]"></p>
+        <!-- PERFORMANCE REPORT header -->
+        <div class="mb-8">
+          <div class="flex flex-wrap items-start justify-between gap-5">
+            <!-- Left: label + title + sender + status -->
+            <div class="flex-1 min-w-0">
+              <span class="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-[#D2B3F3]">Performance Report</span>
+              <h2 class="text-2xl font-bold text-white" id="report-domain-title">Deliverability Report</h2>
+              <p id="results-sender" class="mt-0.5 text-xs text-[#6b6875]"></p>
+              <p id="score-summary" class="mt-2 max-w-xl text-sm leading-relaxed text-[#C8C1C1]"></p>
+            </div>
+            <!-- Right: big inbox rate card -->
+            <div class="shrink-0 rounded-2xl border border-[#2A2433] bg-[#1A191C] px-8 py-5 text-center" style="min-width:140px;">
+              <span id="inbox-pct-center" class="block text-5xl font-black leading-none text-white">—</span>
+              <span class="mt-1.5 block text-[10px] font-bold uppercase tracking-widest text-[#6b6875]">Overall Score</span>
+              <!-- Hidden elements kept for JS compat -->
+              <div class="hidden">
+                <svg viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="10"/>
+                  <circle id="score-ring" cx="50" cy="50" r="38" fill="none" stroke="#D2B3F3" stroke-width="10" stroke-linecap="round" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease,stroke 0.5s ease;"/>
+                </svg>
+                <span id="score-value">—</span>
+                <span id="score-badge"></span>
+                <svg id="placement-donut" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="16"/>
+                  <circle id="donut-inbox" cx="50" cy="50" r="38" fill="none" stroke="#4ade80" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease 0.2s;"/>
+                  <circle id="donut-promo" cx="50" cy="50" r="38" fill="none" stroke="#fbbf24" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease 0.4s;"/>
+                  <circle id="donut-spam" cx="50" cy="50" r="38" fill="none" stroke="#f87171" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease 0.6s;"/>
+                </svg>
+                <span id="inbox-pct">—</span>
+                <span id="promo-pct">—</span>
+                <span id="spam-pct">—</span>
+              </div>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button
-              id="btn-recalculate"
-              class="flex items-center gap-1.5 rounded-lg border border-[#D2B3F3]/30 bg-[#D2B3F3]/10 px-3 py-2 text-xs font-medium text-[#D2B3F3] transition-all hover:bg-[#D2B3F3]/20 disabled:opacity-40"
-            >
-              <svg id="recalc-icon" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+          <!-- Tracking code + action buttons row -->
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <div class="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-[#D2B3F3]/20 bg-[#D2B3F3]/5 px-4 py-2.5">
+              <svg class="h-3.5 w-3.5 shrink-0 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3ZM6 6h.008v.008H6Z"/>
               </svg>
+              <span class="text-xs text-[#6b6875]">Tracking code</span>
+              <code id="results-tracking-code" class="flex-1 select-all font-mono text-sm font-bold tracking-wide text-[#D2B3F3]"></code>
+              <button id="copy-results-code-btn" class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-2.5 py-1 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]">
+                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
+                Copy
+              </button>
+            </div>
+            <button id="btn-recalculate" class="hidden" style="display:none;">
+              <svg id="recalc-icon" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
               Recalculate
             </button>
-            <button
-              id="btn-restart"
-              class="flex items-center gap-1.5 rounded-lg border border-[#2A2433] bg-[#1A191C] px-3 py-2 text-xs font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white"
-            >
-              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
-              </svg>
+            <button id="btn-restart" class="flex items-center gap-1.5 rounded-lg border border-[#2A2433] bg-[#1A191C] px-3 py-2 text-xs font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white">
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
               New test
             </button>
           </div>
         </div>
 
-        <!-- Overall score + placement breakdown (two columns) -->
-        <div class="mb-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-
-          <!-- Overall score card -->
-          <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6">
-            <p class="mb-4 text-sm font-medium text-[#C8C1C1]">Overall deliverability score</p>
-            <div class="flex items-center gap-5">
-              <!-- Score ring SVG -->
-              <div class="relative h-24 w-24 shrink-0">
-                <svg viewBox="0 0 100 100" class="h-full w-full -rotate-90">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="10"/>
-                  <circle id="score-ring" cx="50" cy="50" r="38" fill="none" stroke="#D2B3F3" stroke-width="10"
-                    stroke-linecap="round"
-                    stroke-dasharray="238.76"
-                    stroke-dashoffset="238.76"
-                    style="transition: stroke-dashoffset 1.2s ease, stroke 0.5s ease;"
-                  />
-                </svg>
-                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                  <span id="score-value" class="text-2xl font-bold text-white">—</span>
-                  <span class="text-xs text-[#6b6875]">/100</span>
-                </div>
-              </div>
-              <div>
-                <div id="score-badge" class="mb-2 inline-flex rounded-full px-3 py-1 text-xs font-bold"></div>
-                <p id="score-summary" class="text-xs text-[#C8C1C1] leading-relaxed"></p>
-              </div>
+        <!-- Sender Reputation — full width -->
+        <div class="mb-6 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6">
+          <div class="mb-5 flex items-start justify-between gap-4">
+            <div>
+              <h3 class="text-base font-semibold text-white">Sender Reputation</h3>
+              <p id="rep-domain-subtitle" class="mt-0.5 text-xs text-[#6b6875]">Domain authentication status</p>
+            </div>
+            <div class="text-right">
+              <div id="rep-score-display" class="text-2xl font-black leading-none text-white">—</div>
+              <div id="rep-overall-badge" class="hidden mt-0.5 text-[10px] font-bold uppercase tracking-wider"></div>
             </div>
           </div>
-
-          <!-- Inbox placement donut -->
-          <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6">
-            <p class="mb-4 text-sm font-medium text-[#C8C1C1]">Inbox placement breakdown</p>
-            <div class="flex items-center gap-5">
-              <div class="relative h-24 w-24 shrink-0">
-                <svg id="placement-donut" viewBox="0 0 100 100" class="h-full w-full -rotate-90">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="16"/>
-                  <!-- Inbox (green) -->
-                  <circle id="donut-inbox" cx="50" cy="50" r="38" fill="none" stroke="#4ade80" stroke-width="16"
-                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
-                    style="transition: stroke-dashoffset 1.2s ease 0.2s;"/>
-                  <!-- Promotions (amber) -->
-                  <circle id="donut-promo" cx="50" cy="50" r="38" fill="none" stroke="#fbbf24" stroke-width="16"
-                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
-                    style="transition: stroke-dashoffset 1.2s ease 0.4s;"/>
-                  <!-- Spam (red) -->
-                  <circle id="donut-spam" cx="50" cy="50" r="38" fill="none" stroke="#f87171" stroke-width="16"
-                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
-                    style="transition: stroke-dashoffset 1.2s ease 0.6s;"/>
-                </svg>
-                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                  <span id="inbox-pct-center" class="text-lg font-bold text-white">—</span>
-                  <span class="text-xs text-[#6b6875]">inbox</span>
-                </div>
-              </div>
-              <div class="space-y-2">
-                <div class="flex items-center gap-2 text-sm">
-                  <div class="h-2.5 w-2.5 rounded-full bg-[#4ade80]"></div>
-                  <span class="text-[#C8C1C1]">Inbox</span>
-                  <span id="inbox-pct" class="ml-auto font-bold text-white">—</span>
-                </div>
-                <div class="flex items-center gap-2 text-sm">
-                  <div class="h-2.5 w-2.5 rounded-full bg-[#fbbf24]"></div>
-                  <span class="text-[#C8C1C1]">Promotions</span>
-                  <span id="promo-pct" class="ml-auto font-bold text-white">—</span>
-                </div>
-                <div class="flex items-center gap-2 text-sm">
-                  <div class="h-2.5 w-2.5 rounded-full bg-[#f87171]"></div>
-                  <span class="text-[#C8C1C1]">Spam</span>
-                  <span id="spam-pct" class="ml-auto font-bold text-white">—</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- SPF / DKIM / DMARC as 3 mini tiles -->
+          <div id="reputation-main-checks" class="mb-4 grid grid-cols-3 gap-3"></div>
+          <!-- MX, blacklist as rows -->
+          <div id="reputation-checks" class="space-y-2.5"></div>
         </div>
 
-        <!-- Gated details: limited preview until email submitted, full view after -->
+        <!-- Seed Inbox Granularity -->
+        <div class="mb-6 overflow-hidden rounded-2xl border border-[#2A2433] bg-[#1A191C]">
+          <div class="border-b border-[#2A2433] px-6 py-5">
+            <h3 class="text-base font-semibold italic text-white">Seed Inbox Granularity</h3>
+            <p class="mt-0.5 text-xs text-[#6b6875]">Placement result per seed inbox.</p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-[#2A2433]">
+                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">Provider</th>
+                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">Placement</th>
+                </tr>
+              </thead>
+              <tbody id="seed-table-body" class="divide-y divide-[#2A2433]"></tbody>
+            </table>
+          </div>
+          <div id="seed-provider-cards" class="hidden"></div>
+        </div>
+
+        <!-- Gated details -->
         <div id="gated-details">
 
-          <!-- Content analysis: first 2 items visible, rest behind fade -->
-          <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
-            <div class="mb-5 flex items-center gap-3">
-              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
-                <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                </svg>
-              </div>
+          <!-- Editorial Audit (content analysis) -->
+          <div class="mb-5 overflow-hidden rounded-2xl border border-[#2A2433] bg-[#1A191C]">
+            <div class="flex items-start justify-between gap-4 border-b border-[#2A2433] px-6 py-5">
               <div>
-                <h3 class="font-semibold text-white">Content analysis</h3>
-                <p class="text-xs text-[#6b6875]">How your email content affects deliverability</p>
+                <h3 class="text-base font-semibold italic text-white">Editorial Audit</h3>
+                <p class="mt-0.5 text-xs text-[#6b6875]">AI-analyzed email content for spam triggers and deliverability friction.</p>
               </div>
+              <div id="content-score-badge" class="hidden shrink-0 rounded-full px-3 py-1 text-xs font-bold"></div>
             </div>
-            <div class="relative">
-              <div id="content-checks" class="space-y-3" style="max-height:148px;overflow:hidden;"></div>
-              <div id="content-checks-fade" class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-1" style="height:72px;background:linear-gradient(to bottom,transparent,#1A191C);">
-                <span id="content-checks-more" class="text-xs text-[#6b6875]"></span>
-              </div>
-            </div>
+            <div id="content-checks" class="divide-y divide-[#2A2433] overflow-y-auto" style="max-height:420px;"></div>
           </div>
 
-          <!-- Sender reputation: first 3 items visible, rest behind fade -->
-          <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
-            <div class="mb-5 flex items-center gap-3">
-              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
-                <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
-                </svg>
-              </div>
+          <!-- Strategic Improvements — moved below Editorial Audit -->
+          <div class="mb-5 overflow-hidden rounded-2xl border border-[#2A2433] bg-[#1A191C]">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#2A2433] px-6 py-5">
               <div>
-                <h3 class="font-semibold text-white">Sender reputation</h3>
-                <p class="text-xs text-[#6b6875]">Domain & authentication health for your sender address</p>
+                <h3 class="text-base font-semibold italic text-white">Strategic Improvements</h3>
+                <p class="mt-0.5 text-xs text-[#6b6875]">Actionable steps to optimize your deliverability.</p>
               </div>
-            </div>
-            <div class="relative">
-              <div id="reputation-checks" class="space-y-3" style="max-height:204px;overflow:hidden;"></div>
-              <div id="reputation-checks-fade" class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-1" style="height:72px;background:linear-gradient(to bottom,transparent,#1A191C);">
-                <span id="reputation-checks-more" class="text-xs text-[#6b6875]"></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Recommendations: first item visible, rest behind fade -->
-          <div id="recommendations-section" class="mb-5 hidden rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6 md:p-8">
-            <div class="mb-4 flex items-center gap-3">
-              <svg class="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
-              </svg>
-              <h3 class="font-semibold text-amber-300">Recommendations to improve</h3>
-            </div>
-            <div class="relative">
-              <ul id="recommendations-list" class="space-y-2" style="max-height:72px;overflow:hidden;"></ul>
-              <div id="recs-fade" class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-center pb-1" style="height:48px;background:linear-gradient(to bottom,transparent,rgba(245,158,11,0.05));">
-                <span id="recs-more" class="text-xs text-amber-500/60"></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Inline email capture card (replaces overlay) -->
-          <div id="email-capture-card" class="mb-5 rounded-2xl border border-[#D2B3F3]/30 bg-[#1A191C] p-6 text-center">
-            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D2B3F3]/10">
-              <svg class="h-5 w-5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
-              </svg>
-            </div>
-            <h3 class="mb-1 text-base font-semibold text-white">Get the full breakdown in your inbox</h3>
-            <p class="mb-4 text-sm text-[#C8C1C1]">See every check, all recommendations, and your sender reputation details — sent directly to you.</p>
-            <div id="report-success" class="hidden rounded-lg border border-[#4ade80]/30 bg-[#4ade80]/10 px-4 py-3 text-sm text-[#4ade80]">
-              Sent! Check your inbox for the full report.
-            </div>
-            <div id="report-form">
-              <div class="flex gap-2">
-                <input type="email" id="report-email" placeholder="you@yourdomain.com"
-                  class="flex-1 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3 text-sm text-white placeholder-[#6b6875] outline-none transition-all focus:border-[#D2B3F3] focus:ring-1 focus:ring-[#D2B3F3]/30"/>
-                <button id="btn-send-report"
-                  class="rounded-lg bg-[#D2B3F3] px-5 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8] disabled:opacity-50 whitespace-nowrap">
-                  Send report
+              <div class="flex items-center gap-2">
+                <button id="btn-expand-all" class="rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white">
+                  Expand All
                 </button>
               </div>
-              <div id="report-error" class="mt-2 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400"></div>
-              <p class="mt-2 text-xs text-[#6b6875]">One email · No spam · No account needed</p>
+            </div>
+
+            <div id="recommendations-section" class="hidden">
+              <ul id="all-recs-list" class="divide-y divide-[#2A2433] overflow-y-auto" style="max-height:420px;"></ul>
+            </div>
+
+            <div id="email-capture-card" class="px-6 py-8">
+              <div class="mx-auto max-w-md text-center">
+                <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D2B3F3]/10">
+                  <svg class="h-5 w-5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                  </svg>
+                </div>
+                <h4 class="mb-1 text-sm font-semibold text-white">Unlock your full action plan</h4>
+                <p class="mb-4 text-xs text-[#C8C1C1]/70">Get all recommendations ranked by impact — sent directly to you.</p>
+                <div id="report-success" class="hidden mb-3 rounded-lg border border-[#4ade80]/30 bg-[#4ade80]/10 px-4 py-3 text-sm text-[#4ade80]">
+                  Sent! Check your inbox for the full report.
+                </div>
+                <div id="report-form">
+                  <div class="flex gap-2">
+                    <input type="email" id="report-email" placeholder="you@yourdomain.com"
+                      class="flex-1 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-2.5 text-sm text-white placeholder-[#6b6875] outline-none transition-all focus:border-[#D2B3F3]"/>
+                    <button id="btn-send-report" class="rounded-lg bg-[#D2B3F3] px-4 py-2.5 text-sm font-semibold text-black transition-all hover:bg-[#B896E8] disabled:opacity-50 whitespace-nowrap">
+                      Send Report
+                    </button>
+                  </div>
+                  <div id="report-error" class="mt-2 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400"></div>
+                  <p class="mt-2 text-[10px] text-[#6b6875]">No spam · No account needed</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="hidden">
+              <div id="deliverability-recs-section"><ul id="deliverability-recs-list"></ul></div>
+              <div id="reputation-recs-section"><ul id="reputation-recs-list"></ul></div>
+              <div id="content-recs-section"><ul id="content-recs-list"></ul></div>
             </div>
           </div>
 
-          <!-- AI content fix (shown only when spam % is significant) -->
+          <!-- AI rewritten version (triggered by button) -->
           <div id="ai-fix-section" class="mb-5 hidden rounded-2xl border border-[#D2B3F3]/20 p-6 md:p-8"
                style="background: linear-gradient(135deg, rgba(210,179,243,0.05) 0%, rgba(14,12,12,0.8) 100%);">
             <div class="mb-5 flex items-center gap-3">
@@ -584,6 +555,8 @@ const SEED_INBOXES_FALLBACK = [
 
   let testCode = "";
   let testId = "";
+  let viewToken = "";    // raw token from POST /tests — must be sent with all subsequent requests
+  let reportToken = "";  // raw report token — issued on email submission, unlocks full data
   let seedInboxes = [];
   let testState = {};
   let pollTimer = null;
@@ -643,6 +616,15 @@ const SEED_INBOXES_FALLBACK = [
   }
 
   // ─── API helpers ─────────────────────────────────────────────────────────────
+
+  function withToken(path) {
+    return viewToken ? `${path}?token=${encodeURIComponent(viewToken)}` : path;
+  }
+
+  function withReportToken(path) {
+    const base = withToken(path);
+    return reportToken ? `${base}&reportToken=${encodeURIComponent(reportToken)}` : base;
+  }
 
   async function apiPost(path, body) {
     const res = await fetch(`${API_BASE}${path}`, {
@@ -756,61 +738,221 @@ const SEED_INBOXES_FALLBACK = [
 
   // ─── Render results ───────────────────────────────────────────────────────
 
-  function renderContentChecks(issues, good) {
-    const container = document.getElementById("content-checks");
-    container.innerHTML = "";
-    good.forEach(msg => {
-      container.insertAdjacentHTML("beforeend", `
-        <div class="flex items-start gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3">
-          <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4ade80]/10">
+  function getAuditSeverity(msg) {
+    if (/spam|trigger|blacklist|phish|block|unsubscrib/i.test(msg)) return "high";
+    if (/link|ssl|certificate|image|ratio|address|physical/i.test(msg)) return "medium";
+    return "low";
+  }
+
+  function auditIssueRow(msg, isGood) {
+    if (isGood) {
+      return `
+        <div class="flex items-center gap-4 px-6 py-3.5">
+          <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4ade80]/10 border border-[#4ade80]/20">
             <svg class="h-3 w-3 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
           </div>
           <p class="text-sm text-[#C8C1C1]">${msg}</p>
         </div>
-      `);
-    });
-    issues.forEach(msg => {
-      container.insertAdjacentHTML("beforeend", `
-        <div class="flex items-start gap-3 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3">
-          <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500/10">
-            <svg class="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-          </div>
-          <p class="text-sm text-red-300">${msg}</p>
+      `;
+    }
+    const sev = getAuditSeverity(msg);
+    const [sevLabel, sevCss, iconColor, iconBg] = sev === "high"
+      ? ["HIGH SEVERITY",  "color:#f87171;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);", "#f87171", "bg-red-500/10 border-red-500/20"]
+      : sev === "medium"
+      ? ["MEDIUM SEVERITY","color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);",  "#fbbf24", "bg-amber-500/10 border-amber-500/20"]
+      : ["LOW SEVERITY",   "color:#60a5fa;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);",  "#60a5fa", "bg-blue-500/10 border-blue-500/20"];
+    const iconSvg = sev === "high"
+      ? `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
+      : sev === "medium"
+      ? `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/></svg>`
+      : `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>`;
+    return `
+      <div class="flex items-center gap-4 px-6 py-3.5">
+        <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border ${iconBg}">${iconSvg}</div>
+        <div class="flex flex-1 min-w-0 flex-wrap items-center gap-2">
+          <span class="text-sm font-semibold text-white">${msg}</span>
+          <span class="inline-flex shrink-0 rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider" style="${sevCss}">${sevLabel}</span>
         </div>
-      `);
-    });
+      </div>
+    `;
+  }
+
+  function renderContentChecks(issues, good) {
+    const container = document.getElementById("content-checks");
+    container.innerHTML = [...good.map(m => auditIssueRow(m, true)), ...issues.map(m => auditIssueRow(m, false))].join("");
+
+    // Content score badge
+    const total = issues.length + good.length;
+    const badge = document.getElementById("content-score-badge");
+    if (badge && total > 0) {
+      const pct = Math.round((good.length / total) * 100);
+      badge.textContent = `${pct}% clean`;
+      badge.classList.remove("hidden");
+      if (pct >= 80) badge.style.cssText = "display:inline-flex;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.3);";
+      else if (pct >= 50) badge.style.cssText = "display:inline-flex;background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);";
+      else badge.style.cssText = "display:inline-flex;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.3);";
+    }
   }
 
   function renderReputationChecks(senderEmail, reputation) {
-    const domain = (senderEmail.split("@")[1] || senderEmail || "yourdomain.com").toLowerCase();
-    const container = document.getElementById("reputation-checks");
+    const domain = (reputation?.domain || senderEmail.split("@")[1] || senderEmail || "yourdomain.com").toLowerCase();
 
     // Build checks from live data when available, otherwise show pending state
     const checks = reputation ? buildLiveReputationChecks(domain, reputation) : buildPendingReputationChecks(domain);
-    container.innerHTML = checks.map(c => reputationCheckRow(c)).join("");
+
+    // First 3 (SPF, DKIM, DMARC) → mini tile cards
+    const mainContainer = document.getElementById("reputation-main-checks");
+    if (mainContainer) {
+      mainContainer.innerHTML = checks.slice(0, 3).map(c => reputationMiniCard(c)).join("");
+    }
+
+    // Remaining (MX, Blacklist, Domain age) → list rows
+    const container = document.getElementById("reputation-checks");
+    if (container) {
+      container.innerHTML = checks.slice(3).map(c => reputationCheckRow(c)).join("");
+    }
+
+    // Update domain subtitle
+    const sub = document.getElementById("rep-domain-subtitle");
+    if (sub && domain !== "yourdomain.com") sub.textContent = `Real-time health for ${domain}`;
+
+    // Overall score + badge
+    const failed = checks.filter(c => c.passed != null && c.passed === false).length;
+    const passed = checks.filter(c => c.passed === true).length;
+    const total = checks.length;
+    const scoreNum = total > 0 ? Math.round((passed / total) * 100) : null;
+
+    const scoreEl = document.getElementById("rep-score-display");
+    if (scoreEl && scoreNum !== null) {
+      const scoreColor = scoreNum >= 80 ? "#4ade80" : scoreNum >= 50 ? "#fbbf24" : "#f87171";
+      scoreEl.innerHTML = `<span style="color:${scoreColor}">${scoreNum}</span><span style="font-size:1rem;color:#6b6875;font-weight:500;">/100</span>`;
+    }
+
+    const badge = document.getElementById("rep-overall-badge");
+    if (badge && reputation) {
+      badge.classList.remove("hidden");
+      if (failed === 0) {
+        badge.textContent = "EXCELLENT STATUS";
+        badge.style.cssText = "display:block;color:#4ade80;";
+      } else if (failed >= 2) {
+        badge.textContent = `${failed} ISSUES DETECTED`;
+        badge.style.cssText = "display:block;color:#f87171;";
+      } else {
+        badge.textContent = `${failed} ISSUE DETECTED`;
+        badge.style.cssText = "display:block;color:#fbbf24;";
+      }
+    }
+  }
+
+  function reputationMiniCard(c) {
+    let iconHtml, bg, border, textColor;
+    if (c.passed == null) {
+      iconHtml = `<div class="h-3.5 w-3.5 animate-pulse rounded-full bg-[#6b6875]"></div>`;
+      bg = "bg-[#0e0c0c]"; border = "border-[#2A2433]"; textColor = "text-[#6b6875]";
+    } else if (c.passed) {
+      iconHtml = `<svg class="h-3.5 w-3.5 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+      bg = "bg-[#4ade80]/5"; border = "border-[#4ade80]/20"; textColor = "text-white";
+    } else {
+      iconHtml = `<svg class="h-3.5 w-3.5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
+      bg = "bg-red-500/5"; border = "border-red-500/20"; textColor = "text-white";
+    }
+    const shortDesc = c.desc.length > 55 ? c.desc.slice(0, 52) + "…" : c.desc;
+    return `
+      <div class="rounded-xl border ${border} ${bg} p-4">
+        <div class="mb-2 flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wide ${textColor}">${c.label}</span>
+          <div class="flex h-5 w-5 items-center justify-center rounded-full bg-[#1A191C]">${iconHtml}</div>
+        </div>
+        <p class="text-[11px] leading-snug text-[#6b6875]">${shortDesc}</p>
+      </div>
+    `;
+  }
+
+  function derivePlacementPcts(placement, seedResults) {
+    if (placement?.total > 0) {
+      const t = placement.total;
+      const inboxPct = Math.round((placement.inbox / t) * 100);
+      const spamPct  = Math.round((placement.spam  / t) * 100);
+      return { inboxPct, spamPct, promoPct: Math.max(0, 100 - inboxPct - spamPct) };
+    }
+    if (Array.isArray(seedResults) && seedResults.length > 0) {
+      const withPl = seedResults.filter(r => r.placementStatus || r.placement);
+      if (withPl.length > 0) {
+        const t = withPl.length;
+        const pl = r => r.placementStatus || r.placement || "";
+        const inbox = withPl.filter(r => pl(r) === "inbox").length;
+        const spam  = withPl.filter(r => pl(r) === "spam").length;
+        const promo = withPl.filter(r => pl(r) === "promotions" || pl(r) === "promo").length;
+        const inboxPct = Math.round((inbox / t) * 100);
+        const spamPct  = Math.round((spam  / t) * 100);
+        const promoPct = Math.round((promo / t) * 100);
+        return { inboxPct, spamPct, promoPct };
+      }
+    }
+    return null; // no data yet
+  }
+
+  function extractReputationRecs(reputation) {
+    if (!reputation) return [];
+    const recs = [];
+    // Only flag checks that explicitly failed (passed === false), not pending (null/undefined)
+    if (reputation.spf?.passed === false)   recs.push("Add an SPF record (v=spf1 include:youresp.com ~all) — this authorizes your ESP to send on your behalf");
+    if (reputation.dkim?.passed === false)  recs.push("Enable DKIM signing in your ESP settings and add the provided CNAME records to your DNS");
+    if (reputation.dmarc?.passed === false) recs.push("Add a DMARC policy starting with p=none to monitor, then upgrade to p=quarantine once SPF & DKIM pass consistently");
+    if (reputation.mx?.passed === false)    recs.push("Fix your MX records — without them, replies can't reach your domain");
+    if (reputation.blacklist?.isBlacklisted) recs.push(`Your domain appears on a blacklist (${(reputation.blacklist.reasons || []).slice(0,2).join(", ")}). Submit removal requests at each RBL's delisting page`);
+    return recs;
   }
 
   function buildLiveReputationChecks(domain, rep) {
-    const ageDays = rep.domainAgeDays;
-    const ageLabel = ageDays === null ? "Age unknown"
-      : ageDays < 30  ? `${ageDays} days old — very new, high spam risk`
-      : ageDays < 90  ? `${ageDays} days old — relatively new`
-      : ageDays < 365 ? `${ageDays} days old — established`
-      : `${Math.floor(ageDays / 365)} year${Math.floor(ageDays / 365) > 1 ? "s" : ""} old — trusted`;
-    const agePassed = ageDays !== null && ageDays >= 90;
-
-    const blacklistPassed = !rep.blacklist.isBlacklisted;
+    // Blacklist — guard against missing data
+    const bl = rep.blacklist || {};
+    const blacklistPassed = !bl.isBlacklisted;
     const blacklistDesc = blacklistPassed
       ? `${domain} is not listed on Spamhaus, SURBL, or URIBL.`
-      : `Listed on: ${rep.blacklist.reasons.slice(0, 2).join("; ")}`;
+      : `Listed on: ${(bl.reasons || []).slice(0, 2).join("; ")}`;
+
+    // Each check — use optional chaining so a missing sub-object shows as pending (null)
+    // rather than crashing or rendering as failed
+    const spf   = rep.spf   || null;
+    const dkim  = rep.dkim  || null;
+    const dmarc = rep.dmarc || null;
+    const mx    = rep.mx    || null;
 
     return [
-      { label: "SPF record",      passed: rep.spf.passed,   desc: rep.spf.details,   record: rep.spf.record },
-      { label: "DKIM signature",  passed: rep.dkim.passed,  desc: rep.dkim.details },
-      { label: "DMARC policy",    passed: rep.dmarc.passed, desc: rep.dmarc.details,  record: rep.dmarc.record },
-      { label: "MX records",      passed: rep.mx.passed,    desc: rep.mx.details },
-      { label: "Blacklist status", passed: blacklistPassed, desc: blacklistDesc },
-      { label: "Domain age",      passed: agePassed,        desc: ageLabel },
+      {
+        label: "SPF record",
+        passed: spf != null ? (spf.passed ?? null) : null,
+        desc: spf?.details || (spf?.passed === false
+          ? (spf?.record ? "SPF record found but failed validation — check your include chain" : "SPF record missing or invalid")
+          : `Checking TXT records for ${domain}…`),
+        record: spf?.record,
+      },
+      {
+        label: "DKIM signature",
+        passed: dkim != null ? (dkim.passed ?? null) : null,
+        desc: dkim?.details || (dkim?.passed === false
+          ? (dkim?.record ? "DKIM record found but signature validation failed — verify your ESP signing settings" : "No valid DKIM record found for common selectors")
+          : `Checking DKIM selectors for ${domain}…`),
+        record: dkim?.record,
+      },
+      {
+        label: "DMARC policy",
+        passed: dmarc != null ? (dmarc.passed ?? null) : null,
+        desc: dmarc?.details || (dmarc?.passed === false
+          ? (dmarc?.record ? "DMARC record found but policy failed validation — check your policy syntax" : "DMARC record missing or invalid")
+          : `Checking _dmarc.${domain}…`),
+        record: dmarc?.record,
+      },
+      {
+        label: "MX records",
+        passed: mx != null ? (mx.passed ?? null) : null,
+        desc: mx?.details || (mx?.passed === false
+          ? (mx?.record ? "MX record found but failed validation — verify your mail server is reachable" : "No MX records found — replies can't reach this domain")
+          : `Checking MX records for ${domain}…`),
+        record: mx?.record,
+      },
+      { label: "Blacklist status", passed: rep.blacklist != null ? blacklistPassed : null, desc: rep.blacklist != null ? blacklistDesc : "Checking Spamhaus, SURBL, URIBL…" },
     ];
   }
 
@@ -821,14 +963,13 @@ const SEED_INBOXES_FALLBACK = [
       { label: "DMARC policy",    passed: null, desc: `Checking _dmarc.${domain}…` },
       { label: "MX records",      passed: null, desc: `Checking MX records for ${domain}…` },
       { label: "Blacklist status", passed: null, desc: "Checking Spamhaus, SURBL, URIBL…" },
-      { label: "Domain age",      passed: null, desc: "Looking up domain registration date…" },
     ];
   }
 
   function reputationCheckRow(c) {
     let iconHtml, borderClass;
-    if (c.passed === null) {
-      // Pending / unknown
+    if (c.passed == null) {
+      // Pending / unknown (null OR undefined treated the same)
       iconHtml = `<div class="h-3 w-3 animate-pulse rounded-full bg-[#6b6875]"></div>`;
       borderClass = "border-[#2A2433]";
     } else if (c.passed) {
@@ -839,7 +980,7 @@ const SEED_INBOXES_FALLBACK = [
       borderClass = "border-red-500/20";
     }
 
-    const bgClass = c.passed === null ? "bg-[#0e0c0c]"
+    const bgClass = c.passed == null ? "bg-[#0e0c0c]"
                   : c.passed          ? "bg-[#4ade80]/5"
                   : "bg-red-500/5";
 
@@ -867,15 +1008,19 @@ const SEED_INBOXES_FALLBACK = [
     const ring = document.getElementById("score-ring");
     ring.style.strokeDashoffset = offset;
 
-    let color, tier, summary;
+    let color, tier, summary, statusWord;
     if (score >= 75) {
-      color = "#4ade80"; tier = "Excellent"; summary = "Strong deliverability. Your emails should reach the inbox reliably.";
+      color = "#4ade80"; tier = "Excellent"; statusWord = "Optimal";
+      summary = `Your placement is <strong style="color:#4ade80">Optimal</strong>. Authentication checks pass and inbox rate is strong.`;
     } else if (score >= 55) {
-      color = "#fbbf24"; tier = "Fair"; summary = "Decent, but fixable. A few tweaks will significantly improve placement.";
+      color = "#fbbf24"; tier = "Fair"; statusWord = "Fair";
+      summary = `Your placement is <strong style="color:#fbbf24">Fair</strong>. Minor issues detected — review the checks below to improve inbox rate.`;
     } else if (score >= 35) {
-      color = "#fb923c"; tier = "At Risk"; summary = "High spam risk. Address the issues below before sending at scale.";
+      color = "#fb923c"; tier = "At Risk"; statusWord = "At Risk";
+      summary = `Your placement is <strong style="color:#fb923c">At Risk</strong>. High spam rate detected — address the flagged issues before sending at scale.`;
     } else {
-      color = "#f87171"; tier = "Critical"; summary = "Your email is likely landing in spam. Resolve the flagged issues immediately.";
+      color = "#f87171"; tier = "Critical"; statusWord = "Critical";
+      summary = `Your placement is <strong style="color:#f87171">Critical</strong>. Most emails are landing in spam. Fix authentication and content issues immediately.`;
     }
     ring.style.stroke = color;
     document.getElementById("score-value").textContent = score;
@@ -884,7 +1029,15 @@ const SEED_INBOXES_FALLBACK = [
     badge.style.background = color + "20";
     badge.style.color = color;
     badge.style.border = `1px solid ${color}40`;
-    document.getElementById("score-summary").textContent = summary;
+    const summaryEl = document.getElementById("score-summary");
+    if (summaryEl) summaryEl.innerHTML = summary;
+
+    // Show overall score in the prominent inbox-rate card
+    const centerEl = document.getElementById("inbox-pct-center");
+    if (centerEl) {
+      centerEl.textContent = score + "%";
+      centerEl.style.color = color;
+    }
   }
 
   function renderPlacementDonut(inbox, promo, spam) {
@@ -906,26 +1059,188 @@ const SEED_INBOXES_FALLBACK = [
     dSpam.style.strokeDasharray = `${spamArc} ${circ}`;
     dSpam.style.strokeDashoffset = `-${inboxArc + promoArc}`;
 
-    document.getElementById("inbox-pct-center").textContent = inbox + "%";
     document.getElementById("inbox-pct").textContent = inbox + "%";
     document.getElementById("promo-pct").textContent = promo + "%";
     document.getElementById("spam-pct").textContent = spam + "%";
   }
 
-  function renderRecommendations(recs) {
+  function recItem(text) {
+    return `<li class="flex items-start gap-2.5 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3 text-sm">
+      <svg class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+      </svg>
+      <span class="leading-relaxed text-[#C8C1C1]">${text}</span>
+    </li>`;
+  }
+
+  function renderRecommendations(contentRecs, reputationRecs, deliverabilityRecs) {
     const section = document.getElementById("recommendations-section");
-    const list = document.getElementById("recommendations-list");
-    // Always keep hidden — unlockGate() reveals it if there are recs
     section.classList.add("hidden");
-    if (!recs.length) return;
-    list.innerHTML = recs.map(r => `
-      <li class="flex items-start gap-2.5 text-sm">
-        <svg class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-        </svg>
-        <span class="text-amber-200/80">${r}</span>
-      </li>
-    `).join("");
+
+    // Merge all: deliverability (high) → reputation (high/med) → content (med/low)
+    const all = [
+      ...(deliverabilityRecs || []).map(t => ({ text: t, priority: "high" })),
+      ...(reputationRecs || []).map(t => ({ text: t, priority: "high" })),
+      ...(contentRecs || []).map((t, i) => ({ text: t, priority: i === 0 ? "medium" : "low" })),
+    ];
+    if (!all.length) return;
+
+    const list = document.getElementById("all-recs-list");
+    if (list) {
+      list.innerHTML = all.map((r, i) => {
+        const num = String(i + 1).padStart(2, "0");
+        const [priLabel, priCss] = r.priority === "high"
+          ? ["High Priority",   "color:#f87171;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.25);"]
+          : r.priority === "medium"
+          ? ["Medium Priority", "color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);"]
+          : ["Low Priority",    "color:#60a5fa;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);"];
+        const title = r.text.split(/[—.\-]/)[0].trim().slice(0, 60);
+        const desc = r.text;
+        const isFirst = i === 0;
+        return `
+          <li class="rec-accordion-item" data-open="${isFirst}">
+            <div class="flex cursor-pointer items-center gap-4 px-6 py-4 transition-colors hover:bg-[#0e0c0c]"
+                 onclick="this.closest('li').dataset.open=this.closest('li').dataset.open==='true'?'false':'true';this.closest('li').querySelector('.rec-body').style.display=this.closest('li').dataset.open==='true'?'block':'none';this.querySelector('.rec-chevron').style.transform=this.closest('li').dataset.open==='true'?'rotate(180deg)':'';">
+              <span class="shrink-0 text-xs font-bold text-[#6b6875]">${num}</span>
+              <div class="flex flex-1 min-w-0 flex-wrap items-center gap-2">
+                <span class="text-sm font-semibold text-white">${title}</span>
+                <span class="inline-flex rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider" style="${priCss}">${priLabel}</span>
+              </div>
+              <svg class="rec-chevron h-4 w-4 shrink-0 text-[#6b6875] transition-transform" style="${isFirst ? "transform:rotate(180deg)" : ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
+              </svg>
+            </div>
+            <div class="rec-body px-6 pb-4 pt-0" style="display:${isFirst ? "block" : "none"}">
+              <p class="text-sm leading-relaxed text-[#C8C1C1]/80">${desc}</p>
+            </div>
+          </li>
+        `;
+      }).join("");
+    }
+
+    // Also populate hidden categorized lists (unlockGate compat)
+    const delivList = document.getElementById("deliverability-recs-list");
+    if (delivList) delivList.innerHTML = (deliverabilityRecs || []).map(recItem).join("");
+    const repList = document.getElementById("reputation-recs-list");
+    if (repList) repList.innerHTML = (reputationRecs || []).map(recItem).join("");
+    const contentList = document.getElementById("content-recs-list");
+    if (contentList) contentList.innerHTML = (contentRecs || []).map(recItem).join("");
+
+    // Only show section if email capture is already hidden (gate unlocked)
+    const captureCard = document.getElementById("email-capture-card");
+    if (!captureCard || captureCard.style.display === "none") {
+      section.classList.remove("hidden");
+    }
+
+    // Wire up expand all button
+    const expandBtn = document.getElementById("btn-expand-all");
+    if (expandBtn && !expandBtn._wired) {
+      expandBtn._wired = true;
+      expandBtn.addEventListener("click", () => {
+        document.querySelectorAll(".rec-accordion-item").forEach(item => {
+          item.dataset.open = "true";
+          const body = item.querySelector(".rec-body");
+          const chev = item.querySelector(".rec-chevron");
+          if (body) body.style.display = "block";
+          if (chev) chev.style.transform = "rotate(180deg)";
+        });
+      });
+    }
+  }
+
+  function renderSeedTable(inboxes, seedResults) {
+    const displayInboxes = Array.isArray(inboxes) && inboxes.length > 0 ? inboxes : (seedResults ?? []);
+    const tbody = document.getElementById("seed-table-body");
+    if (!tbody) return;
+
+    tbody.innerHTML = displayInboxes.map(s => {
+      const provider = s.provider || guessProvider(s.email);
+      const color = PROVIDER_COLORS[provider] || PROVIDER_COLORS.Other;
+      const fallback = Array.isArray(seedResults) ? seedResults.find(r => r.email === s.email) : null;
+      const pl = s.placementStatus || s.placement || fallback?.placementStatus || fallback?.placement || null;
+
+      let badgeHtml;
+      if (!pl) {
+        badgeHtml = `<span class="inline-flex rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">Pending</span>`;
+      } else if (pl === "inbox") {
+        const label = provider === "Gmail" ? "Inbox (Primary)" : "Inbox";
+        badgeHtml = `<span class="inline-flex rounded border border-[#4ade80]/30 bg-[#4ade80]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#4ade80]">${label}</span>`;
+      } else if (pl === "promotions" || pl === "promo") {
+        badgeHtml = `<span class="inline-flex rounded border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#fbbf24]">Promotions</span>`;
+      } else if (pl === "spam") {
+        badgeHtml = `<span class="inline-flex rounded border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-red-400">Spam</span>`;
+      } else {
+        badgeHtml = `<span class="inline-flex rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">${pl}</span>`;
+      }
+
+      return `<tr class="transition-colors hover:bg-[#0e0c0c]">
+        <td class="px-6 py-4">
+          <div class="flex items-center gap-3">
+            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style="background:${color}18;border:1px solid ${color}30;">
+              <span class="h-2 w-2 rounded-full" style="background:${color};"></span>
+            </div>
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-white">${provider}</p>
+              <p class="font-mono text-[11px] text-[#6b6875] truncate max-w-[200px]">${s.email}</p>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4">${badgeHtml}</td>
+      </tr>`;
+    }).join("");
+  }
+
+  function providerCard(provider, inboxPct, spamPct, checking) {
+    const color = PROVIDER_COLORS[provider] || PROVIDER_COLORS.Other;
+    let pctDisplay, statusLabel, statusStyle, barColor, barPct;
+    if (checking || inboxPct === null) {
+      pctDisplay = "—";
+      statusLabel = "Propagating tests";
+      statusStyle = "color:#6b6875;";
+      barColor = "#2A2433";
+      barPct = 0;
+    } else if (spamPct > 30) {
+      pctDisplay = `${spamPct}%`;
+      statusLabel = "Spam filtered";
+      statusStyle = "color:#f87171;";
+      barColor = "#f87171";
+      barPct = spamPct;
+    } else if (spamPct > 0 || inboxPct < 80) {
+      pctDisplay = `${inboxPct}%`;
+      statusLabel = "Partial spam filtered";
+      statusStyle = "color:#fbbf24;";
+      barColor = "#fbbf24";
+      barPct = inboxPct;
+    } else {
+      pctDisplay = `${inboxPct}%`;
+      statusLabel = "Inbox placement";
+      statusStyle = "color:#4ade80;";
+      barColor = "#4ade80";
+      barPct = inboxPct;
+    }
+    // Status icon
+    const icon = checking || inboxPct === null
+      ? `<svg class="h-5 w-5 text-[#6b6875]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`
+      : spamPct > 30
+      ? `<svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
+      : spamPct > 0 || inboxPct < 80
+      ? `<svg class="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
+      : `<svg class="h-5 w-5" style="color:${color}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3"/></svg>`;
+    return `
+      <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-5">
+        <div class="mb-3 flex items-center justify-between">
+          <span class="text-sm font-semibold text-white">${provider}</span>
+          ${icon}
+        </div>
+        <div class="mb-1">
+          <span class="text-4xl font-black leading-none" style="${pctDisplay === "—" ? "color:#6b6875;" : "color:#fff;"}">${pctDisplay}</span>
+        </div>
+        <p class="mb-3 text-[10px] font-bold uppercase tracking-wider" style="${statusStyle}">${statusLabel}</p>
+        <div class="h-1 w-full overflow-hidden rounded-full bg-[#2A2433]">
+          <div class="h-full rounded-full transition-all duration-700" style="width:${barPct}%;background:${barColor};"></div>
+        </div>
+      </div>
+    `;
   }
 
   // ─── Provider color helper ────────────────────────────────────────────────
@@ -992,7 +1307,7 @@ const SEED_INBOXES_FALLBACK = [
     if (aiFixStarted || !testId) return;
     aiFixStarted = true;
     try {
-      const data = await apiPost(`/open/deliverability/tests/${testId}/generate-fix`, {});
+      const data = await apiPost(withToken(`/open/deliverability/tests/${testId}/generate-fix`), {});
       aiFixSubject = data.subject || "";
       aiFixBody = data.body || "";
       document.getElementById("ai-fix-loading")?.classList.add("hidden");
@@ -1004,58 +1319,30 @@ const SEED_INBOXES_FALLBACK = [
     }
   }
 
-  function updateGatePreviews() {
-    // Show "X more" counts on the fade elements based on how many items are hidden
-    const contentItems = document.getElementById("content-checks")?.children.length ?? 0;
-    const repItems = document.getElementById("reputation-checks")?.children.length ?? 0;
-    const recItems = document.getElementById("recommendations-list")?.children.length ?? 0;
-    // ~2 items fit in 148px, ~3 in 204px, ~1 in 72px (each ~64px tall)
-    const contentHidden = Math.max(0, contentItems - 2);
-    const repHidden = Math.max(0, repItems - 3);
-    const recHidden = Math.max(0, recItems - 1);
-    const moreEl = document.getElementById("content-checks-more");
-    if (moreEl) moreEl.textContent = contentHidden > 0 ? `+${contentHidden} more — see full report below` : "";
-    const repMoreEl = document.getElementById("reputation-checks-more");
-    if (repMoreEl) repMoreEl.textContent = repHidden > 0 ? `+${repHidden} more checks — see full report below` : "";
-    const recMoreEl = document.getElementById("recs-more");
-    if (recMoreEl) recMoreEl.textContent = recHidden > 0 ? `+${recHidden} more recommendations` : "";
-    // Hide fade if nothing is clipped
-    if (contentHidden === 0) document.getElementById("content-checks-fade")?.style.setProperty("display","none");
-    if (repHidden === 0) document.getElementById("reputation-checks-fade")?.style.setProperty("display","none");
-    if (recHidden === 0) document.getElementById("recs-fade")?.style.setProperty("display","none");
-  }
-
   function unlockGate(spamPct) {
-    // Remove height clips so all content is visible
-    const contentChecks = document.getElementById("content-checks");
-    const repChecks = document.getElementById("reputation-checks");
-    const recList = document.getElementById("recommendations-list");
-    if (contentChecks) { contentChecks.style.maxHeight = ""; contentChecks.style.overflow = ""; }
-    if (repChecks)     { repChecks.style.maxHeight = "";     repChecks.style.overflow = ""; }
-    if (recList)       { recList.style.maxHeight = "";       recList.style.overflow = ""; }
-    // Hide all fade overlays
-    ["content-checks-fade","reputation-checks-fade","recs-fade"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = "none";
-    });
-    // Show recommendations section if it has content
+    // Show recommendations section if any category has items
     const recSection = document.getElementById("recommendations-section");
-    if (recSection && recList?.children.length) recSection.classList.remove("hidden");
-    // Collapse the email capture card to just the success message
+    const hasRecs = ["deliverability-recs-list","reputation-recs-list","content-recs-list"]
+      .some(id => (document.getElementById(id)?.children.length ?? 0) > 0);
+    if (recSection && hasRecs) recSection.classList.remove("hidden");
+    // Hide email capture card
     document.getElementById("report-form")?.classList.add("hidden");
     const card = document.getElementById("email-capture-card");
     if (card) card.style.display = "none";
-    // Show AI fix card if spam warrants it
-    if ((spamPct ?? 0) > 20 && testId) {
+    // Show AI fix section
+    if (testId) {
       document.getElementById("ai-fix-section")?.classList.remove("hidden");
+      if (!aiFixStarted) fetchAiFix();
     }
   }
 
   // ─── Wire up interactions ─────────────────────────────────────────────────
 
   function resetState() {
-    testCode = "";
-    testId   = "";
+    testCode    = "";
+    testId      = "";
+    viewToken   = "";
+    reportToken = "";
     seedInboxes = [];
     testState = {};
     aiFixStarted = false;
@@ -1068,16 +1355,15 @@ const SEED_INBOXES_FALLBACK = [
       s.querySelector(".step-dot").innerHTML = "";
     });
     // Re-lock gated section
-    const contentChecks = document.getElementById("content-checks");
-    const repChecks     = document.getElementById("reputation-checks");
-    const recList       = document.getElementById("recommendations-list");
-    if (contentChecks) { contentChecks.style.maxHeight = "148px"; contentChecks.style.overflow = "hidden"; }
-    if (repChecks)     { repChecks.style.maxHeight = "204px";     repChecks.style.overflow = "hidden"; }
-    if (recList)       { recList.style.maxHeight = "72px";        recList.style.overflow = "hidden"; }
-    ["content-checks-fade","reputation-checks-fade","recs-fade"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = "";
+    // Reset recommendation categories
+    ["deliverability-recs-section","reputation-recs-section","content-recs-section"].forEach(id => {
+      document.getElementById(id)?.classList.add("hidden");
     });
+    // Reset reputation badge
+    const repBadge = document.getElementById("rep-overall-badge");
+    if (repBadge) { repBadge.classList.add("hidden"); repBadge.style.cssText = ""; }
+    const contentBadge = document.getElementById("content-score-badge");
+    if (contentBadge) { contentBadge.classList.add("hidden"); contentBadge.style.cssText = ""; }
     const captureCard = document.getElementById("email-capture-card");
     if (captureCard) captureCard.style.display = "";
     document.getElementById("report-form")?.classList.remove("hidden");
@@ -1107,10 +1393,11 @@ const SEED_INBOXES_FALLBACK = [
 
     try {
       const data = await apiPost("/open/deliverability/tests", body);
-      testId    = data.id;
-      testCode  = data.trackingCode;
+      testId     = data.id;
+      testCode   = data.trackingCode;
+      viewToken  = data.viewToken || "";
       testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: data.contentAnalysis };
-      seedInboxes = (data.seedInboxes || SEED_INBOXES_FALLBACK).map(s => ({
+      seedInboxes = (data.seedInboxes?.length ? data.seedInboxes : SEED_INBOXES_FALLBACK).map(s => ({
         ...s, provider: s.provider || guessProvider(s.email),
       }));
     } catch {
@@ -1127,8 +1414,10 @@ const SEED_INBOXES_FALLBACK = [
 
   document.addEventListener("DOMContentLoaded", () => {
 
-    // Auto-initialize on page load — generate code and show seed inboxes immediately
-    initializeTest();
+    // Only create a fresh test if NOT loading from an emailed link (?testId= in URL)
+    if (!new URLSearchParams(window.location.search).get("testId")) {
+      initializeTest();
+    }
 
     // Copy tracking code
     document.getElementById("copy-code-btn").addEventListener("click", function() {
@@ -1151,7 +1440,7 @@ const SEED_INBOXES_FALLBACK = [
       });
 
       if (testId) {
-        apiPost(`/open/deliverability/tests/${testId}/mark-sent`, {}).catch(() => {});
+        apiPost(withToken(`/open/deliverability/tests/${testId}/mark-sent`), {}).catch(() => {});
       }
 
       runAnalysisAnimation(async () => {
@@ -1161,7 +1450,7 @@ const SEED_INBOXES_FALLBACK = [
           for (let attempt = 0; attempt < 18; attempt++) {
             await new Promise(r => setTimeout(r, 5000));
             try {
-              const data = await apiGet(`/open/deliverability/tests/${testId}/results`);
+              const data = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
               if (data.status === "completed") { results = data; break; }
             } catch {}
           }
@@ -1173,43 +1462,39 @@ const SEED_INBOXES_FALLBACK = [
         }
         const { score, issues = [], positives = [], recommendations = [] } = contentAnalysis;
 
-        let inboxPct, promoPct, spamPct;
-        if (results?.placement?.total > 0) {
-          const t = results.placement.total;
-          inboxPct = Math.round((results.placement.inbox / t) * 100);
-          spamPct  = Math.round((results.placement.spam  / t) * 100);
-          promoPct = 100 - inboxPct - spamPct;
-        } else {
-          const s = score;
-          inboxPct = s >= 80 ? 82 + Math.floor(Math.random() * 8)
-                   : s >= 60 ? 62 + Math.floor(Math.random() * 12)
-                   : s >= 40 ? 42 + Math.floor(Math.random() * 15)
-                   :           20 + Math.floor(Math.random() * 20);
-          spamPct  = s >= 80 ?  2 + Math.floor(Math.random() * 4)
-                   : s >= 60 ?  6 + Math.floor(Math.random() * 8)
-                   : s >= 40 ? 15 + Math.floor(Math.random() * 15)
-                   :           30 + Math.floor(Math.random() * 25);
-          promoPct = 100 - inboxPct - spamPct;
-        }
+        const _pcts = derivePlacementPcts(results?.placement, results?.seedResults);
+        let inboxPct = _pcts?.inboxPct ?? 0;
+        let spamPct  = _pcts?.spamPct  ?? 0;
+        let promoPct = _pcts?.promoPct ?? 0;
 
         const overallScore = results?.overallScore ?? Math.round(score * 0.6 + (inboxPct / 100) * 40);
 
-        const senderLabel = results?.senderReputation?.domain
-          ? `Domain: ${results.senderReputation.domain} · Test ${testCode}`
-          : testCode ? `Test ${testCode}` : "";
+        const domain = results?.senderReputation?.domain || results?.contactEmail?.split("@")[1] || "";
+        const senderLabel = domain ? `Sender: ${results?.contactEmail || domain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
         document.getElementById("results-sender").textContent = senderLabel;
+        const titleEl = document.getElementById("report-domain-title");
+        if (titleEl && domain) titleEl.textContent = `Report: ${domain}`;
+        const resultsCode = document.getElementById("results-tracking-code");
+        if (resultsCode) resultsCode.textContent = testCode;
 
         testState.spamPct = spamPct;
 
-        // Pre-fetch AI fix in background if spam rate warrants it
-        if (spamPct > 20 && testId) fetchAiFix();
+        // Build categorized recommendations
+        const reputationRecs = extractReputationRecs(results?.senderReputation ?? null);
+        const deliverabilityRecs = [];
+        if (spamPct > 30) deliverabilityRecs.push(`${spamPct}% of your emails landed in spam. Fix SPF/DKIM/DMARC immediately and remove spam trigger words from your content.`);
+        else if (spamPct > 15) deliverabilityRecs.push(`${spamPct}% of emails hit spam. Review your sender reputation checks and remove any trigger words from your content.`);
+        if (inboxPct < 50) deliverabilityRecs.push("Less than half your emails reach the primary inbox. Review all authentication checks and consider warming up on a fresh domain.");
+        if (promoPct > 40) deliverabilityRecs.push("Over 40% of emails land in Promotions. Use plain text, reduce links, and write in a personal one-to-one tone.");
 
         renderScoreRing(Math.max(0, Math.min(100, overallScore)));
         renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
         renderContentChecks(issues, positives);
         renderReputationChecks(testState.email || "", results?.senderReputation ?? null);
-        renderRecommendations(recommendations);
-        updateGatePreviews();
+        renderRecommendations(recommendations, reputationRecs, deliverabilityRecs);
+        // Prefer seed inboxes returned with results (actual inboxes used) over the creation-time list
+        if (results?.seedInboxes?.length) seedInboxes = results.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
+        renderSeedTable(seedInboxes?.length ? seedInboxes : SEED_INBOXES_FALLBACK, results?.seedResults ?? null);
 
         showStep(3);
         document.getElementById("btn-recalculate").disabled = false;
@@ -1258,12 +1543,11 @@ const SEED_INBOXES_FALLBACK = [
       btn.textContent = "Sending…";
 
       try {
-        const data = await apiPost(`/open/deliverability/tests/${testId}/send-report`, { email });
+        const data = await apiPost(withToken(`/open/deliverability/tests/${testId}/send-report`), { email });
         if (data.success) {
           document.getElementById("report-form").classList.add("hidden");
           document.getElementById("report-success").classList.remove("hidden");
-          // Unlock the gate after a short delay so user sees confirmation
-          setTimeout(() => unlockGate(testState.spamPct), 1800);
+          // Full data is only accessible via the emailed link — do not unlock here
         } else {
           errorEl.textContent = data.message || "Failed to send. Please try again.";
           errorEl.classList.remove("hidden");
@@ -1278,10 +1562,13 @@ const SEED_INBOXES_FALLBACK = [
       }
     });
 
-    // Load full results from URL ?testId= (emailed link)
-    const urlTestId = new URLSearchParams(window.location.search).get("testId");
+    // Load full results from URL ?testId=&token= (emailed link)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTestId = urlParams.get("testId");
     if (urlTestId) {
-      testId = urlTestId;
+      testId      = urlTestId;
+      viewToken   = urlParams.get("token") || "";
+      reportToken = urlParams.get("reportToken") || "";
       showStep(2);
       document.querySelectorAll(".analysis-step").forEach(s => {
         s.classList.remove("active", "done");
@@ -1289,41 +1576,84 @@ const SEED_INBOXES_FALLBACK = [
       });
       runAnalysisAnimation(async () => {
         try {
-          const data = await apiGet(`/open/deliverability/tests/${testId}/results`);
+          // Use full-report endpoint when reportToken is present (emailed link)
+          const endpoint = reportToken
+            ? withReportToken(`/open/deliverability/tests/${testId}/full-report`)
+            : withToken(`/open/deliverability/tests/${testId}/results`);
+          const data = await apiGet(endpoint);
           const contentAnalysis = data.contentAnalysis || {};
           const { issues = [], positives = [], recommendations = [] } = contentAnalysis;
           const overallScore = data.overallScore ?? 0;
 
-          let inboxPct = 0, promoPct = 0, spamPct = 0;
-          if (data.placement?.total > 0) {
-            const t = data.placement.total;
-            inboxPct = Math.round((data.placement.inbox / t) * 100);
-            spamPct  = Math.round((data.placement.spam  / t) * 100);
-            promoPct = 100 - inboxPct - spamPct;
-          }
+          const _pcts2 = derivePlacementPcts(data.placement, data.seedResults);
+          let inboxPct = _pcts2?.inboxPct ?? 0;
+          let spamPct  = _pcts2?.spamPct  ?? 0;
+          let promoPct = _pcts2?.promoPct ?? 0;
 
           testState = { subject: "", body: "" };
           testCode = data.trackingCode || "";
           const sentDomain = data.senderReputation?.domain || data.contactEmail?.split("@")[1] || "";
           document.getElementById("results-sender").textContent =
             sentDomain ? `Domain: ${sentDomain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
+          const resultsCodeEl = document.getElementById("results-tracking-code");
+          if (resultsCodeEl) resultsCodeEl.textContent = testCode;
+
+          const repRecs = extractReputationRecs(data.senderReputation ?? null);
+          const delivRecs = [];
+          if (spamPct > 30) delivRecs.push(`${spamPct}% of your emails landed in spam. Fix SPF/DKIM/DMARC immediately and remove spam trigger words.`);
+          else if (spamPct > 15) delivRecs.push(`${spamPct}% of emails hit spam. Review your sender reputation checks and email content.`);
+          if (inboxPct < 50) delivRecs.push("Less than half your emails reach the primary inbox. Review all authentication checks.");
+          if ((100 - inboxPct - spamPct) > 40) delivRecs.push("Over 40% of emails land in Promotions. Use plain text, fewer links, and a more personal tone.");
 
           renderScoreRing(Math.max(0, Math.min(100, overallScore)));
           renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
           renderContentChecks(issues, positives);
           renderReputationChecks(data.contactEmail || "", data.senderReputation ?? null);
-          renderRecommendations(recommendations);
+          renderRecommendations(recommendations, repRecs, delivRecs);
+          renderSeedTable((data.seedInboxes?.length ? data.seedInboxes : SEED_INBOXES_FALLBACK), data.seedResults ?? null);
           showStep(3);
-          // Pre-fetch AI fix in background if spam rate warrants it
-          if (spamPct > 20) fetchAiFix();
-          // Full view from emailed link — unlock immediately
-          unlockGate(spamPct);
+          // Full report from emailed link — unlock gate
+          if (reportToken) unlockGate(spamPct);
         } catch {
-          // If load fails, initialize a fresh test
-          initializeTest();
+          // reportToken invalid or expired — fall back to limited results view
+          reportToken = "";
+          try {
+            const limited = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
+            const { issues = [], positives = [], recommendations = [] } = limited.contentAnalysis || {};
+            const overallScore = limited.overallScore ?? 0;
+            const _pcts3 = derivePlacementPcts(limited.placement, limited.seedResults);
+            let inboxPct = _pcts3?.inboxPct ?? 0;
+            let spamPct  = _pcts3?.spamPct  ?? 0;
+            let promoPct = _pcts3?.promoPct ?? 0;
+            testCode = limited.trackingCode || "";
+            const limCodeEl = document.getElementById("results-tracking-code");
+            if (limCodeEl) limCodeEl.textContent = testCode;
+            renderScoreRing(Math.max(0, Math.min(100, overallScore)));
+            renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
+            renderContentChecks(issues, positives);
+            renderReputationChecks("", limited.senderReputation ?? null);
+            renderRecommendations(recommendations, extractReputationRecs(limited.senderReputation ?? null), []);
+            renderSeedTable((limited.seedInboxes?.length ? limited.seedInboxes : SEED_INBOXES_FALLBACK), limited.seedResults ?? null);
+            showStep(3);
+          } catch {
+            initializeTest();
+          }
         }
       });
     }
+
+    // Copy tracking code on results page
+    document.getElementById("copy-results-code-btn")?.addEventListener("click", function() {
+      copyText(testCode, this);
+    });
+
+    // Generate AI content button (always visible in content analysis)
+    document.getElementById("btn-generate-ai-content")?.addEventListener("click", () => {
+      const section = document.getElementById("ai-fix-section");
+      section?.classList.remove("hidden");
+      if (!aiFixStarted && testId) fetchAiFix();
+      section?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
 
     // AI fix copy buttons
     document.getElementById("copy-ai-subject").addEventListener("click", function() {
