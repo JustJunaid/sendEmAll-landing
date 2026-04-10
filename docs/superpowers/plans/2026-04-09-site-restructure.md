@@ -895,14 +895,14 @@ git commit -m "Content audit: remove em dashes, enforce warmup keyword, update o
 
 **Why:** Airtable iframes break GTM/GA attribution tracking. UTM parameters, referrer, and session data cannot be passed into an iframe. This means we lose all attribution on form submissions — we can't tell which channel, campaign, or page drove the conversion.
 
-**Solution:** Replace the `AirtableForm.astro` iframe component with custom HTML forms that POST to Airtable's API via a lightweight serverless function (Cloudflare Worker or Astro API route). Hidden fields capture UTMs from the URL and pass them with the submission.
+**Solution:** Replace the `AirtableForm.astro` iframe component with custom HTML forms that POST to Airtable's API via a Vercel Serverless Function (or Astro SSR API route deployed on Vercel). Hidden fields capture UTMs from the URL and pass them with the submission.
 
 **Files:**
 - Modify: `src/layouts/components/widgets/AirtableForm.astro` (replace iframe with custom form)
 - Create: `src/layouts/components/widgets/LeadMagnetForm.astro` (Form A — 4 fields)
 - Create: `src/layouts/components/widgets/ServiceRequestForm.astro` (Form B — 4 fields)
 - Create: `src/layouts/components/widgets/ProductInterestForm.astro` (Form C — 4 fields)
-- Create: API endpoint for form submission (Cloudflare Worker or `src/pages/api/form-submit.ts`)
+- Create: API endpoint for form submission (Vercel Serverless Function at `api/form-submit.ts` or Astro SSR route at `src/pages/api/form-submit.ts`)
 - Modify: Pages that embed AirtableForm (swap to new components)
 
 **Pages using forms:**

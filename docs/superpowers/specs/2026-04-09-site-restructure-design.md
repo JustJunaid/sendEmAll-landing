@@ -1,7 +1,8 @@
 # SendEmAll Site Restructure: Signal-Based Positioning
 
 **Date:** 2026-04-09
-**Status:** Design spec (pending user review)
+**Updated:** 2026-04-11
+**Status:** Implemented and deployed. Remaining: custom forms (Task 16), placeholder values (Task 17), visual QA (Task 18), exit intent (Task 13, deferred).
 
 ---
 
@@ -715,10 +716,50 @@ Three tables in one base:
 - **Service Requests** (Form B submissions) - status pipeline: New -> Quoted -> In Progress -> Delivered
 - **Product Interest** (Form C submissions) - status pipeline: New -> Contacted -> Demo'd -> Waiting for Launch
 
+Additional fields on every table (auto-populated by custom forms):
+- `utm_source` (text)
+- `utm_medium` (text)
+- `utm_campaign` (text)
+- `utm_content` (text)
+- `utm_term` (text)
+- `referrer` (URL)
+- `landing_page` (URL)
+
 Automations:
 - New submission in any table -> email notification to team
 - New submission -> confirmation email to the lead
 - Daily digest of all new submissions
+
+### Form implementation: Custom HTML forms (NOT Airtable iframe embeds)
+
+**Why not iframes:** Airtable's embed iframes break GTM/GA attribution tracking. UTM parameters, referrer data, and session information cannot be passed into a cross-origin iframe. This means every form submission loses its attribution source, making it impossible to tell which channel, campaign, or page drove the conversion.
+
+**Implementation approach:**
+1. **Custom Astro components** for each form type (LeadMagnetForm, ServiceRequestForm, ProductInterestForm)
+2. **Vercel Serverless Function** as API proxy (`/api/form-submit`) that receives form data and POSTs to Airtable API. The Airtable API key stays server-side, never exposed to the browser.
+3. **UTM capture script** that reads URL params on page load, stores them in `sessionStorage` (persists across page navigations), and populates hidden form fields on render.
+
+**Environment variables (Vercel):**
+- `AIRTABLE_API_KEY` — Personal Access Token
+- `AIRTABLE_BASE_ID` — Base ID
+- `AIRTABLE_TABLE_LEAD_MAGNET` — Table ID for Form A
+- `AIRTABLE_TABLE_SERVICE_REQUEST` — Table ID for Form B
+- `AIRTABLE_TABLE_PRODUCT_INTEREST` — Table ID for Form C
+
+**Form UX requirements:**
+- Match site dark theme (rounded-2xl, border-border-light, bg-theme-dark, Tailwind classes)
+- Client-side validation before submit (required fields, email format)
+- Loading state on submit button (disable + spinner)
+- Success message inline (don't redirect)
+- Error message inline with retry option
+- Noscript fallback: link to Airtable form directly
+
+**Current state:** The site currently uses an `AirtableForm.astro` iframe component with placeholder URLs (`FORM_A_ID`, `FORM_B_ID`, `FORM_C_ID`). This component and all pages that use it need to be replaced with the custom form components. See Task 16 in the implementation plan.
+
+**Pages to update:**
+- `/services/free-leads` — Form A (lead magnet)
+- `/services/custom-scraping` — Form B (service request)
+- `/services/cold-email-infrastructure` — Form B (service request, for managed setup tier)
 
 ---
 
@@ -737,12 +778,13 @@ Automations:
 
 ## Transition Plan
 
-### Phase 1 (Now)
+### Phase 1 (Now — site restructure deployed, forms pending)
 - All product page CTAs -> Airtable Form C ("Get Access")
 - All service page CTAs -> Airtable Form A/B or Stripe links
 - Homepage hero CTA -> Airtable Form A ("Get 100 Potential Buyers")
 - Fulfill lead requests manually using LeadGen scrapers
 - Infrastructure sales via Stripe (immediate revenue)
+- **Next step:** Replace Airtable iframe embeds with custom HTML forms (Task 16) for GTM/GA attribution tracking. Deploy to Vercel. Fill Stripe placeholder links and mailbox pricing (Task 17).
 
 ### Phase 2 (When LeadGen stabilizes)
 - "Get 100 Free Leads" becomes semi-automated: form triggers LeadGen API, results delivered automatically
@@ -764,7 +806,7 @@ Automations:
 - Old problem section ("The outbound stack is broken" / tool consolidation) -> new "Old Way vs New Way" signal framing
 - /solutions/* pages (4 pages) -> redirected to /products/* or /services/*
 - "Start Free" / "Get 100 Free Credits" CTAs -> "Get 100 Qualified Potential Buyers" / "Get Access"
-- Current signup flow (app.sendemall.com/signup) -> Airtable forms (temporary until platform is ready)
+- Current signup flow (app.sendemall.com/signup) -> Custom HTML forms posting to Airtable API (temporary until platform is ready). Initially deployed as Airtable iframe embeds, being replaced with custom forms for UTM attribution tracking.
 
 ### Kept as-is
 - Dark theme, Upstart template design language, animations, glass effects
@@ -784,9 +826,9 @@ Automations:
 - 4 service pages (/services/*) with dedicated Apollo and Sales Nav scraper pages
 - 5 use case pages (/use-cases/*)
 - 1 free tool page (/tools/email-deliverability-test)
-- Airtable integration (3 forms)
-- Stripe integration on infrastructure page
-- Exit intent popups
+- Custom HTML forms posting to Airtable API via Vercel Serverless Function (3 form types, with UTM attribution tracking). Replaces initial Airtable iframe approach.
+- Stripe integration on infrastructure page (placeholder links, pending real Stripe products)
+- Exit intent popups (deferred)
 - Updated navigation (Products + Services + Use Cases dropdowns)
 - Signal/Intent explainer sections on homepage
 - "What We Monitor" signals showcase section
