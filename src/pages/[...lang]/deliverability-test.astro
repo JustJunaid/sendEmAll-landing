@@ -1159,16 +1159,19 @@ const SEED_INBOXES_FALLBACK = [
       const fallback = Array.isArray(seedResults) ? seedResults.find(r => r.email === s.email) : null;
       const pl = s.placementStatus || s.placement || fallback?.placementStatus || fallback?.placement || null;
 
+      const plLower = pl ? pl.toLowerCase() : null;
       let badgeHtml;
-      if (!pl) {
-        badgeHtml = `<span class="inline-flex rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">Pending</span>`;
-      } else if (pl === "inbox") {
+      if (!plLower || plLower === "unknown" || plLower === "not_found") {
+        badgeHtml = `<span class="inline-flex items-center gap-1.5 rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]"><svg class="animate-spin h-2.5 w-2.5" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Checking…</span>`;
+      } else if (plLower === "inbox") {
         const label = provider === "Gmail" ? "Inbox (Primary)" : "Inbox";
         badgeHtml = `<span class="inline-flex rounded border border-[#4ade80]/30 bg-[#4ade80]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#4ade80]">${label}</span>`;
-      } else if (pl === "promotions" || pl === "promo") {
+      } else if (plLower === "promotions" || plLower === "promo") {
         badgeHtml = `<span class="inline-flex rounded border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#fbbf24]">Promotions</span>`;
-      } else if (pl === "spam") {
+      } else if (plLower === "spam") {
         badgeHtml = `<span class="inline-flex rounded border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-red-400">Spam</span>`;
+      } else if (plLower === "updates" || plLower === "social") {
+        badgeHtml = `<span class="inline-flex rounded border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#fbbf24]">${pl}</span>`;
       } else {
         badgeHtml = `<span class="inline-flex rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">${pl}</span>`;
       }
@@ -1446,59 +1449,79 @@ const SEED_INBOXES_FALLBACK = [
       runAnalysisAnimation(async () => {
         let results = null;
 
+        // Phase 1: show results as soon as the first successful API response arrives (poll every 30s)
         if (testId) {
-          for (let attempt = 0; attempt < 18; attempt++) {
-            await new Promise(r => setTimeout(r, 5000));
+          for (let attempt = 0; attempt < 10; attempt++) {
+            await new Promise(r => setTimeout(r, 30000));
             try {
               const data = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
-              if (data.status === "completed") { results = data; break; }
+              results = data;
+              break; // hide loader on first 200 response regardless of status
             } catch {}
           }
         }
 
-        let contentAnalysis = results?.contentAnalysis || testState.contentAnalysis;
-        if (!contentAnalysis) {
-          contentAnalysis = analyzeContent(testState.subject, testState.body);
+        function applyResults(r) {
+          let contentAnalysis = r?.contentAnalysis || testState.contentAnalysis;
+          if (!contentAnalysis) contentAnalysis = analyzeContent(testState.subject, testState.body);
+          const { score, issues = [], positives = [], recommendations = [] } = contentAnalysis;
+
+          const _pcts = derivePlacementPcts(r?.placement, r?.seedResults);
+          const inboxPct = _pcts?.inboxPct ?? 0;
+          const spamPct  = _pcts?.spamPct  ?? 0;
+          const promoPct = _pcts?.promoPct ?? 0;
+
+          const overallScore = r?.overallScore ?? Math.round(score * 0.6 + (inboxPct / 100) * 40);
+
+          const domain = r?.senderReputation?.domain || r?.contactEmail?.split("@")[1] || "";
+          const senderLabel = domain ? `Sender: ${r?.contactEmail || domain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
+          document.getElementById("results-sender").textContent = senderLabel;
+          const titleEl = document.getElementById("report-domain-title");
+          if (titleEl && domain) titleEl.textContent = `Report: ${domain}`;
+          const resultsCode = document.getElementById("results-tracking-code");
+          if (resultsCode) resultsCode.textContent = testCode;
+
+          testState.spamPct = spamPct;
+
+          const reputationRecs = extractReputationRecs(r?.senderReputation ?? null);
+          const deliverabilityRecs = [];
+          if (spamPct > 30) deliverabilityRecs.push(`${spamPct}% of your emails landed in spam. Fix SPF/DKIM/DMARC immediately and remove spam trigger words from your content.`);
+          else if (spamPct > 15) deliverabilityRecs.push(`${spamPct}% of emails hit spam. Review your sender reputation checks and remove any trigger words from your content.`);
+          if (inboxPct < 50) deliverabilityRecs.push("Less than half your emails reach the primary inbox. Review all authentication checks and consider warming up on a fresh domain.");
+          if (promoPct > 40) deliverabilityRecs.push("Over 40% of emails land in Promotions. Use plain text, reduce links, and write in a personal one-to-one tone.");
+
+          renderScoreRing(Math.max(0, Math.min(100, overallScore)));
+          renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
+          renderContentChecks(issues, positives);
+          renderReputationChecks(testState.email || "", r?.senderReputation ?? null);
+          renderRecommendations(recommendations, reputationRecs, deliverabilityRecs);
+          if (r?.seedInboxes?.length) seedInboxes = r.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
+          renderSeedTable(seedInboxes?.length ? seedInboxes : SEED_INBOXES_FALLBACK, r?.seedResults ?? null);
         }
-        const { score, issues = [], positives = [], recommendations = [] } = contentAnalysis;
 
-        const _pcts = derivePlacementPcts(results?.placement, results?.seedResults);
-        let inboxPct = _pcts?.inboxPct ?? 0;
-        let spamPct  = _pcts?.spamPct  ?? 0;
-        let promoPct = _pcts?.promoPct ?? 0;
-
-        const overallScore = results?.overallScore ?? Math.round(score * 0.6 + (inboxPct / 100) * 40);
-
-        const domain = results?.senderReputation?.domain || results?.contactEmail?.split("@")[1] || "";
-        const senderLabel = domain ? `Sender: ${results?.contactEmail || domain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
-        document.getElementById("results-sender").textContent = senderLabel;
-        const titleEl = document.getElementById("report-domain-title");
-        if (titleEl && domain) titleEl.textContent = `Report: ${domain}`;
-        const resultsCode = document.getElementById("results-tracking-code");
-        if (resultsCode) resultsCode.textContent = testCode;
-
-        testState.spamPct = spamPct;
-
-        // Build categorized recommendations
-        const reputationRecs = extractReputationRecs(results?.senderReputation ?? null);
-        const deliverabilityRecs = [];
-        if (spamPct > 30) deliverabilityRecs.push(`${spamPct}% of your emails landed in spam. Fix SPF/DKIM/DMARC immediately and remove spam trigger words from your content.`);
-        else if (spamPct > 15) deliverabilityRecs.push(`${spamPct}% of emails hit spam. Review your sender reputation checks and remove any trigger words from your content.`);
-        if (inboxPct < 50) deliverabilityRecs.push("Less than half your emails reach the primary inbox. Review all authentication checks and consider warming up on a fresh domain.");
-        if (promoPct > 40) deliverabilityRecs.push("Over 40% of emails land in Promotions. Use plain text, reduce links, and write in a personal one-to-one tone.");
-
-        renderScoreRing(Math.max(0, Math.min(100, overallScore)));
-        renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
-        renderContentChecks(issues, positives);
-        renderReputationChecks(testState.email || "", results?.senderReputation ?? null);
-        renderRecommendations(recommendations, reputationRecs, deliverabilityRecs);
-        // Prefer seed inboxes returned with results (actual inboxes used) over the creation-time list
-        if (results?.seedInboxes?.length) seedInboxes = results.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
-        renderSeedTable(seedInboxes?.length ? seedInboxes : SEED_INBOXES_FALLBACK, results?.seedResults ?? null);
-
+        applyResults(results);
         showStep(3);
         document.getElementById("btn-recalculate").disabled = false;
         document.getElementById("recalc-icon").classList.remove("animate-spin");
+
+        // Phase 2: keep polling in background every 30s for up to 5 min total if not yet completed
+        if (results?.status !== "completed" && testId) {
+          (async () => {
+            for (let attempt = 0; attempt < 9; attempt++) {
+              await new Promise(r => setTimeout(r, 30000));
+              try {
+                const data = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
+                results = data;
+                if (data.seedInboxes?.length) seedInboxes = data.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
+                renderSeedTable(seedInboxes?.length ? seedInboxes : SEED_INBOXES_FALLBACK, data.seedResults ?? null);
+                if (data.status === "completed") {
+                  applyResults(data);
+                  break;
+                }
+              } catch {}
+            }
+          })();
+        }
       });
     }
 
