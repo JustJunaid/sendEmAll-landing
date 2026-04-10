@@ -101,8 +101,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
       console.error("Airtable error:", JSON.stringify(err));
-      // Return Airtable's error detail to aid debugging — tighten before GA
-      return json({ error: "Submission failed. Please try again.", detail: err }, 502);
+      return json({ error: "Submission failed. Please try again." }, 502);
     }
 
     return json({ success: true });
