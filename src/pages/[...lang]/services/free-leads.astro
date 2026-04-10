@@ -1,6 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
-import AirtableForm from "@/layouts/components/widgets/AirtableForm.astro";
+import LeadMagnetForm from "@/layouts/components/widgets/LeadMagnetForm.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 
 export function getStaticPaths() {
@@ -150,12 +150,7 @@ const trustSignals = [
   <section id="lead-form" class="py-20 sm:py-28">
     <div class="container">
       <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
-        <AirtableForm
-          formUrl="https://airtable.com/embed/FORM_A_ID"
-          title="Describe your ideal customer"
-          description="We'll match 100 companies showing buying signals to your ICP and deliver verified decision maker contacts within 48 hours."
-          height="700px"
-        />
+        <LeadMagnetForm />
       </div>
     </div>
   </section>

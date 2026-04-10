@@ -13,9 +13,6 @@ contactList:
     - icon: "/images/icons/svg/email.svg"
       label: "Email us"
       value: "contact@sendemall.com"
-    - icon: "/images/icons/svg/whatsapp.svg"
-      label: "Chat with us"
-      value: "+91-9211662744"
 
 social:
   enable: true

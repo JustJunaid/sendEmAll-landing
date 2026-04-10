@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # SendEmAll Marketing Site — Claude Code Instructions
 
 ## Start Here
@@ -14,10 +18,60 @@ Marketing site for SendEmAll — the all-in-one outbound platform. Replaces the 
 
 ## Tech Stack
 - **Astro 5/6** — zero-JS-by-default, islands for interactivity
-- **Tailwind CSS 4** — utility-first, custom color palette
+- **Tailwind CSS 4** — utility-first via Vite plugin (no standalone tailwind.config.js)
 - **TypeScript** — strict mode
 - **Sora** — Google Font, weights 300-800
 - **Content Collections** — for blog (MDX)
+
+---
+
+## Commands
+
+```bash
+npm run dev          # Start dev server (runs TOML watcher + Astro dev)
+npm run build        # Full build: TOML watch → Astro build → remove drafts from sitemap
+npm run preview      # Preview built output locally
+npm run astro-check  # TypeScript type checking
+npm run format       # Prettier formatting on src/
+npm run test         # Jest (watch mode)
+```
+
+---
+
+## Architecture
+
+### Routing
+All pages live under `src/pages/[...lang]/` — a dynamic catch-all for i18n. The default language is English (`en`). Astro's file-based routing maps these to the expected URLs.
+
+### Path Aliases (tsconfig.json)
+```
+@/components/*  →  src/layouts/components/*
+@/shortcodes/*  →  src/layouts/shortcodes/*
+@/helpers/*     →  src/layouts/helpers/*
+@/*             →  src/*
+```
+
+### Layout System
+- `src/layouts/Base.astro` — root wrapper that wires Head, Header, Footer, GlobalScripts, CookieConsent
+- Section components live in `src/layouts/components/sections/` (~18 major sections: HomeBanner, PricingSection, BlogSection, etc.)
+- Shortcodes in `src/layouts/shortcodes/` are auto-imported into MDX (Button, Card, Accordion, Tabs, Testimonial, VideoInline, etc.)
+
+### Content Collections
+Defined in `src/content.config.ts` with glob loaders. Key collections:
+- **blog** — MD/MDX posts with categories, author, excerpt
+- **pages** — static pages
+- **homepage**, **pricing**, **faq**, **sections**, **changelog** — structured TOML/MD content
+
+Global config is generated at build time into `.astro/config.generated.json` from TOML files in `src/config/`.
+
+### Styling
+Tailwind CSS v4 is loaded via `@tailwindcss/vite` (no separate config file). Custom CSS lives in `src/styles/` (animation.css, buttons.css, navigation.css, theme.css, etc.). Custom font plugin: `fontTailwindPlugin.js`.
+
+### Deployment
+- **Vercel**: `vercel.json` + `vercel.sh` (sets site URL per environment, adds cache/security headers)
+- **Cloudflare**: `wrangler.toml` pointing to `./dist`, Node.js compat flag
+
+---
 
 ## Design Decisions (non-negotiable)
 - **Dark theme** — using purchased Upstart Astro template as design foundation. Keep its natural look and feel.

@@ -5,6 +5,7 @@ import AutoImport from "astro-auto-import";
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import rehypeExternalLinks from "rehype-external-links";
+import vercel from "@astrojs/vercel";
 import fontsJson from "./src/config/fonts.json";
 import config from "./.astro/config.generated.json";
 import { enabledLanguages } from "./src/lib/utils/i18nUtils.ts";
@@ -22,6 +23,7 @@ let {
 
 // https://astro.build/config
 export default defineConfig({
+  adapter: vercel(),
   site: config.site.baseUrl ? config.site.baseUrl : "https://sendemall.com",
   trailingSlash: config.site.trailingSlash ? "always" : "never",
   image: {

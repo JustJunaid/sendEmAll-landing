@@ -1,0 +1,226 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+}
+
+const {
+  title = "Describe your ideal customer",
+  description = "We'll match 100 companies showing buying signals to your ICP and deliver verified decision maker contacts within 48 hours.",
+  submitLabel = "Get My Free Potential Buyers",
+} = Astro.props;
+
+const formId = "lead-magnet-form";
+---
+
+<div class="rounded-2xl border border-border-light bg-theme-dark p-8 sm:p-10">
+  {title && (
+    <div class="mb-8 text-center">
+      <h3 class="mb-3 text-2xl font-bold text-white" set:html={title} />
+      {description && (
+        <p class="mx-auto max-w-xl text-[#C8C1D4]">{description}</p>
+      )}
+    </div>
+  )}
+
+  <form id={formId} novalidate>
+    <!-- Hidden UTM fields -->
+    <input type="hidden" name="formType" value="lead-magnet" />
+    <input type="hidden" name="utm_source" />
+    <input type="hidden" name="utm_medium" />
+    <input type="hidden" name="utm_campaign" />
+    <input type="hidden" name="utm_content" />
+    <input type="hidden" name="utm_term" />
+    <input type="hidden" name="referrer" />
+    <input type="hidden" name="landing_page" />
+
+    <div class="space-y-5">
+      <!-- Work Email -->
+      <div>
+        <label for={`${formId}-email`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          Work Email <span class="text-primary">*</span>
+        </label>
+        <input
+          id={`${formId}-email`}
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@company.com"
+          class="form-input w-full"
+        />
+      </div>
+
+      <!-- Company Name -->
+      <div>
+        <label for={`${formId}-company`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          Company Name <span class="text-primary">*</span>
+        </label>
+        <input
+          id={`${formId}-company`}
+          name="company"
+          type="text"
+          required
+          autocomplete="organization"
+          placeholder="Acme Corp"
+          class="form-input w-full"
+        />
+      </div>
+
+      <!-- ICP Description -->
+      <div>
+        <label for={`${formId}-icp`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          Describe your ideal customer <span class="text-primary">*</span>
+        </label>
+        <textarea
+          id={`${formId}-icp`}
+          name="icp"
+          required
+          rows="4"
+          placeholder="e.g. B2B SaaS companies, 50-200 employees, using HubSpot, actively hiring SDRs"
+          class="form-input w-full resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Volume -->
+      <div>
+        <label for={`${formId}-volume`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          How many potential buyers do you need per month? <span class="text-primary">*</span>
+        </label>
+        <select
+          id={`${formId}-volume`}
+          name="volume"
+          required
+          class="form-input w-full"
+        >
+          <option value="" disabled selected>Select volume</option>
+          <option value="Just testing (100)">Just testing (100)</option>
+          <option value="500-1,000">500-1,000</option>
+          <option value="1,000-5,000">1,000-5,000</option>
+          <option value="5,000+">5,000+</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Error message -->
+    <p id={`${formId}-error`} class="mt-4 hidden text-sm text-red-400"></p>
+
+    <!-- Submit -->
+    <button
+      id={`${formId}-submit`}
+      type="submit"
+      class="btn btn-md btn-primary mt-6 w-full"
+    >
+      {submitLabel}
+    </button>
+  </form>
+
+  <!-- Success message (hidden until submitted) -->
+  <div id={`${formId}-success`} class="hidden text-center">
+    <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+      <svg class="h-8 w-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h3 class="mb-2 text-xl font-bold text-white">You're on the list.</h3>
+    <p class="text-[#C8C1D4]">
+      We'll match 100 signal-qualified potential buyers to your ICP and deliver them within 48 hours.
+    </p>
+  </div>
+
+  <noscript>
+    <p class="mt-4 text-center text-sm text-[#C8C1D4]">
+      JavaScript is required to submit this form.
+      <a href="/contact" class="text-primary underline">Contact us directly.</a>
+    </p>
+  </noscript>
+</div>
+
+<script>
+  (function () {
+    const formId = "lead-magnet-form";
+    const form = document.getElementById(formId) as HTMLFormElement | null;
+    if (!form) return;
+
+    // Populate UTM fields from URL params + sessionStorage
+    const stored = sessionStorage.getItem("utm") ?? "{}";
+    let utm: Record<string, string> = {};
+    try { utm = JSON.parse(stored); } catch {}
+
+    const params = new URLSearchParams(window.location.search);
+    const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    for (const key of utmKeys) {
+      if (params.get(key)) utm[key] = params.get(key)!;
+    }
+    if (Object.keys(utm).length) sessionStorage.setItem("utm", JSON.stringify(utm));
+
+    for (const key of utmKeys) {
+      const el = form.querySelector<HTMLInputElement>(`[name="${key}"]`);
+      if (el && utm[key]) el.value = utm[key];
+    }
+    const referrerEl = form.querySelector<HTMLInputElement>('[name="referrer"]');
+    if (referrerEl) referrerEl.value = document.referrer;
+    const landingEl = form.querySelector<HTMLInputElement>('[name="landing_page"]');
+    if (landingEl) landingEl.value = window.location.href;
+
+    const submitBtn = document.getElementById(`${formId}-submit`) as HTMLButtonElement | null;
+    const errorEl = document.getElementById(`${formId}-error`);
+    const successEl = document.getElementById(`${formId}-success`);
+
+    function showError(msg: string) {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.classList.remove("hidden");
+    }
+    function clearError() {
+      if (!errorEl) return;
+      errorEl.textContent = "";
+      errorEl.classList.add("hidden");
+    }
+    function setLoading(loading: boolean) {
+      if (!submitBtn) return;
+      submitBtn.disabled = loading;
+      submitBtn.textContent = loading ? "Submitting..." : "Get My Free Potential Buyers";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const data = new FormData(form);
+      const email = (data.get("email") as string)?.trim();
+      const company = (data.get("company") as string)?.trim();
+      const icp = (data.get("icp") as string)?.trim();
+      const volume = data.get("volume") as string;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("Please enter a valid work email.");
+        return;
+      }
+      if (!company) { showError("Please enter your company name."); return; }
+      if (!icp) { showError("Please describe your ideal customer."); return; }
+      if (!volume) { showError("Please select a monthly volume."); return; }
+
+      const payload: Record<string, string> = {};
+      data.forEach((val, key) => { if (val) payload[key] = val as string; });
+
+      setLoading(true);
+      try {
+        const res = await fetch("/api/form-submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error ?? "Submission failed.");
+        form.classList.add("hidden");
+        successEl?.classList.remove("hidden");
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+        showError(msg);
+        setLoading(false);
+      }
+    });
+  })();
+</script>

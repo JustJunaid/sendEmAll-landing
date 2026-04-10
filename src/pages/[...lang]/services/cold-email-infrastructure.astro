@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import ServiceRequestForm from "@/layouts/components/widgets/ServiceRequestForm.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 
 export function getStaticPaths() {
@@ -46,7 +47,7 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
           <a href="#self-serve" class="btn btn-md btn-primary">
             Buy Mailboxes
           </a>
-          <a href="/contact" class="btn btn-md btn-outline-white">
+          <a href="#managed-setup" class="btn btn-md btn-outline-white">
             Need custom setup? Talk to us
           </a>
         </div>
@@ -206,6 +207,20 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
     </div>
   </section>
 
+  <!-- Managed Setup Form -->
+  <section id="managed-setup" class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+        <ServiceRequestForm
+          title="Need a custom setup?"
+          description="Tell us your sequencer, number of mailboxes, and any specific requirements. We'll quote within 24 hours and handle everything end to end."
+          submitLabel="Request Managed Setup"
+          placeholder="e.g. 30 Google Workspace mailboxes, add to Instantly, need DNS + warmup configured"
+        />
+      </div>
+    </div>
+  </section>
+
   <!-- Value Comparison -->
   <section class="py-20 sm:py-28">
     <div class="container">
@@ -240,7 +255,7 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
           <a href="#self-serve" class="btn btn-md btn-primary">
             Buy Mailboxes
           </a>
-          <a href="/contact" class="btn btn-md btn-outline-white">
+          <a href="#managed-setup" class="btn btn-md btn-outline-white">
             Need custom setup? Talk to us
           </a>
         </div>

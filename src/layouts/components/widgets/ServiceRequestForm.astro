@@ -1,0 +1,222 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+  placeholder?: string;
+}
+
+const {
+  title = "Tell us what you need",
+  description = "Describe the data source, the fields you want, and approximate volume. We will send a quote within 24 hours.",
+  submitLabel = "Submit Request",
+  placeholder = "Describe what you need — data source, fields, volume, format...",
+} = Astro.props;
+
+const formId = "service-request-form";
+---
+
+<div class="rounded-2xl border border-border-light bg-theme-dark p-8 sm:p-10">
+  {title && (
+    <div class="mb-8 text-center">
+      <h3 class="mb-3 text-2xl font-bold text-white" set:html={title} />
+      {description && (
+        <p class="mx-auto max-w-xl text-[#C8C1D4]">{description}</p>
+      )}
+    </div>
+  )}
+
+  <form id={formId} novalidate>
+    <!-- Hidden fields -->
+    <input type="hidden" name="formType" value="service-request" />
+    <input type="hidden" name="utm_source" />
+    <input type="hidden" name="utm_medium" />
+    <input type="hidden" name="utm_campaign" />
+    <input type="hidden" name="utm_content" />
+    <input type="hidden" name="utm_term" />
+    <input type="hidden" name="referrer" />
+    <input type="hidden" name="landing_page" />
+
+    <div class="space-y-5">
+      <!-- Work Email -->
+      <div>
+        <label for={`${formId}-email`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          Work Email <span class="text-primary">*</span>
+        </label>
+        <input
+          id={`${formId}-email`}
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@company.com"
+          class="form-input w-full"
+        />
+      </div>
+
+      <!-- Company Name -->
+      <div>
+        <label for={`${formId}-company`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          Company Name <span class="text-primary">*</span>
+        </label>
+        <input
+          id={`${formId}-company`}
+          name="company"
+          type="text"
+          required
+          autocomplete="organization"
+          placeholder="Acme Corp"
+          class="form-input w-full"
+        />
+      </div>
+
+      <!-- What do you need -->
+      <div>
+        <label for={`${formId}-need`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          What do you need? <span class="text-primary">*</span>
+        </label>
+        <textarea
+          id={`${formId}-need`}
+          name="need"
+          required
+          rows="5"
+          placeholder={placeholder}
+          class="form-input w-full resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Website (optional) -->
+      <div>
+        <label for={`${formId}-website`} class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+          Website <span class="text-[#C8C1D4]/50 text-xs font-normal">(optional)</span>
+        </label>
+        <input
+          id={`${formId}-website`}
+          name="website"
+          type="url"
+          autocomplete="url"
+          placeholder="https://yourcompany.com"
+          class="form-input w-full"
+        />
+      </div>
+    </div>
+
+    <!-- Error message -->
+    <p id={`${formId}-error`} class="mt-4 hidden text-sm text-red-400"></p>
+
+    <!-- Submit -->
+    <button
+      id={`${formId}-submit`}
+      type="submit"
+      class="btn btn-md btn-primary mt-6 w-full"
+    >
+      {submitLabel}
+    </button>
+  </form>
+
+  <!-- Success message -->
+  <div id={`${formId}-success`} class="hidden text-center">
+    <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+      <svg class="h-8 w-8 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h3 class="mb-2 text-xl font-bold text-white">Request received.</h3>
+    <p class="text-[#C8C1D4]">
+      We'll review your request and send a quote within 24 hours.
+    </p>
+  </div>
+
+  <noscript>
+    <p class="mt-4 text-center text-sm text-[#C8C1D4]">
+      JavaScript is required to submit this form.
+      <a href="/contact" class="text-primary underline">Contact us directly.</a>
+    </p>
+  </noscript>
+</div>
+
+<script>
+  (function () {
+    const formId = "service-request-form";
+    const form = document.getElementById(formId) as HTMLFormElement | null;
+    if (!form) return;
+
+    // UTM hydration
+    const stored = sessionStorage.getItem("utm") ?? "{}";
+    let utm: Record<string, string> = {};
+    try { utm = JSON.parse(stored); } catch {}
+
+    const params = new URLSearchParams(window.location.search);
+    const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    for (const key of utmKeys) {
+      if (params.get(key)) utm[key] = params.get(key)!;
+    }
+    if (Object.keys(utm).length) sessionStorage.setItem("utm", JSON.stringify(utm));
+
+    for (const key of utmKeys) {
+      const el = form.querySelector<HTMLInputElement>(`[name="${key}"]`);
+      if (el && utm[key]) el.value = utm[key];
+    }
+    const referrerEl = form.querySelector<HTMLInputElement>('[name="referrer"]');
+    if (referrerEl) referrerEl.value = document.referrer;
+    const landingEl = form.querySelector<HTMLInputElement>('[name="landing_page"]');
+    if (landingEl) landingEl.value = window.location.href;
+
+    const submitBtn = document.getElementById(`${formId}-submit`) as HTMLButtonElement | null;
+    const errorEl = document.getElementById(`${formId}-error`);
+    const successEl = document.getElementById(`${formId}-success`);
+
+    function showError(msg: string) {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.classList.remove("hidden");
+    }
+    function clearError() {
+      if (!errorEl) return;
+      errorEl.textContent = "";
+      errorEl.classList.add("hidden");
+    }
+    function setLoading(loading: boolean, label = "Submit Request") {
+      if (!submitBtn) return;
+      submitBtn.disabled = loading;
+      submitBtn.textContent = loading ? "Submitting..." : label;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      clearError();
+
+      const data = new FormData(form);
+      const email = (data.get("email") as string)?.trim();
+      const company = (data.get("company") as string)?.trim();
+      const need = (data.get("need") as string)?.trim();
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("Please enter a valid work email.");
+        return;
+      }
+      if (!company) { showError("Please enter your company name."); return; }
+      if (!need) { showError("Please describe what you need."); return; }
+
+      const payload: Record<string, string> = {};
+      data.forEach((val, key) => { if (val) payload[key] = val as string; });
+
+      setLoading(true);
+      try {
+        const res = await fetch("/api/form-submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error ?? "Submission failed.");
+        form.classList.add("hidden");
+        successEl?.classList.remove("hidden");
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+        showError(msg);
+        setLoading(false);
+      }
+    });
+  })();
+</script>

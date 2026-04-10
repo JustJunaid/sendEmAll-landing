@@ -1,6 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
-import AirtableForm from "@/layouts/components/widgets/AirtableForm.astro";
+import ServiceRequestForm from "@/layouts/components/widgets/ServiceRequestForm.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 
 export function getStaticPaths() {
@@ -165,12 +165,7 @@ const turnarounds = [
   <section id="request-form" class="py-20 sm:py-28">
     <div class="container">
       <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
-        <AirtableForm
-          formUrl="https://airtable.com/embed/FORM_B_ID"
-          title="Tell us what you need"
-          description="Describe the data source, the fields you want, and approximate volume. We will send a quote within 24 hours."
-          height="700px"
-        />
+        <ServiceRequestForm />
       </div>
     </div>
   </section>
