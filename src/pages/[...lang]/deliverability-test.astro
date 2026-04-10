@@ -1413,17 +1413,13 @@ const SEED_INBOXES_FALLBACK = [
   async function ensureTestCreated() {
     if (testId) return; // already created
     try {
-      const body = {};
+      const body = { trackingCode: testCode };
       if (testState.subject) body.subject = testState.subject;
       if (testState.body)    body.body    = testState.body;
       const data = await apiPost("/open/deliverability/tests", body);
       testId    = data.id;
-      testCode  = data.trackingCode;
       viewToken = data.viewToken || "";
-      // Update displayed tracking code with the real one from the server
-      document.getElementById("tracking-code").textContent = testCode;
-      const resultsCode = document.getElementById("results-tracking-code");
-      if (resultsCode) resultsCode.textContent = testCode;
+      // testCode is unchanged — server used the same code we sent
       // Use the confirmed seed inbox list from the server
       if (data.seedInboxes?.length) {
         seedInboxes = data.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
