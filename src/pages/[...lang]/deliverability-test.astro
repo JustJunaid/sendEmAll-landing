@@ -499,7 +499,7 @@ const SEED_INBOXES_FALLBACK = [
           </p>
           <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="https://app.sendemall.com/signup"
+              href="/services/free-leads"
               class="inline-flex items-center gap-2 rounded-lg bg-[#D2B3F3] px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8]"
             >
               Start free — 100 credits included
@@ -1384,35 +1384,54 @@ const SEED_INBOXES_FALLBACK = [
     return c;
   }
 
+  // Phase 1: load seed inboxes and show step 1 — does NOT create a DB record
   async function initializeTest(prefillSubject, prefillBody) {
-    // Show loading state
     document.getElementById("tracking-code").textContent = "Generating…";
     document.getElementById("inboxes-loading").classList.remove("hidden");
     document.getElementById("inbox-list").classList.add("hidden");
 
-    const body = {};
-    if (prefillSubject) body.subject = prefillSubject;
-    if (prefillBody) body.body = prefillBody;
+    testCode  = generateLocalCode();
+    testId    = "";
+    viewToken = "";
+    testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: null };
 
     try {
-      const data = await apiPost("/open/deliverability/tests", body);
-      testId     = data.id;
-      testCode   = data.trackingCode;
-      viewToken  = data.viewToken || "";
-      testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: data.contentAnalysis };
-      seedInboxes = (data.seedInboxes?.length ? data.seedInboxes : SEED_INBOXES_FALLBACK).map(s => ({
+      const data = await apiGet("/open/deliverability/seed-inboxes");
+      seedInboxes = (Array.isArray(data) && data.length ? data : SEED_INBOXES_FALLBACK).map(s => ({
         ...s, provider: s.provider || guessProvider(s.email),
       }));
     } catch {
-      testId    = "";
-      testCode  = generateLocalCode();
-      testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: null };
       seedInboxes = SEED_INBOXES_FALLBACK;
     }
 
     document.getElementById("tracking-code").textContent = testCode;
     showStep(1);
     renderInboxList(seedInboxes);
+  }
+
+  // Phase 2: create the DB record just before marking sent
+  async function ensureTestCreated() {
+    if (testId) return; // already created
+    try {
+      const body = {};
+      if (testState.subject) body.subject = testState.subject;
+      if (testState.body)    body.body    = testState.body;
+      const data = await apiPost("/open/deliverability/tests", body);
+      testId    = data.id;
+      testCode  = data.trackingCode;
+      viewToken = data.viewToken || "";
+      // Update displayed tracking code with the real one from the server
+      document.getElementById("tracking-code").textContent = testCode;
+      const resultsCode = document.getElementById("results-tracking-code");
+      if (resultsCode) resultsCode.textContent = testCode;
+      // Use the confirmed seed inbox list from the server
+      if (data.seedInboxes?.length) {
+        seedInboxes = data.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
+        renderInboxList(seedInboxes);
+      }
+    } catch {
+      // Keep the local testCode for display; testId stays empty (mark-sent will be skipped gracefully)
+    }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -1442,6 +1461,7 @@ const SEED_INBOXES_FALLBACK = [
         s.querySelector(".step-dot").innerHTML = "";
       });
 
+      await ensureTestCreated();
       if (testId) {
         apiPost(withToken(`/open/deliverability/tests/${testId}/mark-sent`), {}).catch(() => {});
       }
