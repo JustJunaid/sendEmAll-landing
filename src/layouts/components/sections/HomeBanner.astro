@@ -76,7 +76,7 @@ const videoButton = buttons.find((button) => button.type === "video");
             buttons &&
               buttons.map((button: Button, index: number) =>
                 button.type !== "video" ? (
-                  button.url?.includes("signup") ? (
+                  button.url?.includes("free-leads") || button.url?.includes("signup") ? (
                     <ButtonLink
                       content={button}
                       class="btn-md btn-primary btn-has-icon group relative z-0 flex items-center gap-4 [&>.label]:z-20">

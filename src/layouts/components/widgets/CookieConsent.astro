@@ -86,7 +86,34 @@
     });
   }
 
-  // --- Initialize CookieConsent ---
+  // --- Geolocation-based consent check ---
+  // Primary: reads cc_geo cookie set by Vercel edge middleware (x-vercel-ip-country).
+  // Fallback: timezone detection for local dev or if cookie is missing.
+  function requiresConsent(): boolean {
+    // Check middleware-set cookie first
+    const match = document.cookie.match(/(?:^|;\s*)cc_geo=([01])/);
+    if (match) return match[1] === "1";
+
+    // Fallback: timezone (for local dev, first-load edge cases)
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      return tz.startsWith("Europe/") || tz.startsWith("Atlantic/");
+    } catch {
+      return true; // Default to showing banner if detection fails
+    }
+  }
+
+  const consentRequired = requiresConsent();
+
+  if (!consentRequired) {
+    // Non-GDPR region: auto-grant analytics, no banner
+    updateConsent(true, false);
+    loadGA4();
+    loadClarity();
+    loadIntercom();
+  } else {
+
+  // --- Initialize CookieConsent (GDPR/ePrivacy regions only) ---
 
   CookieConsent.run({
     guiOptions: {
@@ -174,6 +201,8 @@
 
   // Intercom loads always — it's customer support (legitimate interest), not marketing
   loadIntercom();
+
+  } // end else (consent-required regions)
 </script>
 
 <!-- Dark theme overrides matching SendEmAll brand -->

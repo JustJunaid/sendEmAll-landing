@@ -8,27 +8,165 @@ export function getStaticPaths() {
 }
 
 const meta = {
-  title: "Cold Email Infrastructure | Mailboxes, Domains, DNS Setup | SendEmAll",
-  description: "Buy Google Workspace, Microsoft 365, or custom SMTP mailboxes for cold email. Pre-configured DNS, optional warmup, and managed setup for your sequencer.",
+  title: "Cold Email Infrastructure | Buy Mailboxes from $1.50/mo | SendEmAll",
+  description: "Buy Google Workspace, Microsoft 365, SMTP, or Azure mailboxes for cold email. Pre-configured DNS (SPF, DKIM, DMARC). Pre-warmed options available. Free mailbox calculator included.",
   disableTagline: true,
 };
 
-const selfServeProviders = [
-  { provider: "Google Workspace", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_GWS_10" },
-  { provider: "Microsoft 365", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_M365_10" },
-  { provider: "Custom SMTP", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_SMTP_10" },
+const providers = [
+  {
+    id: "gw",
+    name: "Google Workspace",
+    price: 3.5,
+    preWarmedPrice: 5.0,
+    dailyCold: 30,
+    dailyWarmup: 30,
+    stripeUrl: "https://buy.stripe.com/9B6bITgSVfzb3v8etb00003",
+    stripeUrlPreWarmed: "https://buy.stripe.com/00weV5gSV86J0iWetb0000d",
+    bestFor: "Highest deliverability",
+    note: "3-5 mailboxes per domain",
+  },
+  {
+    id: "ms",
+    name: "Microsoft 365",
+    price: 3.5,
+    preWarmedPrice: 5.0,
+    dailyCold: 30,
+    dailyWarmup: 30,
+    stripeUrl: "https://buy.stripe.com/5kQaEPdGJ2Mpe9Mfxf0000e",
+    stripeUrlPreWarmed: "https://buy.stripe.com/00w14feKN0Ehc1Edp70000f",
+    bestFor: "Provider diversification",
+    note: "3-5 mailboxes per domain",
+  },
+  {
+    id: "smtp",
+    name: "SendEmAll SMTP",
+    price: 1.5,
+    preWarmedPrice: null,
+    dailyCold: 50,
+    dailyWarmup: 50,
+    stripeUrl: "https://buy.stripe.com/9B6dR18mp5YBc1E58R0000g",
+    stripeUrlPreWarmed: null,
+    bestFor: "Lowest cost per email",
+    note: "3-5 mailboxes per domain",
+  },
+  {
+    id: "azure",
+    name: "MS Azure Tenant",
+    price: 70,
+    preWarmedPrice: null,
+    dailyCold: 5,
+    dailyWarmup: 5,
+    stripeUrl: "https://buy.stripe.com/14AeV59qt9aN6Hk70J00001",
+    stripeUrlPreWarmed: "https://buy.stripe.com/fZu3cnauxgDfaXA5WF0000b",
+    bestFor: "100 mailboxes, massive scale",
+    note: "100 mailboxes on 1 domain",
+    isBundle: true,
+    bundleSize: 100,
+  },
 ];
 
-const preWarmedProviders = [
-  { provider: "Google Workspace (pre-warmed)", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_GWS_PW" },
-  { provider: "Microsoft 365 (pre-warmed)", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_M365_PW" },
-  { provider: "Custom SMTP (pre-warmed)", price: "$X/mo", stripeUrl: "https://buy.stripe.com/PLACEHOLDER_SMTP_PW" },
+const included = [
+  { title: "DNS already set up", description: "SPF, DKIM, DMARC, and MX records configured correctly from day one. No Googling record syntax." },
+  { title: "Domain rotation guidance", description: "We help you structure domains and mailboxes for maximum deliverability and longevity." },
+  { title: "Works with any sequencer", description: "Instantly, Smartlead, Lemlist, Woodpecker, Plusvibe, or SendEmAll. Your choice." },
+  { title: "Deliverability monitoring", description: "We watch your sender reputation so you don't have to. Alerts before problems become permanent." },
 ];
 
-const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
+const faqs = [
+  {
+    q: "How many mailboxes do I need?",
+    a: "It depends on your monthly volume. A Google Workspace or Microsoft 365 mailbox safely sends 30 cold emails per day. Our SMTP mailboxes handle 50 per day. Use the calculator above to get a recommendation based on your target volume.",
+  },
+  {
+    q: "What is the difference between standard and pre-warmed mailboxes?",
+    a: "Standard mailboxes are new accounts with DNS pre-configured. You need to warm them for 2-3 weeks before sending at full volume. Pre-warmed mailboxes come with established sender history and domain included. They are ready to send from day one.",
+  },
+  {
+    q: "Can I use these mailboxes with my existing sequencer?",
+    a: "Yes. All mailboxes work with any SMTP-compatible sequencer: Instantly, Smartlead, Lemlist, Woodpecker, Plusvibe, or SendEmAll. You get SMTP credentials and add them to your platform.",
+  },
+  {
+    q: "What is the MS Azure Tenant option?",
+    a: "Microsoft Azure gives you 100 mailboxes on a single domain for $70/month. Each mailbox sends fewer emails per day (5 cold + 5 warmup), but the sheer volume of mailboxes means you can send 11,000+ emails per month from one tenant. Best for high-volume operations.",
+  },
+  {
+    q: "Do I need to buy domains separately?",
+    a: "For standard mailboxes, yes. You bring your own domain or we can help source them. For pre-warmed mailboxes, the domain is included in the price ($20 one-time domain cost baked in). We handle purchasing, DNS, and warmup.",
+  },
+  {
+    q: "How fast can I start sending?",
+    a: "Standard mailboxes are provisioned within 24 hours. Pre-warmed mailboxes are ready to send immediately. For managed setup (Tier 3), allow 2-3 weeks for the full warmup cycle.",
+  },
+  {
+    q: "What if my reputation drops?",
+    a: "Our monitoring alerts you before serious damage happens. We provide recovery guidance and can provision replacement mailboxes quickly. Pre-warmed replacements skip the ramp-up entirely.",
+  },
+  {
+    q: "Is there a minimum purchase?",
+    a: "No minimums for Google Workspace, Microsoft 365, or SMTP. Buy 1 or 1,000. Azure is sold as a tenant of 100 mailboxes.",
+  },
+];
+
+const faqSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+});
+
+const productSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Cold Email Infrastructure",
+  description: "Buy Google Workspace, Microsoft 365, SMTP, or Azure mailboxes for cold email outreach. Pre-configured DNS, optional warmup, works with any sequencer.",
+  brand: { "@type": "Brand", name: "SendEmAll" },
+  url: "https://sendemall.com/services/cold-email-infrastructure",
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Google Workspace Mailbox",
+      price: "3.50",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M", unitText: "mailbox" },
+      availability: "https://schema.org/InStock",
+    },
+    {
+      "@type": "Offer",
+      name: "Microsoft 365 Mailbox",
+      price: "3.50",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M", unitText: "mailbox" },
+      availability: "https://schema.org/InStock",
+    },
+    {
+      "@type": "Offer",
+      name: "SendEmAll SMTP Mailbox",
+      price: "1.50",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M", unitText: "mailbox" },
+      availability: "https://schema.org/InStock",
+    },
+    {
+      "@type": "Offer",
+      name: "MS Azure Tenant (100 Mailboxes)",
+      price: "70.00",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M", unitText: "tenant" },
+      availability: "https://schema.org/InStock",
+    },
+  ],
+});
+
+const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker", "Plusvibe", "SendEmAll"];
 ---
 
 <Base metaTitle={meta.title} metaDescription={meta.description} disableTagline={true}>
+  <script type="application/ld+json" set:html={faqSchema} />
+  <script type="application/ld+json" set:html={productSchema} />
 
   <!-- Hero -->
   <section class="py-20 sm:py-28">
@@ -38,168 +176,261 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
           Email Infrastructure
         </span>
         <h1 class="mb-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
-          Cold Email Infrastructure That Actually Lands in the Inbox.
+          Cold Email Mailboxes. DNS Set Up. Ready to Send.
         </h1>
         <p class="mb-8 text-lg text-[#C8C1D4] leading-relaxed sm:text-xl">
-          Mailboxes, domains, DNS, warmup. Fully managed. Ready to send.
+          Google Workspace from $3.50/mo. Microsoft 365 from $3.50/mo. SMTP from $1.50/mo. SPF, DKIM, DMARC already set up. Works with any sequencer.
         </p>
         <div class="flex flex-wrap items-center justify-center gap-4">
-          <a href="#self-serve" class="btn btn-md btn-primary">
+          <a href="#providers" class="btn btn-md btn-primary">
             Buy Mailboxes
           </a>
-          <a href="#managed-setup" class="btn btn-md btn-outline-white">
-            Need custom setup? Talk to us
+          <a href="#calculator" class="btn btn-md btn-outline-primary">
+            How many do I need?
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Tier 1: Self-Serve -->
-  <section id="self-serve" class="py-20 sm:py-28">
+  <!-- Provider Cards -->
+  <section id="providers" class="py-20 sm:py-28">
     <div class="container">
-      <div class="mb-16 text-center" data-aos="fade-up-sm">
+      <div class="mb-12 text-center" data-aos="fade-up-sm">
         <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
-          Tier 1
+          Mailbox Providers
         </span>
         <h2 class="text-3xl font-bold text-white sm:text-4xl">
-          Self-serve mailboxes
+          Pick your provider. We handle the rest.
         </h2>
         <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
-          Buy mailboxes, get credentials, add to your sequencer yourself. DNS pre-configured. Ready in minutes.
+          Every mailbox comes with SPF, DKIM, and DMARC already set up. Add to your sequencer and start sending.
+        </p>
+
+        <!-- Standard / Pre-Warmed Toggle -->
+        <div class="mt-8 inline-flex items-center rounded-full border border-border-light bg-theme-dark p-1" id="warmup-toggle">
+          <button
+            class="rounded-full px-6 py-2 text-sm font-semibold text-white transition bg-primary text-dark"
+            data-mode="standard"
+            id="toggle-standard"
+          >
+            Standard
+          </button>
+          <button
+            class="rounded-full px-6 py-2 text-sm font-semibold text-[#C8C1D4] transition hover:text-white"
+            data-mode="prewarmed"
+            id="toggle-prewarmed"
+          >
+            Pre-Warmed
+          </button>
+        </div>
+        <p class="mt-3 text-sm text-[#C8C1D4]/70" id="toggle-note">
+          New mailboxes. Warm them yourself in 2-3 weeks.
         </p>
       </div>
 
-      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
-        <div class="overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
-          <table class="w-full">
-            <thead>
-              <tr class="border-b border-border-light">
-                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Provider</th>
-                <th class="px-6 py-4 text-center text-sm font-semibold text-white">Price</th>
-                <th class="px-6 py-4 text-right text-sm font-semibold text-white"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {selfServeProviders.map((row, i) => (
-                <tr class={i < selfServeProviders.length - 1 ? "border-b border-border-light" : ""}>
-                  <td class="px-6 py-4 text-[#C8C1D4]">{row.provider}</td>
-                  <td class="px-6 py-4 text-center font-semibold text-white">{row.price}</td>
-                  <td class="px-6 py-4 text-right">
-                    <a href={row.stripeUrl} class="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-dark transition hover:bg-primary/90">
-                      Buy Now
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="mt-4 text-center text-sm text-[#C8C1D4]/70">
-          All mailboxes include pre-configured SPF, DKIM, and DMARC records.
-        </p>
+      <div class="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2" data-aos="fade-up-sm">
+        {providers.map((p) => (
+          <div
+            class="group relative rounded-2xl border border-border-light bg-theme-dark p-6 transition hover:border-primary/30"
+            data-provider={p.id}
+          >
+            {p.id === "gw" && (
+              <span class="absolute -top-3 right-4 rounded-full bg-[#14B8A6] px-3 py-0.5 text-xs font-semibold text-dark">
+                Most Popular
+              </span>
+            )}
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-white">{p.name}</h3>
+              <p class="mt-1 text-xs text-[#C8C1D4]/70">{p.note}</p>
+            </div>
+
+            <div class="mb-4">
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl font-bold text-white" data-standard-price={p.price} data-prewarmed-price={p.preWarmedPrice || ""}>
+                  ${p.isBundle ? p.price : p.price.toFixed(2)}
+                </span>
+                <span class="text-sm text-[#C8C1D4]">
+                  {p.isBundle ? "/mo" : "/mo per mailbox"}
+                </span>
+              </div>
+              {p.isBundle && (
+                <p class="mt-1 text-xs text-[#C8C1D4]/70">{p.bundleSize} mailboxes included</p>
+              )}
+              {p.preWarmedPrice && !p.isBundle && (
+                <p class="mt-1 text-xs text-[#C8C1D4]/50 hidden" data-prewarmed-note>
+                  Domain included in pre-warmed price
+                </p>
+              )}
+            </div>
+
+            <div class="mb-6 space-y-2 text-sm text-[#C8C1D4]">
+              <div class="flex items-center gap-2">
+                <svg class="h-4 w-4 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{p.dailyCold} cold + {p.dailyWarmup} warmup emails/day</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="h-4 w-4 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>~{((p.isBundle ? p.bundleSize * p.dailyCold : p.dailyCold) * 22).toLocaleString()} emails/month</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="h-4 w-4 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{p.bestFor}</span>
+              </div>
+            </div>
+
+            <a
+              href={p.stripeUrl}
+              target="_blank"
+              rel="noopener"
+              class="block w-full rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-dark transition hover:bg-primary/90"
+              data-standard-url={p.stripeUrl}
+              data-prewarmed-url={p.stripeUrlPreWarmed || ""}
+              data-buy-btn
+            >
+              {p.isBundle ? "Buy Tenant" : "Buy Now"}
+            </a>
+          </div>
+        ))}
       </div>
+
+      <p class="mt-8 text-center text-sm text-[#C8C1D4]/60">
+        All prices in USD. Quantity adjustable at checkout. No minimum purchase (except Azure: 100 mailbox tenant).
+      </p>
     </div>
   </section>
 
-  <!-- Tier 2: Pre-Warmed -->
-  <section class="py-20 sm:py-28">
+  <!-- Mailbox Calculator -->
+  <section id="calculator" class="py-20 sm:py-28">
     <div class="container">
-      <div class="mb-16 text-center" data-aos="fade-up-sm">
-        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#3B82F6]">
-          Tier 2
-        </span>
-        <h2 class="text-3xl font-bold text-white sm:text-4xl">
-          Pre-warmed mailboxes
-        </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
-          Already warmed for 2-3 weeks. Premium price. Ready to send from day one. No waiting.
-        </p>
-      </div>
-
-      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
-        <div class="overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
-          <table class="w-full">
-            <thead>
-              <tr class="border-b border-border-light">
-                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Provider</th>
-                <th class="px-6 py-4 text-center text-sm font-semibold text-white">Price</th>
-                <th class="px-6 py-4 text-right text-sm font-semibold text-white"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {preWarmedProviders.map((row, i) => (
-                <tr class={i < preWarmedProviders.length - 1 ? "border-b border-border-light" : ""}>
-                  <td class="px-6 py-4 text-[#C8C1D4]">{row.provider}</td>
-                  <td class="px-6 py-4 text-center font-semibold text-white">{row.price}</td>
-                  <td class="px-6 py-4 text-right">
-                    <a href={row.stripeUrl} class="inline-block rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-dark transition hover:bg-primary/90">
-                      Buy Now
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="mt-4 text-center text-sm text-[#C8C1D4]/70">
-          Pre-warmed accounts have 2-3 weeks of established sending history. Skip the ramp-up period entirely.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tier 3: Managed Setup -->
-  <section class="py-20 sm:py-28">
-    <div class="container">
-      <div class="mb-16 text-center" data-aos="fade-up-sm">
-        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F59E0B]">
-          Tier 3
-        </span>
-        <h2 class="text-3xl font-bold text-white sm:text-4xl">
-          Fully managed setup
-        </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
-          We buy domains, configure DNS, create accounts, warm them, and add to your sequencer. You do nothing.
-        </p>
-      </div>
-
-      <div class="mx-auto max-w-3xl" data-aos="fade-up-sm">
-        <div class="rounded-2xl border border-border-light bg-theme-dark p-8">
-          <div class="mb-8">
-            <h3 class="mb-4 text-xl font-semibold text-white">What's included</h3>
-            <ul class="space-y-3">
-              <li class="flex items-start gap-3">
-                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span class="text-[#C8C1D4]">Domain purchasing and rotation strategy</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span class="text-[#C8C1D4]">Full DNS configuration (SPF, DKIM, DMARC, MX records)</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span class="text-[#C8C1D4]">Mailbox creation across Google Workspace, Microsoft 365, or Custom SMTP</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span class="text-[#C8C1D4]">2-3 week warmup period before handoff</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                <span class="text-[#C8C1D4]">Sequencer integration (+$0.50/account)</span>
-              </li>
-            </ul>
+      <div class="mx-auto max-w-4xl" data-aos="fade-up-sm">
+        <div class="rounded-2xl border border-primary/20 bg-theme-dark p-8 sm:p-12">
+          <div class="mb-10 text-center">
+            <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-primary">
+              Free Calculator
+            </span>
+            <h2 class="text-3xl font-bold text-white sm:text-4xl">
+              How many mailboxes do you need?
+            </h2>
+            <p class="mx-auto mt-4 max-w-xl text-[#C8C1D4]">
+              Enter your target monthly volume. We'll calculate the optimal mailbox setup across providers.
+            </p>
           </div>
 
-          <div>
-            <h3 class="mb-4 text-xl font-semibold text-white">Supported sequencers</h3>
-            <div class="flex flex-wrap gap-3">
-              {sequencers.map((name) => (
-                <span class="rounded-full border border-border-light bg-theme-dark px-4 py-1.5 text-sm text-[#C8C1D4]">
-                  {name}
-                </span>
-              ))}
+          <!-- Calculator Input -->
+          <div class="mx-auto max-w-md">
+            <label for="email-volume" class="mb-2 block text-sm font-medium text-white">
+              Cold emails per month
+            </label>
+            <input
+              type="number"
+              id="email-volume"
+              min="100"
+              max="500000"
+              step="100"
+              placeholder="e.g. 10000"
+              class="w-full rounded-lg border border-border-light bg-accent px-4 py-3 text-lg text-white placeholder-[#C8C1D4]/40 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <input
+              type="range"
+              id="email-volume-slider"
+              min="1000"
+              max="100000"
+              step="1000"
+              value="10000"
+              class="mt-4 w-full accent-primary"
+            />
+            <div class="mt-2 flex justify-between text-xs text-[#C8C1D4]/50">
+              <span>1,000</span>
+              <span>25,000</span>
+              <span>50,000</span>
+              <span>100,000</span>
+            </div>
+          </div>
+
+          <!-- Calculator Results -->
+          <div id="calc-results" class="mt-10 hidden">
+            <h3 class="mb-6 text-center text-lg font-semibold text-white">
+              Recommended setups for <span id="calc-volume-display" class="text-primary">10,000</span> emails/month
+            </h3>
+
+            <div class="space-y-4" id="calc-options">
+              <!-- Options rendered by JS using safe DOM methods -->
+            </div>
+
+            <p class="mt-6 text-center text-xs text-[#C8C1D4]/50">
+              Based on 22 working days/month. Actual capacity depends on warmup status and sending patterns.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's Included -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mb-12 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
+          Every Mailbox Includes
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Not just a mailbox. A deliverability setup.
+        </h2>
+      </div>
+
+      <div class="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2" data-aos="fade-up-sm">
+        {included.map((item, i) => (
+          <div
+            class="rounded-2xl border border-border-light bg-theme-dark p-6"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 100}
+          >
+            <h3 class="mb-2 text-lg font-semibold text-white">{item.title}</h3>
+            <p class="text-sm text-[#C8C1D4] leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Buy Through Us -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-4xl" data-aos="fade-up-sm">
+        <div class="rounded-2xl border border-border-light bg-theme-dark p-8 sm:p-12">
+          <div class="grid gap-8 md:grid-cols-2 md:items-center">
+            <div>
+              <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F59E0B]">
+                The Math
+              </span>
+              <h2 class="text-3xl font-bold text-white">
+                Why buy through us?
+              </h2>
+              <p class="mt-4 text-[#C8C1D4] leading-relaxed">
+                Google Workspace direct: $7.20/mailbox/mo. You configure DNS yourself. Microsoft 365: $6/user/mo. Same DNS headache.
+              </p>
+              <p class="mt-4 text-[#C8C1D4] leading-relaxed">
+                Through us: $3.50/mo with SPF, DKIM, and DMARC pre-configured. You save 51% on Google Workspace and skip hours of setup per domain.
+              </p>
+            </div>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-accent p-4">
+                <div class="mb-1 text-sm text-[#C8C1D4]">Google Workspace (direct)</div>
+                <div class="text-xl font-bold text-[#EF4444]">$7.20/mo <span class="text-sm font-normal text-[#C8C1D4]">+ DNS setup yourself</span></div>
+              </div>
+              <div class="rounded-xl bg-accent p-4">
+                <div class="mb-1 text-sm text-[#C8C1D4]">Mailforge</div>
+                <div class="text-xl font-bold text-[#F59E0B]">$3.00/mo <span class="text-sm font-normal text-[#C8C1D4]">min 10 mailboxes</span></div>
+              </div>
+              <div class="rounded-xl border border-primary/30 bg-accent p-4">
+                <div class="mb-1 text-sm text-primary">SendEmAll</div>
+                <div class="text-xl font-bold text-primary">$3.50/mo <span class="text-sm font-normal text-[#C8C1D4]">no minimum, DNS included</span></div>
+              </div>
+              <div class="rounded-xl bg-accent p-4">
+                <div class="mb-1 text-sm text-[#C8C1D4]">SendEmAll SMTP</div>
+                <div class="text-xl font-bold text-[#14B8A6]">$1.50/mo <span class="text-sm font-normal text-[#C8C1D4]">highest volume per mailbox</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -207,13 +438,72 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
     </div>
   </section>
 
-  <!-- Managed Setup Form -->
+  <!-- Supported Sequencers -->
+  <section class="py-20 sm:py-28">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <h2 class="mb-6 text-2xl font-bold text-white sm:text-3xl">
+          Works with your sequencer
+        </h2>
+        <p class="mb-8 text-[#C8C1D4]">
+          Every mailbox comes with SMTP credentials. Connect to any platform in minutes.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          {sequencers.map((name) => (
+            <span class="rounded-full border border-border-light bg-theme-dark px-5 py-2 text-sm font-medium text-[#C8C1D4]">
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Managed Setup Form (Tier 3) -->
   <section id="managed-setup" class="py-20 sm:py-28">
     <div class="container">
-      <div class="mx-auto max-w-2xl" data-aos="fade-up-sm">
+      <div class="mb-12 text-center" data-aos="fade-up-sm">
+        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#F59E0B]">
+          Done For You
+        </span>
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Want us to handle everything?
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-[#C8C1D4]">
+          We buy domains, configure DNS, create mailboxes, warm them for 2-3 weeks, and connect to your sequencer. You do nothing.
+        </p>
+      </div>
+
+      <div class="mx-auto max-w-3xl" data-aos="fade-up-sm">
+        <div class="mb-8 rounded-2xl border border-border-light bg-theme-dark p-8">
+          <h3 class="mb-4 text-xl font-semibold text-white">What's included in managed setup</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="text-[#C8C1D4]">Domain purchasing and rotation strategy</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="text-[#C8C1D4]">Full DNS configuration (SPF, DKIM, DMARC, MX records)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="text-[#C8C1D4]">Mailbox creation across Google Workspace, Microsoft 365, or SMTP</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="text-[#C8C1D4]">2-3 week warmup period before handoff</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="mt-1 h-5 w-5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span class="text-[#C8C1D4]">Sequencer integration (+$0.50/account)</span>
+            </li>
+          </ul>
+        </div>
+
         <ServiceRequestForm
-          title="Need a custom setup?"
-          description="Tell us your sequencer, number of mailboxes, and any specific requirements. We'll quote within 24 hours and handle everything end to end."
+          title="Tell us what you need"
+          description="Your sequencer, number of mailboxes, and any specific requirements. We quote within 24 hours."
           submitLabel="Request Managed Setup"
           placeholder="e.g. 30 Google Workspace mailboxes, add to Instantly, need DNS + warmup configured"
         />
@@ -221,24 +511,30 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
     </div>
   </section>
 
-  <!-- Value Comparison -->
+  <!-- FAQ -->
   <section class="py-20 sm:py-28">
     <div class="container">
-      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
-        <span class="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#14B8A6]">
-          Value
-        </span>
-        <h2 class="mb-6 text-3xl font-bold text-white sm:text-4xl">
-          Why buy through us?
+      <div class="mb-12 text-center" data-aos="fade-up-sm">
+        <h2 class="text-3xl font-bold text-white sm:text-4xl">
+          Frequently asked questions
         </h2>
-        <p class="text-lg text-[#C8C1D4] leading-relaxed">
-          Google Workspace direct: $8.40/mailbox/mo. Through us: $X/mo with full DNS setup, deliverability configuration, and ongoing monitoring included. No Googling SPF record syntax. No wondering why your DKIM is failing. No spending 3 hours per domain on setup you will forget how to do next month.
-        </p>
+      </div>
+
+      <div class="mx-auto max-w-3xl divide-y divide-border-light" data-aos="fade-up-sm">
+        {faqs.map((faq) => (
+          <details class="group py-5">
+            <summary class="flex cursor-pointer items-center justify-between text-left">
+              <h3 class="pr-4 text-base font-semibold text-white sm:text-lg">{faq.q}</h3>
+              <svg class="h-5 w-5 shrink-0 text-[#C8C1D4] transition group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <p class="mt-3 pr-12 text-[#C8C1D4] leading-relaxed">{faq.a}</p>
+          </details>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- Final CTA -->
   <section class="py-20 sm:py-28">
     <div class="container">
       <div
@@ -249,18 +545,248 @@ const sequencers = ["Instantly", "Smartlead", "Lemlist", "Woodpecker"];
           Ready to set up your sending infrastructure?
         </h2>
         <p class="mb-8 text-lg text-[#C8C1D4]">
-          Self-serve in minutes or let us handle everything. Your call.
+          Self-serve in minutes or let us handle everything. Mailboxes from $1.50/mo.
         </p>
         <div class="flex flex-wrap items-center justify-center gap-4">
-          <a href="#self-serve" class="btn btn-md btn-primary">
+          <a href="#providers" class="btn btn-md btn-primary">
             Buy Mailboxes
           </a>
-          <a href="#managed-setup" class="btn btn-md btn-outline-white">
-            Need custom setup? Talk to us
+          <a href="#calculator" class="btn btn-md btn-outline-primary">
+            Use the Calculator
           </a>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Toggle + Calculator Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // ── Standard / Pre-Warmed Toggle ──
+      const toggleStandard = document.getElementById("toggle-standard");
+      const togglePrewarmed = document.getElementById("toggle-prewarmed");
+      const toggleNote = document.getElementById("toggle-note");
+
+      function setMode(mode: string) {
+        const isPrewarmed = mode === "prewarmed";
+
+        if (toggleStandard && togglePrewarmed) {
+          toggleStandard.className = isPrewarmed
+            ? "rounded-full px-6 py-2 text-sm font-semibold text-[#C8C1D4] transition hover:text-white"
+            : "rounded-full px-6 py-2 text-sm font-semibold text-white transition bg-primary text-dark";
+          togglePrewarmed.className = isPrewarmed
+            ? "rounded-full px-6 py-2 text-sm font-semibold text-white transition bg-primary text-dark"
+            : "rounded-full px-6 py-2 text-sm font-semibold text-[#C8C1D4] transition hover:text-white";
+        }
+
+        if (toggleNote) {
+          toggleNote.textContent = isPrewarmed
+            ? "2-3 weeks warmup history. Domain included. Ready to send now."
+            : "New mailboxes. Warm them yourself in 2-3 weeks.";
+        }
+
+        document.querySelectorAll("[data-provider]").forEach((card) => {
+          const priceEl = card.querySelector("[data-standard-price]") as HTMLElement;
+          const buyBtn = card.querySelector("[data-buy-btn]") as HTMLAnchorElement;
+          const prewarmedNote = card.querySelector("[data-prewarmed-note]") as HTMLElement;
+
+          if (!priceEl || !buyBtn) return;
+
+          const standardPrice = priceEl.dataset.standardPrice || "";
+          const prewarmedPrice = priceEl.dataset.prewarmedPrice || "";
+          const standardUrl = buyBtn.dataset.standardUrl || "";
+          const prewarmedUrl = buyBtn.dataset.prewarmedUrl || "";
+
+          if (isPrewarmed && prewarmedPrice) {
+            const price = parseFloat(prewarmedPrice);
+            priceEl.textContent = price >= 10 ? `$${price}` : `$${price.toFixed(2)}`;
+            buyBtn.href = prewarmedUrl;
+            buyBtn.classList.remove("opacity-50", "pointer-events-none");
+            const providerId = (card as HTMLElement).dataset.provider;
+            buyBtn.textContent = providerId === "azure" ? "Buy Tenant" : "Buy Now";
+            if (prewarmedNote) prewarmedNote.classList.remove("hidden");
+          } else if (isPrewarmed && !prewarmedPrice) {
+            buyBtn.classList.add("opacity-50", "pointer-events-none");
+            buyBtn.textContent = "Not available pre-warmed";
+            if (prewarmedNote) prewarmedNote.classList.add("hidden");
+          } else {
+            const price = parseFloat(standardPrice);
+            priceEl.textContent = price >= 10 ? `$${price}` : `$${price.toFixed(2)}`;
+            buyBtn.href = standardUrl;
+            buyBtn.classList.remove("opacity-50", "pointer-events-none");
+            const providerId = (card as HTMLElement).dataset.provider;
+            buyBtn.textContent = providerId === "azure" ? "Buy Tenant" : "Buy Now";
+            if (prewarmedNote) prewarmedNote.classList.add("hidden");
+          }
+        });
+      }
+
+      toggleStandard?.addEventListener("click", () => setMode("standard"));
+      togglePrewarmed?.addEventListener("click", () => setMode("prewarmed"));
+
+      // ── Mailbox Calculator ──
+      const WORKING_DAYS = 22;
+      const GW_MONTHLY = 30 * WORKING_DAYS;   // 660
+      const MS_MONTHLY = 30 * WORKING_DAYS;   // 660
+      const SMTP_MONTHLY = 50 * WORKING_DAYS; // 1100
+      const AZURE_MONTHLY = 5 * WORKING_DAYS * 100; // 11000
+      const MBX_PER_DOMAIN = 4;
+
+      const volumeInput = document.getElementById("email-volume") as HTMLInputElement;
+      const volumeSlider = document.getElementById("email-volume-slider") as HTMLInputElement;
+      const resultsDiv = document.getElementById("calc-results");
+      const volumeDisplay = document.getElementById("calc-volume-display");
+      const optionsDiv = document.getElementById("calc-options");
+
+      function createOptionCard(
+        label: string,
+        description: string,
+        monthlyCost: number,
+        url: string,
+        recommended: boolean
+      ): HTMLElement {
+        const wrapper = document.createElement("div");
+        wrapper.className = `flex items-center justify-between rounded-xl border ${
+          recommended ? "border-primary/30 bg-primary/5" : "border-border-light bg-accent"
+        } p-4 sm:p-5`;
+
+        const left = document.createElement("div");
+        left.className = "min-w-0 flex-1";
+
+        const labelRow = document.createElement("div");
+        labelRow.className = "flex items-center gap-2";
+
+        const labelSpan = document.createElement("span");
+        labelSpan.className = "font-semibold text-white text-sm sm:text-base";
+        labelSpan.textContent = label;
+        labelRow.appendChild(labelSpan);
+
+        if (recommended) {
+          const badge = document.createElement("span");
+          badge.className = "rounded-full bg-primary/20 px-2 py-0.5 text-xs font-semibold text-primary";
+          badge.textContent = "Recommended";
+          labelRow.appendChild(badge);
+        }
+
+        const desc = document.createElement("p");
+        desc.className = "mt-1 text-xs sm:text-sm text-[#C8C1D4]";
+        desc.textContent = description;
+
+        left.appendChild(labelRow);
+        left.appendChild(desc);
+
+        const right = document.createElement("div");
+        right.className = "ml-4 flex shrink-0 flex-col items-end gap-2";
+
+        const priceSpan = document.createElement("span");
+        priceSpan.className = "text-lg font-bold text-white sm:text-xl";
+        priceSpan.textContent = `$${monthlyCost.toFixed(0)}`;
+        const perMo = document.createElement("span");
+        perMo.className = "text-xs font-normal text-[#C8C1D4]";
+        perMo.textContent = "/mo";
+        priceSpan.appendChild(perMo);
+
+        const buyLink = document.createElement("a");
+        buyLink.href = url;
+        buyLink.className = "rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-dark transition hover:bg-primary/90";
+        if (!url.startsWith("#")) {
+          buyLink.target = "_blank";
+          buyLink.rel = "noopener";
+        }
+        buyLink.textContent = url.startsWith("#") ? "See Options" : "Buy Now";
+
+        right.appendChild(priceSpan);
+        right.appendChild(buyLink);
+
+        wrapper.appendChild(left);
+        wrapper.appendChild(right);
+
+        return wrapper;
+      }
+
+      function calculate(target: number) {
+        if (!resultsDiv || !volumeDisplay || !optionsDiv) return;
+        if (target < 100) { resultsDiv.classList.add("hidden"); return; }
+
+        resultsDiv.classList.remove("hidden");
+        volumeDisplay.textContent = target.toLocaleString();
+
+        // Clear previous results
+        while (optionsDiv.firstChild) {
+          optionsDiv.removeChild(optionsDiv.firstChild);
+        }
+
+        const gwCount = Math.ceil(target / GW_MONTHLY);
+        const gwDomains = Math.ceil(gwCount / MBX_PER_DOMAIN);
+
+        const mixedTotal = Math.ceil(target / GW_MONTHLY);
+        const mixedGW = Math.ceil(mixedTotal / 2);
+        const mixedMS = mixedTotal - mixedGW;
+        const mixedDomains = Math.ceil(mixedTotal / MBX_PER_DOMAIN);
+
+        const smtpCount = Math.ceil(target / SMTP_MONTHLY);
+        const smtpDomains = Math.ceil(smtpCount / MBX_PER_DOMAIN);
+
+        const azureTenants = Math.ceil(target / AZURE_MONTHLY);
+
+        optionsDiv.appendChild(createOptionCard(
+          "All Google Workspace",
+          `${gwCount} mailboxes across ${gwDomains} domains`,
+          gwCount * 3.5,
+          "https://buy.stripe.com/9B6bITgSVfzb3v8etb00003",
+          false
+        ));
+
+        optionsDiv.appendChild(createOptionCard(
+          "Mixed GW + MS 365",
+          `${mixedGW} GW + ${mixedMS} MS across ${mixedDomains} domains`,
+          (mixedGW + mixedMS) * 3.5,
+          "#providers",
+          true
+        ));
+
+        optionsDiv.appendChild(createOptionCard(
+          "Budget SMTP",
+          `${smtpCount} SMTP mailboxes across ${smtpDomains} domains`,
+          smtpCount * 1.5,
+          "https://buy.stripe.com/9B6dR18mp5YBc1E58R0000g",
+          false
+        ));
+
+        if (target >= 5000) {
+          optionsDiv.appendChild(createOptionCard(
+            "Azure Scale",
+            `${azureTenants} tenant${azureTenants > 1 ? "s" : ""} (${azureTenants * 100} mailboxes)`,
+            azureTenants * 70,
+            "https://buy.stripe.com/14AeV59qt9aN6Hk70J00001",
+            false
+          ));
+        }
+      }
+
+      // Sync input and slider
+      volumeInput?.addEventListener("input", () => {
+        const val = parseInt(volumeInput.value) || 0;
+        if (volumeSlider && val >= 1000 && val <= 100000) volumeSlider.value = String(val);
+        calculate(val);
+      });
+
+      volumeSlider?.addEventListener("input", () => {
+        const val = parseInt(volumeSlider.value) || 0;
+        if (volumeInput) volumeInput.value = String(val);
+        calculate(val);
+      });
+
+      // Initialize with default
+      calculate(10000);
+      if (volumeInput) volumeInput.value = "10000";
+
+      // Scroll to #calculator if linked directly
+      if (window.location.hash === "#calculator") {
+        setTimeout(() => {
+          document.getElementById("calculator")?.scrollIntoView({ behavior: "smooth" });
+        }, 500);
+      }
+    });
+  </script>
 </Base>
