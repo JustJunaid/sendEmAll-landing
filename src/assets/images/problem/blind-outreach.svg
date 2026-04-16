@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+  <!-- Main card background -->
+  <rect x="16" y="12" width="568" height="426" rx="12" fill="#252636" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Crosshair lines (behind target) -->
+  <line x1="300" y1="60" x2="300" y2="390" stroke="#8B8BA0" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="6,4"/>
+  <line x1="120" y1="225" x2="480" y2="225" stroke="#8B8BA0" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="6,4"/>
+
+  <!-- Target rings (outermost to innermost) -->
+  <circle cx="300" cy="225" r="145" fill="none" stroke="#3A3B4F" stroke-width="1.5"/>
+  <circle cx="300" cy="225" r="108" fill="none" stroke="#3A3B4F" stroke-width="1.5"/>
+  <circle cx="300" cy="225" r="70" fill="none" stroke="#8B8BA0" stroke-width="1.5" stroke-opacity="0.4"/>
+  <circle cx="300" cy="225" r="32" fill="#D2B3F3" fill-opacity="0.1" stroke="#D2B3F3" stroke-width="2" stroke-opacity="0.5"/>
+
+  <!-- Small center dot -->
+  <circle cx="300" cy="225" r="4" fill="#D2B3F3" fill-opacity="0.4"/>
+
+  <!-- Dart/arrow shapes - all MISSING the target -->
+
+  <!-- Dart 1: top-right, far miss -->
+  <g transform="translate(460, 80) rotate(210)">
+    <polygon points="0,-18 5,10 0,6 -5,10" fill="#F97066"/>
+    <line x1="0" y1="10" x2="0" y2="28" stroke="#F97066" stroke-width="2"/>
+    <line x1="-4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+    <line x1="4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+  </g>
+
+  <!-- Dart 2: bottom-left, far miss -->
+  <g transform="translate(130, 360) rotate(30)">
+    <polygon points="0,-18 5,10 0,6 -5,10" fill="#F97066"/>
+    <line x1="0" y1="10" x2="0" y2="28" stroke="#F97066" stroke-width="2"/>
+    <line x1="-4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+    <line x1="4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+  </g>
+
+  <!-- Dart 3: top-left miss -->
+  <g transform="translate(140, 100) rotate(150)">
+    <polygon points="0,-18 5,10 0,6 -5,10" fill="#F97066"/>
+    <line x1="0" y1="10" x2="0" y2="28" stroke="#F97066" stroke-width="2"/>
+    <line x1="-4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+    <line x1="4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+  </g>
+
+  <!-- Dart 4: right side, barely missed outer ring -->
+  <g transform="translate(455, 270) rotate(255)">
+    <polygon points="0,-18 5,10 0,6 -5,10" fill="#F97066" fill-opacity="0.8"/>
+    <line x1="0" y1="10" x2="0" y2="28" stroke="#F97066" stroke-width="2" stroke-opacity="0.8"/>
+    <line x1="-4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5" stroke-opacity="0.8"/>
+    <line x1="4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5" stroke-opacity="0.8"/>
+  </g>
+
+  <!-- Dart 5: bottom-right, clear miss -->
+  <g transform="translate(470, 370) rotate(300)">
+    <polygon points="0,-18 5,10 0,6 -5,10" fill="#F97066"/>
+    <line x1="0" y1="10" x2="0" y2="28" stroke="#F97066" stroke-width="2"/>
+    <line x1="-4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+    <line x1="4" y1="22" x2="0" y2="28" stroke="#F97066" stroke-width="1.5"/>
+  </g>
+
+  <!-- Dart 6: one touching the outer ring (almost) -->
+  <g transform="translate(168, 210) rotate(95)">
+    <polygon points="0,-18 5,10 0,6 -5,10" fill="#FBBF24" fill-opacity="0.7"/>
+    <line x1="0" y1="10" x2="0" y2="28" stroke="#FBBF24" stroke-width="2" stroke-opacity="0.7"/>
+    <line x1="-4" y1="22" x2="0" y2="28" stroke="#FBBF24" stroke-width="1.5" stroke-opacity="0.7"/>
+    <line x1="4" y1="22" x2="0" y2="28" stroke="#FBBF24" stroke-width="1.5" stroke-opacity="0.7"/>
+  </g>
+
+  <!-- Scattered impact marks (small X marks where darts landed) -->
+  <g stroke="#F97066" stroke-width="1.5" stroke-opacity="0.4">
+    <line x1="457" y1="77" x2="463" y2="83"/>
+    <line x1="463" y1="77" x2="457" y2="83"/>
+
+    <line x1="127" y1="357" x2="133" y2="363"/>
+    <line x1="133" y1="357" x2="127" y2="363"/>
+
+    <line x1="137" y1="97" x2="143" y2="103"/>
+    <line x1="143" y1="97" x2="137" y2="103"/>
+
+    <line x1="467" y1="367" x2="473" y2="373"/>
+    <line x1="473" y1="367" x2="467" y2="373"/>
+  </g>
+</svg>

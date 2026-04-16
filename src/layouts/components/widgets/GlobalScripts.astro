@@ -82,4 +82,57 @@
       }, { passive: false });
     });
   }
+
+  // --- Page Intent & CTA Tracking ---
+  // Fires GA4 events for high-intent page visits and CTA clicks.
+  // Uses dynamic import so tracking module only loads when needed.
+  (function initTracking() {
+    const path = window.location.pathname;
+
+    // High-intent page views
+    const intentPages: Record<string, string> = {
+      "/pricing": "pricing",
+      "/compare/": "compare",
+      "/products/": "product",
+      "/services/free-leads": "free_leads",
+      "/services/": "service",
+    };
+
+    for (const [prefix, name] of Object.entries(intentPages)) {
+      if (path === prefix || path.startsWith(prefix)) {
+        import("@/lib/utils/tracking").then(({ trackPageIntent }) => {
+          trackPageIntent(name);
+        });
+        break;
+      }
+    }
+
+    // CTA click tracking — all primary CTA buttons
+    document.addEventListener("click", (e) => {
+      const link = (e.target as HTMLElement).closest("a.btn-primary, a.btn");
+      if (!link) return;
+      const label = link.textContent?.trim() || "";
+      const href = link.getAttribute("href") || "";
+      if (label && href) {
+        import("@/lib/utils/tracking").then(({ trackCTAClick }) => {
+          trackCTAClick(label, href);
+        });
+      }
+    });
+
+    // UTM persistence — capture UTMs on ANY page, not just form pages.
+    // This ensures UTMs from blog posts, compare pages, etc. survive
+    // navigation to the form page.
+    const params = new URLSearchParams(window.location.search);
+    const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+    const hasUtm = utmKeys.some((k) => params.has(k));
+    if (hasUtm) {
+      let stored: Record<string, string> = {};
+      try { stored = JSON.parse(sessionStorage.getItem("utm") ?? "{}"); } catch {}
+      for (const key of utmKeys) {
+        if (params.get(key)) stored[key] = params.get(key)!;
+      }
+      sessionStorage.setItem("utm", JSON.stringify(stored));
+    }
+  })();
 </script>

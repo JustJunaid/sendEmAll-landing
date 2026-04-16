@@ -1,0 +1,125 @@
+---
+/**
+ * ProblemSection — Two problem cards side by side + full-width draggable tools row.
+ * Compact, punchy, on-brand.
+ */
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+
+const toolPills = [
+  "Apollo",
+  "Hunter",
+  "Drag me!",
+  "Instantly",
+  "Smartlead",
+  "Clay",
+  "ZeroBounce",
+  "Drag me!",
+  "Lemlist",
+  "Mailshake",
+  "Woodpecker",
+  "Snov.io",
+  "Warmbox",
+  "Drag me!",
+  "MailTester",
+  "Dropcontact",
+];
+---
+
+<section>
+  <div class="container space-y-12 md:space-y-16">
+    <!-- Section header -->
+    <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
+      <Subtitle content="The Problem" />
+      <h2 class="has-italic-text capitalize">
+        Cold email is <strong class="font-tertiary italic">broken.</strong> Here's
+        why.
+      </h2>
+    </div>
+
+    <!-- Two problem cards side by side -->
+    <div
+      class="grid gap-6 md:grid-cols-2"
+      data-aos="fade-up-sm"
+      data-aos-delay="100"
+    >
+      <!-- Card 1: Static lists -->
+      <div class="from-primary/35 to-body -bg-linear-20 grid overflow-hidden rounded-3xl lg:grid-cols-2">
+        <div class="px-8 py-8 lg:py-10 flex flex-col justify-center">
+          <h3 class="font-secondary text-xl md:text-2xl mb-3 text-white">
+            Static lists. Buying names from a database.
+          </h3>
+          <p class="text-text-default/70 text-sm md:text-base leading-relaxed">
+            We use live signals. Outreach triggered by hiring, funding, and
+            research activity.
+          </p>
+        </div>
+        <div class="flex items-center justify-center p-4 lg:p-6">
+          <OptimizedImage
+
+            src="/images/problem/stale-lists.svg"
+            alt="Stale database with outdated leads"
+            class="w-full h-auto max-h-[220px] object-contain"
+          />
+        </div>
+      </div>
+
+      <!-- Card 2: Blind outreach -->
+      <div class="from-primary/5 via-primary/40 to-primary/30 bg-linear-30 grid overflow-hidden rounded-3xl lg:grid-cols-2">
+        <div class="px-8 py-8 lg:py-10 flex flex-col justify-center">
+          <h3 class="font-secondary text-xl md:text-2xl mb-3 text-white">
+            Blind outreach. Guessing who might need you.
+          </h3>
+          <p class="text-text-default/70 text-sm md:text-base leading-relaxed">
+            We track buying behaviour. Data showing they are actively evaluating
+            solutions now.
+          </p>
+        </div>
+        <div class="flex items-center justify-center p-4 lg:p-6">
+          <OptimizedImage
+
+            src="/images/problem/blind-outreach.svg"
+            alt="Darts missing the target"
+            class="w-full h-auto max-h-[220px] object-contain"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-width draggable tools row -->
+    <div
+      class="from-primary/20 to-body/80 -bg-linear-20 overflow-hidden rounded-3xl"
+      data-aos="fade-up-sm"
+      data-aos-delay="200"
+    >
+      <div class="grid lg:grid-cols-5 items-center">
+        <!-- Text - takes 2 cols -->
+        <div class="px-8 py-8 lg:py-10 lg:col-span-2">
+          <h3 class="font-secondary text-xl md:text-2xl mb-3 text-white">
+            5+ tools stitched together. Fragile, expensive.
+          </h3>
+          <p class="text-text-default/70 text-sm md:text-base leading-relaxed">
+            One platform. Discovery to delivery in a single pipeline.
+          </p>
+        </div>
+        <!-- Draggable pills area - takes 3 cols -->
+        <div class="lg:col-span-3 relative">
+          <div class="draggable-wrapper relative w-full min-h-[220px] md:min-h-[280px] overscroll-contain p-4">
+            {
+              toolPills.map((pill) => (
+                <div class="draggable bg-primary/20 border border-primary/30 absolute w-fit cursor-grab rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap text-primary select-none md:text-base">
+                  {pill}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import draggable from "@/lib/utils/draggable";
+  draggable();
+</script>

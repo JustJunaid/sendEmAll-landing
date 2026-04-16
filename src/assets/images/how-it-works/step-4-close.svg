@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+  <!-- Main card background -->
+  <rect x="16" y="12" width="568" height="426" rx="12" fill="#252636" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Window chrome bar -->
+  <rect x="16" y="12" width="568" height="40" rx="12" fill="#252636"/>
+  <rect x="16" y="40" width="568" height="12" fill="#252636"/>
+  <line x1="16" y1="52" x2="584" y2="52" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Window dots -->
+  <circle cx="40" cy="32" r="6" fill="#FF5F57"/>
+  <circle cx="58" cy="32" r="6" fill="#FEBC2E"/>
+  <circle cx="76" cy="32" r="6" fill="#28C840"/>
+
+  <!-- SendEmAll text -->
+  <text x="100" y="37" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#D2B3F3">SendEmAll</text>
+
+  <!-- Vertical divider -->
+  <line x1="330" y1="52" x2="330" y2="438" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- LEFT PANEL: Inbox -->
+  <!-- Inbox title + badge -->
+  <text x="36" y="80" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600" fill="#E8E8F0">Inbox</text>
+  <rect x="76" y="66" width="50" height="22" rx="11" fill="#D2B3F3" fill-opacity="0.15"/>
+  <text x="101" y="81" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">4 new</text>
+
+  <!-- Thread 1: Acme Corp - green dot (interested) -->
+  <circle cx="44" cy="112" r="5" fill="#34D399"/>
+  <text x="58" y="108" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">Acme Corp</text>
+  <text x="290" y="108" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0" text-anchor="end">2m ago</text>
+  <text x="58" y="124" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">Interested, let's talk next week</text>
+  <line x1="36" y1="138" x2="314" y2="138" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Thread 2: BrightPath - green dot -->
+  <circle cx="44" cy="158" r="5" fill="#34D399"/>
+  <text x="58" y="154" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">BrightPath</text>
+  <text x="290" y="154" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0" text-anchor="end">1h ago</text>
+  <text x="58" y="170" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">Can you do a demo Thursday?</text>
+  <line x1="36" y1="184" x2="314" y2="184" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Thread 3: CloudSync - amber dot (dimmed row) -->
+  <circle cx="44" cy="204" r="5" fill="#FBBF24"/>
+  <text x="58" y="200" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">CloudSync</text>
+  <text x="290" y="200" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0" text-anchor="end">3h ago</text>
+  <text x="58" y="216" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#6B6B80">Not right now, maybe Q3</text>
+  <line x1="36" y1="230" x2="314" y2="230" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Thread 4: DataForge - lavender dot -->
+  <circle cx="44" cy="250" r="5" fill="#D2B3F3"/>
+  <text x="58" y="246" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">DataForge</text>
+  <text x="290" y="246" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0" text-anchor="end">5h ago</text>
+  <text x="58" y="262" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">Forwarded to VP of Sales</text>
+
+  <!-- RIGHT PANEL: Pipeline metrics -->
+  <rect x="330" y="52" width="254" height="386" fill="#2A2B3D"/>
+
+  <!-- Metric: Replies -->
+  <text x="370" y="100" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="600" fill="#D2B3F3">52</text>
+  <text x="370" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">Replies</text>
+
+  <!-- Metric: Demos -->
+  <text x="440" y="100" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="600" fill="#5EEAD4">11</text>
+  <text x="440" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">Demos</text>
+
+  <!-- Metric: Closed -->
+  <text x="510" y="100" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="600" fill="#34D399">3</text>
+  <text x="510" y="116" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">Closed</text>
+
+  <!-- Divider -->
+  <line x1="350" y1="134" x2="564" y2="134" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Trend chart area -->
+  <defs>
+    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#34D399" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Chart grid lines (subtle) -->
+  <line x1="360" y1="170" x2="560" y2="170" stroke="#3A3B4F" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="360" y1="200" x2="560" y2="200" stroke="#3A3B4F" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="360" y1="230" x2="560" y2="230" stroke="#3A3B4F" stroke-width="0.5" stroke-dasharray="4"/>
+  <line x1="360" y1="260" x2="560" y2="260" stroke="#3A3B4F" stroke-width="0.5" stroke-dasharray="4"/>
+
+  <!-- Gradient fill under chart line -->
+  <polygon points="370,255 400,240 430,220 460,210 490,185 520,170 550,155 550,260 370,260" fill="url(#chartGrad)"/>
+
+  <!-- Chart line -->
+  <polyline points="370,255 400,240 430,220 460,210 490,185 520,170 550,155" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Data points on line -->
+  <circle cx="370" cy="255" r="3" fill="#34D399"/>
+  <circle cx="400" cy="240" r="3" fill="#34D399"/>
+  <circle cx="430" cy="220" r="3" fill="#34D399"/>
+  <circle cx="460" cy="210" r="3" fill="#34D399"/>
+  <circle cx="490" cy="185" r="3" fill="#34D399"/>
+  <circle cx="520" cy="170" r="3" fill="#34D399"/>
+  <circle cx="550" cy="155" r="3.5" fill="#34D399" stroke="#252636" stroke-width="2"/>
+
+  <!-- X-axis labels -->
+  <text x="370" y="278" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="400" fill="#8B8BA0" text-anchor="middle">W1</text>
+  <text x="430" y="278" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="400" fill="#8B8BA0" text-anchor="middle">W3</text>
+  <text x="490" y="278" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="400" fill="#8B8BA0" text-anchor="middle">W5</text>
+  <text x="550" y="278" font-family="Inter, system-ui, sans-serif" font-size="9" font-weight="400" fill="#8B8BA0" text-anchor="middle">W7</text>
+
+  <!-- Divider -->
+  <line x1="350" y1="296" x2="564" y2="296" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Pipeline value -->
+  <text x="457" y="334" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#E8E8F0" text-anchor="middle">$87K</text>
+  <text x="457" y="352" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0" text-anchor="middle">Pipeline</text>
+</svg>

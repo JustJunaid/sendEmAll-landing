@@ -164,6 +164,17 @@ const formId = "lead-magnet-form";
     const landingEl = form.querySelector<HTMLInputElement>('[name="landing_page"]');
     if (landingEl) landingEl.value = window.location.href;
 
+    // Track form start on first interaction
+    let formStarted = false;
+    form.addEventListener("focusin", () => {
+      if (!formStarted) {
+        formStarted = true;
+        import("@/lib/utils/tracking").then(({ trackFormStart }) => {
+          trackFormStart("lead-magnet");
+        });
+      }
+    }, { once: true });
+
     const submitBtn = document.getElementById(`${formId}-submit`) as HTMLButtonElement | null;
     const errorEl = document.getElementById(`${formId}-error`);
     const successEl = document.getElementById(`${formId}-success`);
@@ -216,6 +227,11 @@ const formId = "lead-magnet-form";
         if (!res.ok) throw new Error(json.error ?? "Submission failed.");
         form.classList.add("hidden");
         successEl?.classList.remove("hidden");
+
+        // Track conversion across GA4, Intercom, and Clarity
+        import("@/lib/utils/tracking").then(({ trackFormSubmission }) => {
+          trackFormSubmission(payload as any);
+        });
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
         showError(msg);

@@ -3,8 +3,8 @@ import Base from "@/layouts/Base.astro";
 import { getEntryCTM } from "@/lib/contentParser.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 import HomeBanner from "@/components/sections/HomeBanner.astro";
-import Features from "@/components/sections/FeaturesSection.astro";
-import WhyUs from "@/components/sections/WhyUs.astro";
+import ProblemSection from "@/components/sections/ProblemSection.astro";
+import HowItWorksTimeline from "@/components/sections/HowItWorksTimeline.astro";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
 import PricingSection from "@/components/sections/PricingSection.astro";
@@ -47,71 +47,51 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
   <HomeBanner />
 
   <!-- 2. Problem / Old Way vs New Way -->
-  <Features />
+  <ProblemSection />
 
   <!-- 3. How It Works -->
-  <section id="how-it-works">
-    <WhyUs />
-  </section>
+  <HowItWorksTimeline />
 
   <!-- 4. Signal + Intent Explainer -->
   <section class="section-gradient py-16 md:py-24">
-    <div class="container">
-      <div class="mb-14 text-center" data-aos="fade-up-sm">
+    <div class="container space-y-16 md:space-y-20">
+      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
         <Subtitle content="Why It Works" />
-        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
+        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight has-italic-text">
           Why signals and buying intent <strong class="font-tertiary italic">change everything</strong>
         </h2>
       </div>
 
-      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- Card 1 -->
-        <div
-          class="bg-theme-dark border-border-light rounded-2xl border p-8"
-          data-aos="fade-up-sm"
-          data-aos-delay="0"
-        >
-          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold">
-            !
+      <div class="grid gap-x-12 gap-y-10 lg:grid-cols-3" data-aos="fade-up-sm" data-aos-delay="200">
+        <!-- Signals alone = Noise -->
+        <div class="border-primary/40 before:bg-primary relative space-y-5 before:absolute before:-left-px before:content-[''] last:border-b-0 last:pb-0 max-lg:border-b max-lg:pb-10 before:max-lg:bottom-0 before:max-lg:h-px before:max-lg:w-1/4 last:before:max-lg:hidden lg:border-l lg:pl-10 before:lg:top-1/2 before:lg:h-1/4 before:lg:w-px before:lg:-translate-y-1/2">
+          <div class="bg-red-500/10 flex h-10 w-10 items-center justify-center rounded-full">
+            <svg class="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M6 12H2m4.343-5.657L4.93 4.93m1.414 14.142L4.93 19.07"/></svg>
           </div>
-          <h3 class="font-secondary mb-3 text-xl text-center">Signals alone = Noise</h3>
-          <p class="text-text-default/70 text-center">
-            A company hired a new CMO. So what? Thousands of companies hire CMOs. Without knowing if they need what you sell, it's just noise.
-          </p>
+          <h3 class="h4">Signals alone = Noise</h3>
+          <p class="text-text-default/70">A company hired a new CMO. So what? Thousands of companies hire CMOs. Without knowing if they need what you sell, it's just noise.</p>
         </div>
 
-        <!-- Card 2 -->
-        <div
-          class="bg-theme-dark border-border-light rounded-2xl border p-8"
-          data-aos="fade-up-sm"
-          data-aos-delay="100"
-        >
-          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold">
-            ?
+        <!-- Intent alone = Anonymous -->
+        <div class="border-primary/40 before:bg-primary relative space-y-5 before:absolute before:-left-px before:content-[''] last:border-b-0 last:pb-0 max-lg:border-b max-lg:pb-10 before:max-lg:bottom-0 before:max-lg:h-px before:max-lg:w-1/4 last:before:max-lg:hidden lg:border-l lg:pl-10 before:lg:top-1/2 before:lg:h-1/4 before:lg:w-px before:lg:-translate-y-1/2">
+          <div class="bg-amber-500/10 flex h-10 w-10 items-center justify-center rounded-full">
+            <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
           </div>
-          <h3 class="font-secondary mb-3 text-xl text-center">Intent alone = Anonymous</h3>
-          <p class="text-text-default/70 text-center">
-            Someone from Company X is reading G2 reviews about cold email tools. But who? Which team? Are they serious or just browsing?
-          </p>
+          <h3 class="h4">Intent alone = Anonymous</h3>
+          <p class="text-text-default/70">Someone from Company X is reading G2 reviews about cold email tools. But who? Which team? Are they serious or just browsing?</p>
         </div>
 
-        <!-- Card 3 -->
-        <div
-          class="bg-theme-dark border-border-light rounded-2xl border p-8"
-          data-aos="fade-up-sm"
-          data-aos-delay="200"
-        >
-          <div class="bg-primary/10 text-primary mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold">
-            &#x2713;
+        <!-- Signals + Intent = Buyer -->
+        <div class="border-primary/40 before:bg-primary relative space-y-5 before:absolute before:-left-px before:content-[''] last:border-b-0 last:pb-0 max-lg:border-b max-lg:pb-10 before:max-lg:bottom-0 before:max-lg:h-px before:max-lg:w-1/4 last:before:max-lg:hidden lg:border-l lg:pl-10 before:lg:top-1/2 before:lg:h-1/4 before:lg:w-px before:lg:-translate-y-1/2">
+          <div class="bg-teal-500/10 flex h-10 w-10 items-center justify-center rounded-full">
+            <svg class="w-5 h-5 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-          <h3 class="font-secondary mb-3 text-xl text-center">Signals + Intent = Your highest-probability buyer</h3>
-          <p class="text-text-default/70 text-center">
-            A company hired a new CMO (signal), AND they're actively comparing your top competitors on G2 (intent). They have budget, mandate, and urgency. That's who we put in your pipeline.
-          </p>
+          <h3 class="h4">Signals + Intent = Your highest-probability buyer</h3>
+          <p class="text-text-default/70">A company hired a new CMO (signal), AND they're actively comparing your top competitors on G2 (intent). They have budget, mandate, and urgency. That's who we put in your pipeline.</p>
         </div>
       </div>
 
-      <div class="mt-12 text-center" data-aos="fade-up-sm" data-aos-delay="300">
+      <div class="text-center" data-aos="fade-up-sm" data-aos-delay="300">
         <p class="text-text-default/70 mx-auto max-w-2xl text-lg">
           Multi-signal outreach converts at <strong class="text-primary">45-65%</strong>. Single-signal converts at <strong class="text-text-default/50">5-15%</strong>. We combine both.
         </p>
@@ -154,61 +134,6 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
         <ButtonLink
           class="btn-md btn-primary"
           content={{ enable: true, label: "Get 100 Qualified Potential Buyers. Free.", url: "/services/free-leads" }}
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Platform Preview -->
-  <section class="section-gradient py-16 md:py-24">
-    <div class="container">
-      <div class="mb-14 text-center" data-aos="fade-up-sm">
-        <Subtitle content="The Platform" />
-        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
-          Everything you need. <strong class="font-tertiary italic">Nothing you don't.</strong>
-        </h2>
-      </div>
-
-      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          {
-            title: "Cold Email Platform",
-            desc: "Sequences, A/B testing, smart scheduling. Send campaigns that feel 1-to-1 at scale.",
-            url: "/products/cold-email",
-          },
-          {
-            title: "Email Warmup",
-            desc: "Protect your sender reputation. Gradual ramp-up, deliverability monitoring. Included in every plan.",
-            url: "/products/email-warmup",
-          },
-          {
-            title: "Email Verification",
-            desc: "Multi-layer validation. Catch-all detection. Never waste a send on a dead address.",
-            url: "/products/email-verification",
-          },
-          {
-            title: "Email Finder",
-            desc: "Domain to decision maker. Name + company to verified email. Waterfall enrichment.",
-            url: "/products/email-finder",
-          },
-        ].map((card, i) => (
-          <a
-            href={card.url}
-            class="bg-theme-dark border-border-light rounded-2xl border p-6 transition hover:border-primary/50 block"
-            data-aos="fade-up-sm"
-            data-aos-delay={i * 100}
-          >
-            <h3 class="font-secondary mb-3 text-lg font-semibold">{card.title}</h3>
-            <p class="text-text-default/70 text-sm mb-4">{card.desc}</p>
-            <span class="text-primary text-sm font-medium">Learn more &rarr;</span>
-          </a>
-        ))}
-      </div>
-
-      <div class="mt-12 text-center" data-aos="fade-up-sm" data-aos-delay="400">
-        <ButtonLink
-          class="btn-md btn-primary"
-          content={{ enable: true, label: "Get Access", url: "/services/free-leads" }}
         />
       </div>
     </div>
@@ -345,7 +270,7 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
       </div>
 
       <div class="mt-8" data-aos="fade-up-sm" data-aos-delay="200">
-        <a href="/developers" class="text-primary hover:text-primary/80 font-medium">
+        <a href="https://api.sendemall.com/docs" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 font-medium">
           Explore the API &rarr;
         </a>
       </div>

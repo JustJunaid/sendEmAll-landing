@@ -1,0 +1,335 @@
+---
+/**
+ * HowItWorksTimeline — Premium sticky scroll stepper.
+ * v5: Balanced layout, precise line clipping, generous scroll distance,
+ *     frameless SVGs, better text hierarchy, step-skip prevention.
+ */
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
+import Icons from "@/helpers/Icons.astro";
+
+const steps = [
+  {
+    number: "01",
+    title: "You describe your buyer",
+    description:
+      "Tell us your ICP — industry, company size, tech stack, job titles, geography. Our system builds a precision targeting profile in minutes, not days.",
+    image: "/images/how-it-works/step-1-icp.svg",
+  },
+  {
+    number: "02",
+    title: "We find who's ready to buy",
+    description:
+      "We scan 18+ signal sources in real time. Hiring surges, funding rounds, tech stack changes, competitor research, ad spend. When a company matches your ICP AND shows buying behaviour — they enter your pipeline.",
+    image: "/images/how-it-works/step-2-signals.svg",
+  },
+  {
+    number: "03",
+    title: "We reach their decision makers",
+    description:
+      "Verified emails for the right people. Personalized copy trained on best cold email practices. Managed infrastructure — domains, mailboxes, warmup — so your emails actually land in primary inboxes.",
+    image: "/images/how-it-works/step-3-reach.svg",
+  },
+  {
+    number: "04",
+    title: "You hit send, manage replies, and close",
+    description:
+      "Review the campaign, approve it, hit send. Replies land in your unified inbox. You focus on closing deals, not prospecting. Pipeline fills itself.",
+    image: "/images/how-it-works/step-4-close.svg",
+  },
+];
+---
+
+<section id="how-it-works">
+  <!-- Mobile-only header (desktop header is inside sticky) -->
+  <div class="container lg:hidden">
+    <div class="mx-auto max-w-2xl text-center mb-6 md:mb-10" data-aos="fade-up-sm">
+      <Subtitle content="How It Works" />
+      <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight has-italic-text">
+        From ICP to closed deal. <strong class="font-tertiary italic">Four steps.</strong>
+      </h2>
+    </div>
+  </div>
+
+  <!-- ========== DESKTOP: Sticky scroll stepper (lg+) ========== -->
+  <div class="hidden lg:block">
+    <!-- 500vh = ~125vh per step. Generous scroll distance prevents skipping -->
+    <div class="hiw-scroll-container relative" style="height: 500vh;">
+      <div class="hiw-sticky sticky top-[80px] h-[calc(100vh-80px)] flex flex-col justify-start pt-6 overflow-hidden">
+        <div class="container">
+          <!-- Header inside sticky so it stays visible -->
+          <div class="mx-auto max-w-2xl text-center mb-6">
+            <Subtitle content="How It Works" />
+            <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight has-italic-text">
+              From ICP to closed deal. <strong class="font-tertiary italic">Four steps.</strong>
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-2 gap-12 xl:gap-20 items-center max-w-6xl mx-auto">
+
+            <!-- LEFT: Steps with progress line -->
+            <div class="relative pl-12">
+              <!-- Progress line — positioned via JS to span exactly first→last dot -->
+              <div class="hiw-line-track absolute left-[11px] w-[2px] rounded-full overflow-hidden" style="top: 0; height: 0;">
+                <!-- Background track -->
+                <div class="absolute inset-0 bg-white/[0.06]"></div>
+                <!-- Active fill -->
+                <div class="hiw-progress-line absolute left-0 top-0 w-full bg-primary rounded-full transition-[height] duration-300 ease-out" style="height: 0%"></div>
+              </div>
+
+              <div class="hiw-steps-list space-y-5">
+                {steps.map((step, i) => (
+                  <div
+                    class:list={[
+                      "hiw-step-label group cursor-pointer relative transition-all duration-500 py-1",
+                      i === 0 ? "is-active opacity-100" : "opacity-35 hover:opacity-55",
+                    ]}
+                    data-step={i}
+                  >
+                    {/* Dot */}
+                    <div class:list={[
+                      "hiw-dot absolute -left-12 top-[5px] w-6 h-6 rounded-full border-[1.5px] transition-all duration-500 flex items-center justify-center",
+                      i === 0
+                        ? "border-primary bg-primary shadow-[0_0_20px_rgba(210,179,243,0.5)]"
+                        : "border-white/20 bg-white/[0.04]",
+                    ]}>
+                      <span class:list={[
+                        "text-[9px] font-bold tracking-wide transition-colors duration-500",
+                        i === 0 ? "text-body" : "text-white/30",
+                      ]}>{step.number}</span>
+                    </div>
+
+                    {/* Step number label */}
+                    <p class:list={[
+                      "text-[11px] font-medium uppercase tracking-widest mb-1 transition-colors duration-500",
+                      i === 0 ? "text-primary" : "text-white/30",
+                    ]}>Step {step.number}</p>
+
+                    <h3 class="font-secondary text-xl xl:text-2xl mb-2 text-white leading-tight">
+                      {step.title}
+                    </h3>
+
+                    <div
+                      class="hiw-step-desc text-text-default/60 text-[15px] leading-relaxed transition-all duration-500 overflow-hidden"
+                      style={i === 0 ? "max-height: 300px; opacity: 1;" : "max-height: 0; opacity: 0;"}
+                    >
+                      <p class="max-w-md pb-1">{step.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- RIGHT: Visual — frameless, confident -->
+            <div class="relative flex items-center justify-center">
+              <div class="relative w-full">
+                {steps.map((step, i) => (
+                  <div
+                    class:list={[
+                      "hiw-step-visual transition-all duration-700 ease-out",
+                      i === 0
+                        ? "opacity-100 scale-100 relative"
+                        : "opacity-0 scale-[0.94] absolute inset-0",
+                    ]}
+                    data-step-visual={i}
+                  >
+                    <OptimizedImage
+                      src={step.image}
+                      alt={step.title}
+                      class="w-full h-auto rounded-2xl"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Persistent CTA -->
+        <div class="mt-10 text-center">
+          <ButtonLink
+            class="has-icon-moving-animation inline-flex w-fit flex-row-reverse items-center gap-4 rounded-none p-0 text-white"
+            content={{ enable: true, label: "Get 100 Qualified Potential Buyers. Free.", url: "/services/free-leads" }}
+          >
+            <span class="bg-primary icons-wrapper inline-flex h-11 w-11 items-center justify-center rounded-full">
+              <span class="icon icon-before flex items-center justify-center">
+                <Icons icon="ArrowUpRight" class="text-xl" />
+              </span>
+              <span class="icon icon-after flex items-center justify-center" aria-hidden="true">
+                <Icons icon="ArrowUpRight" class="text-xl" />
+              </span>
+            </span>
+          </ButtonLink>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MOBILE: Stacked cards (<lg) ========== -->
+  <div class="lg:hidden">
+    <div class="container">
+      <div class="space-y-12">
+        {steps.map((step, i) => (
+          <div class="relative pl-14" data-aos="fade-up-sm" data-aos-delay={i * 80}>
+            <div class="absolute left-0 top-1">
+              <div class="flex items-center justify-center w-10 h-10 rounded-full bg-primary text-body font-bold text-sm shadow-[0_0_20px_rgba(210,179,243,0.3)]">
+                {step.number}
+              </div>
+            </div>
+            {i < steps.length - 1 && (
+              <div class="absolute left-[19px] top-12 bottom-[-48px] w-px bg-gradient-to-b from-primary/40 to-transparent"></div>
+            )}
+            <h3 class="font-secondary text-xl mb-2 text-white">{step.title}</h3>
+            <p class="text-text-default/70 text-sm leading-relaxed mb-5">{step.description}</p>
+            <div class="rounded-2xl overflow-hidden">
+              <OptimizedImage src={step.image} alt={step.title} class="w-full h-auto" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10 text-center">
+        <ButtonLink
+          class="has-icon-moving-animation inline-flex w-fit flex-row-reverse items-center gap-4 rounded-none p-0 text-white"
+          content={{ enable: true, label: "Get 100 Qualified Potential Buyers. Free.", url: "/services/free-leads" }}
+        >
+          <span class="bg-primary icons-wrapper inline-flex h-11 w-11 items-center justify-center rounded-full">
+            <span class="icon icon-before flex items-center justify-center">
+              <Icons icon="ArrowUpRight" class="text-xl" />
+            </span>
+            <span class="icon icon-after flex items-center justify-center" aria-hidden="true">
+              <Icons icon="ArrowUpRight" class="text-xl" />
+            </span>
+          </span>
+        </ButtonLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.querySelector(".hiw-scroll-container") as HTMLElement;
+    if (!container) return;
+
+    const labels = container.querySelectorAll(".hiw-step-label");
+    const visuals = container.querySelectorAll(".hiw-step-visual");
+    const progressLine = container.querySelector(".hiw-progress-line") as HTMLElement;
+    const lineTrack = container.querySelector(".hiw-line-track") as HTMLElement;
+    const stepCount = labels.length;
+    let currentStep = -1; // Start at -1 so first update always fires
+
+    // Position line track precisely between first and last dot centers
+    function calibrateLine() {
+      if (!lineTrack || labels.length < 2) return;
+      const firstDot = labels[0].querySelector(".hiw-dot") as HTMLElement;
+      const lastDot = labels[labels.length - 1].querySelector(".hiw-dot") as HTMLElement;
+      if (!firstDot || !lastDot) return;
+
+      const containerRect = lineTrack.parentElement!.getBoundingClientRect();
+      const firstRect = firstDot.getBoundingClientRect();
+      const lastRect = lastDot.getBoundingClientRect();
+
+      const topOffset = firstRect.top + firstRect.height / 2 - containerRect.top;
+      const bottomOffset = lastRect.top + lastRect.height / 2 - containerRect.top;
+
+      lineTrack.style.top = `${topOffset}px`;
+      lineTrack.style.height = `${bottomOffset - topOffset}px`;
+    }
+
+    calibrateLine();
+    window.addEventListener("resize", calibrateLine);
+    // Recalibrate after fonts/images load
+    window.addEventListener("load", () => setTimeout(calibrateLine, 100));
+
+    function updateStep(newStep: number) {
+      if (newStep === currentStep) return;
+      currentStep = newStep;
+
+      labels.forEach((label, i) => {
+        const desc = label.querySelector(".hiw-step-desc") as HTMLElement;
+        const dot = label.querySelector(".hiw-dot") as HTMLElement;
+        const dotSpan = dot?.querySelector("span") as HTMLElement;
+        const stepLabel = label.querySelector("p") as HTMLElement;
+
+        if (i === currentStep) {
+          label.classList.add("is-active");
+          label.classList.remove("opacity-35", "hover:opacity-55");
+          label.classList.add("opacity-100");
+          if (desc) { desc.style.maxHeight = "300px"; desc.style.opacity = "1"; }
+          if (dot) {
+            dot.classList.add("border-primary", "bg-primary", "shadow-[0_0_20px_rgba(210,179,243,0.5)]");
+            dot.classList.remove("border-white/20", "bg-white/[0.04]");
+          }
+          if (dotSpan) { dotSpan.classList.add("text-body"); dotSpan.classList.remove("text-white/30"); }
+          if (stepLabel) { stepLabel.classList.add("text-primary"); stepLabel.classList.remove("text-white/30"); }
+        } else {
+          label.classList.remove("is-active", "opacity-100");
+          label.classList.add("opacity-35", "hover:opacity-55");
+          if (desc) { desc.style.maxHeight = "0"; desc.style.opacity = "0"; }
+          if (dot) {
+            dot.classList.remove("border-primary", "bg-primary", "shadow-[0_0_20px_rgba(210,179,243,0.5)]");
+            dot.classList.add("border-white/20", "bg-white/[0.04]");
+          }
+          if (dotSpan) { dotSpan.classList.remove("text-body"); dotSpan.classList.add("text-white/30"); }
+          if (stepLabel) { stepLabel.classList.remove("text-primary"); stepLabel.classList.add("text-white/30"); }
+        }
+      });
+
+      visuals.forEach((visual, i) => {
+        const el = visual as HTMLElement;
+        if (i === currentStep) {
+          el.classList.add("opacity-100", "scale-100", "relative");
+          el.classList.remove("opacity-0", "scale-[0.94]", "absolute", "inset-0");
+        } else {
+          el.classList.remove("opacity-100", "scale-100", "relative");
+          el.classList.add("opacity-0", "scale-[0.94]", "absolute", "inset-0");
+        }
+      });
+
+      // Recalibrate line after description expand/collapse changes layout
+      requestAnimationFrame(() => calibrateLine());
+    }
+
+    function onScroll() {
+      const rect = container.getBoundingClientRect();
+      const containerHeight = container.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollableDistance = containerHeight - viewportHeight;
+
+      if (scrollableDistance <= 0) return;
+
+      const scrolled = Math.max(0, -rect.top) / scrollableDistance;
+      const clampedScroll = Math.min(Math.max(scrolled, 0), 0.999);
+
+      // Map to step — use floor for clean step boundaries
+      const newStep = Math.min(Math.floor(clampedScroll * stepCount), stepCount - 1);
+      updateStep(newStep);
+
+      // Progress line
+      if (progressLine) {
+        // Map progress within the line (first dot center to last dot center)
+        const stepProgress = (clampedScroll * stepCount - 0) / (stepCount - 1);
+        const linePercent = Math.min(Math.max(stepProgress * 100, 0), 100);
+        progressLine.style.height = `${linePercent}%`;
+      }
+    }
+
+    // Click step labels to scroll there
+    labels.forEach((label, i) => {
+      label.addEventListener("click", () => {
+        const containerTop = container.getBoundingClientRect().top + window.scrollY;
+        const scrollableDistance = container.offsetHeight - window.innerHeight;
+        // Add small offset so we land clearly in the step zone
+        const stepOffset = (i + 0.15) / stepCount;
+        window.scrollTo({ top: containerTop + stepOffset * scrollableDistance, behavior: "smooth" });
+      });
+    });
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Initial render
+    currentStep = -1;
+    updateStep(0);
+  });
+</script>

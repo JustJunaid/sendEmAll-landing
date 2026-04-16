@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+  <!-- Main card background -->
+  <rect x="16" y="12" width="568" height="426" rx="12" fill="#252636" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Window chrome bar -->
+  <rect x="16" y="12" width="568" height="40" rx="12" fill="#252636"/>
+  <rect x="16" y="40" width="568" height="12" fill="#252636"/>
+  <line x1="16" y1="52" x2="584" y2="52" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Window dots -->
+  <circle cx="40" cy="32" r="6" fill="#FF5F57"/>
+  <circle cx="58" cy="32" r="6" fill="#FEBC2E"/>
+  <circle cx="76" cy="32" r="6" fill="#28C840"/>
+
+  <!-- SendEmAll text -->
+  <text x="100" y="37" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#D2B3F3">SendEmAll</text>
+
+  <!-- Left panel: Email composer (60% width) -->
+  <!-- Vertical divider between panels -->
+  <line x1="370" y1="52" x2="370" y2="438" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- To field -->
+  <text x="36" y="80" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">To:</text>
+  <text x="62" y="80" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#E8E8F0">Sarah Mitchell</text>
+  <circle cx="172" cy="76" r="8" fill="#34D399" fill-opacity="0.2"/>
+  <text x="172" y="80" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#34D399" text-anchor="middle">&#x2713;</text>
+
+  <!-- Subject field -->
+  <text x="36" y="106" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Subject:</text>
+  <text x="88" y="106" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="400" fill="#E8E8F0">Quick question for </text>
+  <rect x="218" y="93" width="80" height="20" rx="4" fill="#D2B3F3" fill-opacity="0.15"/>
+  <text x="258" y="107" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#D2B3F3" text-anchor="middle">{company}</text>
+
+  <!-- Divider -->
+  <line x1="36" y1="120" x2="354" y2="120" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Email body lines -->
+  <text x="36" y="146" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Hi </text>
+  <rect x="52" y="133" width="82" height="20" rx="4" fill="#D2B3F3" fill-opacity="0.15"/>
+  <text x="93" y="147" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#D2B3F3" text-anchor="middle">{first_name}</text>
+  <text x="138" y="146" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">,</text>
+
+  <text x="36" y="170" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">I noticed</text>
+  <rect x="96" y="157" width="80" height="20" rx="4" fill="#D2B3F3" fill-opacity="0.15"/>
+  <text x="136" y="171" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#D2B3F3" text-anchor="middle">{company}</text>
+  <text x="180" y="170" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">just raised a</text>
+
+  <text x="36" y="194" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Series B. When we worked with similar</text>
+
+  <text x="36" y="218" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">teams scaling outbound, they typically</text>
+
+  <text x="36" y="242" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">saw 3x more qualified demos within 60 days.</text>
+
+  <text x="36" y="274" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Worth a quick chat?</text>
+
+  <!-- Send Campaign button -->
+  <rect x="36" y="310" width="180" height="38" rx="19" fill="#D2B3F3"/>
+  <text x="126" y="334" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1E1F2B" text-anchor="middle">Send Campaign &#x2192;</text>
+
+  <!-- Right panel: Preflight sidebar -->
+  <rect x="370" y="52" width="214" height="386" rx="0" fill="#2A2B3D"/>
+  <rect x="570" y="52" width="14" height="386" rx="0" fill="#2A2B3D"/>
+  <!-- Fix bottom-right corner -->
+  <rect x="570" y="426" width="14" height="12" rx="0" fill="#2A2B3D"/>
+
+  <!-- Preflight title -->
+  <text x="390" y="82" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#E8E8F0">Preflight Check</text>
+
+  <!-- Status row 1: Verified -->
+  <circle cx="402" cy="116" r="10" fill="#34D399" fill-opacity="0.15"/>
+  <text x="402" y="120" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#34D399" text-anchor="middle">&#x2713;</text>
+  <text x="420" y="113" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">Verified</text>
+  <text x="420" y="128" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400" fill="#8B8BA0">sarah@acme.com</text>
+
+  <!-- Status row 2: Deliverability -->
+  <rect x="390" y="152" width="160" height="6" rx="3" fill="#3A3B4F"/>
+  <rect x="390" y="152" width="157" height="6" rx="3" fill="#34D399"/>
+  <text x="420" y="174" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">Deliverability</text>
+  <text x="556" y="160" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#34D399" text-anchor="end">98%</text>
+
+  <!-- Status row 3: Infrastructure Ready -->
+  <circle cx="402" cy="204" r="10" fill="#5EEAD4" fill-opacity="0.15"/>
+  <!-- Shield icon approximation -->
+  <text x="402" y="208" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#5EEAD4" text-anchor="middle">&#x25C6;</text>
+  <text x="420" y="208" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">Infrastructure Ready</text>
+
+  <!-- Status row 4: Warmup Complete -->
+  <circle cx="402" cy="242" r="10" fill="#34D399" fill-opacity="0.15"/>
+  <text x="402" y="246" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#34D399" text-anchor="middle">&#x2713;</text>
+  <text x="420" y="246" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#E8E8F0">Warmup Complete</text>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+  <!-- Main card background -->
+  <rect x="16" y="12" width="568" height="426" rx="12" fill="#252636" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Window chrome bar -->
+  <rect x="16" y="12" width="568" height="40" rx="12" fill="#252636"/>
+  <rect x="16" y="40" width="568" height="12" fill="#252636"/>
+  <line x1="16" y1="52" x2="584" y2="52" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Window dots -->
+  <circle cx="40" cy="32" r="6" fill="#FF5F57"/>
+  <circle cx="58" cy="32" r="6" fill="#FEBC2E"/>
+  <circle cx="76" cy="32" r="6" fill="#28C840"/>
+
+  <!-- SendEmAll text -->
+  <text x="100" y="37" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#D2B3F3">SendEmAll</text>
+
+  <!-- Title -->
+  <text x="40" y="82" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" fill="#E8E8F0">Ideal Customer Profile</text>
+
+  <!-- Row 1: Industry -->
+  <rect x="40" y="100" width="3" height="32" rx="1.5" fill="#D2B3F3"/>
+  <text x="56" y="113" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Industry</text>
+  <rect x="200" y="100" width="110" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="255" y="118" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#D2B3F3" text-anchor="middle">SaaS / B2B</text>
+
+  <!-- Row 2: Company Size -->
+  <rect x="40" y="144" width="3" height="32" rx="1.5" fill="#D2B3F3"/>
+  <text x="56" y="157" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Company Size</text>
+  <rect x="200" y="144" width="170" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="285" y="162" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#D2B3F3" text-anchor="middle">50 — 200 employees</text>
+
+  <!-- Row 3: Tech Stack -->
+  <rect x="40" y="188" width="3" height="32" rx="1.5" fill="#D2B3F3"/>
+  <text x="56" y="201" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Tech Stack</text>
+  <rect x="200" y="188" width="82" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="241" y="206" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">HubSpot</text>
+  <rect x="290" y="188" width="90" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="335" y="206" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">Salesforce</text>
+  <rect x="388" y="188" width="66" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="421" y="206" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">Stripe</text>
+
+  <!-- Row 4: Job Titles -->
+  <rect x="40" y="232" width="3" height="32" rx="1.5" fill="#D2B3F3"/>
+  <text x="56" y="245" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Job Titles</text>
+  <rect x="200" y="232" width="86" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="243" y="250" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">VP Sales</text>
+  <rect x="294" y="232" width="130" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="359" y="250" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">Head of Growth</text>
+
+  <!-- Row 5: Geography -->
+  <rect x="40" y="276" width="3" height="32" rx="1.5" fill="#D2B3F3"/>
+  <text x="56" y="289" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="400" fill="#8B8BA0">Geography</text>
+  <rect x="200" y="276" width="50" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="225" y="294" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">US</text>
+  <rect x="258" y="276" width="50" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="283" y="294" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">UK</text>
+  <rect x="316" y="276" width="64" height="28" rx="14" fill="#D2B3F3" fill-opacity="0.15" stroke="#D2B3F3" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="348" y="294" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#D2B3F3" text-anchor="middle">DACH</text>
+
+  <!-- Divider above button -->
+  <line x1="40" y1="330" x2="560" y2="330" stroke="#3A3B4F" stroke-width="1"/>
+
+  <!-- Build Profile button -->
+  <rect x="200" y="350" width="200" height="42" rx="21" fill="#D2B3F3"/>
+  <text x="300" y="376" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1E1F2B" text-anchor="middle">Build Profile &#x2192;</text>
+</svg>

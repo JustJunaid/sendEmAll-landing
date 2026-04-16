@@ -248,6 +248,11 @@ const products = [
         if (!res.ok) throw new Error(json.error ?? "Submission failed.");
         form.classList.add("hidden");
         successEl?.classList.remove("hidden");
+
+        // Track conversion across GA4, Intercom, and Clarity
+        import("@/lib/utils/tracking").then(({ trackFormSubmission }) => {
+          trackFormSubmission(payload as any);
+        });
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : "Something went wrong. Please try again.";
         showError(msg);

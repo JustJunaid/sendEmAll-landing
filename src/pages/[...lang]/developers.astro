@@ -22,9 +22,8 @@ export function getStaticPaths() {
       <p class="mx-auto mt-6 max-w-2xl text-lg text-text-default/70" data-aos="fade-up-sm" data-aos-delay="200">
         REST API, MCP server, webhooks, CSV import. Build outbound into your product.
       </p>
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="300">
-        <a href="/services/free-leads" class="btn btn-md btn-primary">Get API Access</a>
-        <a href="#api-reference" class="btn btn-md btn-outline-primary">View docs</a>
+      <div class="mt-10" data-aos="fade-up-sm" data-aos-delay="300">
+        <a href="https://api.sendemall.com/docs" target="_blank" rel="noopener noreferrer" class="btn btn-md btn-primary">View API Docs</a>
       </div>
     </div>
   </section>
@@ -64,73 +63,6 @@ curl -X POST https://api.sendemall.com/v1/campaigns \\
   },
   "credits_budget": 500
 }'`} /></pre>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Python SDK -->
-  <section class="py-20 lg:py-28">
-    <div class="container">
-      <div class="grid items-start gap-12 lg:grid-cols-2">
-        <div class="order-2 rounded-2xl border border-border-light bg-theme-dark p-6 font-mono text-sm lg:order-1" data-aos="fade-up-sm">
-          <div class="mb-3 flex items-center gap-2">
-            <span class="h-3 w-3 rounded-full bg-red-500"></span>
-            <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
-            <span class="h-3 w-3 rounded-full bg-green-500"></span>
-            <span class="ml-2 text-xs text-text-default/50">Python</span>
-          </div>
-          <pre class="overflow-x-auto text-text-default/80"><code set:html={`# Python SDK
-from sendemall import Client
-
-client = Client(api_key="sk_live_...")
-campaign = client.campaigns.create(
-    name="Q1 SaaS Outbound",
-    icp={"industry": "SaaS", "company_size": "50-200"},
-    credits_budget=500
-)
-print(f"Campaign {campaign.id}: {campaign.estimated_buyers} buyers")`} /></pre>
-        </div>
-        <div class="order-1 lg:order-2" data-aos="fade-up-sm" data-aos-delay="100">
-          <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">SDKs</span>
-          <h2 class="text-3xl font-bold sm:text-4xl">Python and Node.js SDKs</h2>
-          <p class="mt-4 text-text-default/70">Type-safe clients for Python and JavaScript. Install from PyPI or npm and start building in minutes.</p>
-          <div class="mt-6 rounded-xl border border-border-light bg-theme-dark p-4 font-mono text-sm">
-            <code class="text-text-default/80">pip install sendemall</code>
-          </div>
-          <div class="mt-3 rounded-xl border border-border-light bg-theme-dark p-4 font-mono text-sm">
-            <code class="text-text-default/80">npm install sendemall</code>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Node.js Example -->
-  <section class="py-20 lg:py-28">
-    <div class="container">
-      <div class="grid items-start gap-12 lg:grid-cols-2">
-        <div data-aos="fade-up-sm">
-          <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">Node.js</span>
-          <h2 class="text-3xl font-bold sm:text-4xl">JavaScript / TypeScript</h2>
-          <p class="mt-4 text-text-default/70">Full TypeScript support with auto-completion and type inference. Works with ESM and CommonJS.</p>
-        </div>
-        <div class="rounded-2xl border border-border-light bg-theme-dark p-6 font-mono text-sm" data-aos="fade-up-sm" data-aos-delay="100">
-          <div class="mb-3 flex items-center gap-2">
-            <span class="h-3 w-3 rounded-full bg-red-500"></span>
-            <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
-            <span class="h-3 w-3 rounded-full bg-green-500"></span>
-            <span class="ml-2 text-xs text-text-default/50">JavaScript</span>
-          </div>
-          <pre class="overflow-x-auto text-text-default/80"><code set:html={`// Node.js SDK
-import { SendEmAll } from 'sendemall';
-
-const client = new SendEmAll('sk_live_...');
-const campaign = await client.campaigns.create({
-  name: 'Q1 SaaS Outbound',
-  icp: { industry: 'SaaS', companySize: '50-200' },
-  creditsBudget: 500
-});`} /></pre>
         </div>
       </div>
     </div>
@@ -216,8 +148,8 @@ const campaign = await client.campaigns.create({
     <div class="container">
       <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
         <h2 class="text-3xl font-bold sm:text-4xl">Start building with SendEmAll</h2>
-        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Get API access and start integrating outbound into your product today.</p>
-        <a href="/services/free-leads" class="btn btn-md btn-primary mt-8">Get API Access</a>
+        <p class="mx-auto mt-4 max-w-xl text-text-default/70">Explore the full API reference, authentication guides, and endpoint documentation.</p>
+        <a href="https://api.sendemall.com/docs" target="_blank" rel="noopener noreferrer" class="btn btn-md btn-primary mt-8">View API Docs</a>
       </div>
     </div>
   </section>
