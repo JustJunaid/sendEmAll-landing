@@ -1,8 +1,8 @@
 # SendEmAll Site Restructure: Signal-Based Positioning
 
 **Date:** 2026-04-09
-**Updated:** 2026-04-11
-**Status:** Implemented and deployed. Remaining: custom forms (Task 16), placeholder values (Task 17), visual QA (Task 18), exit intent (Task 13, deferred).
+**Updated:** 2026-04-14
+**Status:** Fully implemented and deployed. All tasks complete. Only Task 13 (exit intent popups) deferred.
 
 ---
 
@@ -754,7 +754,7 @@ Automations:
 - Error message inline with retry option
 - Noscript fallback: link to Airtable form directly
 
-**Current state:** The site currently uses an `AirtableForm.astro` iframe component with placeholder URLs (`FORM_A_ID`, `FORM_B_ID`, `FORM_C_ID`). This component and all pages that use it need to be replaced with the custom form components. See Task 16 in the implementation plan.
+**Current state (as of 2026-04-14):** Custom HTML forms are live. AirtableForm.astro iframe component deleted. LeadMagnetForm, ServiceRequestForm, and ProductInterestForm post to `/api/form-submit` (Astro SSR route) which writes to Airtable. UTM tracking working. All forms tested on production.
 
 **Pages to update:**
 - `/services/free-leads` — Form A (lead magnet)
@@ -778,13 +778,15 @@ Automations:
 
 ## Transition Plan
 
-### Phase 1 (Now — site restructure deployed, forms pending)
-- All product page CTAs -> Airtable Form C ("Get Access")
-- All service page CTAs -> Airtable Form A/B or Stripe links
-- Homepage hero CTA -> Airtable Form A ("Get 100 Potential Buyers")
+### Phase 1 (Complete as of 2026-04-14)
+- All product page CTAs -> Custom Form C ("Get Access")
+- All service page CTAs -> Custom Form A/B or Stripe links
+- Homepage hero CTA -> Custom Form A ("Get 100 Potential Buyers")
 - Fulfill lead requests manually using LeadGen scrapers
-- Infrastructure sales via Stripe (immediate revenue)
-- **Next step:** Replace Airtable iframe embeds with custom HTML forms (Task 16) for GTM/GA attribution tracking. Deploy to Vercel. Fill Stripe placeholder links and mailbox pricing (Task 17).
+- Infrastructure sales via Stripe (7 payment links live: GW, MS, SMTP, Azure + pre-warmed variants)
+- Custom HTML forms replaced Airtable iframes, UTM attribution working
+- Cookie consent geo-targeted via Vercel middleware (banner only in GDPR regions)
+- Visual QA passed (12 desktop pages, 5 mobile, 30 internal links)
 
 ### Phase 2 (When LeadGen stabilizes)
 - "Get 100 Free Leads" becomes semi-automated: form triggers LeadGen API, results delivered automatically
@@ -827,7 +829,7 @@ Automations:
 - 5 use case pages (/use-cases/*)
 - 1 free tool page (/tools/email-deliverability-test)
 - Custom HTML forms posting to Airtable API via Vercel Serverless Function (3 form types, with UTM attribution tracking). Replaces initial Airtable iframe approach.
-- Stripe integration on infrastructure page (placeholder links, pending real Stripe products)
+- Stripe integration on infrastructure page (7 live payment links: GW, MS365, SMTP, Azure + pre-warmed)
 - Exit intent popups (deferred)
 - Updated navigation (Products + Services + Use Cases dropdowns)
 - Signal/Intent explainer sections on homepage

@@ -37,8 +37,10 @@
     s.src = "https://www.googletagmanager.com/gtag/js?id=G-4WT843MDLE";
     document.head.appendChild(s);
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) { window.dataLayer.push(args); }
+    // Use the global gtag defined in the inline script above —
+    // redefining with TypeScript rest params would push Arrays instead of
+    // Arguments objects, which gtag.js silently ignores.
+    const gtag: (...args: any[]) => void = (window as any).gtag;
     gtag("js", new Date());
     gtag("config", "G-4WT843MDLE");
   }
@@ -75,7 +77,7 @@
   // --- Update GA4 consent state ---
 
   function updateConsent(analyticsGranted: boolean, marketingGranted: boolean) {
-    // @ts-expect-error gtag is defined inline above
+    const gtag: (...args: any[]) => void = (window as any).gtag;
     gtag("consent", "update", {
       analytics_storage: analyticsGranted ? "granted" : "denied",
       ad_storage: marketingGranted ? "granted" : "denied",
@@ -104,8 +106,12 @@
   }
 
   const consentRequired = requiresConsent();
+  const isDev = location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
-  if (!consentRequired) {
+  if (isDev) {
+    // Dev environment: skip all analytics, load only Intercom for testing
+    loadIntercom();
+  } else if (!consentRequired) {
     // Non-GDPR region: auto-grant analytics, no banner
     updateConsent(true, false);
     loadGA4();

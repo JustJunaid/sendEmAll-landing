@@ -889,7 +889,7 @@ git commit -m "Content audit: remove em dashes, enforce warmup keyword, update o
 
 ## Phase 8: Post-Launch (Forms, Placeholders, Visual QA)
 
-> **Status:** NOT STARTED. All tasks below are the remaining work after the signal-based positioning rewrite shipped.
+> **Status:** DONE (as of 2026-04-14). Tasks 16-18 completed. Task descriptions below are historical (describe the original requirements).
 
 ### Task 16: Replace Airtable Iframe with Custom HTML Forms
 
@@ -1095,7 +1095,7 @@ See the original Task 13 above for the implementation plan. The exit intent popu
 
 ---
 
-## Updated Summary
+## Updated Summary (as of 2026-04-13)
 
 | Phase | Tasks | Status | Key Deliverable |
 |-------|-------|--------|-----------------|
@@ -1105,7 +1105,18 @@ See the original Task 13 above for the implementation plan. The exit intent popu
 | 4: Use Cases + Tools | 7-9 | DONE | Use cases + deliverability tool + compare rewrites |
 | 5: Cleanup | 10-12 | DONE | Old pages removed, CTAs updated, config synced |
 | 6: Exit Intent | 13 | DEFERRED | Popup component (low priority) |
-| 7: Validation | 14-15 | PARTIAL | Airtable setup (user action) + content audit done |
-| **8: Post-Launch** | **16-18** | **NOT STARTED** | **Custom forms, placeholders, visual QA** |
+| 7: Validation | 14-15 | DONE | Airtable base created, content audit done |
+| 8: Post-Launch | 16-18 | DONE | Custom forms, Stripe links, visual QA |
+| 9: Polish | extra | DONE | Button order/style, cookie geo-targeting, infra page rewrite |
 
-**Next up for developer:** Task 16 (custom forms) is the highest priority remaining task. It requires the Airtable base from Task 14 to be set up first.
+### Additional work completed (not in original plan):
+- **Task 16 (Custom forms):** Gaurav built LeadMagnetForm, ServiceRequestForm, ProductInterestForm + API endpoint. All 3 tested and live. AirtableForm.astro deleted.
+- **Task 17 (Placeholders):** Infrastructure page fully rewritten with real Stripe payment links (7 products), pricing cards, interactive calculator, FAQ with schema. Deliverability test fully built by Gaurav (real backend at api.sendemall.com).
+- **Task 18 (Visual QA):** Full Playwright audit — 12 pages desktop, 5 mobile, 30 internal links. All passing except minor footer social icon text overflow (pre-existing template issue).
+- **Button UX:** Primary CTA on LEFT, secondary on RIGHT across all 15+ pages. Secondary style upgraded from btn-outline-white to btn-outline-primary (lavender border).
+- **Cookie consent geo-targeting:** Vercel edge middleware reads x-vercel-ip-country, sets cc_geo cookie. Banner only shows in GDPR/ePrivacy regions (31 countries + UK + CH + BR). Non-EU users get GA4 + Clarity auto-loaded.
+- **Infrastructure page calculator:** Shareable URL at #calculator. Recommends mailbox mix based on monthly volume. Links to Stripe checkout.
+- **Airtable integration:** 5 tables (Lead Magnet Requests, Service Requests, Product Interest, Lead Magnet Deliveries, Companies). UTM tracking fields on all tables. Env vars on Vercel.
+
+### Only remaining item:
+- **Task 13: Exit Intent Popups** — deferred, low priority.

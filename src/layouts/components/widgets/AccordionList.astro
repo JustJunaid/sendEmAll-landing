@@ -77,24 +77,15 @@ const { content: list, changelogContent, ...rest } = Astro.props;
   // Recalculate AOS Elements positions after accordion is opened
   // @ts-nocheck
   import AOS from "aos";
-  import {HSAccordion} from "preline";
 
   document.addEventListener("DOMContentLoaded", () => {
-    const accordions = document.querySelectorAll(".hs-accordion");
+    setTimeout(() => {
+      const collection = (window as any).$hsAccordionCollection;
+      if (!collection) return;
 
-    accordions.forEach((accordion) => {
-      setTimeout(() => {
-        const instance = HSAccordion.getInstance(
-          `#${accordion.getAttribute("id")}`,
-          true,
-        );
-
-        if (instance?.element) {
-          instance.element.on("open", () => {
-            AOS.refresh();
-          });
-        }
-      }, 1000);
-    });
+      collection.forEach((item: any) => {
+        item.element?.on?.("open", () => AOS.refresh());
+      });
+    }, 1000);
   });
 </script>

@@ -48,29 +48,26 @@
     const hasComponent = (selectors: string[]) =>
       selectors.some((selector) => document.querySelector(selector));
 
+    // Preline modules use default exports — resolve named or default
+    const resolve = (mod: any, name: string) => mod[name] || mod.default;
+
     if (hasComponent([".hs-overlay", "[data-hs-overlay]"])) {
-      const { HSOverlay } = await import("preline/dist/overlay.mjs");
-      HSOverlay?.autoInit();
+      resolve(await import("preline/dist/overlay.mjs"), "HSOverlay")?.autoInit();
     }
     if (hasComponent([".hs-dropdown", "[data-hs-dropdown]"])) {
-      const { HSDropdown } = await import("preline/dist/dropdown.mjs");
-      HSDropdown?.autoInit();
+      resolve(await import("preline/dist/dropdown.mjs"), "HSDropdown")?.autoInit();
     }
     if (hasComponent([".hs-select", "[data-hs-select]"])) {
-      const { HSSelect } = await import("preline/dist/select.mjs");
-      HSSelect?.autoInit();
+      resolve(await import("preline/dist/select.mjs"), "HSSelect")?.autoInit();
     }
     if (hasComponent(["[data-hs-tab]", ".hs-tab", '[role="tablist"] [data-hs-tab]'])) {
-      const { HSTabs } = await import("preline/dist/tabs.mjs");
-      HSTabs?.autoInit();
+      resolve(await import("preline/dist/tabs.mjs"), "HSTabs")?.autoInit();
     }
     if (hasComponent([".hs-accordion"])) {
-      const { HSAccordion } = await import("preline/dist/accordion.mjs");
-      HSAccordion?.autoInit();
+      resolve(await import("preline/dist/accordion.mjs"), "HSAccordion")?.autoInit();
     }
     if (hasComponent([".hs-collapse", "[data-hs-collapse]"])) {
-      const { HSCollapse } = await import("preline/dist/collapse.mjs");
-      HSCollapse?.autoInit();
+      resolve(await import("preline/dist/collapse.mjs"), "HSCollapse")?.autoInit();
     }
   }
 

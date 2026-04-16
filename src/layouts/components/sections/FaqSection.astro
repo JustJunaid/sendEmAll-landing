@@ -121,6 +121,13 @@ if (!showCategories) {
               }
             </div>
           )}
+          {list && list.length > 0 && !showCategories && (
+            <div class="mt-8 text-center" data-aos="fade-up-sm" data-aos-delay="400">
+              <a href="/faq" class="text-primary hover:text-primary/80 font-medium transition">
+                See all FAQs →
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -9,10 +9,10 @@ contactList:
   list:
     - icon: "/images/icons/svg/phone.svg"
       label: "Call us now"
-      value: "+1 (936) 247-9525"
+      value: "[+1 (936) 247-9525](tel:+19362479525)"
     - icon: "/images/icons/svg/email.svg"
       label: "Email us"
-      value: "contact@sendemall.com"
+      value: "[contact@sendemall.com](mailto:contact@sendemall.com)"
 
 social:
   enable: true

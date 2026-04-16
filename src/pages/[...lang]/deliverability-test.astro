@@ -1437,10 +1437,16 @@ const SEED_INBOXES_FALLBACK = [
       initializeTest();
     }
 
-    // Copy tracking code
-    document.getElementById("copy-code-btn").addEventListener("click", function() {
-      copyText(testCode, this);
+    // Copy tracking code — both the button and clicking the code itself
+    const copyBtn = document.getElementById("copy-code-btn");
+    const codeEl = document.getElementById("tracking-code");
+    copyBtn.addEventListener("click", function() {
+      copyText(testCode, copyBtn);
     });
+    codeEl.addEventListener("click", function() {
+      copyText(testCode, copyBtn);
+    });
+    codeEl.style.cursor = "pointer";
 
     // Copy all seed addresses
     document.getElementById("copy-all-btn").addEventListener("click", function() {

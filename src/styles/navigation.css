@@ -104,7 +104,7 @@
     }
 
     .nav-dropdown-list {
-      @apply bg-theme-dark z-10 min-w-52 rounded-xl border p-1 max-lg:static!;
+      @apply bg-theme-dark z-10 min-w-52 w-max rounded-xl border p-1 max-lg:static! max-lg:w-full;
 
       .nav-dropdown-item {
         .nav-dropdown-link {
