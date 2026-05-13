@@ -9,6 +9,7 @@ import type { JSONLDProps } from "@/lib/utils/JsonLdGenerator";
 import BreakpointIndicator from "./components/widgets/BreakpointIndicator.astro";
 import GlobalScripts from "./components/widgets/GlobalScripts.astro";
 import CookieConsent from "./components/widgets/CookieConsent.astro";
+import ExitIntentModal from "./components/widgets/ExitIntentModal.astro";
 import config from ".astro/config.generated.json";
 
 type Props = JSONLDProps & {
@@ -49,5 +50,6 @@ const sectionSpacingClass =
     <GlobalScripts />
     <BreakpointIndicator />
     <CookieConsent />
+    <ExitIntentModal />
   </body>
 </html>

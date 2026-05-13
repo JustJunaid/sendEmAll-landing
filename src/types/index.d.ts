@@ -320,3 +320,50 @@ export interface NavigationLink extends ChildNavigationLink {
 
 // END MENU TYPE
 // ----------------------------------------------------------------------
+
+// ----------------------------------------------------------------------
+// START EXIT-INTENT TYPE
+
+export type ExitIntentSegment =
+  | "cold-email"
+  | "leads"
+  | "pricing"
+  | "use-case"
+  | "default";
+
+export type ExitIntentFieldType = "email" | "text" | "textarea" | "select";
+
+export interface ExitIntentSelectOption {
+  value: string;
+  label: string;
+}
+
+export interface ExitIntentField {
+  name: string;
+  label: string;
+  type: ExitIntentFieldType;
+  placeholder?: string;
+  required?: boolean;
+  rows?: number;
+  options?: ExitIntentSelectOption[];
+  autocomplete?: string;
+}
+
+export interface ExitIntentSegmentConfig {
+  segment: ExitIntentSegment;
+  routes: string[];
+  title: string;
+  description: string;
+  submitLabel: string;
+  successTitle: string;
+  successBody: string;
+  fields: ExitIntentField[];
+}
+
+export interface ExitIntentConfig {
+  segments: ExitIntentSegmentConfig[];
+}
+
+// END EXIT-INTENT TYPE
+// ----------------------------------------------------------------------
+

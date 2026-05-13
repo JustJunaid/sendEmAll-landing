@@ -1,0 +1,323 @@
+---
+import Icons from "@/helpers/Icons.astro";
+import { exitIntentConfig } from "@/config/exit-intent";
+
+const { segments } = exitIntentConfig;
+---
+
+{
+  segments.map((seg) => {
+    const overlayId = `exit-intent-${seg.segment}`;
+    const formId = `exit-intent-form-${seg.segment}`;
+    return (
+      <div
+        id={overlayId}
+        class="hs-overlay pointer-events-none fixed start-0 top-0 z-60 hidden size-full overflow-x-hidden overflow-y-auto"
+        data-exit-intent-overlay={seg.segment}
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby={`${overlayId}-title`}>
+        <div class="hs-overlay-animation-target hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 flex min-h-[calc(100%-3.5rem)] items-center opacity-0 transition-[margin,opacity] ease-out sm:mx-auto sm:w-full sm:max-w-xl">
+          <div class="pointer-events-auto container flex flex-col">
+            <button
+              type="button"
+              aria-label="Close"
+              data-hs-overlay={`#${overlayId}`}
+              data-exit-intent-close={seg.segment}
+              class="mb-2 ml-auto flex h-10 w-10 items-center justify-center rounded-full bg-white ring-0 ring-white/50 duration-300 hover:rotate-90 hover:ring-4">
+              <span class="sr-only">Close</span>
+              <Icons icon="X" class="text-dark/80 h-6 w-6" />
+            </button>
+            <div class="border-border-light bg-theme-dark rounded-2xl border p-8 sm:p-10">
+              <div class="mb-6 text-center">
+                <h3
+                  id={`${overlayId}-title`}
+                  class="mb-3 text-2xl font-bold text-white">
+                  {seg.title}
+                </h3>
+                <p class="mx-auto max-w-lg text-[#C8C1D4]">{seg.description}</p>
+              </div>
+
+              <form id={formId} data-exit-intent-form={seg.segment} novalidate>
+                <input type="hidden" name="formType" value="exit-intent" />
+                <input type="hidden" name="segment" value={seg.segment} />
+                <input type="hidden" name="utm_source" />
+                <input type="hidden" name="utm_medium" />
+                <input type="hidden" name="utm_campaign" />
+                <input type="hidden" name="utm_content" />
+                <input type="hidden" name="utm_term" />
+                <input type="hidden" name="referrer" />
+                <input type="hidden" name="landing_page" />
+                {seg.segment === "use-case" && (
+                  <input type="hidden" name="role" data-exit-intent-role />
+                )}
+
+                <div class="space-y-4">
+                  {seg.fields.map((field) => {
+                    const fieldId = `${formId}-${field.name}`;
+                    if (field.type === "textarea") {
+                      return (
+                        <div>
+                          <label
+                            for={fieldId}
+                            class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+                            {field.label}
+                            {field.required && (
+                              <span class="text-primary"> *</span>
+                            )}
+                          </label>
+                          <textarea
+                            id={fieldId}
+                            name={field.name}
+                            required={field.required}
+                            rows={field.rows ?? 4}
+                            placeholder={field.placeholder}
+                            class="form-input w-full resize-none"
+                          />
+                        </div>
+                      );
+                    }
+                    if (field.type === "select") {
+                      return (
+                        <div>
+                          <label
+                            for={fieldId}
+                            class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+                            {field.label}
+                            {field.required && (
+                              <span class="text-primary"> *</span>
+                            )}
+                          </label>
+                          <select
+                            id={fieldId}
+                            name={field.name}
+                            required={field.required}
+                            class="form-input w-full">
+                            {field.options?.map((opt) => (
+                              <option value={opt.value} disabled={!opt.value}>
+                                {opt.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      );
+                    }
+                    return (
+                      <div>
+                        <label
+                          for={fieldId}
+                          class="mb-2 block text-sm font-medium text-[#C8C1D4]">
+                          {field.label}
+                          {field.required && (
+                            <span class="text-primary"> *</span>
+                          )}
+                        </label>
+                        <input
+                          id={fieldId}
+                          name={field.name}
+                          type={field.type}
+                          required={field.required}
+                          autocomplete={field.autocomplete}
+                          placeholder={field.placeholder}
+                          class="form-input w-full"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <p
+                  id={`${formId}-error`}
+                  class="mt-3 hidden text-sm text-red-400">
+                </p>
+
+                <button
+                  id={`${formId}-submit`}
+                  type="submit"
+                  data-exit-intent-submit-label={seg.submitLabel}
+                  class="btn btn-md btn-primary mt-5 w-full">
+                  {seg.submitLabel}
+                </button>
+              </form>
+
+              <div
+                id={`${formId}-success`}
+                class="hidden text-center"
+                data-exit-intent-success={seg.segment}>
+                <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+                  <svg
+                    class="h-8 w-8 text-primary"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <h3 class="mb-2 text-xl font-bold text-white">
+                  {seg.successTitle}
+                </h3>
+                <p class="text-[#C8C1D4]">{seg.successBody}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  })
+}
+
+<script>
+  // @ts-nocheck
+  // Wires up all exit-intent forms on the page. One submit handler per form,
+  // shared validation + UTM hydration + tracking. Triggered open/close
+  // dispatched by /src/scripts/exit-intent.ts via Preline HSOverlay.
+
+  (function () {
+    const forms = document.querySelectorAll("[data-exit-intent-form]");
+    if (!forms.length) return;
+
+    // Hydrate UTM/referrer/landing fields from sessionStorage + URL params.
+    let utm = {};
+    try {
+      utm = JSON.parse(sessionStorage.getItem("utm") ?? "{}");
+    } catch {}
+    const params = new URLSearchParams(window.location.search);
+    const utmKeys = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content",
+      "utm_term",
+    ];
+    for (const key of utmKeys) {
+      const v = params.get(key);
+      if (v) utm[key] = v;
+    }
+    if (Object.keys(utm).length) {
+      sessionStorage.setItem("utm", JSON.stringify(utm));
+    }
+
+    // Derive role from URL slug for the use-case segment.
+    const path = window.location.pathname;
+    const useCaseMatch = path.match(/\/use-cases\/([^/]+)/);
+    const role = useCaseMatch ? useCaseMatch[1] : "";
+
+    forms.forEach((form) => {
+      const segment = form.getAttribute("data-exit-intent-form");
+      const formEl = form;
+
+      for (const key of utmKeys) {
+        const el = formEl.querySelector(`[name="${key}"]`);
+        if (el && utm[key]) el.value = utm[key];
+      }
+      const referrerEl = formEl.querySelector('[name="referrer"]');
+      if (referrerEl) referrerEl.value = document.referrer;
+      const landingEl = formEl.querySelector('[name="landing_page"]');
+      if (landingEl) landingEl.value = window.location.href;
+      const roleEl = formEl.querySelector("[data-exit-intent-role]");
+      if (roleEl) roleEl.value = role;
+
+      const submitBtn = formEl.querySelector(`#${formEl.id}-submit`);
+      const errorEl = formEl.parentElement.querySelector(`#${formEl.id}-error`);
+      const successEl = formEl.parentElement.querySelector(
+        `#${formEl.id}-success`,
+      );
+      const submitLabel =
+        submitBtn?.getAttribute("data-exit-intent-submit-label") ?? "Submit";
+
+      let started = false;
+      formEl.addEventListener(
+        "focusin",
+        () => {
+          if (started) return;
+          started = true;
+          import("@/lib/utils/tracking").then(({ trackFormStart }) => {
+            trackFormStart("exit-intent");
+          });
+        },
+        { once: true },
+      );
+
+      function showError(msg) {
+        if (!errorEl) return;
+        errorEl.textContent = msg;
+        errorEl.classList.remove("hidden");
+      }
+      function clearError() {
+        if (!errorEl) return;
+        errorEl.textContent = "";
+        errorEl.classList.add("hidden");
+      }
+      function setLoading(loading) {
+        if (!submitBtn) return;
+        submitBtn.disabled = loading;
+        submitBtn.textContent = loading ? "Submitting..." : submitLabel;
+      }
+
+      formEl.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearError();
+
+        const data = new FormData(formEl);
+        const email = (data.get("email") || "").toString().trim();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showError("Please enter a valid work email.");
+          return;
+        }
+        for (const el of formEl.querySelectorAll("[required]")) {
+          const v = (data.get(el.name) || "").toString().trim();
+          if (!v) {
+            const label = formEl.querySelector(`label[for="${el.id}"]`);
+            const labelText = label?.textContent?.replace("*", "").trim() ?? el.name;
+            showError(`${labelText} is required.`);
+            return;
+          }
+        }
+
+        const payload = {};
+        data.forEach((val, key) => {
+          if (val) payload[key] = val;
+        });
+
+        setLoading(true);
+        try {
+          const res = await fetch("/api/form-submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const json = await res.json();
+          if (!res.ok) throw new Error(json.error ?? "Submission failed.");
+          formEl.classList.add("hidden");
+          successEl?.classList.remove("hidden");
+
+          import("@/lib/utils/tracking").then(
+            ({ trackFormSubmission, trackExitIntent }) => {
+              trackFormSubmission(payload);
+              trackExitIntent("converted", segment);
+            },
+          );
+
+          // Persist conversion so the modal never shows again.
+          try {
+            const raw = localStorage.getItem("exit_intent_state");
+            const state = raw ? JSON.parse(raw) : {};
+            state.converted_at = Date.now();
+            localStorage.setItem("exit_intent_state", JSON.stringify(state));
+          } catch {}
+        } catch (err) {
+          const msg =
+            err instanceof Error
+              ? err.message
+              : "Something went wrong. Please try again.";
+          showError(msg);
+          setLoading(false);
+        }
+      });
+    });
+  })();
+</script>

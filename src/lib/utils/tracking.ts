@@ -7,7 +7,20 @@
  * Both queue events if not yet loaded — safe to call immediately.
  */
 
-type FormType = "lead-magnet" | "service-request" | "product-interest";
+type FormType =
+  | "lead-magnet"
+  | "service-request"
+  | "product-interest"
+  | "exit-intent";
+
+export type ExitIntentSegment =
+  | "cold-email"
+  | "leads"
+  | "pricing"
+  | "use-case"
+  | "default";
+
+type ExitIntentAction = "shown" | "dismissed" | "converted";
 
 interface FormData {
   formType: FormType;
@@ -57,6 +70,7 @@ export function trackFormSubmission(data: FormData) {
   // --- GA4: custom event with more detail ---
   gtag("event", "form_submission", {
     form_type: formType,
+    segment: rest.segment || "",
     volume: rest.volume || "",
     landing_page: rest.landing_page || "",
     utm_source: rest.utm_source || "",
@@ -128,4 +142,21 @@ export function trackFormStart(formType: FormType) {
   gtag("event", "form_start", {
     form_type: formType,
   });
+}
+
+/**
+ * Track exit-intent modal lifecycle: shown, dismissed, or converted.
+ * `converted` is also fired by trackFormSubmission(formType="exit-intent");
+ * call it here too to capture segment-level conversion in a single event.
+ */
+export function trackExitIntent(
+  action: ExitIntentAction,
+  segment: ExitIntentSegment,
+) {
+  gtag("event", `exit_intent_${action}`, {
+    segment,
+    page_location: window.location.href,
+  });
+  clarity("set", "exit_intent_segment", segment);
+  if (action === "converted") clarity("set", "exit_intent_converted", "true");
 }

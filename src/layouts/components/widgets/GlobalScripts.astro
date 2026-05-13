@@ -22,6 +22,16 @@
 
     // Fix: Support horizontal scrolling by using the mouse wheel + shift
     initHorizontalScroll();
+
+    // Exit-intent modal — desktop only, gated on the overlay existing in DOM.
+    // Loaded lazily so mobile + suppressed pages pay zero bundle cost.
+    if (
+      window.innerWidth >= 768 &&
+      document.querySelector('[data-exit-intent-overlay]')
+    ) {
+      const { initExitIntent } = await import("@/scripts/exit-intent");
+      initExitIntent();
+    }
   });
 
   // Lucide Icons — tree-shaken import of only the icons actually used

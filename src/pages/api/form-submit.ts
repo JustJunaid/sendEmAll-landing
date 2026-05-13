@@ -2,7 +2,11 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
-type FormType = "lead-magnet" | "service-request" | "product-interest";
+type FormType =
+  | "lead-magnet"
+  | "service-request"
+  | "product-interest"
+  | "exit-intent";
 
 function buildFields(
   formType: FormType,
@@ -38,14 +42,33 @@ function buildFields(
     };
   }
 
-  // product-interest
+  if (formType === "product-interest") {
+    return {
+      "Work Email": data.email,
+      "Company Name": data.company,
+      "Products Interested": data.products
+        ? data.products.split(",").map((p) => p.trim()).filter(Boolean)
+        : [],
+      ...(data.current_tool && { "Current Outbound Tool": data.current_tool }),
+      ...utm,
+    };
+  }
+
+  // exit-intent — segment-specific fields, all optional except email + segment
   return {
     "Work Email": data.email,
-    "Company Name": data.company,
-    "Products Interested": data.products
-      ? data.products.split(",").map((p) => p.trim()).filter(Boolean)
-      : [],
+    Segment: data.segment,
+    ...(data.company && { "Company Name": data.company }),
+    ...(data.icp && { "Ideal Customer Description": data.icp }),
     ...(data.current_tool && { "Current Outbound Tool": data.current_tool }),
+    ...(data.monthly_send_volume && {
+      "Monthly Send Volume": data.monthly_send_volume,
+    }),
+    ...(data.current_monthly_spend && {
+      "Current Monthly Spend": data.current_monthly_spend,
+    }),
+    ...(data.biggest_pain && { "Biggest Pain": data.biggest_pain }),
+    ...(data.role && { Role: data.role }),
     ...utm,
   };
 }
@@ -65,8 +88,16 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const formType = data.formType as FormType;
-  if (!["lead-magnet", "service-request", "product-interest"].includes(formType)) {
+  if (
+    !["lead-magnet", "service-request", "product-interest", "exit-intent"].includes(
+      formType,
+    )
+  ) {
     return json({ error: "Invalid form type." }, 400);
+  }
+
+  if (formType === "exit-intent" && !data.segment) {
+    return json({ error: "Missing segment for exit-intent." }, 400);
   }
 
   const apiKey = import.meta.env.AIRTABLE_API_KEY;
@@ -75,6 +106,7 @@ export const POST: APIRoute = async ({ request }) => {
     "lead-magnet": import.meta.env.AIRTABLE_TABLE_LEAD_MAGNET ?? "",
     "service-request": import.meta.env.AIRTABLE_TABLE_SERVICE_REQUEST ?? "",
     "product-interest": import.meta.env.AIRTABLE_TABLE_PRODUCT_INTEREST ?? "",
+    "exit-intent": import.meta.env.AIRTABLE_TABLE_EXIT_INTENT ?? "",
   };
   const tableId = tableMap[formType];
 

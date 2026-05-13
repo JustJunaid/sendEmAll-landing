@@ -108,13 +108,19 @@
   const consentRequired = requiresConsent();
   const isDev = location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
+  // GA4 Consent Mode v2: load gtag.js immediately on every page.
+  // With analytics_storage='denied' as the default, gtag sends cookieless
+  // pings (no _ga cookie, no client ID). These pings power GA4 modeling
+  // for visitors who never grant consent and recover pre-consent pageviews
+  // for visitors who eventually do. Legal under GDPR/ePrivacy.
+  if (!isDev) loadGA4();
+
   if (isDev) {
     // Dev environment: skip all analytics, load only Intercom for testing
     loadIntercom();
   } else if (!consentRequired) {
     // Non-GDPR region: auto-grant analytics, no banner
     updateConsent(true, false);
-    loadGA4();
     loadClarity();
     loadIntercom();
   } else {
