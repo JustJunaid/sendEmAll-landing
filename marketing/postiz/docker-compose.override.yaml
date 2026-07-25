@@ -1,0 +1,41 @@
+# Overrides the upstream gitroomhq/postiz-docker-compose/docker-compose.yaml.
+# Auto-merged by `docker compose up` when placed alongside the base file.
+# - Injects our public URL + reused X/LinkedIn app credentials (values live in .env, gitignored)
+# - Adds a Caddy reverse proxy that terminates TLS for social.sendemall.com
+#   (Caddy auto-provisions a Let's Encrypt cert once DNS points at this box)
+services:
+  postiz:
+    environment:
+      MAIN_URL: 'https://social.sendemall.com'
+      FRONTEND_URL: 'https://social.sendemall.com'
+      NEXT_PUBLIC_BACKEND_URL: 'https://social.sendemall.com/api'
+      JWT_SECRET: '${JWT_SECRET}'
+      # Reused X (OAuth1.0a consumer key/secret) + LinkedIn app credentials
+      X_API_KEY: '${X_API_KEY}'
+      X_API_SECRET: '${X_API_SECRET}'
+      LINKEDIN_CLIENT_ID: '${LINKEDIN_CLIENT_ID}'
+      LINKEDIN_CLIENT_SECRET: '${LINKEDIN_CLIENT_SECRET}'
+      # Flip to 'true' after you create your admin account so nobody else can register
+      DISABLE_REGISTRATION: '${DISABLE_REGISTRATION:-false}'
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: postiz-caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - postiz-network
+    depends_on:
+      - postiz
+
+volumes:
+  caddy-data:
+    external: false
+  caddy-config:
+    external: false

@@ -1,0 +1,12 @@
+{
+  "timezone": "America/New_York",
+  "defaultSlots": { "x": ["09:00", "12:00", "17:00"], "linkedin": ["10:00"] },
+  "channels": {
+    "junaid-x":    { "integrationId": "", "provider": "x",        "voice": "voice-junaid", "cadencePerWeek": 5 },
+    "sendemall-x": { "integrationId": "", "provider": "x",        "voice": "voice-brand",  "cadencePerWeek": 5 },
+    "sadiya-li":   { "integrationId": "", "provider": "linkedin", "voice": "voice-sadiya", "cadencePerWeek": 3 },
+    "sadiya-x":    { "integrationId": "", "provider": "x",        "voice": "voice-sadiya", "cadencePerWeek": 3 }
+  },
+  "planned": ["reddit", "facebook"],
+  "_note": "integrationId is blank until you connect channels in Postiz and run scripts/list-channels.mjs. Junaid X = @JustJunaidHere; sendemall-x + sadiya-x need new accounts created first."
+}

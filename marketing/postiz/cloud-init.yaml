@@ -1,0 +1,13 @@
+#cloud-config
+package_update: true
+packages:
+  - ca-certificates
+  - curl
+  - git
+runcmd:
+  - [ sh, -c, "curl -fsSL https://get.docker.com | sh" ]
+  - [ sh, -c, "fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && echo '/swapfile none swap sw 0 0' >> /etc/fstab" ]
+  - [ sh, -c, "sysctl -w vm.swappiness=10 && echo 'vm.swappiness=10' >> /etc/sysctl.conf" ]
+  - [ systemctl, enable, --now, docker ]
+  - [ sh, -c, "git clone https://github.com/gitroomhq/postiz-docker-compose /opt/postiz || true" ]
+  - [ sh, -c, "touch /opt/cloud-init-done" ]

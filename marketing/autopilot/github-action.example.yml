@@ -1,0 +1,46 @@
+# Optional. Copy to ../../.github/workflows/marketing-autopilot.yml to enable.
+# Two jobs: (1) weekly cron generates the PR via Claude; (2) publish approved posts on merge.
+# Requires repo secrets: ANTHROPIC_API_KEY, POSTIZ_API_KEY.
+name: marketing-autopilot
+
+on:
+  schedule:
+    - cron: "0 13 * * 1"   # Mondays 13:00 UTC — weekly generation
+  push:
+    branches: [main]
+    paths: ["marketing/autopilot/output/**/posts.json"]  # publish on merge of approved drafts
+  workflow_dispatch: {}
+
+jobs:
+  generate:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      # Run Claude Code headless to follow the brief and open the PR.
+      # Replace with your preferred runner (claude -p / an SDK script).
+      - name: Generate weekly drafts (Claude)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npx --yes @anthropic-ai/claude-code -p \
+            "Follow marketing/autopilot/generate.md for the upcoming week and open a PR." \
+            --permission-mode acceptEdits || echo "wire your runner here"
+
+  publish:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Schedule approved posts to Postiz
+        env:
+          POSTIZ_URL: https://social.sendemall.com
+          POSTIZ_API_KEY: ${{ secrets.POSTIZ_API_KEY }}
+        run: |
+          for d in marketing/autopilot/output/week-*/; do
+            node marketing/autopilot/scripts/publish.mjs "$d" || exit 1
+          done

@@ -1,0 +1,29 @@
+[
+  {
+    "channel": "junaid-x",
+    "voice": "voice-junaid",
+    "content": "We tracked reply rates on 2 lead lists for 90 days.\n\nGeneric ICP match: 0.9%\nSignal-qualified: 3.4%\n\nSame product. Same copy. The only difference was WHO we emailed.\n\nMost \"leads\" aren't leads. They're rows in a spreadsheet.",
+    "date": "2026-08-04T13:00:00.000Z",
+    "source": "ship:2026-07-25",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "content": "The math on outbound tooling nobody shows you:\n\nData tool: $99\nSequencer: $97\nInbox infra: $150\nWarmup: $79\nEnrichment: $80\nVerification: $49\n\n= $553/mo across 6 dashboards.\n\nWe put it in one. That's the whole pitch.",
+    "date": "2026-08-04T16:00:00.000Z",
+    "source": "ship:2026-07-20",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-li",
+    "voice": "voice-sadiya",
+    "content": "A client asked me why their 40k-contact campaign got 12 replies.\n\nBecause 40k contacts isn't a strategy. It's a spray.\n\nWe cut the list to 900 accounts showing buying signals. Same week: 31 replies.\n\nTargeting is the strategy. The tool is just plumbing.\n\nWhat's your list-size-to-reply ratio right now?",
+    "date": "2026-08-05T14:00:00.000Z",
+    "source": "ship:2026-07-25",
+    "status": "proposed",
+    "postId": null
+  }
+]

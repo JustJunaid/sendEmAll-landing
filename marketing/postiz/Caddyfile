@@ -1,0 +1,3 @@
+social.sendemall.com {
+	reverse_proxy postiz:5000
+}
