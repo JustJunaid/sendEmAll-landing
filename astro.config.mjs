@@ -24,7 +24,7 @@ let {
 // https://astro.build/config
 export default defineConfig({
   adapter: vercel(),
-  site: config.site.baseUrl ? config.site.baseUrl : "https://sendemall.com",
+  site: process.env.SITE_URL || (config.site.baseUrl ? config.site.baseUrl : "https://www.sendemall.com"),
   trailingSlash: config.site.trailingSlash ? "always" : "never",
   image: {
     layout: "constrained",

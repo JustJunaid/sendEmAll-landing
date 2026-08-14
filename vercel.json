@@ -6,7 +6,46 @@
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "permanent": true
-    }
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/cookie-policy",
+      "destination": "/cookies",
+      "permanent": true
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    { "source": "/privacy-policy.html", "destination": "/privacy", "permanent": true },
+    { "source": "/cookie-policy.html", "destination": "/cookies", "permanent": true },
+    { "source": "/terms-of-service.html", "destination": "/terms", "permanent": true },
+    { "source": "/infrastructure", "destination": "/mailboxes", "permanent": true },
+    { "source": "/services/cold-email-infrastructure", "destination": "/mailboxes", "permanent": true },
+    { "source": "/services/apollo-scraper", "destination": "/tools/apollo-scraper", "permanent": true },
+    { "source": "/services/sales-navigator-scraper", "destination": "/tools/sales-navigator-scraper", "permanent": true },
+    { "source": "/services/custom-scraping", "destination": "/contact", "permanent": true },
+    { "source": "/services/free-leads", "destination": "https://app.sendemall.com/register", "permanent": true },
+    { "source": "/products/email-finder", "destination": "/#find", "permanent": true },
+    { "source": "/products/email-verification", "destination": "/#find", "permanent": true },
+    { "source": "/products/email-warmup", "destination": "/#warmup", "permanent": true },
+    { "source": "/products/cold-email", "destination": "/#campaigns", "permanent": true },
+    { "source": "/tools/email-deliverability-test", "destination": "/deliverability-test", "permanent": true },
+    { "source": "/use-cases/agencies", "destination": "/mailboxes", "permanent": true },
+    { "source": "/use-cases/saas", "destination": "/", "permanent": true },
+    { "source": "/use-cases/startups", "destination": "/", "permanent": true },
+    { "source": "/use-cases/consultants", "destination": "/", "permanent": true },
+    { "source": "/use-cases/recruiters", "destination": "/", "permanent": true }
   ],
   "headers": [
     {
