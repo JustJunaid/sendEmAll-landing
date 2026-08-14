@@ -25,8 +25,18 @@
 </script>
 
 <script>
-  import "vanilla-cookieconsent/dist/cookieconsent.css";
-  import * as CookieConsent from "vanilla-cookieconsent";
+  // vanilla-cookieconsent CSS + JS are dynamically imported ONLY in the
+  // consent-required branch below, so non-GDPR visitors never download the
+  // banner bundle. Third-party loaders are deferred to idle time so they never
+  // compete with first paint / the hero LCP.
+  function whenIdle(fn: () => void) {
+    const w = window as any;
+    if (typeof w.requestIdleCallback === "function") {
+      w.requestIdleCallback(fn, { timeout: 3000 });
+    } else {
+      setTimeout(fn, 1200);
+    }
+  }
 
   // --- Script loaders (only called after consent) ---
 
@@ -45,13 +55,29 @@
     gtag("config", "G-4WT843MDLE");
   }
 
-  function loadClarity() {
-    if ((window as any).clarity) return;
-    (function (c: any, l: any, a: string, r: string, i: string) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
-      const t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-      const y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "w7ehoee5jy");
+  // PostHog — product analytics, session replay, funnels, feature flags/experiments.
+  // Replaces Microsoft Clarity (session replay is native). Consent-gated like GA4.
+  async function loadPostHog() {
+    const key = import.meta.env.PUBLIC_POSTHOG_KEY;
+    if (!key) return;
+    if ((window as any).posthog?.__loaded) return;
+    const posthog = (await import("posthog-js")).default;
+    posthog.init(key, {
+      api_host: import.meta.env.PUBLIC_POSTHOG_HOST || "https://us.i.posthog.com",
+      ui_host: import.meta.env.PUBLIC_POSTHOG_UI_HOST || "https://us.posthog.com",
+      person_profiles: "identified_only",
+      capture_pageview: true,
+      capture_pageleave: true,
+      autocapture: true,
+      cross_subdomain_cookie: true, // stitch to app.sendemall.com when the app adds PostHog
+      persistence: "localStorage+cookie",
+      session_recording: { maskAllInputs: true },
+      respect_dnt: true,
+    });
+    (window as any).posthog = posthog;
+    // Activate any A/B experiments on the page once feature flags resolve.
+    const { initExperiments } = await import("@/lib/analytics/experiment");
+    initExperiments();
   }
 
   function loadIntercom() {
@@ -110,16 +136,23 @@
 
   if (isDev) {
     // Dev environment: skip all analytics, load only Intercom for testing
-    loadIntercom();
+    whenIdle(loadIntercom);
   } else if (!consentRequired) {
-    // Non-GDPR region: auto-grant analytics, no banner
+    // Non-GDPR region: auto-grant analytics, no banner. Consent state is set
+    // immediately; the heavy third-party scripts (GA4, PostHog + session replay,
+    // Intercom) are deferred to idle so they never block first paint.
     updateConsent(true, false);
-    loadGA4();
-    loadClarity();
-    loadIntercom();
+    whenIdle(() => {
+      loadGA4();
+      loadPostHog();
+      loadIntercom();
+    });
   } else {
 
   // --- Initialize CookieConsent (GDPR/ePrivacy regions only) ---
+  // Banner CSS + JS are imported on demand here only — never for US/non-GDPR.
+  const CookieConsent = await import("vanilla-cookieconsent");
+  await import("vanilla-cookieconsent/dist/cookieconsent.css");
 
   CookieConsent.run({
     guiOptions: {
@@ -142,9 +175,7 @@
           cookies: [
             { name: /^_ga/ },
             { name: "_gid" },
-            { name: /^_clck/ },
-            { name: /^_clsk/ },
-            { name: "CLID" },
+            { name: /^ph_/ },
           ],
         },
       },
@@ -153,19 +184,19 @@
     onFirstConsent: ({ cookie }) => {
       const hasAnalytics = cookie.categories.includes("analytics");
       updateConsent(hasAnalytics, false);
-      if (hasAnalytics) { loadGA4(); loadClarity(); }
+      if (hasAnalytics) { loadGA4(); loadPostHog(); }
     },
 
     onConsent: ({ cookie }) => {
       const hasAnalytics = cookie.categories.includes("analytics");
       updateConsent(hasAnalytics, false);
-      if (hasAnalytics) { loadGA4(); loadClarity(); }
+      if (hasAnalytics) { loadGA4(); loadPostHog(); }
     },
 
     onChange: ({ cookie }) => {
       const hasAnalytics = cookie.categories.includes("analytics");
       updateConsent(hasAnalytics, false);
-      if (hasAnalytics) { loadGA4(); loadClarity(); }
+      if (hasAnalytics) { loadGA4(); loadPostHog(); }
     },
 
     language: {
@@ -195,7 +226,7 @@
               {
                 title: "Analytics",
                 description:
-                  "We use Google Analytics and Microsoft Clarity to understand how visitors use our site. This helps us improve the experience.",
+                  "We use Google Analytics and PostHog to understand how visitors use our site. This helps us improve the experience.",
                 linkedCategory: "analytics",
               },
             ],
@@ -205,8 +236,9 @@
     },
   });
 
-  // Intercom loads always — it's customer support (legitimate interest), not marketing
-  loadIntercom();
+  // Intercom loads always — it's customer support (legitimate interest), not
+  // marketing. Deferred to idle so it never blocks first paint.
+  whenIdle(loadIntercom);
 
   } // end else (consent-required regions)
 </script>

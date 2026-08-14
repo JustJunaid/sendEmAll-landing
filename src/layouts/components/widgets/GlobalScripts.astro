@@ -120,6 +120,68 @@
       }
     });
 
+    // Scroll depth — fires once per threshold (25/50/75/100%). Tells us whether
+    // the hero's promise actually pulls people down the page.
+    (() => {
+      const thresholds = [25, 50, 75, 100];
+      const fired = new Set<number>();
+      let ticking = false;
+      const check = () => {
+        ticking = false;
+        const scrollable =
+          document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollable <= 0) return;
+        const pct = Math.min(
+          100,
+          Math.round((window.scrollY / scrollable) * 100),
+        );
+        for (const t of thresholds) {
+          if (pct >= t && !fired.has(t)) {
+            fired.add(t);
+            import("@/lib/utils/tracking").then(({ trackScrollDepth }) =>
+              trackScrollDepth(t),
+            );
+          }
+        }
+        if (fired.size === thresholds.length)
+          window.removeEventListener("scroll", onScroll);
+      };
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(check);
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+    })();
+
+    // Section view — turns the page into a funnel. Fires once per named beat
+    // (section[id] anchors + [data-section] on the key unnamed beats).
+    (() => {
+      const sections = document.querySelectorAll<HTMLElement>(
+        "main section[id], [data-section]",
+      );
+      if (!sections.length || !("IntersectionObserver" in window)) return;
+      const seen = new Set<string>();
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const el = entry.target as HTMLElement;
+            const name = el.getAttribute("data-section") || el.id;
+            if (!name || seen.has(name)) continue;
+            seen.add(name);
+            io.unobserve(el);
+            import("@/lib/utils/tracking").then(({ trackSectionView }) =>
+              trackSectionView(name),
+            );
+          }
+        },
+        { threshold: 0.4 },
+      );
+      sections.forEach((s) => io.observe(s));
+    })();
+
     // UTM persistence — capture UTMs on ANY page, not just form pages.
     // This ensures UTMs from blog posts, compare pages, etc. survive
     // navigation to the form page.
