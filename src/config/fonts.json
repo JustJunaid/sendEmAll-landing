@@ -16,7 +16,7 @@
     "weights": [500, 600, 700],
     "styles": ["normal"],
     "subsets": ["latin"],
-    "preload": true,
+    "preload": false,
     "display": "swap",
     "cssVariable": "--font-secondary",
     "fallback": "sans-serif"
@@ -27,7 +27,7 @@
     "weights": [400],
     "styles": ["normal"],
     "subsets": ["latin"],
-    "preload": true,
+    "preload": false,
     "display": "swap",
     "cssVariable": "--font-tertiary",
     "fallback": "serif"

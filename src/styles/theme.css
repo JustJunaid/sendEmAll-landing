@@ -1,20 +1,76 @@
 /* prettier-ignore */
+
+/* ============================================================
+   Theme switching
+   ------------------------------------------------------------
+   Light is the canonical brand (matches app.sendemall.com and the
+   Keycloak login). Dark is a fully-supported second theme. The active
+   theme is stamped onto <html data-theme="light|dark"> by the pre-paint
+   script in Head.astro (localStorage.theme wins; else prefers-color-scheme;
+   else light).
+
+   The raw palette lives in :root (light) / [data-theme="dark"] (dark) as
+   --se-* variables. @theme inline maps them into Tailwind's --color-*
+   tokens BY REFERENCE, so every `bg-body` / `text-text-default` /
+   `text-primary` / `border-border-light` utility switches at runtime with
+   zero per-component work. All contrast ratios verified WCAG AA.
+   ============================================================ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Light theme — the default brand */
+:root {
+  --se-body:        #FAFAFB;   /* page background (matches app sea-ink-50) */
+  --se-surface:     #FFFFFF;   /* cards, raised surfaces */
+  --se-accent:      #F3F0FA;   /* subtle lavender-tinted alt sections */
+  --se-text:        #423B50;   /* body text            — 10.20:1 on page */
+  --se-heading:     #14101B;   /* headings + strong    — 17.98:1 on page */
+  --se-muted:       #6B6579;   /* secondary text       —  5.35:1 on page */
+  --se-primary:     #D2B3F3;   /* lavender (matches logo) — used for FILLS/buttons/accents */
+  --se-on-primary:  #0e0c0c;   /* near-black text on lavender — 10.67:1 */
+  --se-primary-ink: #7D3CC2;   /* readable violet for primary TEXT/icons on white — 6.11:1 */
+  --se-secondary:   #6D28D9;   /* links                —  6.81:1 on page */
+  --se-border:      #E7E2EF;   /* dividers, card borders */
+  --se-dark:        #0e0c0c;   /* fixed near-black reference */
+  --se-light:       #FFFFFF;   /* fixed near-white reference */
+}
+
+/* Dark theme */
+:root[data-theme="dark"] {
+  --se-body:        #0e0c0c;
+  --se-surface:     #1A191C;
+  --se-accent:      #1A122E;
+  --se-text:        #C8C1D4;   /* 11.18:1 on page */
+  --se-heading:     #FFFFFF;   /* 19.51:1 on page */
+  --se-muted:       #918AA0;   /*  5.90:1 on page */
+  --se-primary:     #D2B3F3;   /* 10.67:1 on page — matches logo */
+  --se-on-primary:  #0e0c0c;   /* 10.67:1 on primary */
+  --se-primary-ink: #D2B3F3;   /* on dark, lavender reads fine as text — 10.67:1 */
+  --se-secondary:   #B896E8;
+  --se-border:      #2A2433;
+  --se-dark:        #0e0c0c;
+  --se-light:       #fff6f6;
+}
+
 @theme inline {
   /* Configure base font size, type scale, and font families in `src/config/fonts.json` */
   --leading-body: 1.8;
   --leading-inherit: inherit;
 
-  /* Colors — SendEmAll brand palette */
-  --color-primary: #D2B3F3;        /* Lavender — matches logo */
-  --color-secondary: #B896E8;      /* Slightly deeper lavender for links/accents */
-  --color-accent: #1A122E;         /* Deep purple-dark — card backgrounds, depth */
-  --color-body: #0e0c0c;           /* Near-black body */
-  --color-border-light: #2A2433;   /* Dark purple-tinted borders */
-  --color-theme-dark: #1A191C;     /* Card backgrounds */
+  /* Colors — mapped to the theme-switchable --se-* palette above */
+  --color-primary:      var(--se-primary);      /* bg-primary, text-primary, ring-primary, border-primary */
+  --color-on-primary:   var(--se-on-primary);   /* text-on-primary — for text ON a primary fill (buttons) */
+  --color-secondary:    var(--se-secondary);    /* links / accents */
+  --color-accent:       var(--se-accent);       /* bg-accent — alt section backgrounds */
+  --color-body:         var(--se-body);         /* bg-body — page background */
+  --color-border-light: var(--se-border);       /* borders */
+  --color-theme-dark:   var(--se-surface);      /* bg-theme-dark — card/raised surfaces (name kept for compat) */
 
-  --color-text-default: #C8C1C1;   /* Body text */
-  --color-dark: #0e0c0c;           /* Dark reference */
-  --color-light: #fff6f6;          /* Light text */
+  --color-text-default: var(--se-text);         /* body text */
+  --color-heading:      var(--se-heading);       /* text-heading — headings + strong */
+  --color-muted:        var(--se-muted);         /* text-muted — secondary text */
+  --color-dark:         var(--se-dark);          /* fixed near-black */
+  --color-light:        var(--se-light);         /* fixed near-white */
 
   /* Screen */
   --breakpoint-*: initial;
@@ -44,3 +100,10 @@
   --text-h5-sm: calc(var(--text-h5) * 0.9);
   --text-h6-sm: calc(var(--text-h6) * 0.9);
 }
+
+/* Lavender (--se-primary) is the FILL color for buttons, badges, borders, and rings.
+   Primary-colored TEXT and icons instead use --se-primary-ink so they stay readable
+   on white (violet on light; lavender on dark, where it reads fine). Unlayered rules
+   so they win over Tailwind's generated .text-primary utility. */
+.text-primary { color: var(--se-primary-ink) !important; }
+.hover\:text-primary:hover { color: var(--se-primary-ink) !important; }

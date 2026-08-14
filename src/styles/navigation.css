@@ -37,13 +37,13 @@
 
 .header .logo-wrapper {
   .logo-text {
-    @apply text-white;
+    @apply text-heading;
   }
 }
 
 /* Language Switcher */
 .header .language-switcher {
-  @apply relative rounded-full bg-white/5 text-white;
+  @apply relative rounded-full bg-white/5 text-heading;
 
   .language-switcher-button {
     @apply flex items-center gap-2 px-3.5 py-1.5 text-inherit uppercase;
@@ -57,7 +57,7 @@
     @apply bg-theme-dark/10 hs-dropdown-open:opacity-100 absolute top-[calc(100%+0.5rem)] right-0 min-w-32 space-y-px rounded-lg p-px opacity-0 transition-[opacity,margin] lg:transform-none!;
 
     li a {
-      @apply bg-theme-dark hover:border-border-light block rounded-full border-2 border-transparent px-4 py-1.5 text-center text-white transition;
+      @apply bg-theme-dark hover:border-border-light block rounded-full border-2 border-transparent px-4 py-1.5 text-center text-heading transition;
 
       &.active {
         @apply bg-primary/5 text-primary;
@@ -74,12 +74,12 @@
 
   .nav-item {
     > .nav-link {
-      @apply relative flex items-center rounded-full px-4 py-1.5 text-white transition-all duration-300 lg:py-2 lg:hover:bg-white/5 xl:px-6;
+      @apply relative flex items-center rounded-full px-4 py-1.5 text-heading transition-all duration-300 lg:py-2 lg:hover:bg-white/5 xl:px-6;
 
       /* Active Menu Style */
       &.nav-link-active,
       .hs-dropdown-toggle.active {
-        @apply bg-white/5 text-white;
+        @apply bg-white/5 text-heading;
       }
     }
   }
@@ -100,7 +100,7 @@
 
     /* Add Background Color to Toggle Button If Dropdown Open */
     &.open > .nav-dropdown-toggle {
-      @apply max-lg:bg-white/5 max-lg:text-white;
+      @apply max-lg:bg-white/5 max-lg:text-heading;
     }
 
     .nav-dropdown-list {
@@ -108,7 +108,7 @@
 
       .nav-dropdown-item {
         .nav-dropdown-link {
-          @apply rounded-full px-2.5 py-2 text-inherit transition hover:bg-white/5 hover:text-white lg:px-5;
+          @apply rounded-full px-2.5 py-2 text-inherit transition hover:bg-white/5 hover:text-heading lg:px-5;
         }
       }
     }
@@ -133,7 +133,7 @@
   }
 
   &.badge-primary {
-    @apply bg-primary text-white;
+    @apply bg-primary text-on-primary;
 
     &.badge-dot {
       @apply bg-blue-400;

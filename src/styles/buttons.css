@@ -13,7 +13,7 @@
 }
 
 @utility btn-primary {
-  @apply text-dark bg-primary hover:ring-primary/35 ring-4 ring-transparent font-semibold;
+  @apply text-on-primary bg-primary hover:ring-primary/35 ring-4 ring-transparent font-semibold;
 }
 
 @utility btn-text {
@@ -28,8 +28,12 @@
   @apply text-light bg-neutral-800 ring-4 ring-transparent hover:bg-neutral-800 hover:ring-white/5;
 }
 
+/* Secondary button — matches the SendEmAll monorepo packages/ui `secondary`
+   variant: neutral surface fill, neutral line border, heading-colored text,
+   lavender-tinted accent on hover. Theme-adaptive via --se-* tokens (which map
+   1:1 to the monorepo --sea-* tokens). */
 @utility btn-outline-primary {
-  @apply text-light border-primary bg-body border;
+  @apply text-heading border-border-light bg-theme-dark border font-medium hover:bg-accent;
 }
 
 .btn-outline {

@@ -30,7 +30,7 @@ const IsMultiColMenu = enabledMenus.length >= 2;
             .map((menu) => (
               <ul
                 class:list={[
-                  "tracking-wider text-white [&>li:not(:first-child)>a]:py-3",
+                  "tracking-wider text-text-default [&>li:not(:first-child)>a]:py-3",
                   {
                     "lg:w-1/2": IsMultiColMenu,
                     "w-full lg:max-w-[320px]": !IsMultiColMenu,
@@ -63,7 +63,7 @@ const IsMultiColMenu = enabledMenus.length >= 2;
                           <OptimizedImage
                             inlineSvg={true}
                             src={child.icon}
-                            class="inline-block h-4 w-4 text-white brightness-0 invert"
+                            class="inline-block h-4 w-4 text-primary"
                             alt=""
                           />
                         </span>
@@ -71,7 +71,7 @@ const IsMultiColMenu = enabledMenus.length >= 2;
                       <div class="space-y-1">
                         {child.name && (
                           <div
-                            class="font-secondary text-lg text-white"
+                            class="font-secondary text-lg text-heading"
                             set:html={child.name}
                           />
                         )}
@@ -110,7 +110,7 @@ const IsMultiColMenu = enabledMenus.length >= 2;
           <div class="space-y-1.5">
             {menu.cta.title && (
               <div
-                class="font-secondary text-lg text-white"
+                class="font-secondary text-lg text-heading"
                 set:html={menu.cta.title}
               />
             )}

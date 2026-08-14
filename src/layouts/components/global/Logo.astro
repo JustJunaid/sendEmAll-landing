@@ -40,11 +40,37 @@ let {
   href={getLocaleUrlCTM("/", Astro.currentLocale)}
   class:list={["logo-wrapper", className]}>
   {
-    src || logo ? (
+    src ? (
+      <OptimizedImage
+        src={src}
+        class="logo"
+        width={getNumber(logoWidth)}
+        height={getNumber(logoHeight)}
+        alt={toSentenceCase("Brand logo of " + title)}
+        style={{
+          height: getNumber(logoHeight) + "px",
+          width: getNumber(logoWidth) + "px",
+        }}
+      />
+    ) : logo ? (
       <>
+        {/* Theme-aware logo — light (app wordmark) vs dark (white wordmark).
+            The pre-paint script sets data-theme before first paint, so the
+            correct variant shows immediately with no flash. */}
         <OptimizedImage
-          src={src ? src : logo}
-          class="logo"
+          src="/images/sendemall-logo-light.svg"
+          class="logo logo--light"
+          width={getNumber(logoWidth)}
+          height={getNumber(logoHeight)}
+          alt={toSentenceCase("Brand logo of " + title)}
+          style={{
+            height: getNumber(logoHeight) + "px",
+            width: getNumber(logoWidth) + "px",
+          }}
+        />
+        <OptimizedImage
+          src={logo}
+          class="logo logo--dark"
           width={getNumber(logoWidth)}
           height={getNumber(logoHeight)}
           alt={toSentenceCase("Brand logo of " + title)}
@@ -65,3 +91,12 @@ let {
     )
   }
 </a>
+
+<style is:global>
+  :root[data-theme="dark"] .logo--light {
+    display: none;
+  }
+  :root:not([data-theme="dark"]) .logo--dark {
+    display: none;
+  }
+</style>

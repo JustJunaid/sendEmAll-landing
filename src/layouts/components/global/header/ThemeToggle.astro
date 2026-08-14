@@ -1,0 +1,79 @@
+---
+// Theme toggle. Flips :root[data-theme] and persists to localStorage.
+// The pre-paint script in Head.astro sets the initial theme before first paint.
+// Class-based (not id) so desktop + mobile instances both work; the hoisted
+// script binds every .theme-toggle on the page.
+---
+
+<button
+  type="button"
+  class="theme-toggle inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-light text-text-default transition hover:border-primary/60 hover:text-primary"
+  aria-label="Toggle light and dark theme"
+  title="Toggle theme">
+  {/* Moon — shown in LIGHT theme (click switches to dark) */}
+  <svg
+    class="theme-toggle__moon h-5 w-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+  {/* Sun — shown in DARK theme (click switches to light) */}
+  <svg
+    class="theme-toggle__sun h-5 w-5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+  </svg>
+</button>
+
+<style is:global>
+  :root:not([data-theme="dark"]) .theme-toggle__sun {
+    display: none;
+  }
+  :root[data-theme="dark"] .theme-toggle__moon {
+    display: none;
+  }
+</style>
+
+<script>
+  (function () {
+    const toggles = document.querySelectorAll<HTMLButtonElement>(".theme-toggle");
+    if (!toggles.length) return;
+
+    const current = () =>
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "dark"
+        : "light";
+
+    const sync = () =>
+      toggles.forEach((b) =>
+        b.setAttribute("aria-pressed", String(current() === "dark")),
+      );
+
+    sync();
+
+    toggles.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const next = current() === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try {
+          localStorage.setItem("theme", next);
+        } catch (e) {
+          /* private mode — ignore */
+        }
+        sync();
+      }),
+    );
+  })();
+</script>

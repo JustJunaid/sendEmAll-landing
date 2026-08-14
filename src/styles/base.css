@@ -11,12 +11,12 @@ body {
   @apply bg-body font-primary text-text-default leading-normal font-normal;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar — token-based so it stays visible in both themes */
 * {
-  @apply [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-thumb]:bg-white/5 [&::-webkit-scrollbar-track]:bg-white/5;
+  @apply [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-thumb]:bg-border-light [&::-webkit-scrollbar-track]:bg-transparent;
 }
 .has-customized-scrollbar {
-  @apply [&::-webkit-scrollbar]:w-3! [&::-webkit-scrollbar-thumb]:bg-white/5! [&::-webkit-scrollbar-track]:bg-white/5!;
+  @apply [&::-webkit-scrollbar]:w-3! [&::-webkit-scrollbar-thumb]:bg-border-light! [&::-webkit-scrollbar-track]:bg-transparent!;
 }
 
 /* Global Section Spacing */
@@ -34,7 +34,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-secondary leading-tight font-medium tracking-wide text-white;
+  @apply font-secondary leading-tight font-medium tracking-wide text-heading;
 
   br {
     @apply max-md:hidden;
@@ -73,7 +73,7 @@ h6,
 
 b,
 strong {
-  @apply text-white;
+  @apply text-heading;
 }
 
 code {

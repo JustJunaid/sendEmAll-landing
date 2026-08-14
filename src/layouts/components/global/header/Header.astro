@@ -5,6 +5,7 @@ import LanguageSwitcher from "@/layouts/components/global/header/LanguageSwitche
 import NavigationButton from "@/layouts/components/global/header/NavigationButton.astro";
 import NavMenuItem from "@/layouts/components/global/header/MenuItem.astro";
 import NavToggleBtn from "@/layouts/components/global/header/NavToggleBtn.astro";
+import ThemeToggle from "@/layouts/components/global/header/ThemeToggle.astro";
 import type { NavigationLink } from "@/types";
 import { useTranslations } from "@/lib/utils/i18nUtils";
 import { sortByWeight } from "@/lib/utils/sortFunctions";
@@ -24,7 +25,7 @@ const isHomepage =
 
 const {
   site: { logoHoverAnimation },
-  settings: { stickyHeader, navigationButton },
+  settings: { stickyHeader, navigationButton, loginLink },
 } = config;
 ---
 
@@ -62,6 +63,18 @@ const {
             </li>
           )
         }
+        {/* Log in — small devices */}
+        {
+          loginLink?.enable && (
+            <li class="max-lg:px-4 max-lg:py-2 lg:hidden" role="menuitem">
+              <a
+                href={loginLink.url}
+                class="text-text-default hover:text-primary text-base font-medium transition">
+                {loginLink.label}
+              </a>
+            </li>
+          )
+        }
         {
           navigationButton.enable && (
             <li class="max-lg:px-4 max-lg:py-2 lg:hidden" role="menuitem">
@@ -74,22 +87,40 @@ const {
             </li>
           )
         }
+        {/* Theme toggle — small devices */}
+        <li class="max-lg:px-4 max-lg:py-2 lg:hidden" role="menuitem">
+          <ThemeToggle />
+        </li>
       </ul>
 
-      {/* Navigation Button For Large Devices */}
-      {
-        (navigationButton.enable || config.settings.multilingual.enable) && (
-          <div class="hidden gap-3.5 max-lg:me-4 max-lg:ml-auto lg:flex lg:items-center">
-            {config.settings.multilingual.enable && <LanguageSwitcher />}
-            {navigationButton.enable && (
-              <NavigationButton
-                navigationButton={navigationButton}
-                navigationbuttonLabel={t("navigation.buttonLabel")}
-              />
-            )}
-          </div>
-        )
-      }
+      {/* Actions For Large Devices */}
+      <div class="hidden max-lg:me-4 max-lg:ml-auto lg:flex lg:items-center">
+        {/* Utility group — theme + language, de-emphasised, separated from the CTA */}
+        <div class="flex items-center gap-2">
+          {config.settings.multilingual.enable && <LanguageSwitcher />}
+          <ThemeToggle />
+        </div>
+        <span
+          class="bg-border-light mx-3.5 h-5 w-px"
+          aria-hidden="true"
+        />
+        {/* Auth / conversion group */}
+        <div class="flex items-center gap-3.5">
+        {loginLink?.enable && (
+          <a
+            href={loginLink.url}
+            class="text-text-default hover:text-primary text-sm font-medium transition">
+            {loginLink.label}
+          </a>
+        )}
+        {navigationButton.enable && (
+          <NavigationButton
+            navigationButton={navigationButton}
+            navigationbuttonLabel={t("navigation.buttonLabel")}
+          />
+        )}
+        </div>
+      </div>
       <NavToggleBtn />
     </nav>
   </div>

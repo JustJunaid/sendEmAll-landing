@@ -20,8 +20,10 @@ if (content) {
   const words = content.split(" "); // Split text into words
   processedContent = words
     .map(
-      (word: string) =>
-        `<span class="word" style="display: inline-block; will-change: transform; transform: translateY(10px); opacity: 0; filter: blur(10px);">${word}</span>`,
+      // Words are visible by default (LCP-safe). The entrance-animation hidden
+      // state is applied via CSS only when JS is active (html.js-loaded) — see
+      // the <style> below and the pre-paint fail-safe timer in Head.astro.
+      (word: string) => `<span class="word">${word}</span>`,
     )
     .join(" ");
 }
@@ -36,8 +38,29 @@ if (content) {
   {...rest}
 />
 
+<style is:global>
+  /* LCP-safe reveal: animated words paint immediately by default so the hero
+     heading (the LCP element) is never blocked by an unresolved JS animation.
+     They are hidden for the entrance animation ONLY when the pre-paint script
+     confirmed JS is live (html.js-loaded) and the fail-safe timer hasn't
+     force-revealed them. motion sets inline styles to animate them back in. */
+  .animated-text .word {
+    display: inline-block;
+    will-change: transform;
+  }
+  html.js-loaded .animated-text .word {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(10px);
+  }
+</style>
+
 <script>
   import { animate, stagger, inView } from "motion";
+
+  // Tell the <head> fail-safe timer that motion is alive, so it keeps the
+  // pre-animation hidden state instead of force-revealing the text.
+  (window as any).__animatedTextReady = true;
 
   const animatedTexts = document.querySelectorAll(".animated-text");
 
