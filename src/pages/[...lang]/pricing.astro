@@ -114,7 +114,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <!-- Infrastructure -->
         <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="300">
           <h3 class="text-heading text-lg font-semibold">Infrastructure</h3>
-          <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$1.50</span><span class="text-text-default/60">/mailbox</span></div>
+          <div class="mt-3 mb-1"><span class="text-text-default/60 text-lg">from </span><span class="text-heading text-4xl font-bold">$1.50</span><span class="text-text-default/60">/mailbox/mo</span></div>
           <p class="text-text-default/70 mb-6 text-sm">Mailboxes + domains, done for you</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
             <li class="flex items-start gap-2" set:html={check + " Google Workspace, M365 & SMTP"} />
@@ -188,16 +188,15 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <div class="bg-theme-dark border-primary/50 relative rounded-2xl border-2 p-8" data-aos="fade-up-sm" data-aos-delay="100">
           <h3 class="font-secondary text-primary mb-6 text-center text-lg font-medium">SendEmAll</h3>
           <div class="space-y-3 text-sm">
-            {["Verified B2B leads","Email finding + verification","Campaigns + unified inbox","Email warmup","Ads & tech-stack signals"].map((k) => (
+            {[["Verified B2B leads","$59/mo"],["Email finding + verification","Included"],["Ads & tech-stack signals","Included"],["Sequencer + unified inbox","$99/mo"],["Email warmup","Included"]].map(([k,v]) => (
               <div class="border-border-light/50 flex items-center justify-between border-b pb-3">
-                <span class="text-text-default/80">{k}</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <span class="text-text-default/80">{k}</span><span class="text-heading font-medium">{v}</span>
               </div>
             ))}
           </div>
           <div class="mt-6 rounded-xl bg-primary/10 p-4 text-center">
-            <p class="text-primary text-sm">Starting at</p>
-            <p class="text-primary text-2xl font-bold">$59<span class="text-base font-normal">/mo</span></p>
+            <p class="text-primary text-sm">Total monthly cost</p>
+            <p class="text-primary text-2xl font-bold">$158<span class="text-base font-normal">/mo</span></p>
           </div>
         </div>
       </div>
@@ -214,9 +213,9 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
           <div class="text-text-default/70 mb-2 flex justify-between text-sm">
             <span>1,000</span>
             <span id="calc-emails" class="text-heading text-lg font-semibold">25,000</span>
-            <span>50,000</span>
+            <span>100,000+</span>
           </div>
-          <input type="range" id="calc-slider" min="1000" max="50000" step="1000" value="25000" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
+          <input type="range" id="calc-slider" min="1000" max="100000" step="1000" value="25000" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
         </div>
         <div class="grid grid-cols-2 gap-6">
           <div class="text-center"><p class="text-text-default/70 mb-1 text-sm">Recommended plan</p><p id="calc-plan" class="text-primary text-2xl font-bold">Starter</p></div>
@@ -259,7 +258,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
           ["Can I change plans?", "Upgrade, downgrade, or cancel anytime. Changes take effect on your next billing cycle. No contracts, no lock-in."],
           ["What if I need more than 50,000 credits?", "Reach out and we'll sort out a plan that fits your volume."],
           ["Do unused credits roll over?", "Credits reset monthly. Pick the plan that matches your outbound volume so nothing goes to waste."],
-          ["How much does the sending infrastructure cost?", "Mailboxes start at $1.50 per mailbox per month, with SPF, DKIM, DMARC and warmup set up for you. Domains are provided at registrar cost. See the infrastructure page for details."],
+          ["How much does the sending infrastructure cost?", "Mailboxes start at $1.50 per mailbox per month, with SPF, DKIM, DMARC and warmup set up for you. Domains are provided at registrar cost. See the mailboxes page for details."],
         ].map(([q, a], i) => (
           <div class="hs-accordion bg-theme-dark border-border-light rounded-xl border" id={`pfaq-${i}`}>
             <button class="hs-accordion-toggle text-heading hover:text-primary flex w-full items-center justify-between px-6 py-5 text-left font-medium transition-colors" aria-expanded="false" aria-controls={`pfaq-${i}-body`}>
