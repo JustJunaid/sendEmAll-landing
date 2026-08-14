@@ -44,7 +44,7 @@ for (let i = 1; i <= totalPages; i++) {
               : `${collection ? "/" + collection : ""}/page/${currentPage - 1}`,
             Astro.currentLocale,
           )}
-          class="hover:bg-primary text-text-default hover:text-light flex items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300">
+          class="hover:bg-primary text-text-default hover:text-on-primary flex items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300">
           <svg
             width="23"
             height="14"
@@ -60,7 +60,7 @@ for (let i = 1; i <= totalPages; i++) {
           {t("common.paginationPrevious")}
         </a>
       ) : (
-        <span class="text-light/25 pointer-events-none flex cursor-not-allowed items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300 select-none">
+        <span class="text-muted pointer-events-none flex cursor-not-allowed items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300 select-none">
           <svg
             width="23"
             height="14"
@@ -82,7 +82,7 @@ for (let i = 1; i <= totalPages; i++) {
         pagination === currentPage ? (
           <span
             aria-current="page"
-            class="text-light bg-primary flex h-12 w-12 items-center justify-center rounded-full border text-lg">
+            class="text-on-primary bg-primary flex h-12 w-12 items-center justify-center rounded-full border text-lg">
             {pagination}
           </span>
         ) : (
@@ -94,7 +94,7 @@ for (let i = 1; i <= totalPages; i++) {
               Astro.currentLocale,
             )}
             aria-current="page"
-            class="text-text-default hover:bg-primary hover:text-light flex h-12 w-12 items-center justify-center rounded-full border text-lg transition duration-300">
+            class="text-text-default hover:bg-primary hover:text-on-primary flex h-12 w-12 items-center justify-center rounded-full border text-lg transition duration-300">
             {pagination}
           </a>
         ),
@@ -107,7 +107,7 @@ for (let i = 1; i <= totalPages; i++) {
             `${collection ? "/" + collection : ""}/page/${currentPage + 1}`,
             Astro.currentLocale,
           )}
-          class="hover:bg-primary text-text-default hover:text-light flex items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300">
+          class="hover:bg-primary text-text-default hover:text-on-primary flex items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300">
           {t("common.paginationNext")}
           <svg
             width="22"
@@ -123,7 +123,7 @@ for (let i = 1; i <= totalPages; i++) {
           </svg>
         </a>
       ) : (
-        <span class="text-light/25 pointer-events-none flex cursor-not-allowed items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300 select-none">
+        <span class="text-muted pointer-events-none flex cursor-not-allowed items-center gap-3 rounded-full border px-8 py-2.5 text-lg transition duration-300 select-none">
           {t("common.paginationNext")}
           <svg
             width="22"

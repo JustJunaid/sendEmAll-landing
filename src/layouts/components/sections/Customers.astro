@@ -84,11 +84,17 @@ if (list.length <= 3) {
                       "min-w-fit": marquee.elementWidthAuto,
                     },
                   ]}>
-                  <OptimizedImage
-                    src={item.src}
-                    alt={item.alt}
-                    class="h-8 min-h-8 min-w-fit"
-                  />
+                  {item.src ? (
+                    <OptimizedImage
+                      src={item.src}
+                      alt={item.alt}
+                      class="h-8 min-h-8 min-w-fit"
+                    />
+                  ) : (
+                    <span class="font-secondary text-text-default/50 text-lg font-semibold tracking-tight whitespace-nowrap select-none">
+                      {item.label ?? item.alt}
+                    </span>
+                  )}
                 </div>
               ))}
               {duplicatedList.map((item) => (
@@ -103,11 +109,17 @@ if (list.length <= 3) {
                       "min-w-fit": marquee.elementWidthAuto,
                     },
                   ]}>
-                  <OptimizedImage
-                    src={item.src}
-                    alt={item.alt}
-                    class="h-8 min-h-8 min-w-fit"
-                  />
+                  {item.src ? (
+                    <OptimizedImage
+                      src={item.src}
+                      alt={item.alt}
+                      class="h-8 min-h-8 min-w-fit"
+                    />
+                  ) : (
+                    <span class="font-secondary text-text-default/50 text-lg font-semibold tracking-tight whitespace-nowrap select-none">
+                      {item.label ?? item.alt}
+                    </span>
+                  )}
                 </div>
               ))}
             </Marquee>

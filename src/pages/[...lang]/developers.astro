@@ -87,9 +87,38 @@ curl -X POST https://api.sendemall.com/v1/campaigns \\
           </ul>
         </div>
         <div class="order-1 lg:order-2" data-aos="fade-up-sm" data-aos-delay="100">
-          <span class="mb-2 inline-block text-sm font-semibold text-primary">MCP Server</span>
+          <span class="mb-2 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+            MCP Server
+            <span class="bg-primary/10 rounded-full px-2 py-0.5 text-xs">Beta</span>
+          </span>
           <h2 class="text-3xl font-bold sm:text-4xl">Connect AI agents directly to SendEmAll</h2>
-          <p class="mt-4 text-text-default/70">Claude, GPT, and any MCP-compatible agent can create campaigns, pull lead data, and trigger sends. Your AI agent becomes your outbound operator.</p>
+          <p class="mt-4 text-text-default/70">Claude, GPT, and any MCP-compatible agent can create campaigns, pull verified lead data, and trigger sends. Your AI agent becomes your outbound operator.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLI -->
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="grid items-start gap-12 lg:grid-cols-2">
+        <div data-aos="fade-up-sm">
+          <span class="mb-2 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+            CLI
+            <span class="bg-primary/10 rounded-full px-2 py-0.5 text-xs">Beta</span>
+          </span>
+          <h2 class="text-3xl font-bold sm:text-4xl">Run outbound from your terminal</h2>
+          <p class="mt-4 text-text-default/70">Scaffold campaigns, pull verified leads, and trigger sends without leaving your shell — then pipe results straight into your own scripts and CI.</p>
+        </div>
+        <div class="border-border-light bg-theme-dark order-first overflow-x-auto rounded-2xl border p-6 font-mono text-sm lg:order-none" data-aos="fade-up-sm" data-aos-delay="100">
+          <code class="text-text-default/80 whitespace-pre">{`# find verified buyers for your ICP
+$ sendemall leads find \\
+    --icp "B2B SaaS, 50-200, using HubSpot" \\
+    --verified --limit 500 > leads.csv
+
+# push them into a campaign
+$ sendemall campaigns create \\
+    --from leads.csv --sequence intro`}</code>
         </div>
       </div>
     </div>

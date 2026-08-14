@@ -1,6 +1,6 @@
 ---
 enable: true # Control the visibility of this section across all pages where it is used
-description: "Built on 18+ providers"
+description: "Works with the tools you already use"
 
 marquee:
   elementWidthAuto: true
@@ -21,8 +21,8 @@ list:
     alt: "Ocean.io"
   - src: "/images/integration/instantly.png"
     alt: "Instantly"
-  - src: "/images/integration/deepseek.png"
-    alt: "DeepSeek"
+  - src: "/images/integration/clay.png"
+    alt: "Clay"
   - src: "/images/integration/zerobounce.png"
     alt: "ZeroBounce"
   - src: "/images/integration/dropcontact.png"

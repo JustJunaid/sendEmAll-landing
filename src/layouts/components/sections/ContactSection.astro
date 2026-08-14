@@ -156,7 +156,7 @@ form = {
                     )}
                     <div class="prose-a:text-text-default space-y-px">
                       {item.label && (
-                        <div class="text-sm text-white" set:html={item.label} />
+                        <div class="text-sm text-heading" set:html={item.label} />
                       )}
                       {item.value && <p set:html={markdownify(item.value)} />}
                     </div>
@@ -280,7 +280,7 @@ form = {
                         <p class="hs-error:block mt-2 hidden text-sm text-red-600">
                           Please select a valid state.
                         </p>
-                        <p class="hs-success:flex mt-2 hidden text-sm text-white">
+                        <p class="hs-success:flex mt-2 hidden text-sm text-heading">
                           Perfect!
                         </p>
                       </div>

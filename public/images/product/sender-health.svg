@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" fill="none" role="img" aria-label="SendEmAll sender deliverability panel with health scores and warmup toggles">
+  <defs>
+    <filter id="sh-shadow" x="-8%" y="-8%" width="116%" height="120%">
+      <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#1A191F" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .ui{font-family:'DM Sans','Outfit',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+      .mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+    </style>
+  </defs>
+
+  <rect x="20" y="16" width="680" height="388" rx="16" fill="#FFFFFF" stroke="#ECEAF1" filter="url(#sh-shadow)"/>
+
+  <!-- chrome -->
+  <circle cx="46" cy="37" r="5" fill="#F2C4C0"/>
+  <circle cx="64" cy="37" r="5" fill="#F6DDA6"/>
+  <circle cx="82" cy="37" r="5" fill="#B8E6C8"/>
+  <text x="108" y="41" class="ui" font-size="11.5" fill="#9CA3AF">sequencer.sendemall.com · Senders — Deliverability</text>
+  <line x1="20" y1="56" x2="700" y2="56" stroke="#F1EFF4"/>
+
+  <!-- toolbar -->
+  <text x="40" y="86" class="ui" font-size="14" font-weight="700" fill="#1A191F">Senders</text>
+  <text x="112" y="86" class="ui" font-size="11" fill="#78757F">4 mailboxes · avg health <tspan class="mono" fill="#0E8456" font-weight="700">85%</tspan></text>
+  <rect x="580" y="70" width="104" height="30" rx="9" fill="#D2B3F3"/>
+  <text x="632" y="89" class="ui" font-size="11.5" font-weight="600" fill="#131218" text-anchor="middle">Add mailbox</text>
+
+  <!-- header -->
+  <rect x="20" y="110" width="680" height="24" fill="#FBFAFC"/>
+  <text x="78" y="126" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">SENDER</text>
+  <text x="300" y="126" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">STATUS</text>
+  <text x="400" y="126" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">HEALTH SCORE</text>
+  <text x="556" y="126" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">SENT</text>
+  <text x="612" y="126" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">WARMUP</text>
+
+  <!-- ROW template repeated -->
+  <!-- ROW 1: Gmail 92% Good -->
+  <g transform="translate(0,158)">
+    <line x1="40" y1="-24" x2="680" y2="-24" stroke="#F4F2F7"/>
+    <rect x="44" y="-11" width="22" height="22" rx="6" fill="#FFFFFF" stroke="#EDEBF0"/>
+    <path d="M49 -6 h12 v11 h-12 z" fill="none" stroke="#EA4335" stroke-width="1.4"/>
+    <path d="M49 -6 l6 5 l6 -5" fill="none" stroke="#EA4335" stroke-width="1.4"/>
+    <text x="78" y="4" class="mono" font-size="10.5" fill="#3F3D47">outreach@northwind.io</text>
+    <rect x="300" y="-8" width="72" height="17" rx="8.5" fill="#E8F7F0"/>
+    <circle cx="311" cy="0" r="3" fill="#15A06A"/>
+    <text x="318" y="3" class="ui" font-size="9" font-weight="600" fill="#0E8456">Connected</text>
+    <rect x="400" y="-3" width="96" height="6" rx="3" fill="#EEF0F2"/>
+    <rect x="400" y="-3" width="88" height="6" rx="3" fill="#10B981"/>
+    <text x="504" y="3" class="mono" font-size="10.5" font-weight="700" fill="#0E8456">92%</text>
+    <text x="540" y="3" class="ui" font-size="9.5" fill="#10B981" font-weight="600">Good</text>
+    <text x="560" y="3" class="mono" font-size="10.5" fill="#4B5563">28</text>
+    <rect x="620" y="-8" width="30" height="16" rx="8" fill="#D2B3F3"/>
+    <circle cx="642" cy="0" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <!-- ROW 2: Microsoft 88% Good -->
+  <g transform="translate(0,220)">
+    <line x1="40" y1="-24" x2="680" y2="-24" stroke="#F4F2F7"/>
+    <rect x="44" y="-11" width="22" height="22" rx="6" fill="#FFFFFF" stroke="#EDEBF0"/>
+    <rect x="50" y="-5" width="4.5" height="4.5" fill="#F25022"/>
+    <rect x="55.5" y="-5" width="4.5" height="4.5" fill="#7FBA00"/>
+    <rect x="50" y="0.5" width="4.5" height="4.5" fill="#00A4EF"/>
+    <rect x="55.5" y="0.5" width="4.5" height="4.5" fill="#FFB900"/>
+    <text x="78" y="4" class="mono" font-size="10.5" fill="#3F3D47">hello@lumen.co</text>
+    <rect x="300" y="-8" width="72" height="17" rx="8.5" fill="#E8F7F0"/>
+    <circle cx="311" cy="0" r="3" fill="#15A06A"/>
+    <text x="318" y="3" class="ui" font-size="9" font-weight="600" fill="#0E8456">Connected</text>
+    <rect x="400" y="-3" width="96" height="6" rx="3" fill="#EEF0F2"/>
+    <rect x="400" y="-3" width="84" height="6" rx="3" fill="#10B981"/>
+    <text x="504" y="3" class="mono" font-size="10.5" font-weight="700" fill="#0E8456">88%</text>
+    <text x="540" y="3" class="ui" font-size="9.5" fill="#10B981" font-weight="600">Good</text>
+    <text x="560" y="3" class="mono" font-size="10.5" fill="#4B5563">24</text>
+    <rect x="620" y="-8" width="30" height="16" rx="8" fill="#D2B3F3"/>
+    <circle cx="642" cy="0" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <!-- ROW 3: Gmail 64% Fair -->
+  <g transform="translate(0,282)">
+    <line x1="40" y1="-24" x2="680" y2="-24" stroke="#F4F2F7"/>
+    <rect x="44" y="-11" width="22" height="22" rx="6" fill="#FFFFFF" stroke="#EDEBF0"/>
+    <path d="M49 -6 h12 v11 h-12 z" fill="none" stroke="#EA4335" stroke-width="1.4"/>
+    <path d="M49 -6 l6 5 l6 -5" fill="none" stroke="#EA4335" stroke-width="1.4"/>
+    <text x="78" y="4" class="mono" font-size="10.5" fill="#3F3D47">sales@kettle.xyz</text>
+    <rect x="300" y="-8" width="72" height="17" rx="8.5" fill="#E8F7F0"/>
+    <circle cx="311" cy="0" r="3" fill="#15A06A"/>
+    <text x="318" y="3" class="ui" font-size="9" font-weight="600" fill="#0E8456">Connected</text>
+    <rect x="400" y="-3" width="96" height="6" rx="3" fill="#EEF0F2"/>
+    <rect x="400" y="-3" width="61" height="6" rx="3" fill="#F59E0B"/>
+    <text x="504" y="3" class="mono" font-size="10.5" font-weight="700" fill="#B45309">64%</text>
+    <text x="540" y="3" class="ui" font-size="9.5" fill="#F59E0B" font-weight="600">Fair</text>
+    <text x="560" y="3" class="mono" font-size="10.5" fill="#4B5563">12</text>
+    <rect x="620" y="-8" width="30" height="16" rx="8" fill="#D2B3F3"/>
+    <circle cx="642" cy="0" r="6" fill="#FFFFFF"/>
+  </g>
+
+  <!-- ROW 4: Microsoft 95% Good -->
+  <g transform="translate(0,344)">
+    <line x1="40" y1="-24" x2="680" y2="-24" stroke="#F4F2F7"/>
+    <rect x="44" y="-11" width="22" height="22" rx="6" fill="#FFFFFF" stroke="#EDEBF0"/>
+    <rect x="50" y="-5" width="4.5" height="4.5" fill="#F25022"/>
+    <rect x="55.5" y="-5" width="4.5" height="4.5" fill="#7FBA00"/>
+    <rect x="50" y="0.5" width="4.5" height="4.5" fill="#00A4EF"/>
+    <rect x="55.5" y="0.5" width="4.5" height="4.5" fill="#FFB900"/>
+    <text x="78" y="4" class="mono" font-size="10.5" fill="#3F3D47">team@atlassys.com</text>
+    <rect x="300" y="-8" width="72" height="17" rx="8.5" fill="#E8F7F0"/>
+    <circle cx="311" cy="0" r="3" fill="#15A06A"/>
+    <text x="318" y="3" class="ui" font-size="9" font-weight="600" fill="#0E8456">Connected</text>
+    <rect x="400" y="-3" width="96" height="6" rx="3" fill="#EEF0F2"/>
+    <rect x="400" y="-3" width="91" height="6" rx="3" fill="#10B981"/>
+    <text x="504" y="3" class="mono" font-size="10.5" font-weight="700" fill="#0E8456">95%</text>
+    <text x="540" y="3" class="ui" font-size="9.5" fill="#10B981" font-weight="600">Good</text>
+    <text x="560" y="3" class="mono" font-size="10.5" fill="#4B5563">30</text>
+    <rect x="620" y="-8" width="30" height="16" rx="8" fill="#D2B3F3"/>
+    <circle cx="642" cy="0" r="6" fill="#FFFFFF"/>
+  </g>
+</svg>

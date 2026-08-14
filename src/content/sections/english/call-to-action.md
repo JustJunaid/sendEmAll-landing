@@ -1,17 +1,17 @@
 ---
 enable: true
-title: "Stop emailing strangers. Start **closing buyers.**"
-ratingContent: 4.8 / 5 <br /> From 200+ outbound teams
+title: "Ready to reach buyers who **actually reply?**"
+ratingContent: ""
 
 ctaBtn:
   enable: true
-  label: Get My Free Potential Buyers
-  url: "/services/free-leads"
+  label: Create your account
+  url: "https://app.sendemall.com/register"
   rel: ""
   target: ""
 
 features:
-  - 100 signal-qualified leads
-  - Matched to your ICP
-  - Delivered in 48 hours
+  - Pay only for valid emails
+  - Sending infrastructure included
+  - Unlimited-seat sequencer, no lock-in
 ---

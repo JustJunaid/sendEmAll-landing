@@ -1,0 +1,41 @@
+---
+import ToolPage from "@/layouts/components/sections/ToolPage.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const tool = {
+  eyebrow: "Email finder",
+  h1: "Email finder — <strong>the right address, already verified.</strong>",
+  sub: "Give us a name and a company (or just a domain) and we'll find the email — ranked by real, learned per-domain patterns — then verify it before it reaches you. Finding is free; you only pay for the valid result.",
+  metaTitle: "Email Finder — Find & Verify Anyone's Work Email | SendEmAll",
+  metaDescription: "Find work emails by name and domain, ranked by learned per-domain patterns, then verified before delivery. Finding is free — you only pay for the valid, deliverable address. Bulk and single lookup.",
+  cta: { label: "Find an email", url: "https://app.sendemall.com/register" },
+  problem: {
+    h2: "Guessed emails are worse than no emails — <strong>they bounce.</strong>",
+    body: "Most \"finders\" spit out a first.last@ guess and call it a day. When it bounces, it's your domain that pays. SendEmAll orders candidates by the patterns it has actually learned for that domain, then verifies the winner before you ever see it.",
+  },
+  how: [
+    { t: "Enter name + company", d: "Search a single contact, or upload a list of names and domains for bulk finding." },
+    { t: "Pattern-ranked search", d: "We generate likely addresses ordered by the real email patterns learned for that domain — not a blind first.last guess." },
+    { t: "Verified, then delivered", d: "The best candidate is verified (SMTP plus platform-level checks) before it reaches you. Export or push into a campaign." },
+  ],
+  benefits: [
+    { k: "Finding is free", v: "You're only billed when we return a valid, verified email — never for a guess or a miss." },
+    { k: "Learns each domain", v: "A persistent pattern store means accuracy improves the more a domain is seen." },
+    { k: "Decision-makers too", v: "Hand us just a company domain and we'll find the right decision-maker's verified email." },
+  ],
+  faqs: [
+    ["How is this different from other email finders?", "Two things: candidates are ranked by patterns actually learned for that domain, and every result is verified before it reaches you — so you get a deliverable address, not a guess."],
+    ["Do I pay if you can't find a valid email?", "No. Finding is free and you're only charged for a valid, verified result."],
+    ["Can I find emails in bulk?", "Yes. Upload a CSV of names and companies (or domains) and we'll find and verify each row."],
+    ["Can you find an email from just a domain?", "Yes — give us a company domain and we'll identify the right decision-maker and find their verified email."],
+  ],
+  ctaHeading: "Find emails that <strong>actually deliver.</strong>",
+  note: "You are responsible for ensuring your outreach complies with applicable laws and for honoring opt-outs.",
+};
+---
+
+<ToolPage tool={tool} />

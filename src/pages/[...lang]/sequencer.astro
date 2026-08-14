@@ -1,0 +1,97 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const APP = "https://app.sendemall.com/register";
+
+const CARD =
+  "group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
+
+const features = [
+  { k: "Unlimited seats & workspaces", v: "Add every client and teammate. No per-seat fee, ever — one price covers your whole agency.", icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { k: "Multi-step sequences + A/B", v: "Build follow-ups, split-test copy, and schedule sends across every connected mailbox.", icon: '<path d="M4 6h16M4 12h10M4 18h7"/>' },
+  { k: "One unified inbox", v: "Every reply from every mailbox lands in a single inbox — no tab-hopping across accounts.", icon: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6l3-7z"/>' },
+  { k: "Warmup built in", v: "Mailboxes warm from day one and keep their reputation while you send — no separate warmup tool.", icon: '<path d="M12 2s5 4 5 9a5 5 0 0 1-10 0c0-3 2-5 2-5"/><path d="M12 22a4 4 0 0 0 4-4c0-2-2-3-4-6-2 3-4 4-4 6a4 4 0 0 0 4 4z"/>' },
+  { k: "Inbox placement tests", v: "See exactly where you land — inbox, promotions, or spam — before you scale a campaign.", icon: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>' },
+  { k: "Positive-reply detection", v: "Detects the interested replies and pings you only for the ones worth your time — skip the OOOs and unsubscribes.", icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="m8 10 3 3 5-5"/>' },
+];
+---
+
+<Base
+  metaTitle="Unlimited-Seat Cold Email Sequencer & Unified Inbox | SendEmAll"
+  disableTagline={true}
+  metaDescription="A cold email sequencer with unlimited seats and workspaces, a unified inbox, and warmup built in — one flat price, no per-seat tax. Built for agencies. Or push your leads and mailboxes to any tool, free."
+>
+  <!-- Hero -->
+  <section class="py-20 lg:py-28">
+    <div class="container text-center">
+      <Subtitle content="Sequencer" />
+      <h1 class="font-secondary has-italic-text mx-auto max-w-4xl text-4xl md:text-6xl/tight" data-aos="fade-up-sm">
+        Unlimited seats. <strong class="font-tertiary italic">One flat price.</strong>
+      </h1>
+      <p class="text-text-default/70 mx-auto mt-6 max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="100">
+        Instantly, Smartlead, and the rest charge per seat, per workspace, per warmup add-on — it explodes the
+        moment you run more than a few clients. SendEmAll's sequencer is <strong class="text-heading">$99/mo,
+        everything unlimited</strong>: seats, workspaces, sending, warmup, and reply management. Built for agencies
+        who are done paying per seat.
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="200">
+        <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Create your account", url: APP }} />
+        <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "/pricing" }} />
+      </div>
+      <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="300">
+        <img
+          src="/images/product/sequence-builder.svg"
+          width="720"
+          height="460"
+          loading="eager"
+          alt="SendEmAll sequence builder — multi-step follow-ups, A/B variants, and a unified reply inbox"
+          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section-gradient py-16 md:py-24">
+    <div class="container">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          features.map((f, i) => (
+            <div class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 75}>
+              <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon} />
+              </span>
+              <h3 class="text-heading text-lg font-semibold">{f.k}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{f.v}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- No lock-in -->
+  <section class="py-16 md:py-24">
+    <div class="container text-center">
+      <h2 class="font-secondary has-italic-text mx-auto mb-5 max-w-2xl text-3xl md:text-4xl/tight" data-aos="fade-up-sm">
+        Prefer your own tool? <strong class="font-tertiary italic">Keep it.</strong>
+      </h2>
+      <p class="text-text-default/70 mx-auto max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="50">
+        Take the verified leads and mailboxes you get from SendEmAll and push them into Instantly, Smartlead, or
+        PlusVibe — <strong class="text-heading">free, no lock-in.</strong> Use our sequencer because it's the
+        better deal; your data is always yours to take.
+      </p>
+      <div class="mt-9" data-aos="fade-up-sm" data-aos-delay="100">
+        <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Create your account", url: APP }} />
+      </div>
+    </div>
+  </section>
+</Base>

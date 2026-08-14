@@ -3,12 +3,9 @@ import Base from "@/layouts/Base.astro";
 import { getEntryCTM } from "@/lib/contentParser.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 import HomeBanner from "@/components/sections/HomeBanner.astro";
-import ProblemSection from "@/components/sections/ProblemSection.astro";
-import HowItWorksTimeline from "@/components/sections/HowItWorksTimeline.astro";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
-import PricingSection from "@/components/sections/PricingSection.astro";
-import TestimonialSection from "@/components/sections/TestimonialSection.astro";
+import Marquee from "@/layouts/components/widgets/Marquee.astro";
 import FaqSection from "@/components/sections/FaqSection.astro";
 import CallToAction from "@/components/sections/CallToAction.astro";
 
@@ -20,267 +17,515 @@ const homepage = await getEntryCTM("homepage", "-index", Astro.currentLocale);
 const faqData = (await getEntryCTM("faq", "-index", Astro.currentLocale))?.data;
 
 // Build FAQPage schema for rich snippets
-const faqItems = faqData?.list?.flatMap((category: any) =>
-  category.list?.map((item: any) => ({
-    "@type": "Question",
-    name: item.title,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.content?.trim(),
-    },
-  })) ?? []
-) ?? [];
+const faqItems =
+  faqData?.list?.flatMap((category: any) =>
+    category.list?.map((item: any) => ({
+      "@type": "Question",
+      name: item.title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.content?.trim(),
+      },
+    })) ?? [],
+  ) ?? [];
 
-const faqSchema = faqItems.length > 0 ? JSON.stringify({
+const faqSchema =
+  faqItems.length > 0
+    ? JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems,
+      })
+    : null;
+
+// Top-level Organization + WebSite graph for richer knowledge-panel eligibility.
+const siteSchema = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems,
-}) : null;
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.sendemall.com/#organization",
+      name: "SendEmAll",
+      url: "https://www.sendemall.com/",
+      logo: "https://www.sendemall.com/images/sendemall-logo-dark.svg",
+      sameAs: [
+        "https://x.com/send_em_all",
+        "https://www.linkedin.com/company/sendemall",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.sendemall.com/#website",
+      url: "https://www.sendemall.com/",
+      name: "SendEmAll",
+      publisher: { "@id": "https://www.sendemall.com/#organization" },
+    },
+  ],
+});
+
+const APP_URL = "https://app.sendemall.com/register";
+
+// The three stages of the outbound pipeline — one product, end to end.
+const steps = [
+  {
+    n: "01",
+    title: "Find the right buyers",
+    body: "Search 66M+ verified contacts, describe your ICP in plain English, or bring your own Apollo and Sales Navigator account. See who's in-market — hiring, raising, running ads — and only pay for emails that are real.",
+  },
+  {
+    n: "02",
+    title: "Reach them",
+    body: "Multi-step sequences, A/B tests, and one unified inbox across every mailbox. Unlimited seats and workspaces, one flat price — never taxed per seat.",
+  },
+  {
+    n: "03",
+    title: "Land in the inbox",
+    body: "Send from mailboxes with SPF, DKIM, DMARC and warmup already handled — your own, or spun up in minutes. A bad list never touches your domain.",
+  },
+];
+
+// Sequencers we hand off to — the "no lock-in" proof.
+const interop = [
+  "Instantly",
+  "Smartlead",
+  "PlusVibe",
+  "Lemlist",
+  "Woodpecker",
+  "EmailBison",
+];
+
+// The villain, named — three faces of the rigged, fragmented stack (StoryBrand problem beat).
+const pains = [
+  {
+    k: "Data that bounces",
+    v: "You pay for addresses that were never real — and every bounce chips away at the sender reputation you worked to build.",
+    icon: '<path d="M3 12h12a4 4 0 0 1 0 8h-2"/><path d="M8 7 3 12l5 5"/>',
+  },
+  {
+    k: "The spam black box",
+    v: "You're landing in spam and guessing why. No visibility, no fix — just money and messages into a void.",
+    icon: '<path d="M10.7 5.1A9 9 0 0 1 12 5c7 0 10 7 10 7a13.4 13.4 0 0 1-1.9 2.9"/><path d="M6.6 6.6A13.3 13.3 0 0 0 2 12s3 7 10 7a9 9 0 0 0 4.9-1.4"/><path d="m2 2 20 20"/>',
+  },
+  {
+    k: "Death by a thousand invoices",
+    v: "A finder, a verifier, a sequencer, inboxes, warmup — five logins and five bills that don't talk to each other.",
+    icon: '<path d="M5 3h11l3 3v15l-3-1.5L13 21l-3-1.5L7 21l-2-1.5V3z"/><path d="M9 8h6M9 12h6M9 16h3"/>',
+  },
+];
 ---
 
 <Base
-  metaTitle="SendEmAll | Signal-Based Outbound Platform"
+  metaTitle="SendEmAll | Reach the right buyers and land in their inbox"
   disableTagline={true}
-  metaDescription="Find companies already looking to buy what you sell. Signal-based lead discovery, verified decision maker contacts, and personalized outreach. All in one platform."
+  metaDescription="Verified B2B buyers and real deliverability in one system — so bad leads never burn your domain. Find, verify, and reach buyers from inboxes that land. Pay only for leads that are real. From $59/mo."
 >
   <!-- 1. Hero -->
   <HomeBanner />
 
-  <!-- 2. Problem / Old Way vs New Way -->
-  <ProblemSection />
-
-  <!-- 3. How It Works -->
-  <HowItWorksTimeline />
-
-  <!-- 4. Signal + Intent Explainer -->
-  <section class="section-gradient py-16 md:py-24">
-    <div class="container space-y-16 md:space-y-20">
-      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
-        <Subtitle content="Why It Works" />
-        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight has-italic-text">
-          Why signals and buying intent <strong class="font-tertiary italic">change everything</strong>
+  <!-- 1.5 Problem / the villain (StoryBrand problem beat — about them, not us) -->
+  <section data-section="problem" class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="The problem" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          You're not bad at cold email. <strong class="font-tertiary italic">Your stack is rigged against you.</strong>
         </h2>
-      </div>
-
-      <div class="grid gap-x-12 gap-y-10 lg:grid-cols-3" data-aos="fade-up-sm" data-aos-delay="200">
-        <!-- Signals alone = Noise -->
-        <div class="border-primary/40 before:bg-primary relative space-y-5 before:absolute before:-left-px before:content-[''] last:border-b-0 last:pb-0 max-lg:border-b max-lg:pb-10 before:max-lg:bottom-0 before:max-lg:h-px before:max-lg:w-1/4 last:before:max-lg:hidden lg:border-l lg:pl-10 before:lg:top-1/2 before:lg:h-1/4 before:lg:w-px before:lg:-translate-y-1/2">
-          <div class="bg-red-500/10 flex h-10 w-10 items-center justify-center rounded-full">
-            <svg class="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M6 12H2m4.343-5.657L4.93 4.93m1.414 14.142L4.93 19.07"/></svg>
-          </div>
-          <h3 class="h4">Signals alone = Noise</h3>
-          <p class="text-text-default/70">A company hired a new CMO. So what? Thousands of companies hire CMOs. Without knowing if they need what you sell, it's just noise.</p>
-        </div>
-
-        <!-- Intent alone = Anonymous -->
-        <div class="border-primary/40 before:bg-primary relative space-y-5 before:absolute before:-left-px before:content-[''] last:border-b-0 last:pb-0 max-lg:border-b max-lg:pb-10 before:max-lg:bottom-0 before:max-lg:h-px before:max-lg:w-1/4 last:before:max-lg:hidden lg:border-l lg:pl-10 before:lg:top-1/2 before:lg:h-1/4 before:lg:w-px before:lg:-translate-y-1/2">
-          <div class="bg-amber-500/10 flex h-10 w-10 items-center justify-center rounded-full">
-            <svg class="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-          </div>
-          <h3 class="h4">Intent alone = Anonymous</h3>
-          <p class="text-text-default/70">Someone from Company X is reading G2 reviews about cold email tools. But who? Which team? Are they serious or just browsing?</p>
-        </div>
-
-        <!-- Signals + Intent = Buyer -->
-        <div class="border-primary/40 before:bg-primary relative space-y-5 before:absolute before:-left-px before:content-[''] last:border-b-0 last:pb-0 max-lg:border-b max-lg:pb-10 before:max-lg:bottom-0 before:max-lg:h-px before:max-lg:w-1/4 last:before:max-lg:hidden lg:border-l lg:pl-10 before:lg:top-1/2 before:lg:h-1/4 before:lg:w-px before:lg:-translate-y-1/2">
-          <div class="bg-teal-500/10 flex h-10 w-10 items-center justify-center rounded-full">
-            <svg class="w-5 h-5 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </div>
-          <h3 class="h4">Signals + Intent = Your highest-probability buyer</h3>
-          <p class="text-text-default/70">A company hired a new CMO (signal), AND they're actively comparing your top competitors on G2 (intent). They have budget, mandate, and urgency. That's who we put in your pipeline.</p>
-        </div>
-      </div>
-
-      <div class="text-center" data-aos="fade-up-sm" data-aos-delay="300">
-        <p class="text-text-default/70 mx-auto max-w-2xl text-lg">
-          Multi-signal outreach converts at <strong class="text-primary">45-65%</strong>. Single-signal converts at <strong class="text-text-default/50">5-15%</strong>. We combine both.
+        <p class="text-text-default/70 mt-5 text-lg">
+          You pay for "leads" that bounce and quietly torch the domain you spent months warming. You land in
+          spam and no tool will tell you why. And that "$37/mo" tool? It's really $600 once you've stacked a
+          finder, a verifier, a sequencer, 15 inboxes, and warmup — five logins to do one job.
         </p>
       </div>
-    </div>
-  </section>
-
-  <!-- 5. Signals Showcase -->
-  <section class="bg-primary/5 py-16 md:py-24">
-    <div class="container">
-      <div class="mb-14 text-center" data-aos="fade-up-sm">
-        <Subtitle content="Signal Sources" />
-        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
-          18+ signal sources. <strong class="font-tertiary italic">One pipeline.</strong>
-        </h2>
-      </div>
-
-      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {[
-          { title: "Hiring surges", example: "Company X posted 5 SDR roles this month", insight: "They're scaling outbound" },
-          { title: "Funding rounds", example: "Series B, $20M raised last week", insight: "Fresh budget, new priorities" },
-          { title: "Tech stack changes", example: "Just added HubSpot, removed Salesforce", insight: "In transition, open to vendors" },
-          { title: "Ad spend signals", example: "Started running Google Ads for 'cold email tool'", insight: "Actively investing" },
-          { title: "Competitor research", example: "Evaluating Instantly and Smartlead pricing", insight: "Comparing options now" },
-          { title: "Authority signals", example: "CEO featured on 3 podcasts this quarter", insight: "Growing brand, scaling up" },
-        ].map((signal, i) => (
-          <div
-            class="bg-theme-dark border-border-light rounded-2xl border p-6"
-            data-aos="fade-up-sm"
-            data-aos-delay={i * 75}
-          >
-            <h3 class="font-secondary mb-2 text-lg font-semibold">{signal.title}</h3>
-            <p class="text-text-default/60 mb-3 text-sm italic">"{signal.example}"</p>
-            <p class="text-primary text-sm font-medium">{signal.insight}</p>
-          </div>
-        ))}
-      </div>
-
-      <div class="mt-12 text-center" data-aos="fade-up-sm" data-aos-delay="500">
-        <ButtonLink
-          class="btn-md btn-primary"
-          content={{ enable: true, label: "Get 100 Qualified Potential Buyers. Free.", url: "/services/free-leads" }}
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Pricing -->
-  <PricingSection />
-
-  <!-- Pricing value framing -->
-  <section class="py-12 md:py-16">
-    <div class="container">
-      <div class="bg-theme-dark border-border-light mx-auto max-w-4xl rounded-2xl border p-8 md:p-12" data-aos="fade-up-sm">
-        <h3 class="font-secondary mb-6 text-center text-2xl md:text-3xl">
-          What you'd pay to do this <strong class="font-tertiary italic">separately</strong>
-        </h3>
-        <div class="grid gap-3 sm:grid-cols-2 mb-8">
-          {[
-            { tool: "Apollo/Clay for discovery", cost: "$99-$495/mo" },
-            { tool: "Hunter for email finding", cost: "$49-$199/mo" },
-            { tool: "ZeroBounce for verification", cost: "$39-$159/mo" },
-            { tool: "Warmbox for warmup", cost: "$225-$735/mo" },
-            { tool: "Instantly for sending", cost: "$47-$358/mo" },
-            { tool: "Google Workspace mailboxes", cost: "$126-$882/mo" },
-          ].map((item) => (
-            <div class="flex items-center justify-between rounded-lg bg-primary/5 px-4 py-3">
-              <span class="text-text-default/70 text-sm">{item.tool}</span>
-              <span class="text-text-default/50 text-sm line-through">{item.cost}</span>
+      <div class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-3">
+        {
+          pains.map((p, i) => (
+            <div
+              class="group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1"
+              data-aos="fade-up-sm"
+              data-aos-delay={i * 100}>
+              <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={p.icon} />
+              </span>
+              <h3 class="text-heading text-lg font-semibold">{p.k}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{p.v}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
             </div>
-          ))}
-        </div>
-        <div class="text-center">
-          <p class="text-text-default/50 mb-2 text-lg">Total: <span class="line-through">$600-$2,800+/mo</span></p>
-          <p class="text-primary text-2xl font-bold">SendEmAll: $149-$599/mo. Everything included.</p>
-          <p class="text-text-default/50 mt-4 text-sm">Platform launching soon. Reserve your spot.</p>
-        </div>
+          ))
+        }
       </div>
-    </div>
-  </section>
-
-  <!-- 8. Reply Guarantee (moved after pricing) -->
-  <section class="bg-accent py-16 md:py-24">
-    <div class="container text-center" data-aos="fade-up-sm">
-      <span class="mb-4 inline-block rounded-full bg-[#14B8A6]/10 px-4 py-1.5 text-sm font-semibold text-[#14B8A6]">Reply Guarantee</span>
-      <h2 class="font-secondary mx-auto mb-6 max-w-3xl text-4xl capitalize md:text-5xl/tight">
-        50+ replies in 90 days. Or we <strong class="font-tertiary italic">double</strong> your credits.
-      </h2>
-      <p class="text-text-default/70 mx-auto mb-10 max-w-2xl">
-        On Business and Scale plans, if you don't receive 50+ qualified replies in your first 90 days, we add bonus credits to your account. No questions asked.
+      <p class="text-text-default/80 mx-auto mt-10 max-w-2xl text-center text-lg" data-aos="fade-up-sm">
+        <strong class="text-heading">SendEmAll fixes the seam.</strong> One system where your data and your
+        deliverability protect each other — so a bad list can't burn your domain, and you only pay for what's real.
       </p>
-      <div class="flex flex-wrap items-center justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="100">
-        <span class="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-6 py-2 font-medium text-[#14B8A6]">Business: +5,000 credits</span>
-        <span class="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-6 py-2 font-medium text-[#14B8A6]">Scale: +15,000 credits</span>
+    </div>
+  </section>
+
+  <!-- 2. How it works -->
+  <section id="how" class="section-gradient py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="How it works" />
+        <h2 class="font-secondary has-italic-text text-4xl md:text-5xl/tight">
+          One product. <strong class="font-tertiary italic">The whole pipeline.</strong>
+        </h2>
+        <p class="text-text-default/70 mt-5 text-lg">
+          Find, send, and land — without stitching five tools together and paying for all of them.
+        </p>
+      </div>
+
+      <div class="relative">
+        <!-- connector: shows through the gaps between the numbered badges (md+) -->
+        <div
+          class="pointer-events-none absolute top-[58px] left-[16.6%] right-[16.6%] hidden h-px bg-linear-to-r from-primary/60 via-primary/30 to-primary/60 md:block"
+          aria-hidden="true">
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            steps.map((s, i) => (
+              <div
+                class="group border-border-light bg-theme-dark hover:border-primary/40 relative rounded-3xl border p-8 text-center transition-colors"
+                data-aos="fade-up-sm"
+                data-aos-delay={i * 100}>
+                <span class="bg-primary/10 text-primary font-secondary ring-primary/20 relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-2xl text-lg font-bold shadow-[0_0_28px_-4px_rgba(210,179,243,0.6)] ring-1">
+                  {s.n}
+                </span>
+                <h3 class="text-heading mt-6 text-xl font-semibold">{s.title}</h3>
+                <p class="text-text-default/70 mt-3">{s.body}</p>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 9. Works With Your Stack -->
+  <!-- 3. Find verified buyers -->
+  <section id="find" class="py-16 md:py-24">
+    <div class="container">
+      <div
+        class="from-primary/35 to-body -bg-linear-20 border-border-light grid overflow-hidden rounded-3xl border lg:grid-cols-2"
+        data-aos="fade-up-sm">
+        <div class="flex flex-col justify-center p-8 md:p-12">
+          <Subtitle content="Find" />
+          <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+            Clean data. <strong class="font-tertiary italic">Not another export that bounces.</strong>
+          </h2>
+          <p class="text-text-default/70 mt-5 text-lg">
+            Search 66M+ verified contacts, connect your own Apollo or Sales Navigator account, or just
+            describe your ideal customer in plain English. Every address is verified before it hits your
+            list — so you reach real people, not bounces.
+          </p>
+          <ul class="mt-7 space-y-4">
+            <li class="flex gap-3">
+              <span class="text-primary mt-1 shrink-0">&#10003;</span>
+              <span class="text-text-default/80"><strong class="text-heading">You only pay for valid emails.</strong> 1 credit = 1 verified, deliverable address (0.20% false-positive). Bounces cost you nothing — and never touch your domain.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-primary mt-1 shrink-0">&#10003;</span>
+              <span class="text-text-default/80"><strong class="text-heading">Your account, or ours.</strong> Bring your own Apollo / Sales Navigator seat — your data, your limits — or search our 66M-contact lake with no account at all.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-primary mt-1 shrink-0">&#10003;</span>
+              <span class="text-text-default/80"><strong class="text-heading">Reach who's ready.</strong> Filter by real buying signals — hiring, funding, ad spend, tech stack — and target the buyers actually in-market right now.</span>
+            </li>
+          </ul>
+          <div class="mt-8">
+            <ButtonLink
+              class="btn-md btn-primary"
+              content={{ enable: true, label: "Start finding buyers", url: APP_URL }}
+            />
+          </div>
+        </div>
+        <div class="relative flex items-center justify-center p-6 md:p-10">
+          <img
+            src="/images/product/leads-table.svg"
+            width="720"
+            height="460"
+            loading="lazy"
+            alt="SendEmAll lead search results, each email marked valid, accepts-all, or unverified before delivery"
+            class="h-auto w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Campaigns & unified inbox -->
+  <section id="campaigns" class="py-16 md:py-24">
+    <div class="container">
+      <div
+        class="from-primary/5 via-primary/40 to-primary/30 bg-linear-30 border-border-light grid overflow-hidden rounded-3xl border lg:grid-cols-2"
+        data-aos="fade-up-sm">
+        <div class="relative order-2 flex items-center justify-center p-6 md:p-10 lg:order-1">
+          <img
+            src="/images/product/sequence-builder.svg"
+            width="720"
+            height="460"
+            loading="lazy"
+            alt="SendEmAll campaign sequence builder — multi-step follow-ups, A/B variants, and a unified reply inbox"
+            class="h-auto w-full"
+          />
+        </div>
+        <div class="order-1 flex flex-col justify-center p-8 md:p-12 lg:order-2">
+          <Subtitle content="Send" />
+          <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+            Run the campaign. <strong class="font-tertiary italic">No per-seat tax.</strong>
+          </h2>
+          <p class="text-text-default/70 mt-5 text-lg">
+            Multi-step sequences, A/B testing, and sending schedules. Replies from every mailbox land
+            in one inbox. Warmup is built in. $99/mo with everything unlimited — seats, workspaces,
+            sending — so agencies stop paying per seat.
+          </p>
+          <p class="text-text-default/60 mt-4">
+            Prefer your own sending tool? Push the leads and mailboxes you get from us straight into it — free, no lock-in.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Warmup / deliverability -->
+  <section id="warmup" class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="Deliverability" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          Land in the inbox, <strong class="font-tertiary italic">not the spam folder.</strong>
+        </h2>
+        <p class="text-text-default/70 mt-5 text-lg">
+          Every mailbox ships with SPF, DKIM and DMARC configured and warmup running from day one.
+          Blacklist and deliverability monitoring included — so your sends keep landing as you scale.
+        </p>
+      </div>
+      <div
+        class="from-primary/0 to-primary/35 bg-linear-80 border-border-light grid overflow-hidden rounded-3xl border lg:grid-cols-2"
+        data-aos="fade-up-sm">
+        <div class="relative flex items-center justify-center p-6 md:p-10">
+          <img
+            src="/images/product/sender-health.svg"
+            width="720"
+            height="420"
+            loading="lazy"
+            alt="SendEmAll sender panel showing per-mailbox health scores and warmup toggles"
+            class="h-auto w-full"
+          />
+        </div>
+        <div class="flex flex-col justify-center gap-6 p-8 md:p-12">
+          <div class="grid gap-4 sm:grid-cols-3">
+            {
+              [
+                { k: "SPF · DKIM · DMARC", v: "Pre-configured" },
+                { k: "Warmup", v: "On from day one" },
+                { k: "Blacklist monitoring", v: "Included" },
+              ].map((x) => (
+                <div class="bg-body/40 border-border-light rounded-xl border p-4 text-center">
+                  <p class="text-heading text-sm font-semibold">{x.k}</p>
+                  <p class="text-primary mt-1 text-xs">{x.v}</p>
+                </div>
+              ))
+            }
+          </div>
+          <p class="text-text-default/70">
+            Reputation monitoring flags trouble early and auto-pauses a mailbox before a bad send
+            drags down the rest. You watch replies come in — not deliverability dashboards.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. No lock-in band -->
   <section class="bg-primary/5 py-16 md:py-20">
     <div class="container text-center">
-      <Subtitle content="Works With Your Stack" />
-      <h2
-        class="font-secondary has-italic-text mx-auto mb-6 max-w-3xl text-3xl capitalize md:text-4xl/tight"
-        data-aos="fade-up-sm"
-      >
-        Keep your tools. <strong>Upgrade your pipeline.</strong>
+      <Subtitle content="No lock-in" />
+      <h2 class="font-secondary has-italic-text mx-auto mb-5 max-w-3xl text-3xl md:text-4xl/tight" data-aos="fade-up-sm">
+        Use our sequencer, or <strong class="font-tertiary italic">push everything to yours.</strong>
       </h2>
-      <p
-        class="text-text-default/70 mx-auto mb-10 max-w-2xl text-lg"
-        data-aos="fade-up-sm"
-        data-aos-delay="50"
-      >
-        Already using a sending platform? No problem. Push signal-qualified leads directly from SendEmAll into your existing workflow.
+      <p class="text-text-default/70 mx-auto max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="50">
+        Send your verified leads and connected mailboxes straight into the tool you already run.
+        We support the sequencers you know — no re-platforming, no hostage-taking.
       </p>
-      <div class="flex flex-wrap items-center justify-center gap-3 mb-8" data-aos="fade-up-sm" data-aos-delay="100">
-        {["Instantly", "Smartlead", "Lemlist", "Woodpecker", "Plusvibe", "EmailBison"].map((platform, i) => (
-          <span
-            class="rounded-full border border-border-light bg-theme-dark px-5 py-2.5 text-sm font-medium text-text-default/90 transition hover:border-primary/50 hover:text-primary"
-            data-aos="fade-up-sm"
-            data-aos-delay={150 + i * 75}
-          >
-            {platform}
-          </span>
-        ))}
-      </div>
-      <a
-        href="/integration"
-        class="text-primary inline-flex items-center gap-1 text-sm font-medium transition hover:opacity-80"
-        data-aos="fade-up-sm"
-        data-aos-delay="550"
-      >
-        See all integrations &rarr;
-      </a>
+    </div>
+    <div
+      class="relative mt-10 flex items-center overflow-hidden mask-[linear-gradient(to_right,rgba(0,0,0,0)_0%,rgb(0,0,0)_12%,rgb(0,0,0)_88%,rgba(0,0,0,0)_100%)]"
+      data-aos="fade-in">
+      <Marquee
+        marqueeElements={interop.length}
+        marqueeElementWidthAuto={true}
+        marqueeDuration="32s"
+        marqueeElementWidth=""
+        marqueeElementWidthResponsive="">
+        {
+          interop.map((p) => (
+            <div class="px-7">
+              <span class="font-secondary text-text-default/55 text-xl font-semibold tracking-tight whitespace-nowrap select-none">
+                {p}
+              </span>
+            </div>
+          ))
+        }
+        {
+          interop.map((p) => (
+            <div class="px-7">
+              <span class="font-secondary text-text-default/55 text-xl font-semibold tracking-tight whitespace-nowrap select-none">
+                {p}
+              </span>
+            </div>
+          ))
+        }
+      </Marquee>
     </div>
   </section>
 
-  <!-- 10. Testimonials -->
-  <TestimonialSection />
+  <!-- 7. GTM-native: API / MCP / CLI -->
+  <section class="py-16 md:py-24">
+    <div class="container">
+      <div class="border-border-light bg-theme-dark relative overflow-hidden rounded-3xl border p-8 md:p-12" data-aos="fade-up-sm">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <span class="text-primary mb-3 inline-flex items-center gap-2 text-sm font-semibold">
+              Developers
+              <span class="bg-primary/10 rounded-full px-2 py-0.5 text-xs">Beta</span>
+            </span>
+            <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+              GTM-native. <strong class="font-tertiary italic">Drive it from your terminal or your agent.</strong>
+            </h2>
+            <p class="text-text-default/70 mt-5 text-lg">
+              A REST API, an MCP server, and a CLI. Wire SendEmAll into your stack, your scripts, or
+              your AI agent — find buyers, launch campaigns, and pull results without opening the
+              dashboard.
+            </p>
+            <div class="mt-8">
+              <ButtonLink
+                class="btn-md btn-outline-primary"
+                content={{ enable: true, label: "Explore the developer platform", url: "/developers" }}
+              />
+            </div>
+          </div>
+          <div class="border-border-light bg-body/50 overflow-x-auto rounded-2xl border p-5 font-mono text-sm">
+            <code class="text-text-default/80 whitespace-pre">{`# find verified buyers for your ICP
+$ sendemall leads find \\
+    --icp "B2B SaaS, 50-200, using HubSpot" \\
+    --verified --limit 500 > leads.csv
 
-  <!-- 11. Developer Teaser -->
-  <section class="bg-primary/5 py-16 md:py-24">
-    <div class="container text-center">
-      <div data-aos="fade-up-sm">
-        <Subtitle content="For Developers" />
-        <h2 class="font-secondary text-4xl capitalize md:text-5xl/tight">
-          Built for GTM engineers
+# push them straight into a campaign
+$ sendemall campaigns create \\
+    --from leads.csv --sequence intro`}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Infrastructure (secondary) -->
+  <section class="py-16 md:py-24">
+    <div class="container">
+      <div
+        class="from-primary/0 to-primary/35 bg-linear-80 border-border-light mx-auto flex max-w-5xl flex-col items-center gap-8 overflow-hidden rounded-3xl border p-8 md:flex-row md:p-12"
+        data-aos="fade-up-sm">
+        <div class="flex-1">
+          <Subtitle content="Mailboxes" />
+          <h2 class="font-secondary has-italic-text text-2xl md:text-3xl/tight">
+            Spin up mailboxes and domains — <strong class="font-tertiary italic">you're in control.</strong>
+          </h2>
+          <p class="text-text-default/70 mt-4">
+            Order Google Workspace, Microsoft 365 or SMTP mailboxes and provision them yourself in
+            minutes — or grab <strong class="text-heading">pre-warmed inboxes</strong> ready to send today.
+            Buy a domain, pick a pre-aged one, or bring your own. SPF, DKIM, DMARC and warmup are
+            automated. You run it all from your dashboard — not an account manager.
+          </p>
+        </div>
+        <div class="shrink-0">
+          <ButtonLink
+            class="btn-md btn-primary"
+            content={{ enable: true, label: "Explore mailboxes", url: "/mailboxes" }}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Pricing preview -->
+  <section data-section="pricing" class="bg-accent py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="Pricing" />
+        <h2 class="font-secondary has-italic-text text-4xl md:text-5xl/tight">
+          Pay for <strong class="font-tertiary italic">what you send.</strong>
+        </h2>
+        <p class="text-text-default/70 mt-5 text-lg">
+          Credits are only spent on valid, verified emails. No per-seat fees, no setup fees.
+        </p>
+      </div>
+
+      <div class="mx-auto grid max-w-4xl items-stretch gap-6 md:grid-cols-3">
+        <div class="bg-theme-dark border-border-light rounded-2xl border p-8" data-aos="fade-up-sm">
+          <h3 class="text-lg font-semibold">Starter</h3>
+          <p class="mt-3"><span class="text-heading text-4xl font-bold">$59</span><span class="text-text-default/60">/mo</span></p>
+          <p class="text-text-default/70 mt-3 text-sm">25,000 verified-email credits / month.</p>
+        </div>
+        <div
+          class="from-primary/25 to-theme-dark bg-linear-to-b border-primary relative rounded-2xl border p-8 shadow-[0_0_40px_-12px_rgba(210,179,243,0.5)]"
+          data-aos="fade-up-sm"
+          data-aos-delay="100">
+          <span class="bg-primary text-on-primary absolute -top-3 left-8 rounded-full px-3 py-1 text-xs font-semibold">Most popular</span>
+          <h3 class="text-lg font-semibold">Growth</h3>
+          <p class="mt-3"><span class="text-heading text-4xl font-bold">$79</span><span class="text-text-default/60">/mo</span></p>
+          <p class="text-text-default/70 mt-3 text-sm">50,000 verified-email credits / month.</p>
+        </div>
+        <div class="bg-theme-dark border-border-light rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="200">
+          <h3 class="text-lg font-semibold">Sequencer</h3>
+          <p class="mt-3"><span class="text-heading text-4xl font-bold">$99</span><span class="text-text-default/60">/mo</span></p>
+          <p class="text-text-default/70 mt-3 text-sm">Unlimited seats, workspaces, sending & warmup.</p>
+        </div>
+      </div>
+
+      <div class="mt-10 text-center" data-aos="fade-up-sm">
+        <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "See full pricing", url: "/pricing" }} />
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Why SendEmAll (honest proof — real product truths, no fabricated quotes) -->
+  <section data-section="why" class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="Why SendEmAll" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          Outbound that <strong class="font-tertiary italic">actually works.</strong>
         </h2>
       </div>
-
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-3" data-aos="fade-up-sm" data-aos-delay="50">
-        {["REST API", "MCP Server", "Webhooks", "CSV Import"].map((pill) => (
-          <span class="bg-theme-dark border border-border-light rounded-full px-5 py-2 text-sm font-medium text-text-default">
-            {pill}
-          </span>
-        ))}
-      </div>
-
-      <div class="mx-auto mt-10 max-w-2xl" data-aos="fade-up-sm" data-aos-delay="100">
-        <div class="bg-theme-dark border border-border-light rounded-xl p-6 text-left overflow-x-auto">
-          <code class="text-sm text-primary/80 whitespace-pre">{`curl -X POST https://api.sendemall.com/v1/leads/discover \\
-  -H "x-user-context: YOUR_API_KEY" \\
-  -d '{"icp": "B2B SaaS, 50-200 employees, using HubSpot"}'`}</code>
-        </div>
-      </div>
-
-      <div class="mx-auto mt-4 max-w-2xl" data-aos="fade-up-sm" data-aos-delay="150">
-        <div class="bg-theme-dark border border-border-light rounded-xl p-6 text-left overflow-x-auto">
-          <code class="text-sm text-primary/80 whitespace-pre">{`{
-  "leads": 47,
-  "signal_qualified": 12,
-  "credits_used": 235,
-  "avg_signal_score": 0.82
-}`}</code>
-        </div>
-      </div>
-
-      <div class="mt-8" data-aos="fade-up-sm" data-aos-delay="200">
-        <a href="https://api.sendemall.com/docs" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary/80 font-medium">
-          Explore the API &rarr;
-        </a>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          [
+            { k: "Pay per valid email", v: "1 credit = 1 verified, deliverable address. You never pay for bounces.", icon: '<path d="M12 3 5 6v6c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3z"/><path d="m9 12 2 2 4-4"/>' },
+            { k: "Under 3% bounce", v: "Every email is verified before it's delivered to you.", icon: '<path d="M22 17 13.5 8.5l-5 5L2 7"/><path d="M16 17h6v-6"/>' },
+            { k: "Unlimited seats", v: "Every seat and workspace included — one flat price, no per-seat tax.", icon: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>' },
+            { k: "No lock-in", v: "Push your leads and mailboxes to Instantly, Smartlead, or any tool.", icon: '<path d="M7 11V7a5 5 0 0 1 9.9-1"/><rect x="5" y="11" width="14" height="10" rx="2"/>' },
+          ].map((c, i) => (
+            <div
+              class="group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1"
+              data-aos="fade-up-sm"
+              data-aos-delay={i * 75}>
+              <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={c.icon} />
+              </span>
+              <h3 class="text-heading text-lg font-semibold">{c.k}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{c.v}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <!-- 12. FAQ -->
+  <!-- 11. FAQ -->
   <FaqSection content={homepage?.data?.faqSection} />
 
-  <!-- 13. Final CTA -->
+  <!-- 12. Final CTA -->
   <CallToAction />
-  {faqSchema && <script type="application/ld+json" set:html={faqSchema} />}
+
+  <script type="application/ld+json" is:inline set:html={siteSchema} />
+  {faqSchema && <script type="application/ld+json" is:inline set:html={faqSchema} />}
 </Base>

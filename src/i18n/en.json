@@ -9,7 +9,7 @@
     "paginationPrevious": "Previous"
   },
   "navigation": {
-    "buttonLabel": "Get 100 Free Potential Buyers"
+    "buttonLabel": "Create account"
   },
   "subscription": {
     "label": "Subscribe to our newsletter"
@@ -22,7 +22,7 @@
     "quickLinks": "Product",
     "legal": "Legal",
     "resources": "Company",
-    "description": "The complete outbound platform. One tool replaces five. Signal-qualified leads, managed infrastructure, AI personalization, and guaranteed replies.",
+    "description": "The outbound platform. Find verified B2B buyers, run your campaigns, and land in the inbox — with sending infrastructure done for you. Pay only for valid emails.",
     "copyright": "© {{ year }} SendEmAll. All rights reserved.",
     "_comment": "We kindly appreciate it if you retain the theme copyright. Thank you for supporting Getastrothemes!"
   }

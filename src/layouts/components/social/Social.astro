@@ -77,9 +77,9 @@ if (disabled) {
                   "bg-primary/15 hover:bg-primary rounded-full":
                     layout === "classic",
                 },
-                { "text-dark hover:scale-110": layout === "minimal" },
+                { "text-text-default hover:scale-110": layout === "minimal" },
                 {
-                  "bg-primary/25 hover:bg-primary text-secondary hover:text-light rounded-full":
+                  "bg-primary/25 hover:bg-primary text-secondary hover:text-on-primary rounded-full":
                     layout === "modern",
                 },
                 {
@@ -94,7 +94,7 @@ if (disabled) {
                   inlineSvg={true}
                   src={social.icon}
                   class:list={[
-                    "group-hover:text-light relative z-10 text-inherit transition duration-300",
+                    "group-hover:text-on-primary relative z-10 text-inherit transition duration-300",
                     {
                       "h-4 w-4": size === "sm",
                       "h-5 w-5": size === "md",

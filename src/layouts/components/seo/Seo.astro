@@ -61,7 +61,7 @@ if (
     <meta name="description" content={removeWhitespace(description)} />
   )
 }
-{keywords && <meta name="keywords" content={removeWhitespace(keywords)} />}
+{/* keywords meta intentionally omitted — ignored by Google, reads as spam */}
 {author && <meta name="author" content={removeWhitespace(author)} />}
 {robots && <meta name="robots" content={removeWhitespace(robots)} />}
 {canonical && <link rel="canonical" href={canonical} item-prop="url" />}

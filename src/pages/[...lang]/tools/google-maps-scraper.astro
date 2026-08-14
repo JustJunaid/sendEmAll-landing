@@ -1,0 +1,41 @@
+---
+import ToolPage from "@/layouts/components/sections/ToolPage.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const tool = {
+  eyebrow: "Google Maps scraper",
+  h1: "Google Maps scraper — <strong>local businesses, ready to reach.</strong>",
+  sub: "Pull business listings from Google Maps — company name, phone, website, domain, and rating — then find and verify the decision-maker's email so you can actually reach them. No account, no API key.",
+  metaTitle: "Google Maps Scraper — Extract Local Business Leads | SendEmAll",
+  metaDescription: "Scrape local business listings from Google Maps — name, phone, website, domain, rating — then find and verify decision-maker emails. No API key, no account. Export to CSV or push to a campaign.",
+  cta: { label: "Start scraping", url: "https://app.sendemall.com/register" },
+  problem: {
+    h2: "A map full of businesses. <strong>No way to email them.</strong>",
+    body: "Google Maps is a goldmine of local, in-business companies — but it hands you a phone number and a website, not a way to reach the owner. SendEmAll pulls the listing, finds the decision-maker's email from the domain, and verifies it before you send.",
+  },
+  how: [
+    { t: "Search a place + niche", d: 'Query like "dentists in Austin" or "roofing companies near me" — we pull the business listings straight from public Google Maps data.' },
+    { t: "Get the details", d: "Each result comes with name, phone, website, domain, address, and rating — clean and structured, no manual copy-paste." },
+    { t: "Find & verify the email", d: "We find the decision-maker's email from the domain and verify it before it reaches you. Export a CSV or push into a campaign." },
+  ],
+  benefits: [
+    { k: "No account or API key", v: "Public business data, pulled by our infrastructure — nothing to connect or configure." },
+    { k: "Real contact details", v: "Name, phone, website, domain, location and rating for every local business you pull." },
+    { k: "Owner emails, verified", v: "We turn a business domain into the decision-maker's verified email — and you only pay for valid ones." },
+  ],
+  faqs: [
+    ["Do I need a Google Maps API key?", "No. SendEmAll pulls public business listings from Google Maps for you — no API key, no account, no setup."],
+    ["What data do I get per business?", "Company name, phone number, website, domain, address, and rating — then, on demand, the decision-maker's verified email."],
+    ["Is scraping Google Maps allowed?", "SendEmAll extracts publicly displayed business listing data (business, not personal, information). You're responsible for how you use the data, including outreach compliance (CAN-SPAM, GDPR, etc.)."],
+    ["Can I email the businesses I find?", "Yes — find and verify the owner's email, then export to CSV or push straight into SendEmAll's sequencer or a tool like Instantly or Smartlead."],
+  ],
+  ctaHeading: "Turn the map into a <strong>pipeline.</strong>",
+  note: "SendEmAll is not affiliated with, endorsed by, or sponsored by Google. Business listing data is publicly available information. You are responsible for complying with applicable outreach laws. All trademarks are the property of their respective owners.",
+};
+---
+
+<ToolPage tool={tool} />

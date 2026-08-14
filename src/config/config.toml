@@ -1,10 +1,10 @@
 # Site Configuration
 [site]
   title              = "SendEmAll"
-  description        = "Signal-based outbound platform. Find companies already looking to buy what you sell. Managed infrastructure, AI personalization, and guaranteed replies — starting at $149/mo."
-  tagline            = "Signal-Based Outbound Platform"
+  description        = "The outbound platform. Find verified B2B buyers, run your campaigns, and land in the inbox — with sending infrastructure done for you. Pay only for valid emails. From $59/mo."
+  tagline            = "Find verified buyers. Reach every one of them."
   taglineSeparator   = " | "
-  baseUrl            = "https://sendemall.com"
+  baseUrl            = "https://www.sendemall.com"
   logo               = "/images/sendemall-logo-dark.svg"
   logoHoverAnimation = false
   logoText           = ""
@@ -25,18 +25,18 @@
 [seo]
   author = "SendEmAll"
   keywords = [
-    "signal-based outbound",
     "cold email platform",
-    "outbound sales tool",
-    "email infrastructure",
-    "lead generation",
-    "AI personalization",
-    "email deliverability",
-    "sales automation",
+    "apollo scraper",
+    "sales navigator export",
+    "email finder",
+    "email verification",
+    "cold email software",
+    "email warmup",
     "managed mailboxes",
-    "signal-qualified leads",
-    "buyer intent signals",
-    "intent-based prospecting",
+    "cold email infrastructure",
+    "b2b lead generation",
+    "email deliverability",
+    "outbound sales",
   ]
   robots = "index, follow"
 
@@ -58,7 +58,7 @@
   contactFormAction   = "https://formsubmit.co/hello@sendemall.com"
   contactFormProvider = "formsubmit.co"
 
-  footerDescription = "Signal-based outbound platform. Find companies already looking to buy what you sell."
+  footerDescription = "The outbound platform. Find verified buyers, run your campaigns, and land in the inbox — with sending infrastructure done for you."
 
   [settings.copyright]
     enable = true
@@ -77,8 +77,13 @@
 
   [settings.navigationButton]
     enable = true
-    label  = "Get 100 Free Potential Buyers"
-    url    = "/services/free-leads"
+    label  = "Create account"
+    url    = "https://app.sendemall.com/register"
+
+  [settings.loginLink]
+    enable = true
+    label  = "Log in"
+    url    = "https://app.sendemall.com/login"
 
   [settings.markup.tableOfContents]
     enable     = true
@@ -92,7 +97,7 @@
   image       = "/images/og-image.png"
   ogLocale    = "en_US"
   ogType      = "website"
-  twitter     = "@sendemall"
+  twitter     = "@send_em_all"
   twitterCard = "summary_large_image"
 
 # Analytics & third-party scripts are now managed by CookieConsent component

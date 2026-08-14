@@ -1,0 +1,43 @@
+---
+import ToolPage from "@/layouts/components/sections/ToolPage.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const tool = {
+  eyebrow: "Apollo scraper",
+  h1: "Apollo scraper — <strong>your account, your data.</strong>",
+  sub: "Connect the Apollo account you already pay for and turn your searches into a clean, verified export. It runs on your own seat and a dedicated IP — your data, your limits — and every email is verified before you keep it.",
+  metaTitle: "Apollo Scraper — Export Verified Leads From Your Own Apollo Account | SendEmAll",
+  metaDescription: "Connect your own Apollo account and export your search results as verified, deliverable contacts. Runs on your seat and a dedicated IP. Pay only for valid emails — no credits wasted on bounces.",
+  cta: { label: "Connect your Apollo account", url: "https://app.sendemall.com/register" },
+  image: "/images/product/leads-table.svg",
+  imageAlt: "Apollo search results exported and verified inside SendEmAll",
+  problem: {
+    h2: "Apollo exports look great — until <strong>a fifth of them bounce.</strong>",
+    body: "Real-world Apollo lists come back full of catch-alls and dead addresses that torch your sender reputation — and you pay per reveal either way. SendEmAll runs on your own Apollo seat, then re-verifies every address so you only keep the ones that are real.",
+  },
+  how: [
+    { t: "Connect your account", d: "Log into your own Apollo account inside a secure browser session — we never see your password. Your seat, your data." },
+    { t: "Pull your searches", d: "Export your Apollo people or company searches straight into SendEmAll, on a dedicated IP in your region so your account stays stable." },
+    { t: "Verify & send", d: "Every email is verified before it reaches your list. Export a clean CSV or push into a campaign — you only pay for valid addresses." },
+  ],
+  benefits: [
+    { k: "Your seat, your limits", v: "Automates the Apollo account you already pay for — we don't resell you data or grant Apollo access." },
+    { k: "Pay only for valid", v: "1 credit = 1 verified, deliverable email. Catch-alls are labeled free; bounces cost you nothing." },
+    { k: "Dedicated IP", v: "Each account runs on its own IP in your region, so your connected account stays stable and secure." },
+  ],
+  faqs: [
+    ["Do you use your own Apollo account or mine?", "Yours. You connect your own Apollo seat inside a secure browser session — SendEmAll never sees your password and doesn't provide Apollo data itself. You're automating access you're already authorized to use."],
+    ["Will this get my Apollo account flagged?", "SendEmAll runs on a dedicated IP in your region for stability. You are responsible for using your account in line with Apollo's terms of service; we don't bypass Apollo's limits or billing."],
+    ["Why is this better than exporting from Apollo directly?", "Every address is re-verified before it reaches you (SMTP plus platform-level checks), so you don't burn your domain on bounces — and you can push straight into a campaign or a clean CSV."],
+    ["How much does it cost?", "Plans start at $59/mo, and you only pay for valid, verified emails — never for bounces or catch-alls."],
+  ],
+  ctaHeading: "Turn Apollo into <strong>verified pipeline.</strong>",
+  note: "SendEmAll is not affiliated with, endorsed by, or sponsored by Apollo. You connect and automate your own authorized account and are responsible for complying with Apollo's terms of service. All trademarks are the property of their respective owners.",
+};
+---
+
+<ToolPage tool={tool} />

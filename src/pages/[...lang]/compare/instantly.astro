@@ -8,14 +8,13 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Lead discovery", competitor: "No", sendemall: "18+ signal sources" },
-  { name: "Buying intent signals", competitor: "No", sendemall: "Yes" },
-  { name: "Email finder", competitor: "No", sendemall: "Included" },
-  { name: "Email verification", competitor: "Add-on", sendemall: "Included" },
+  { name: "Verified B2B leads", competitor: "Basic finder", sendemall: "Apollo & Sales Nav, verified" },
+  { name: "Buying signals (ads, tech stack)", competitor: "No", sendemall: "Included" },
+  { name: "Email finder + verification", competitor: "Add-on", sendemall: "Included" },
+  { name: "Pay only for valid emails", competitor: "No", sendemall: "Yes" },
   { name: "Warmup", competitor: "Included", sendemall: "Included" },
-  { name: "Infrastructure", competitor: "BYO domains", sendemall: "Fully managed" },
-  { name: "Personalization", competitor: "Basic merge fields", sendemall: "AI-personalized from company research" },
-  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
+  { name: "Sending infrastructure", competitor: "Add-on", sendemall: "Done for you" },
+  { name: "Sequencer", competitor: "Volume-capped plans", sendemall: "$99 flat, unlimited" },
 ];
 
 const theyDoBetter = [
@@ -28,7 +27,7 @@ const weDoBetter = [
   { title: "Signal-based lead discovery", description: "Instantly sends emails. It does not find the right people to email. We monitor 18+ sources for hiring, funding, and tech signals to surface actual potential buyers." },
   { title: "Full pipeline from ICP to inbox", description: "Describe your ideal customer. We find them, verify their email, write personalized copy, and deliver it. No extra tools needed." },
   { title: "Managed infrastructure included", description: "We handle domains, mailboxes, DNS records, and Warmup. You never configure a single DNS record." },
-  { title: "No separate tools needed", description: "Instantly requires separate subscriptions for lead finding, enrichment, and verification. SendEmAll includes all of it from $149/mo." },
+  { title: "No separate tools needed", description: "Instantly charges separately for lead finding, enrichment, and verification. SendEmAll includes it all from $59/mo — and the sequencer is one flat $99/mo with unlimited seats and sending." },
 ];
 ---
 
@@ -42,7 +41,7 @@ const weDoBetter = [
     description="Instantly sends emails. SendEmAll finds the right people to email. Signal-based lead discovery plus full sending infrastructure in one platform."
     competitorPrice="$47-$358/mo"
     competitorPriceNote="Outreach and lead finder sold separately. No enrichment, verification, or managed infrastructure included."
-    sendemallPrice="$149/mo"
+    sendemallPrice="From $59/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}

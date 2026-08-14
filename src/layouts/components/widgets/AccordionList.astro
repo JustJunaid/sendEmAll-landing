@@ -30,11 +30,11 @@ const { content: list, changelogContent, ...rest } = Astro.props;
             id={"faq-" + uniqueId}>
             <button
               aria-expanded={item.active ? "true" : "false"}
-              class="hs-accordion-toggle hs-accordion-active:border-b flex w-full items-center justify-between py-5 text-start text-lg text-white"
+              class="hs-accordion-toggle hs-accordion-active:border-b flex w-full items-center justify-between py-5 text-start text-lg text-heading"
               aria-controls={"faq-content-" + uniqueId}>
               <span set:html={item.title} />
               <span class="hs-accordion-active:rotate-180 transition duration-300">
-                <Icons icon="ArrowUpRight" class="text-xl text-white" />
+                <Icons icon="ArrowUpRight" class="text-xl text-text-default" />
               </span>
             </button>
             <div

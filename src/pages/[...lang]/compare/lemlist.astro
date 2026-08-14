@@ -8,43 +8,42 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Personalization", competitor: "Image/video personalization", sendemall: "AI copy from company research" },
-  { name: "Lead discovery", competitor: "Limited email finder", sendemall: "18+ signal sources" },
-  { name: "Buying signals", competitor: "No", sendemall: "Real-time monitoring" },
-  { name: "Warmup", competitor: "lemwarm add-on $29-49/inbox", sendemall: "Included" },
-  { name: "Infrastructure", competitor: "BYO", sendemall: "Fully managed" },
-  { name: "Verification", competitor: "Built-in", sendemall: "Built-in" },
-  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
+  { name: "Personalization", competitor: "Image/video", sendemall: "AI copy from research" },
+  { name: "Verified potential buyers", competitor: "Basic finder", sendemall: "Apollo & Sales Nav, verified" },
+  { name: "Pay only for valid emails", competitor: "No", sendemall: "Yes" },
+  { name: "Warmup", competitor: "Add-on", sendemall: "Included" },
+  { name: "Sending infrastructure", competitor: "BYO", sendemall: "Done for you" },
+  { name: "Sequencer", competitor: "Paid per seat", sendemall: "$99 flat, unlimited seats" },
 ];
 
 const theyDoBetter = [
-  { title: "Visual personalization", description: "Lemlist pioneered image and video personalization in cold emails. If personalized visuals are core to your outreach strategy, they do it best." },
-  { title: "Multi-channel sequences", description: "LinkedIn steps plus email in one sequence. If you need coordinated multi-channel outreach, Lemlist supports it natively." },
-  { title: "Established brand and community", description: "Large community with extensive tutorials, templates, and shared campaigns to learn from." },
+  { title: "Visual personalization", description: "Lemlist pioneered image and video personalization in cold emails. If personalized visuals are core to your outreach, they do it best." },
+  { title: "Multi-channel sequences", description: "LinkedIn steps plus email in one sequence — great if you need coordinated multi-channel outreach." },
+  { title: "Established brand and community", description: "A large community with extensive tutorials, templates, and shared campaigns to learn from." },
 ];
 
 const weDoBetter = [
-  { title: "Signal-based lead discovery", description: "Lemlist personalizes emails. It does not find the right people to personalize for. We monitor 18+ sources for buying signals to surface potential buyers before you write a single line of copy." },
-  { title: "Full infrastructure management", description: "Lemlist expects you to bring your own domains and mailboxes. We provision, configure, and manage everything." },
-  { title: "Warmup included", description: "Lemlist charges $29-49 per inbox for lemwarm. With 15 mailboxes, that is $435-735/mo just for warmup. We include it at no extra cost." },
-  { title: "One platform replaces 5+ tools", description: "With Lemlist you still need separate tools for lead finding, enrichment, verification, and infrastructure. SendEmAll includes all of it from $149/mo." },
+  { title: "Finds the people to email", description: "Lemlist personalizes emails; it doesn't build your list. SendEmAll scrapes Apollo and Sales Navigator and verifies every address, so you're personalizing to real, valid contacts." },
+  { title: "Sending infrastructure included", description: "Lemlist expects you to bring your own domains and mailboxes. SendEmAll provisions, configures, and manages them for you." },
+  { title: "Warmup included", description: "Warmup is built in at no extra cost — there's no separate per-inbox add-on to buy." },
+  { title: "Verified-only billing", description: "You pay only for valid emails, and the sequencer is one flat price with unlimited seats — a full outbound stack without the per-seat tax." },
 ];
 ---
 
 <Base
   title="Best Lemlist Alternative for Cold Email (2026) | SendEmAll"
   disableTagline={true}
-  description="Lemlist personalizes emails. SendEmAll personalizes AND finds the right people to personalize for. Signal-based outbound from discovery to delivery."
+  description="Lemlist personalizes emails. SendEmAll finds the right people to personalize for — verified leads, built-in warmup, and done-for-you infrastructure from $59/mo."
 >
   <ComparePage
     competitor="Lemlist"
-    description="Lemlist personalizes emails. SendEmAll personalizes AND finds the right people to personalize for. Signal-based outbound from discovery to delivery."
-    competitorPrice="$69-$99/mo per seat"
-    competitorPriceNote="Per-seat pricing. lemwarm costs $29-49/inbox extra. No managed infrastructure or signal-based lead discovery."
-    sendemallPrice="$149/mo"
+    description="Lemlist personalizes emails. SendEmAll finds the right people to personalize for — and verifies every address before you send."
+    competitorPrice="From $69/mo per seat"
+    competitorPriceNote="Per-seat pricing. Warmup and lead finding vary by plan. No done-for-you sending infrastructure."
+    sendemallPrice="From $59/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}
-    integrationNote="Use SendEmAll for signal-based lead discovery and enrichment, then export to Lemlist for multi-channel sequences if you need LinkedIn outreach. Or handle everything in SendEmAll if email is your primary channel."
+    integrationNote="Love Lemlist for multi-channel and LinkedIn? Use SendEmAll to find and verify your leads, then push them into Lemlist. Or run everything in SendEmAll if email is your primary channel."
   />
 </Base>

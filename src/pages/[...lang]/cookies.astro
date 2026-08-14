@@ -14,7 +14,7 @@ export function getStaticPaths() {
 >
   <section class="py-24 lg:py-32">
     <div class="container">
-      <div class="prose prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
+      <div class="prose dark:prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
         <h1>Cookie Policy</h1>
         <p class="text-text-default/60">Last updated: April 2026</p>
 
@@ -70,21 +70,9 @@ export function getStaticPaths() {
                 <td>1 minute</td>
               </tr>
               <tr>
-                <td><code>_clck</code></td>
-                <td>Microsoft Clarity</td>
-                <td>Persists the Clarity user ID and session preferences (ID: w7ehoee5jy)</td>
-                <td>1 year</td>
-              </tr>
-              <tr>
-                <td><code>_clsk</code></td>
-                <td>Microsoft Clarity</td>
-                <td>Connects multiple page views by a user into a single session recording</td>
-                <td>1 day</td>
-              </tr>
-              <tr>
-                <td><code>CLID</code></td>
-                <td>Microsoft Clarity</td>
-                <td>Identifies the first time Clarity saw this user on any site using Clarity</td>
+                <td><code>ph_…_posthog</code></td>
+                <td>PostHog</td>
+                <td>Stores an anonymous device ID, session, and feature-flag state for product analytics and session replay</td>
                 <td>1 year</td>
               </tr>
               <tr>
@@ -137,12 +125,12 @@ export function getStaticPaths() {
           installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
         </p>
 
-        <h3>Microsoft Clarity (w7ehoee5jy)</h3>
+        <h3>PostHog</h3>
         <p>
-          We use Microsoft Clarity to understand how users interact with our website through session
-          recordings and heatmaps. Clarity captures user behavior data such as clicks, scrolls, and
-          mouse movements. Personal information is masked in session recordings. Learn more about
-          <a href="https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent" target="_blank" rel="noopener noreferrer">Clarity's data practices</a>.
+          We use PostHog for product analytics and session replay to understand how visitors use our
+          site — pages visited, clicks, and navigation paths. Form inputs and personal data are masked
+          in recordings. PostHog processes this data on our behalf as a data processor. Learn more about
+          <a href="https://posthog.com/privacy" target="_blank" rel="noopener noreferrer">PostHog's privacy practices</a>.
         </p>
 
         <h2>5. Updates to This Policy</h2>

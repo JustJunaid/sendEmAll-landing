@@ -7,7 +7,7 @@ list:
     version: 2.4.0
     date: 28 Mar, 2026
     content: |
-      Improved mailbox ramp-up algorithm with adaptive daily send limits based on engagement metrics. New per-mailbox deliverability scoring gives you real-time visibility into sender reputation. Automatic throttling when scores dip below safe thresholds.
+      Improved mailbox warmup algorithm with adaptive daily send limits based on engagement metrics. New per-mailbox deliverability scoring gives you real-time visibility into sender reputation. Automatic throttling when scores dip below safe thresholds.
     types:
       - icon: /images/icons/svg/improvement.svg
         label: Enhancement
@@ -15,7 +15,7 @@ list:
       - active: true
         title: Changes
         list:
-          - label: Ramp-Up
+          - label: Warmup
             color: indigo # emerald | indigo | slate | crimson | amber
             content: |
               Adaptive daily send limits now respond to bounce rates and reply rates in real time

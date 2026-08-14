@@ -1,0 +1,41 @@
+---
+import ToolPage from "@/layouts/components/sections/ToolPage.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const tool = {
+  eyebrow: "Decision-maker finder",
+  h1: "Find the decision-maker's email — <strong>from just a domain.</strong>",
+  sub: "You know the company. You don't know who to email. Hand us a domain and we'll surface the right decision-maker for your ICP, find their email, and verify it before it reaches you.",
+  metaTitle: "Decision-Maker Finder — Find the Right Contact's Email by Company | SendEmAll",
+  metaDescription: "Enter a company domain and get the right decision-maker for your ICP, plus their verified email. Skip the gatekeepers and generic info@ addresses. Pay only for valid, deliverable results.",
+  cta: { label: "Find a decision-maker", url: "https://app.sendemall.com/register" },
+  problem: {
+    h2: "You found the company. <strong>Now who do you email?</strong>",
+    body: "A generic info@ address goes nowhere, and guessing titles wastes credits. SendEmAll takes a domain, identifies the decision-maker that matches your ICP, finds their email, and verifies it — so your first touch reaches a real person who can actually say yes.",
+  },
+  how: [
+    { t: "Give us the domain", d: "Enter one company domain, or upload a list of target accounts you already have." },
+    { t: "We find the right person", d: "We surface the decision-maker matching the seniority and department you're targeting — not whoever's easiest to find." },
+    { t: "Verified email, ready to send", d: "Their email is found and verified before it reaches you. Export or push straight into a campaign." },
+  ],
+  benefits: [
+    { k: "Target by role", v: "Filter to the seniority and department that actually own the buying decision for what you sell." },
+    { k: "Verified before delivery", v: "Every email is checked (SMTP plus platform-level) so your first impression isn't a bounce." },
+    { k: "Account-list ready", v: "Have a list of target accounts? Turn every domain into a named, verified decision-maker in bulk." },
+  ],
+  faqs: [
+    ["What do I need to start?", "Just a company domain. We handle identifying the right person and finding their verified email."],
+    ["Can I target a specific role or seniority?", "Yes — narrow to the department and seniority that own the decision (e.g., VP Sales, Head of Growth, Founder) so you reach the person who can buy."],
+    ["Is the email verified?", "Always. The decision-maker's email is verified before it reaches you, and you only pay for valid results."],
+    ["Can I do this for a whole account list?", "Yes. Upload your target accounts and we'll return a named, verified decision-maker for each domain."],
+  ],
+  ctaHeading: "Reach the person who can <strong>say yes.</strong>",
+  note: "You are responsible for ensuring your outreach complies with applicable laws and for honoring opt-outs.",
+};
+---
+
+<ToolPage tool={tool} />

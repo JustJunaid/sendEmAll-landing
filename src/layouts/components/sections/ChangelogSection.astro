@@ -50,7 +50,7 @@ let {
             <Subtitle content={subtitle} />
             {title && (
               <h1
-                class="has-italic-text text-white capitalize"
+                class="has-italic-text text-heading capitalize"
                 set:html={markdownify(title)}
               />
             )}
@@ -88,7 +88,7 @@ let {
                       {changelog.types && (
                         <div class="mt-8 flex flex-wrap gap-x-3 gap-y-3 lg:gap-x-6">
                           {changelog.types.map((item) => (
-                            <div class="from-primary/20 to-bg-primary/10 text-light flex items-center gap-3 rounded-full bg-linear-to-r py-1 ps-2.5 pe-5">
+                            <div class="from-primary/20 to-bg-primary/10 text-primary flex items-center gap-3 rounded-full bg-linear-to-r py-1 ps-2.5 pe-5">
                               <OptimizedImage
                                 inlineSvg={true}
                                 src={item.icon}

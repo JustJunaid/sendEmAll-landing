@@ -14,7 +14,7 @@ export function getStaticPaths() {
 >
   <section class="py-24 lg:py-32">
     <div class="container">
-      <div class="prose prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
+      <div class="prose dark:prose-invert max-w-4xl mx-auto" data-aos="fade-up-sm">
         <h1>Privacy Policy</h1>
         <p class="text-text-default/60">Last updated: April 2026</p>
 
@@ -36,9 +36,12 @@ export function getStaticPaths() {
 
         <h3>Lead Data</h3>
         <p>
-          When you use our discovery and enrichment pipeline, we process contact information for potential
-          buyers including names, email addresses, company details, job titles, and publicly available
-          professional data sourced from our 18 integrated providers.
+          Our business-contact database is compiled from (a) licensed third-party data providers, (b) publicly
+          available business information (including public web pages, business directories, and map listings),
+          and (c) data you upload or import. When you connect your own third-party account (such as Apollo or
+          Sales Navigator), you retrieve data through your own authorized access. We process business-contact
+          data (names, business email addresses, company details, job titles) on the basis of our legitimate
+          interest in facilitating B2B communications, and we verify addresses before delivering them to you.
         </p>
 
         <h3>Email Sending Data</h3>
@@ -63,9 +66,8 @@ export function getStaticPaths() {
         <ul>
           <li>To provide, operate, and maintain our outbound platform and managed infrastructure</li>
           <li>To process your campaigns, including lead discovery, enrichment, verification, personalization, and sending</li>
-          <li>To track credit usage and manage billing across Trial, Pro, Business, Scale, and Enterprise plans</li>
+          <li>To track credit usage and manage billing across our Starter and Growth plans</li>
           <li>To monitor and optimize email deliverability and warmup processes</li>
-          <li>To evaluate Reply Guarantee eligibility (50+ replies in 90 days on Business and Scale plans)</li>
           <li>To send transactional emails such as billing confirmations, usage alerts, and platform updates</li>
           <li>To improve our services, develop new features, and analyze platform performance</li>
           <li>To prevent abuse, fraud, and ensure compliance with anti-spam regulations</li>
@@ -75,7 +77,7 @@ export function getStaticPaths() {
         <h2>3. Data Sharing</h2>
         <p>We do not sell your personal data. We may share information with:</p>
         <ul>
-          <li><strong>Service providers:</strong> Payment processors, cloud hosting providers, and analytics services that help us operate the platform</li>
+          <li><strong>Service providers:</strong> Payment processors (Stripe), cloud hosting providers, product analytics (Google Analytics, PostHog), and customer support (Intercom) that help us operate the platform</li>
           <li><strong>Data providers:</strong> Our integrated data providers receive queries to fulfill lead discovery requests but do not receive your campaign data or messaging</li>
           <li><strong>Legal obligations:</strong> When required by law, legal process, or to protect our rights and the safety of our users</li>
           <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or sale of assets, with notice to affected users</li>
@@ -104,6 +106,12 @@ export function getStaticPaths() {
           <li>Opt out of non-essential communications</li>
           <li>Close your account at any time</li>
         </ul>
+        <p>
+          <strong>Removal from our business-contact database.</strong> If you are an individual whose business
+          contact information appears in our database, you may request removal at any time by emailing
+          <a href="mailto:privacy@sendemall.com">privacy@sendemall.com</a>. We honor erasure and opt-out
+          requests and maintain a suppression list to prevent re-ingestion.
+        </p>
 
         <h3>GDPR rights (EEA residents)</h3>
         <ul>

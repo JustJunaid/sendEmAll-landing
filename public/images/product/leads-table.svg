@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" fill="none" role="img" aria-label="SendEmAll lead search results with per-row email verification">
+  <defs>
+    <filter id="lt-shadow" x="-8%" y="-8%" width="116%" height="120%">
+      <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#1A191F" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .ui{font-family:'DM Sans','Outfit',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+      .mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+    </style>
+  </defs>
+
+  <!-- window card -->
+  <rect x="20" y="16" width="680" height="428" rx="16" fill="#FFFFFF" stroke="#ECEAF1" filter="url(#lt-shadow)"/>
+
+  <!-- chrome bar -->
+  <circle cx="46" cy="37" r="5" fill="#F2C4C0"/>
+  <circle cx="64" cy="37" r="5" fill="#F6DDA6"/>
+  <circle cx="82" cy="37" r="5" fill="#B8E6C8"/>
+  <text x="108" y="41" class="ui" font-size="11.5" fill="#9CA3AF">app.sendemall.com/scrape · Lead search — People</text>
+  <line x1="20" y1="56" x2="700" y2="56" stroke="#F1EFF4"/>
+
+  <!-- toolbar -->
+  <rect x="40" y="68" width="230" height="28" rx="8" fill="#F8F7FA" stroke="#ECEAF1"/>
+  <circle cx="56" cy="82" r="5" stroke="#B7B4BF" stroke-width="1.5" fill="none"/>
+  <line x1="60" y1="86" x2="63" y2="89" stroke="#B7B4BF" stroke-width="1.5"/>
+  <text x="72" y="86" class="ui" font-size="11" fill="#9CA3AF">Search people…</text>
+  <text x="470" y="86" class="ui" font-size="11.5" fill="#6A2EA8" font-weight="600"><tspan class="mono" font-weight="700">1,240</tspan> selected</text>
+  <rect x="566" y="66" width="118" height="30" rx="9" fill="#D2B3F3"/>
+  <text x="625" y="85" class="ui" font-size="11.5" font-weight="600" fill="#131218" text-anchor="middle">Verify &amp; Export</text>
+
+  <!-- table header -->
+  <rect x="20" y="106" width="680" height="24" fill="#FBFAFC"/>
+  <text x="98" y="122" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">NAME</text>
+  <text x="300" y="122" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">COMPANY</text>
+  <text x="452" y="122" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">SIZE</text>
+  <text x="506" y="122" class="ui" font-size="9" letter-spacing="0.6" fill="#9CA3AF" font-weight="600">EMAIL</text>
+
+  <!-- ROW 1 -->
+  <g>
+    <line x1="40" y1="130" x2="680" y2="130" stroke="#F4F2F7"/>
+    <rect x="36" y="152" width="16" height="16" rx="4" fill="#FFFFFF" stroke="#D6D4DE"/>
+    <circle cx="76" cy="160" r="13" fill="#EDE5F7"/>
+    <text x="76" y="164" class="ui" font-size="9" font-weight="700" fill="#7D3CC2" text-anchor="middle">SB</text>
+    <text x="98" y="157" class="ui" font-size="12" font-weight="700" fill="#1A191F">Selamawit Bekele</text>
+    <text x="98" y="171" class="ui" font-size="9.5" fill="#78757F">VP Sales</text>
+    <text x="300" y="157" class="ui" font-size="11" font-weight="600" fill="#1A191F">Northwind SaaS</text>
+    <text x="300" y="171" class="mono" font-size="9" fill="#9CA3AF">northwind.io</text>
+    <text x="452" y="164" class="mono" font-size="11" fill="#4B5563">120</text>
+    <text x="506" y="156" class="mono" font-size="9.5" fill="#4B5563">s.bekele@northwind.io</text>
+    <rect x="506" y="163" width="50" height="16" rx="8" fill="#E8F7F0"/>
+    <circle cx="517" cy="171" r="3" fill="#15A06A"/>
+    <text x="524" y="174" class="ui" font-size="9" font-weight="600" fill="#0E8456">Valid</text>
+  </g>
+
+  <!-- ROW 2 (selected) -->
+  <g>
+    <rect x="21" y="190" width="678" height="60" fill="#F7F1FE"/>
+    <rect x="36" y="212" width="16" height="16" rx="4" fill="#7D3CC2"/>
+    <path d="M40 220 l3 3 l6 -6" stroke="#FFFFFF" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="76" cy="220" r="13" fill="#DBEAFE"/>
+    <text x="76" y="224" class="ui" font-size="9" font-weight="700" fill="#2A63D4" text-anchor="middle">MF</text>
+    <text x="98" y="217" class="ui" font-size="12" font-weight="700" fill="#1A191F">Marco Ferraro</text>
+    <text x="98" y="231" class="ui" font-size="9.5" fill="#78757F">Head of Growth</text>
+    <text x="300" y="217" class="ui" font-size="11" font-weight="600" fill="#1A191F">Lumen Agency</text>
+    <text x="300" y="231" class="mono" font-size="9" fill="#9CA3AF">lumen.co</text>
+    <text x="452" y="224" class="mono" font-size="11" fill="#4B5563">42</text>
+    <text x="506" y="216" class="mono" font-size="9.5" fill="#4B5563">marco@lumen.co</text>
+    <rect x="506" y="223" width="50" height="16" rx="8" fill="#E8F7F0"/>
+    <circle cx="517" cy="231" r="3" fill="#15A06A"/>
+    <text x="524" y="234" class="ui" font-size="9" font-weight="600" fill="#0E8456">Valid</text>
+  </g>
+
+  <!-- ROW 3 -->
+  <g>
+    <line x1="40" y1="250" x2="680" y2="250" stroke="#F4F2F7"/>
+    <rect x="36" y="272" width="16" height="16" rx="4" fill="#FFFFFF" stroke="#D6D4DE"/>
+    <circle cx="76" cy="280" r="13" fill="#DCFCE7"/>
+    <text x="76" y="284" class="ui" font-size="9" font-weight="700" fill="#0E8456" text-anchor="middle">PN</text>
+    <text x="98" y="277" class="ui" font-size="12" font-weight="700" fill="#1A191F">Priya Nair</text>
+    <text x="98" y="291" class="ui" font-size="9.5" fill="#78757F">Founder</text>
+    <text x="300" y="277" class="ui" font-size="11" font-weight="600" fill="#1A191F">Kettle Fintech</text>
+    <text x="300" y="291" class="mono" font-size="9" fill="#9CA3AF">kettle.xyz</text>
+    <text x="452" y="284" class="mono" font-size="11" fill="#4B5563">18</text>
+    <text x="506" y="276" class="mono" font-size="9.5" fill="#4B5563">priya@kettle.xyz</text>
+    <rect x="506" y="283" width="74" height="16" rx="8" fill="#EAF1FE"/>
+    <circle cx="517" cy="291" r="3" fill="#3B7DF6"/>
+    <text x="524" y="294" class="ui" font-size="9" font-weight="600" fill="#2A63D4">Accepts-all</text>
+  </g>
+
+  <!-- ROW 4 -->
+  <g>
+    <line x1="40" y1="310" x2="680" y2="310" stroke="#F4F2F7"/>
+    <rect x="36" y="332" width="16" height="16" rx="4" fill="#FFFFFF" stroke="#D6D4DE"/>
+    <circle cx="76" cy="340" r="13" fill="#FEF3C7"/>
+    <text x="76" y="344" class="ui" font-size="9" font-weight="700" fill="#B45309" text-anchor="middle">DK</text>
+    <text x="98" y="337" class="ui" font-size="12" font-weight="700" fill="#1A191F">Daniel Kim</text>
+    <text x="98" y="351" class="ui" font-size="9.5" fill="#78757F">Director, RevOps</text>
+    <text x="300" y="337" class="ui" font-size="11" font-weight="600" fill="#1A191F">Atlas Systems</text>
+    <text x="300" y="351" class="mono" font-size="9" fill="#9CA3AF">atlassys.com</text>
+    <text x="452" y="344" class="mono" font-size="11" fill="#4B5563">210</text>
+    <text x="506" y="336" class="mono" font-size="9.5" fill="#4B5563">d.kim@atlassys.com</text>
+    <rect x="506" y="343" width="50" height="16" rx="8" fill="#E8F7F0"/>
+    <circle cx="517" cy="351" r="3" fill="#15A06A"/>
+    <text x="524" y="354" class="ui" font-size="9" font-weight="600" fill="#0E8456">Valid</text>
+  </g>
+
+  <!-- ROW 5 -->
+  <g>
+    <line x1="40" y1="370" x2="680" y2="370" stroke="#F4F2F7"/>
+    <rect x="36" y="392" width="16" height="16" rx="4" fill="#FFFFFF" stroke="#D6D4DE"/>
+    <circle cx="76" cy="400" r="13" fill="#FCE7F3"/>
+    <text x="76" y="404" class="ui" font-size="9" font-weight="700" fill="#BE185D" text-anchor="middle">SA</text>
+    <text x="98" y="397" class="ui" font-size="12" font-weight="700" fill="#1A191F">Sofia Alvarez</text>
+    <text x="98" y="411" class="ui" font-size="9.5" fill="#78757F">Growth Lead</text>
+    <text x="300" y="397" class="ui" font-size="11" font-weight="600" fill="#1A191F">Reef Labs</text>
+    <text x="300" y="411" class="mono" font-size="9" fill="#9CA3AF">reeflabs.ai</text>
+    <text x="452" y="404" class="mono" font-size="11" fill="#4B5563">65</text>
+    <text x="506" y="396" class="mono" font-size="9.5" fill="#9CA3AF">—</text>
+    <rect x="506" y="403" width="66" height="16" rx="8" fill="#F1F0F4"/>
+    <text x="514" y="414" class="ui" font-size="9" font-weight="600" fill="#6B7280">Unverified</text>
+  </g>
+</svg>

@@ -1,0 +1,41 @@
+---
+import ToolPage from "@/layouts/components/sections/ToolPage.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const tool = {
+  eyebrow: "Email verifier",
+  h1: "Email verifier — <strong>only pay for emails that work.</strong>",
+  sub: "Clean your list with SMTP plus platform-level verification (Microsoft, Google, and social-signal probes) at a measured 0.20% false-positive rate. Catch-alls are labeled free, and you never pay for an invalid result.",
+  metaTitle: "Email Verifier — Bulk Email Verification, 0.20% False-Positive | SendEmAll",
+  metaDescription: "Verify emails in bulk with SMTP plus platform-level checks (Microsoft 365, Google, social probes) at a measured 0.20% false-positive rate. Catch-alls labeled free. Pay only for valid results. API available.",
+  cta: { label: "Verify your list", url: "https://app.sendemall.com/register" },
+  problem: {
+    h2: "Most verifiers wave catch-alls through — <strong>then you eat the bounce.</strong>",
+    body: "A verifier that marks every catch-all as \"valid\" is just moving the bounce downstream, onto your domain. SendEmAll runs SMTP verification first, then escalates catch-alls and timeouts through Microsoft, Google and social-signal checks — so \"valid\" actually means deliverable.",
+  },
+  how: [
+    { t: "Upload or connect", d: "Paste addresses, upload a CSV/XLSX (we auto-map your columns), or verify inline as you build a list." },
+    { t: "Multi-layer verification", d: "SMTP first, then a platform-specific cascade for catch-alls — Microsoft OAuth, Google IAM, and multi-signal social probes." },
+    { t: "Keep the valid ones", d: "Export a clean list with clear valid / accepts-all / invalid labels. You're only billed for verified, valid emails." },
+  ],
+  benefits: [
+    { k: "0.20% false-positive", v: "Measured across thousands of addresses in independent batches — not a marketing number." },
+    { k: "Catch-alls free", v: "Accepts-all addresses are clearly labeled in their own column and never counted against your quota." },
+    { k: "Bulk + API", v: "Verify lists of any size, or wire real-time verification into your product via the REST API." },
+  ],
+  faqs: [
+    ["How accurate is it?", "We measure a 0.20% false-positive rate. SMTP resolves most addresses definitively; catch-alls and timeouts escalate through Microsoft, Google and social-signal checks rather than being guessed."],
+    ["What happens to catch-all addresses?", "They're labeled 'accepts-all' in a separate column, given to you free, and excluded from your quota — you decide whether to send to them."],
+    ["Can I verify in bulk?", "Yes. Upload a CSV/XLSX of any size and we auto-map the columns; most lists under 10,000 complete in minutes."],
+    ["Is there an API?", "Yes — a REST API for single or batch verification, documented at /developers."],
+  ],
+  ctaHeading: "Stop paying for <strong>bounces.</strong>",
+  note: "You are responsible for ensuring your outreach complies with applicable laws (CAN-SPAM, CASL, GDPR/ePrivacy) and for honoring opt-outs.",
+};
+---
+
+<ToolPage tool={tool} />

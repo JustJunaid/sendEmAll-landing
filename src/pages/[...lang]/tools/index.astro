@@ -1,0 +1,55 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const CARD =
+  "group border-border-light bg-theme-dark hover:border-primary/40 relative block overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
+
+const tools = [
+  { t: "Apollo scraper", d: "Export verified leads from your own Apollo account.", url: "/tools/apollo-scraper" },
+  { t: "Sales Navigator scraper", d: "Turn your Sales Nav searches into a verified, sendable list.", url: "/tools/sales-navigator-scraper" },
+  { t: "Google Maps scraper", d: "Pull local businesses — then find the owner's verified email.", url: "/tools/google-maps-scraper" },
+  { t: "Email verifier", d: "SMTP + platform-level verification at 0.20% false-positive.", url: "/tools/email-verifier" },
+  { t: "Email finder", d: "Find and verify anyone's work email from a name and domain.", url: "/tools/email-finder" },
+  { t: "Decision-maker finder", d: "Get the right decision-maker's verified email from just a domain.", url: "/tools/decision-maker-finder" },
+  { t: "Deliverability test", d: "See exactly where your emails land — inbox, spam, or promotions.", url: "/deliverability-test" },
+];
+---
+
+<Base
+  metaTitle="Free Cold Email Tools — Scrapers, Verifier, Finder | SendEmAll"
+  disableTagline={true}
+  metaDescription="Free and self-serve cold email tools from SendEmAll: Apollo, Sales Navigator and Google Maps scrapers, an email verifier and finder, decision-maker lookup, and a deliverability test."
+>
+  <section class="py-20 lg:py-28">
+    <div class="container">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="Tools" />
+        <h1 class="font-secondary has-italic-text text-4xl md:text-5xl/tight">
+          Every part of the pipeline, <strong class="font-tertiary italic">as its own tool.</strong>
+        </h1>
+        <p class="text-text-default/70 mt-5 text-lg">
+          Use any piece on its own, or let them work together in one platform. Every one is built on the same
+          verified data and deliverability engine.
+        </p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          tools.map((t, i) => (
+            <a href={t.url} class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 60}>
+              <h2 class="text-heading text-lg font-semibold">{t.t}</h2>
+              <p class="text-text-default/70 mt-2 text-sm">{t.d}</p>
+              <span class="text-primary mt-4 inline-block text-sm font-medium">Learn more &rarr;</span>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

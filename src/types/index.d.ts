@@ -7,6 +7,15 @@ export type MarqueeConfig = {
   duration: string;
 };
 
+// Item in a marquee/logo strip. Either an image logo (`src`) or a text
+// wordmark (`label`). `label` lets the strip render cleanly when brand logo
+// assets are not available, without shipping broken <img> tags.
+export type MarqueeListItem = {
+  src?: string;
+  alt?: string;
+  label?: string;
+};
+
 // Type for this section data
 export type customersSectionType = Section & {
   list: MarqueeListItem[];

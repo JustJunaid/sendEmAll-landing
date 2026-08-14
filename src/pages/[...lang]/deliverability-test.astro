@@ -30,6 +30,10 @@ const SEED_INBOXES_FALLBACK = [
 ---
 
 <Base {...meta} sectionSpacing="md">
+  {/* The deliverability wizard is a self-contained dark-designed tool (fixed
+      dark-hex cards + JS that toggles those hex classes). Wrap it in a dark
+      surface so it stays coherent in both light and dark site themes. */}
+  <div class="bg-[#0e0c0c]">
   <!-- Hero -->
   <section class="relative overflow-hidden pt-24 pb-4">
     <div
@@ -520,6 +524,7 @@ const SEED_INBOXES_FALLBACK = [
 
     </div>
   </section>
+  </div>
 </Base>
 
 <style>

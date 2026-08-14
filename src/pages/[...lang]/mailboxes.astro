@@ -1,0 +1,196 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const INFRA = "https://infra.sendemall.com/register";
+
+const CARD =
+  "group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
+
+// Landing pricing is the source of truth (app is being updated to match).
+const mailboxes = [
+  { name: "Google Workspace", price: "$3.50", unit: "/mailbox/mo", cap: "~30 cold emails/day each" },
+  { name: "Microsoft 365", price: "$3.50", unit: "/mailbox/mo", cap: "~30 cold emails/day each" },
+  { name: "SMTP", price: "$1.50", unit: "/mailbox/mo", cap: "~50 cold emails/day each" },
+  { name: "Microsoft Azure", price: "$30", unit: "/tenant/mo", cap: "high-volume sending" },
+];
+
+// Self-serve flow — you drive it, the automation does the plumbing.
+const steps = [
+  { n: "01", t: "Order", d: "Pick your mailbox types and how many, choose or bring a domain, and check out with Stripe. No sales call, no account manager." },
+  { n: "02", t: "We provision", d: "Mailboxes are created automatically, domains migrate to managed DNS, and SPF, DKIM & DMARC are written for you." },
+  { n: "03", t: "You manage it", d: "Track everything from your dashboard — My Mailboxes, My Domains, past orders, live health — and push to any sequencer." },
+];
+
+const included = [
+  ["Pre-warmed, ready today", "Skip the ramp — buy inboxes from a live catalog that are already warmed and send-ready.", '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>'],
+  ["Domains, your way", "Buy a fresh domain at registrar price, grab a pre-aged one, or bring your own — connect your registrar or reuse domains you already own.", '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>'],
+  ["SPF · DKIM · DMARC, automated", "Every domain is set up on managed DNS with the right records written for you. Zero DNS work.", '<path d="M12 3 5 6v6c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3z"/><path d="m9 12 2 2 4-4"/>'],
+  ["Warmup + monitoring built in", "Mailboxes warm from day one; bounce, spam and blacklist health are watched continuously across your fleet.", '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>'],
+];
+
+const interop = ["SendEmAll", "Instantly", "Smartlead", "PlusVibe"];
+
+const faqs = [
+  ["Do I set this up myself, or do you?", "You do — from your own dashboard, in minutes. You order mailboxes and domains, and the platform provisions and configures everything automatically. It's self-serve software, not a done-for-you agency."],
+  ["What's the difference between standard and pre-warmed?", "Standard mailboxes provision immediately and warm from day one. Pre-warmed mailboxes come from a live catalog of inboxes we've already warmed — buy them and start sending sooner."],
+  ["Can I use my own domain?", "Yes. Connect your own registrar or reuse domains you already own at no extra cost, or buy a fresh or pre-aged domain through the platform. Either way, DNS and authentication are handled for you."],
+  ["Which sequencers can I push to?", "Push mailboxes straight into SendEmAll's own sequencer, Instantly, Smartlead, or PlusVibe — no manual export/import."],
+  ["What happens to my domains if I cancel?", "Domains you purchase are yours. You keep them and can point them wherever you like."],
+];
+---
+
+<Base
+  metaTitle="Cold Email Mailboxes & Domains — Self-Serve Infrastructure | SendEmAll"
+  disableTagline={true}
+  metaDescription="Spin up Google Workspace, Microsoft 365, Azure and SMTP mailboxes yourself in minutes — or buy pre-warmed inboxes ready today. Domains, DNS, SPF/DKIM/DMARC and warmup automated. Push to any sequencer. From $1.50/mailbox."
+>
+  <!-- Hero -->
+  <section class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <Subtitle content="Mailboxes" />
+        <h1 class="font-secondary text-4xl md:text-5xl/tight has-italic-text mb-6" data-aos="fade-up-sm">
+          Spin up mailboxes and domains — <strong class="font-tertiary italic">you're in control.</strong>
+        </h1>
+        <p class="text-text-default/80 text-lg" data-aos="fade-up-sm" data-aos-delay="100">
+          Order Google Workspace, Microsoft 365, Azure or SMTP mailboxes and provision them yourself in minutes
+          — or grab pre-warmed inboxes ready to send today. DNS, authentication and warmup are automated. You
+          run it all from your dashboard, not an account manager.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="150">
+          <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Get mailboxes", url: INFRA }} />
+          <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "#mailbox-pricing" }} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Self-serve flow -->
+  <section class="section-gradient py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="How it works" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          You order. <strong class="font-tertiary italic">We automate the plumbing.</strong>
+        </h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          steps.map((s, i) => (
+            <div class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 100}>
+              <span class="bg-primary/10 text-primary font-secondary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold">{s.n}</span>
+              <h3 class="text-heading text-lg font-semibold">{s.t}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{s.d}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="mailbox-pricing" class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+        <h2 class="font-secondary text-3xl md:text-4xl/tight">Simple per-mailbox pricing</h2>
+        <p class="text-text-default/70 mt-4">No minimums. Cancel anytime. Domains are passed through at registrar cost, or bring your own for free.</p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          mailboxes.map((m, i) => (
+            <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-6" data-aos="fade-up-sm" data-aos-delay={i * 75}>
+              <h3 class="text-heading text-lg font-semibold">{m.name}</h3>
+              <div class="mt-3 mb-4"><span class="text-heading text-3xl font-bold">{m.price}</span><span class="text-text-default/60 text-sm">{m.unit}</span></div>
+              <p class="text-text-default/70 text-sm">{m.cap}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="text-text-default/60 mt-6 text-center text-sm">
+        A 5% platform fee applies at checkout. Domains billed at registrar cost, pre-aged from $10, or bring your own for free.
+      </p>
+    </div>
+  </section>
+
+  <!-- What's included -->
+  <section class="bg-accent py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+        <h2 class="font-secondary text-3xl md:text-4xl/tight has-italic-text">
+          Everything you'd stitch together, <strong class="font-tertiary italic">automated.</strong>
+        </h2>
+      </div>
+      <div class="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+        {
+          included.map(([t, d, icon]) => (
+            <div class={CARD} data-aos="fade-up-sm">
+              <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icon} />
+              </span>
+              <h3 class="text-heading font-semibold">{t}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{d}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Works with -->
+  <section class="py-16 md:py-24">
+    <div class="container text-center">
+      <Subtitle content="No lock-in" />
+      <h2 class="font-secondary has-italic-text mx-auto mb-8 max-w-2xl text-3xl md:text-4xl/tight" data-aos="fade-up-sm">
+        Push straight into <strong class="font-tertiary italic">your sequencer.</strong>
+      </h2>
+      <div class="flex flex-wrap items-center justify-center gap-3" data-aos="fade-up-sm" data-aos-delay="100">
+        {
+          interop.map((p) => (
+            <span class="border-border-light bg-theme-dark text-text-default/90 rounded-full border px-5 py-2.5 text-sm font-medium">{p}</span>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pb-16 md:pb-24">
+    <div class="container max-w-3xl">
+      <h2 class="text-heading mb-10 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">Mailboxes FAQ</h2>
+      <div class="hs-accordion-group space-y-4" data-aos="fade-up-sm" data-aos-delay="100">
+        {
+          faqs.map(([q, a], i) => (
+            <div class="hs-accordion bg-theme-dark border-border-light rounded-xl border" id={`mfaq-${i}`}>
+              <button class="hs-accordion-toggle text-heading hover:text-primary flex w-full items-center justify-between px-6 py-5 text-left font-medium transition-colors" aria-expanded="false" aria-controls={`mfaq-${i}-body`}>
+                {q}
+                <svg class="hs-accordion-active:rotate-180 text-text-default h-5 w-5 shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id={`mfaq-${i}-body`} class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region">
+                <p class="text-text-default/80 px-6 pb-5">{a}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="pb-16 md:pb-24">
+    <div class="container text-center">
+      <h2 class="text-heading mb-6 text-3xl md:text-4xl font-bold has-italic-text" data-aos="fade-up-sm">
+        Inboxes that <strong class="font-tertiary italic">land.</strong>
+      </h2>
+      <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Get mailboxes", url: INFRA }} />
+    </div>
+  </section>
+</Base>

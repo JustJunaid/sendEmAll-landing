@@ -15,11 +15,40 @@ const fontVariables = fontsJson.map((font) => font.cssVariable) as any[];
     General
 -------------->
   <meta charset="UTF-8" />
+
+  {/* Theme pre-paint — runs synchronously before first paint to prevent FOUC.
+      Resolution: localStorage.theme wins → else system preference → else light. */}
+  <script is:inline>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (t !== "light" && t !== "dark") {
+          t = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+
+  {/* LCP fail-safe: mark JS active before first paint so AnimatedText can hide
+      words for its entrance animation, and force-reveal them if motion never
+      initializes (blocked script, slow network) — hero text is never stuck. */}
+  <script is:inline>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add("js-loaded");
+      window.setTimeout(function () {
+        if (!window.__animatedTextReady) d.classList.remove("js-loaded");
+      }, 2000);
+    })();
+  </script>
+
   <meta http-equiv="Content-Language" content={Astro.currentLocale} />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=5"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <SEO {...Astro.props} />
   <meta
     name="theme-color"
@@ -37,7 +66,7 @@ const fontVariables = fontsJson.map((font) => font.cssVariable) as any[];
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://www.googletagmanager.com" />
-  <link rel="dns-prefetch" href="https://www.clarity.ms" />
+  <link rel="dns-prefetch" href="https://us.i.posthog.com" />
   <link rel="dns-prefetch" href="https://widget.intercom.io" />
 
   {/* Third-party scripts moved to before </body> in Base.astro for performance */}

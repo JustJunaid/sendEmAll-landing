@@ -1,0 +1,164 @@
+---
+/**
+ * ToolPage — reusable premium template for keyword-targeted SEO tool pages.
+ * Renders a hero, optional product shot, problem beat, how-it-works, benefits,
+ * FAQ (with FAQPage JSON-LD), and CTA from a single `tool` data object.
+ */
+import Base from "@/layouts/Base.astro";
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+import { markdownify } from "@/lib/utils/textConverter";
+
+const { tool } = Astro.props;
+
+const CARD =
+  "group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
+const GLOW =
+  "bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100";
+
+const faqSchema = tool.faqs?.length
+  ? JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: tool.faqs.map(([q, a]: [string, string]) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+      })),
+    })
+  : null;
+---
+
+<Base metaTitle={tool.metaTitle} disableTagline={true} metaDescription={tool.metaDescription}>
+  <!-- Hero -->
+  <section class="py-20 lg:py-28">
+    <div class="container text-center">
+      <Subtitle content={tool.eyebrow} />
+      <h1
+        class="font-secondary has-italic-text mx-auto max-w-4xl text-4xl md:text-5xl/tight"
+        data-aos="fade-up-sm"
+        set:html={markdownify(tool.h1)}
+      />
+      <p class="text-text-default/70 mx-auto mt-6 max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="100">
+        {tool.sub}
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="200">
+        <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: tool.cta.label, url: tool.cta.url }} />
+        <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "/pricing" }} />
+      </div>
+      {
+        tool.image && (
+          <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="300">
+            <img
+              src={tool.image}
+              width="720"
+              height="460"
+              loading="eager"
+              alt={tool.imageAlt || tool.metaTitle}
+              class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border"
+            />
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- Problem -->
+  {
+    tool.problem && (
+      <section class="pb-4">
+        <div class="container mx-auto max-w-3xl text-center" data-aos="fade-up-sm">
+          <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight" set:html={markdownify(tool.problem.h2)} />
+          <p class="text-text-default/70 mt-5 text-lg">{tool.problem.body}</p>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- How it works -->
+  {
+    tool.how && (
+      <section class="section-gradient py-16 md:py-24">
+        <div class="container">
+          <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+            <Subtitle content="How it works" />
+            <h2 class="font-secondary text-3xl md:text-4xl/tight">{tool.howTitle || "Three steps."}</h2>
+          </div>
+          <div class="grid gap-6 md:grid-cols-3">
+            {tool.how.map((s: any, i: number) => (
+              <div class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 100}>
+                <span class="bg-primary/10 text-primary font-secondary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 class="text-heading text-lg font-semibold">{s.t}</h3>
+                <p class="text-text-default/70 mt-2 text-sm">{s.d}</p>
+                <span class={GLOW} aria-hidden="true" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Benefits -->
+  {
+    tool.benefits && (
+      <section class="py-16 md:py-24">
+        <div class="container">
+          <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {tool.benefits.map((b: any) => (
+              <div class={CARD}>
+                <h3 class="text-heading font-semibold">{b.k}</h3>
+                <p class="text-text-default/70 mt-2 text-sm">{b.v}</p>
+                <span class={GLOW} aria-hidden="true" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- FAQ -->
+  {
+    tool.faqs && (
+      <section class="pb-16 md:pb-24">
+        <div class="container max-w-3xl">
+          <h2 class="text-heading mb-10 text-center text-2xl font-bold md:text-3xl" data-aos="fade-up-sm">
+            Frequently asked questions
+          </h2>
+          <div class="hs-accordion-group space-y-4" data-aos="fade-up-sm">
+            {tool.faqs.map(([q, a]: [string, string], i: number) => (
+              <div class="hs-accordion bg-theme-dark border-border-light rounded-xl border" id={`tf-${i}`}>
+                <button
+                  class="hs-accordion-toggle text-heading hover:text-primary flex w-full items-center justify-between px-6 py-5 text-left font-medium transition-colors"
+                  aria-expanded="false"
+                  aria-controls={`tf-${i}-b`}>
+                  {q}
+                  <svg class="hs-accordion-active:rotate-180 text-text-default h-5 w-5 shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div id={`tf-${i}-b`} class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region">
+                  <p class="text-text-default/80 px-6 pb-5">{a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- CTA -->
+  <section class="pb-20 md:pb-28">
+    <div class="container text-center">
+      <h2 class="text-heading font-secondary has-italic-text mb-6 text-3xl font-bold md:text-4xl" data-aos="fade-up-sm" set:html={markdownify(tool.ctaHeading || "Ready to start?")} />
+      <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: tool.cta.label, url: tool.cta.url }} />
+      {tool.note && <p class="text-text-default/50 mx-auto mt-8 max-w-2xl text-xs">{tool.note}</p>}
+    </div>
+  </section>
+
+  {faqSchema && <script type="application/ld+json" is:inline set:html={faqSchema} />}
+</Base>

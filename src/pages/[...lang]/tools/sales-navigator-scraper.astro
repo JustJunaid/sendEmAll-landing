@@ -1,0 +1,43 @@
+---
+import ToolPage from "@/layouts/components/sections/ToolPage.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const tool = {
+  eyebrow: "Sales Navigator scraper",
+  h1: "Sales Navigator scraper — <strong>on your own seat.</strong>",
+  sub: "Connect your LinkedIn Sales Navigator account and turn your lead and account searches into an exportable, verified list. It runs on your session and a dedicated IP in your region — your subscription, your data.",
+  metaTitle: "LinkedIn Sales Navigator Scraper — Export & Verify Leads | SendEmAll",
+  metaDescription: "Connect your own Sales Navigator account and export lead/account searches into verified, deliverable contacts. Runs on your seat and a dedicated IP. Find decision-maker emails and pay only for valid ones.",
+  cta: { label: "Connect your Sales Nav account", url: "https://app.sendemall.com/register" },
+  image: "/images/product/leads-table.svg",
+  imageAlt: "Sales Navigator searches exported and verified inside SendEmAll",
+  problem: {
+    h2: "Great Sales Nav lists. <strong>No emails, no way out.</strong>",
+    body: "Sales Navigator is the best B2B targeting on earth — and a dead end for outbound. There are no verified emails and no clean export. SendEmAll runs on your own Sales Nav seat, finds the decision-maker's email, verifies it, and hands you a list you can actually send to.",
+  },
+  how: [
+    { t: "Connect your seat", d: "Log into your own Sales Navigator account inside a secure browser session — we never see your password. It's your subscription and your data." },
+    { t: "Export your searches", d: "Turn your lead and account searches into a structured list, on a dedicated IP in your region so your account stays stable." },
+    { t: "Find, verify, reach", d: "We find each contact's email, verify it before it reaches you, then export a CSV or push into a campaign — you only pay for valid addresses." },
+  ],
+  benefits: [
+    { k: "Open Profile detection", v: "See which prospects have Open Profile turned on — the members who accept free InMail from anyone." },
+    { k: "Decision-maker emails", v: "Turn a Sales Nav lead into a verified, deliverable email you can actually send to." },
+    { k: "Your account, your region", v: "Runs on your own seat and a dedicated IP in your region so your connected account stays stable and secure." },
+  ],
+  faqs: [
+    ["Whose LinkedIn account is used?", "Yours. You connect your own Sales Navigator seat inside a secure browser session — SendEmAll never sees your password. You're automating access you already pay for and are authorized to use."],
+    ["What is Open Profile detection?", "Open Profile members have opted in to receive InMail from anyone. SendEmAll flags which of your prospects are Open Profiles, so you know exactly who you can message for free — you send from your own LinkedIn seat."],
+    ["Is this compliant with LinkedIn?", "You are responsible for using your own account in line with LinkedIn's User Agreement. SendEmAll runs on a dedicated IP in your region for session stability; it does not bypass LinkedIn's access controls or send on your behalf at scale."],
+    ["Do I get verified emails?", "Yes. Every email is verified (SMTP plus platform-level checks) before it reaches you, and you only pay for the valid ones."],
+  ],
+  ctaHeading: "Make Sales Navigator <strong>sendable.</strong>",
+  note: "SendEmAll is not affiliated with, endorsed by, or sponsored by LinkedIn. You connect and automate your own authorized account and are responsible for complying with LinkedIn's User Agreement. All trademarks are the property of their respective owners.",
+};
+---
+
+<ToolPage tool={tool} />

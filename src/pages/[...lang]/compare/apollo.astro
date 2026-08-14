@@ -8,43 +8,42 @@ export function getStaticPaths() {
 }
 
 const features = [
-  { name: "Database size", competitor: "275M+ contacts", sendemall: "18+ sources aggregated" },
-  { name: "Buying signals", competitor: "Limited filters", sendemall: "Real-time monitoring" },
-  { name: "Email sending", competitor: "Basic sequences", sendemall: "Full campaign platform" },
-  { name: "warmup", competitor: "No", sendemall: "Included" },
-  { name: "Infrastructure", competitor: "No", sendemall: "Fully managed" },
-  { name: "Verification", competitor: "Included", sendemall: "Included" },
-  { name: "Reply guarantee", competitor: "No", sendemall: "Business+Scale" },
+  { name: "Contact data", competitor: "Raw database", sendemall: "Scraped + verified" },
+  { name: "Pay only for valid emails", competitor: "No", sendemall: "Yes" },
+  { name: "Email verification", competitor: "Included", sendemall: "Included" },
+  { name: "Sending infrastructure", competitor: "No", sendemall: "Done for you" },
+  { name: "Sequencer", competitor: "Basic sequences", sendemall: "Unlimited seats" },
+  { name: "Buying signals (ads, tech stack)", competitor: "Limited filters", sendemall: "Included" },
 ];
 
 const theyDoBetter = [
-  { title: "Massive contact database", description: "275M+ contacts in one searchable database. If you need raw volume and filtering by firmographics, Apollo has scale." },
-  { title: "CRM features", description: "Built-in CRM with deal tracking, sequences, and pipeline management. Useful if you want outreach and CRM in one tool." },
-  { title: "Free tier with 50 credits/mo", description: "Apollo offers a free plan with limited credits. Good for testing before committing." },
+  { title: "Massive contact database", description: "Apollo has a huge searchable database. If you want raw volume and firmographic filtering in one place, that scale is real." },
+  { title: "CRM features", description: "Built-in CRM with deal tracking and pipeline management, if you want outreach and CRM in one tool." },
+  { title: "A free tier to test", description: "Apollo offers a free plan to try before you commit." },
 ];
 
 const weDoBetter = [
-  { title: "Signal-based qualification", description: "Apollo gives you a database to filter. We monitor hiring, funding, and tech adoption signals to find potential buyers who are actively looking. Filters are not signals." },
-  { title: "Full sending infrastructure", description: "Apollo has basic sequences but no managed infrastructure. We handle domains, mailboxes, DNS, and warmup so your emails actually land in inboxes." },
-  { title: "Managed warmup and domains", description: "Apollo expects you to bring your own sending setup. We provision and manage everything for you." },
-  { title: "We use Apollo as one of our 18+ data sources", description: "You get Apollo's data plus 17 more sources, enriched with buying signals. No need to choose between us." },
+  { title: "Verified, not raw", description: "Apollo hands you a database to filter — bounces included. SendEmAll verifies every email before delivery, and you only pay for the valid ones." },
+  { title: "Full sending infrastructure", description: "Apollo has basic sequences but no sending infrastructure. We provision domains, mailboxes, DNS, and warmup so your emails land." },
+  { title: "Bring your own Apollo account", description: "Already pay for Apollo? Connect your account and SendEmAll scrapes it cleanly, verifies every address, and delivers valid-only results — no per-reveal credit fees." },
+  { title: "No lock-in", description: "Send from our unlimited-seat sequencer, or push your verified leads to Instantly, Smartlead, or any tool you already use — exporting is free." },
 ];
 ---
 
 <Base
   title="Best Apollo Alternative for Cold Email (2026) | SendEmAll"
   disableTagline={true}
-  description="Apollo gives you a database. SendEmAll gives you buyers who are actually looking. Signal-based outbound vs. static lists."
+  description="Apollo gives you a raw database that bounces. SendEmAll gives you verified emails — and you only pay for the valid ones. Bring your own Apollo account or start fresh."
 >
   <ComparePage
     competitor="Apollo"
-    description="Apollo gives you a database. SendEmAll gives you potential buyers who are actually looking. Signal-based outbound vs. static lists."
-    competitorPrice="$49-$119/mo"
-    competitorPriceNote="Database access with limited sending. Email credits deplete quickly at scale."
-    sendemallPrice="$149/mo"
+    description="Apollo gives you a raw database that bounces. SendEmAll gives you verified emails — you only pay for the valid ones. Bring your own Apollo account, or start fresh."
+    competitorPrice="From $49/mo per seat"
+    competitorPriceNote="Per-seat pricing, typically billed annually. Email credits deplete quickly at scale, and exports bounce."
+    sendemallPrice="From $59/mo"
     features={features}
     theyDoBetter={theyDoBetter}
     weDoBetter={weDoBetter}
-    integrationNote="We use Apollo as one of our 18+ data sources. You get Apollo's data plus 17 more sources, enriched with buying signals. No need to pick one or the other."
+    integrationNote="Already using Apollo? Connect your account and SendEmAll scrapes it cleanly, verifies every email, and delivers valid-only results — no bounces, no per-reveal fees."
   />
 </Base>

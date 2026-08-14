@@ -1,672 +1,291 @@
 ---
 import Base from "@/layouts/Base.astro";
-import PricingSection from "@/components/sections/PricingSection.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 
 export function getStaticPaths() {
   return generatePaths();
 }
 
+const APP = "https://app.sendemall.com/register";
+
 // Product + Offer structured data for pricing rich snippets
 const pricingSchema = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Product",
   name: "SendEmAll",
-  description: "All-in-one outbound platform. Signal-qualified leads, managed email infrastructure, AI personalization, and sending.",
+  description:
+    "Find verified B2B buyers and run your outbound. You only pay for valid, verified emails. Plans from $59/mo.",
   brand: { "@type": "Brand", name: "SendEmAll" },
-  url: "https://sendemall.com/pricing",
+  url: "https://www.sendemall.com/pricing",
   offers: [
     {
       "@type": "Offer",
-      name: "Trial",
-      price: "0",
+      name: "Starter",
+      price: "59",
       priceCurrency: "USD",
-      description: "100 one-time credits. Try SendEmAll free.",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
+      description: "25,000 verified-email credits per month.",
       availability: "https://schema.org/InStock",
-      url: "https://sendemall.com/pricing",
+      url: "https://www.sendemall.com/pricing",
     },
     {
       "@type": "Offer",
-      name: "Pro",
-      price: "149",
+      name: "Growth",
+      price: "79",
       priceCurrency: "USD",
       priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
-      description: "15 mailboxes, 1,500 credits/mo, ~200 buyers reached.",
+      description: "50,000 verified-email credits per month.",
       availability: "https://schema.org/InStock",
-      url: "https://sendemall.com/pricing",
-    },
-    {
-      "@type": "Offer",
-      name: "Business",
-      price: "349",
-      priceCurrency: "USD",
-      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
-      description: "45 mailboxes, 5,000 credits/mo, ~650 buyers reached. Reply guarantee included.",
-      availability: "https://schema.org/InStock",
-      url: "https://sendemall.com/pricing",
-    },
-    {
-      "@type": "Offer",
-      name: "Scale",
-      price: "599",
-      priceCurrency: "USD",
-      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
-      description: "105 mailboxes, 15,000 credits/mo, ~2,000 buyers reached. Reply guarantee included.",
-      availability: "https://schema.org/InStock",
-      url: "https://sendemall.com/pricing",
+      url: "https://www.sendemall.com/pricing",
     },
   ],
 });
+
+const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
 ---
 
 <Base
-  metaTitle="Pricing. Transparent Plans from $0 to $599/mo | SendEmAll"
+  metaTitle="Pricing — Pay only for verified emails | SendEmAll"
   disableTagline={true}
-  metaDescription="Simple, transparent pricing. 1 credit = 1 action. No hidden fees, no tool stacking. See plans from $0 to $599/mo."
+  metaDescription="Transparent pricing. Credits are only spent on valid, verified emails. Starter $59/mo (25,000 credits), Growth $79/mo (50,000). Sequencer $99/mo, unlimited seats. Mailboxes from $1.50/mo."
 >
-  <!-- Section 1: Hero + Cost Comparison -->
+  <!-- 1. Hero -->
   <section class="py-20 md:py-28">
     <div class="container">
-      <div class="text-center mb-16">
-        <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
-          data-aos="fade-up-sm"
-        >
-          Simple, transparent pricing
+      <div class="mx-auto max-w-2xl text-center">
+        <h1 class="font-secondary text-4xl md:text-5xl/tight has-italic-text mb-6" data-aos="fade-up-sm">
+          Pay for <strong class="font-tertiary italic">what you send.</strong>
         </h1>
-        <p
-          class="text-lg md:text-xl text-text-default max-w-2xl mx-auto"
-          data-aos="fade-up-sm"
-          data-aos-delay="100"
-        >
-          1 credit = 1 action. No hidden fees. No tool stacking. Cancel anytime.
+        <p class="text-text-default/80 text-lg" data-aos="fade-up-sm" data-aos-delay="100">
+          Credits are only spent on valid, verified emails. Scraping, finding, and verification are
+          included. No per-seat fees, no setup fees, cancel anytime.
         </p>
       </div>
-
-      <!-- Stack Tax vs SendEmAll -->
-      <div class="mx-auto max-w-4xl" data-aos="fade-up-sm" data-aos-delay="200">
-        <div class="grid gap-6 md:grid-cols-2">
-          <!-- Stack Tax Side -->
-          <div class="bg-theme-dark border-border-light rounded-2xl border p-8">
-            <h3 class="font-secondary mb-6 text-center text-lg font-medium text-white/60">The "cheap" stack</h3>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Sending tool</span>
-                <span class="text-white font-medium">$47-97</span>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Lead database</span>
-                <span class="text-white font-medium">$49-119</span>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Email verification</span>
-                <span class="text-white font-medium">$20-50</span>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Ramp-up tool</span>
-                <span class="text-white font-medium">$25-59</span>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">AI copy tool</span>
-                <span class="text-white font-medium">$30-99</span>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Enrichment</span>
-                <span class="text-white font-medium">$49-149</span>
-              </div>
-            </div>
-            <div class="mt-6 rounded-xl bg-[#EF4444]/10 p-4 text-center">
-              <p class="text-sm text-[#EF4444]/70">Total monthly cost</p>
-              <p class="text-3xl font-bold text-[#EF4444]">$575+<span class="text-lg font-normal">/mo</span></p>
-            </div>
-          </div>
-
-          <!-- SendEmAll Side -->
-          <div class="bg-theme-dark rounded-2xl border-2 border-primary/50 p-8 relative">
-            <span class="absolute -top-3 right-6 rounded-full bg-[#14B8A6] px-4 py-1 text-xs font-bold text-white uppercase tracking-wider">Save 74%</span>
-            <h3 class="font-secondary mb-6 text-center text-lg font-medium text-primary">SendEmAll</h3>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Signal-qualified leads</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Managed email infrastructure</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Email verification</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">Warmup</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">AI personalization</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-              <div class="flex items-center justify-between border-b border-border-light/50 pb-3">
-                <span class="text-text-default text-sm">18 data providers</span>
-                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              </div>
-            </div>
-            <div class="mt-6 rounded-xl bg-primary/10 p-4 text-center">
-              <p class="text-sm text-primary/70">Starting at</p>
-              <p class="text-3xl font-bold text-primary">$149<span class="text-lg font-normal">/mo</span></p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- Section 2: Credit System Explanation -->
-  <section class="pb-20 md:pb-28">
-    <div class="container max-w-2xl">
-      <h2
-        class="text-2xl md:text-3xl font-bold text-white text-center mb-10"
-        data-aos="fade-up-sm"
-      >
-        What does a credit cost?
-      </h2>
-      <div
-        class="bg-theme-dark border border-border-light rounded-2xl overflow-hidden"
-        data-aos="fade-up-sm"
-        data-aos-delay="100"
-      >
-        <table class="w-full text-left">
-          <thead>
-            <tr class="border-b border-border-light">
-              <th class="px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider">Action</th>
-              <th class="px-6 py-4 text-sm font-semibold text-white uppercase tracking-wider text-right">Credits</th>
-            </tr>
-          </thead>
-          <tbody class="text-text-default">
-            <tr class="border-b border-border-light/50">
-              <td class="px-6 py-3.5">Lead discovery</td>
-              <td class="px-6 py-3.5 text-right font-medium text-white">5</td>
-            </tr>
-            <tr class="border-b border-border-light/50">
-              <td class="px-6 py-3.5">Signal check</td>
-              <td class="px-6 py-3.5 text-right font-medium text-white">2</td>
-            </tr>
-            <tr class="border-b border-border-light/50">
-              <td class="px-6 py-3.5">Email enrichment</td>
-              <td class="px-6 py-3.5 text-right font-medium text-white">5</td>
-            </tr>
-            <tr class="border-b border-border-light/50">
-              <td class="px-6 py-3.5">Email verification</td>
-              <td class="px-6 py-3.5 text-right font-medium text-white">1</td>
-            </tr>
-            <tr class="border-b border-border-light/50">
-              <td class="px-6 py-3.5">AI personalization</td>
-              <td class="px-6 py-3.5 text-right font-medium text-white">2</td>
-            </tr>
-            <tr class="border-b border-border-light/50">
-              <td class="px-6 py-3.5">Email send</td>
-              <td class="px-6 py-3.5 text-right font-medium text-white">0.1</td>
-            </tr>
-            <tr class="bg-accent/50">
-              <td class="px-6 py-4 font-semibold text-white">Average per contacted buyer</td>
-              <td class="px-6 py-4 text-right font-bold text-primary">~7.5</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 3: Pricing Cards -->
+  <!-- 2. Plans -->
   <section class="pb-20 md:pb-28">
     <div class="container">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Trial -->
-        <div
-          class="bg-theme-dark border border-border-light rounded-2xl p-8 flex flex-col"
-          data-aos="fade-up-sm"
-        >
-          <h3 class="text-lg font-semibold text-white mb-2">Trial</h3>
-          <div class="mb-1">
-            <span class="text-4xl font-bold text-white">$0</span>
-          </div>
-          <p class="text-sm text-text-default mb-6">one-time</p>
-          <div class="mb-6">
-            <p class="text-sm text-text-default">100 credits</p>
-            <p class="text-sm font-medium text-teal-500">~13 buyers reached</p>
-          </div>
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Full pipeline access
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              All 18 providers
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              API access
-            </li>
+      <div class="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <!-- Starter -->
+        <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm">
+          <h3 class="text-heading text-lg font-semibold">Starter</h3>
+          <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$59</span><span class="text-text-default/60">/mo</span></div>
+          <p class="text-text-default/70 mb-6 text-sm">25,000 verified-email credits / month</p>
+          <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
+            <li class="flex items-start gap-2" set:html={check + " Scrape Apollo & Sales Navigator"} />
+            <li class="flex items-start gap-2" set:html={check + " Email finding + verification included"} />
+            <li class="flex items-start gap-2" set:html={check + " Pay only for valid emails"} />
+            <li class="flex items-start gap-2" set:html={check + " API access"} />
           </ul>
-          <a href="/services/free-leads" class="btn btn-md btn-outline-white w-full text-center">
-            Get Access
-          </a>
+          <a href={APP} class="btn btn-md btn-outline-primary w-full text-center">Create account</a>
         </div>
 
-        <!-- Pro -->
-        <div
-          class="bg-theme-dark border border-border-light rounded-2xl p-8 flex flex-col"
-          data-aos="fade-up-sm"
-          data-aos-delay="100"
-        >
-          <h3 class="text-lg font-semibold text-white mb-2">Pro</h3>
-          <div class="mb-1">
-            <span class="text-4xl font-bold text-white">$149</span>
-            <span class="text-text-default">/mo</span>
-          </div>
-          <p class="text-sm text-text-default mb-6">15 mailboxes</p>
-          <div class="mb-6">
-            <p class="text-sm text-text-default">1,500 credits</p>
-            <p class="text-sm font-medium text-teal-500">~200 buyers reached</p>
-          </div>
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Everything in Trial
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Managed domains + mailboxes
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Warmup
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Email support
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              PAYG overage $0.05/credit
-            </li>
+        <!-- Growth (Featured) -->
+        <div class="bg-theme-dark border-primary relative flex flex-col rounded-2xl border-2 p-8" data-aos="fade-up-sm" data-aos-delay="100">
+          <span class="bg-primary text-on-primary absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-bold tracking-wider uppercase">Most popular</span>
+          <h3 class="text-heading text-lg font-semibold">Growth</h3>
+          <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$79</span><span class="text-text-default/60">/mo</span></div>
+          <p class="text-text-default/70 mb-6 text-sm">50,000 verified-email credits / month</p>
+          <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
+            <li class="flex items-start gap-2" set:html={check + " Everything in Starter"} />
+            <li class="flex items-start gap-2" set:html={check + " Double the monthly credits"} />
+            <li class="flex items-start gap-2" set:html={check + " Best per-email rate"} />
+            <li class="flex items-start gap-2" set:html={check + " Priority support"} />
           </ul>
-          <a href="/services/free-leads" class="btn btn-md btn-outline-white w-full text-center">
-            Get Access
-          </a>
+          <a href={APP} class="btn btn-md btn-primary w-full text-center">Create account</a>
         </div>
 
-        <!-- Business (Featured) -->
-        <div
-          class="bg-theme-dark border-2 border-primary rounded-2xl p-8 flex flex-col relative"
-          data-aos="fade-up-sm"
-          data-aos-delay="200"
-        >
-          <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-black text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">
-            Most Popular
-          </span>
-          <h3 class="text-lg font-semibold text-white mb-2">Business</h3>
-          <div class="mb-1">
-            <span class="text-4xl font-bold text-white">$349</span>
-            <span class="text-text-default">/mo</span>
-          </div>
-          <p class="text-sm text-text-default mb-6">45 mailboxes</p>
-          <div class="mb-6">
-            <p class="text-sm text-text-default">5,000 credits</p>
-            <p class="text-sm font-medium text-teal-500">~650 buyers reached</p>
-          </div>
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Everything in Pro
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Reply guarantee (50+ in 90 days)
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Priority support
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Custom ICP training
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              PAYG overage $0.04/credit
-            </li>
+        <!-- Sequencer -->
+        <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="200">
+          <h3 class="text-heading text-lg font-semibold">Sequencer</h3>
+          <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$99</span><span class="text-text-default/60">/mo</span></div>
+          <p class="text-text-default/70 mb-6 text-sm">Unlimited seats, workspaces & warmup</p>
+          <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
+            <li class="flex items-start gap-2" set:html={check + " Unlimited seats & workspaces"} />
+            <li class="flex items-start gap-2" set:html={check + " Multi-step sequences + A/B testing"} />
+            <li class="flex items-start gap-2" set:html={check + " Unified inbox + reply management"} />
+            <li class="flex items-start gap-2" set:html={check + " Or push to your own tool, free"} />
           </ul>
-          <a href="/services/free-leads" class="btn btn-md btn-primary w-full text-center">
-            Get Access
-          </a>
+          <a href="https://sequencer.sendemall.com/register" class="btn btn-md btn-outline-primary w-full text-center">Start sending</a>
         </div>
 
-        <!-- Scale -->
-        <div
-          class="bg-theme-dark border border-border-light rounded-2xl p-8 flex flex-col"
-          data-aos="fade-up-sm"
-          data-aos-delay="300"
-        >
-          <h3 class="text-lg font-semibold text-white mb-2">Scale</h3>
-          <div class="mb-1">
-            <span class="text-4xl font-bold text-white">$599</span>
-            <span class="text-text-default">/mo</span>
-          </div>
-          <p class="text-sm text-text-default mb-6">105 mailboxes</p>
-          <div class="mb-6">
-            <p class="text-sm text-text-default">15,000 credits</p>
-            <p class="text-sm font-medium text-teal-500">~2,000 buyers reached</p>
-          </div>
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Everything in Business
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Reply guarantee
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Dedicated CSM
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              Custom integrations
-            </li>
-            <li class="flex items-start gap-2 text-sm text-text-default">
-              <svg class="w-5 h-5 shrink-0 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-              PAYG overage $0.03/credit
-            </li>
+        <!-- Infrastructure -->
+        <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="300">
+          <h3 class="text-heading text-lg font-semibold">Infrastructure</h3>
+          <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$1.50</span><span class="text-text-default/60">/mailbox</span></div>
+          <p class="text-text-default/70 mb-6 text-sm">Mailboxes + domains, done for you</p>
+          <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
+            <li class="flex items-start gap-2" set:html={check + " Google Workspace, M365 & SMTP"} />
+            <li class="flex items-start gap-2" set:html={check + " SPF, DKIM, DMARC + warmup"} />
+            <li class="flex items-start gap-2" set:html={check + " Domains at registrar cost"} />
+            <li class="flex items-start gap-2" set:html={check + " Works with any sequencer"} />
           </ul>
-          <a href="/services/free-leads" class="btn btn-md btn-outline-white w-full text-center">
-            Get Access
-          </a>
+          <a href="/mailboxes" class="btn btn-md btn-outline-primary w-full text-center">See mailboxes</a>
         </div>
       </div>
 
-      <!-- Launching soon note -->
-      <p class="text-center text-text-default mt-10 text-sm" data-aos="fade-up-sm" data-aos-delay="400">
-        Platform launching soon. Reserve your spot.
+      <p class="text-text-default/80 mx-auto mt-8 max-w-xl text-center text-sm" data-aos="fade-up-sm">
+        <span class="text-primary mr-1.5 font-semibold">&#10003;</span> Under 3% bounce on the leads we provide, or we refund your first month.
       </p>
     </div>
   </section>
 
-  <!-- Section 3b: Feature Comparison Table -->
-  <section class="pb-20 md:pb-28">
-    <PricingSection layout="comparison" />
-  </section>
-
-  <!-- Section 4: Interactive Credit Calculator -->
+  <!-- 3. Credit model -->
   <section class="pb-20 md:pb-28">
     <div class="container max-w-2xl">
-      <div
-        class="bg-theme-dark border border-border-light rounded-2xl p-8 md:p-12"
-        data-aos="fade-up-sm"
-      >
-        <h2 class="text-2xl md:text-3xl font-bold text-white text-center mb-2">
-          Credit Calculator
-        </h2>
-        <p class="text-text-default text-center mb-10">
-          How many buyers do you want to reach per month?
-        </p>
+      <h2 class="text-heading mb-3 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">What does a credit cost?</h2>
+      <p class="text-text-default/70 mb-10 text-center" data-aos="fade-up-sm">
+        The anchor is simple: <strong class="text-heading">1 credit = 1 verified, valid email delivered to you.</strong>
+        You are never charged for invalid results.
+      </p>
+      <div class="bg-theme-dark border-border-light overflow-hidden rounded-2xl border" data-aos="fade-up-sm" data-aos-delay="100">
+        <table class="w-full text-left">
+          <thead>
+            <tr class="border-border-light border-b">
+              <th class="text-heading px-6 py-4 text-sm font-semibold tracking-wider uppercase">Action</th>
+              <th class="text-heading px-6 py-4 text-right text-sm font-semibold tracking-wider uppercase">Credits</th>
+            </tr>
+          </thead>
+          <tbody class="text-text-default/80">
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Scrape Apollo / Sales Navigator</td><td class="text-primary px-6 py-3.5 text-right font-medium">Free</td></tr>
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Find an email</td><td class="text-primary px-6 py-3.5 text-right font-medium">Free</td></tr>
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5"><strong class="text-heading">Verified, valid email delivered</strong></td><td class="text-heading px-6 py-3.5 text-right font-medium">1</td></tr>
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Sales Nav open-profile check</td><td class="text-heading px-6 py-3.5 text-right font-medium">3</td></tr>
+            <tr><td class="px-6 py-3.5">Ads / tech-stack signal</td><td class="text-heading px-6 py-3.5 text-right font-medium">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-text-default/60 mt-4 text-center text-sm">
+        That's <strong class="text-heading">$0.0024 per verified email</strong> on Starter, and
+        <strong class="text-heading">$0.0016</strong> on Growth.
+      </p>
+    </div>
+  </section>
 
-        <div class="mb-10">
-          <div class="flex justify-between text-sm text-text-default mb-2">
-            <span>10</span>
-            <span id="calc-buyers-display" class="text-white font-semibold text-lg">200</span>
-            <span>3,000</span>
+  <!-- 4. Stack tax comparison -->
+  <section class="bg-accent py-20 md:py-28">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center">
+        <h2 class="text-heading text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">What you'd stitch together otherwise</h2>
+      </div>
+      <div class="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
+        <div class="bg-theme-dark border-border-light rounded-2xl border p-8" data-aos="fade-up-sm">
+          <h3 class="font-secondary text-text-default/60 mb-6 text-center text-lg font-medium">The "cheap" stack</h3>
+          <div class="space-y-3 text-sm">
+            {[["Lead database","$49–119"],["Email verification","$20–50"],["Sending tool","$47–97"],["Warmup tool","$25–59"],["Enrichment","$49–149"]].map(([k,v]) => (
+              <div class="border-border-light/50 flex items-center justify-between border-b pb-3">
+                <span class="text-text-default/80">{k}</span><span class="text-heading font-medium">{v}</span>
+              </div>
+            ))}
           </div>
-          <input
-            type="range"
-            id="calc-slider"
-            min="10"
-            max="3000"
-            step="10"
-            value="200"
-            class="w-full h-2 rounded-full appearance-none cursor-pointer bg-border-light accent-[#D2B3F3]"
-          />
+          <div class="mt-6 rounded-xl bg-[#EF4444]/10 p-4 text-center">
+            <p class="text-sm text-[#EF4444]">Total monthly cost</p>
+            <p class="text-2xl font-bold text-[#EF4444]">$190–474<span class="text-base font-normal">/mo</span></p>
+          </div>
         </div>
-
-        <div class="grid grid-cols-2 gap-6">
-          <div class="text-center">
-            <p class="text-sm text-text-default mb-1">Credits needed</p>
-            <p id="calc-credits" class="text-2xl font-bold text-white">1,500</p>
+        <div class="bg-theme-dark border-primary/50 relative rounded-2xl border-2 p-8" data-aos="fade-up-sm" data-aos-delay="100">
+          <h3 class="font-secondary text-primary mb-6 text-center text-lg font-medium">SendEmAll</h3>
+          <div class="space-y-3 text-sm">
+            {["Verified B2B leads","Email finding + verification","Campaigns + unified inbox","Email warmup","Ads & tech-stack signals"].map((k) => (
+              <div class="border-border-light/50 flex items-center justify-between border-b pb-3">
+                <span class="text-text-default/80">{k}</span>
+                <svg class="text-primary h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </div>
+            ))}
           </div>
-          <div class="text-center">
-            <p class="text-sm text-text-default mb-1">Recommended plan</p>
-            <p id="calc-plan" class="text-2xl font-bold text-primary">Pro</p>
-          </div>
-          <div class="text-center">
-            <p class="text-sm text-text-default mb-1">Monthly cost</p>
-            <p id="calc-cost" class="text-2xl font-bold text-white">$149</p>
-          </div>
-          <div class="text-center">
-            <p class="text-sm text-text-default mb-1">Cost per buyer</p>
-            <p id="calc-per-buyer" class="text-2xl font-bold text-teal-500">$0.75</p>
+          <div class="mt-6 rounded-xl bg-primary/10 p-4 text-center">
+            <p class="text-primary text-sm">Starting at</p>
+            <p class="text-primary text-2xl font-bold">$59<span class="text-base font-normal">/mo</span></p>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
+  <!-- 5. Credit calculator -->
+  <section class="py-20 md:py-28">
+    <div class="container max-w-2xl">
+      <div class="bg-theme-dark border-border-light rounded-2xl border p-8 md:p-12" data-aos="fade-up-sm">
+        <h2 class="text-heading mb-2 text-center text-2xl md:text-3xl font-bold">Estimate your plan</h2>
+        <p class="text-text-default/70 mb-10 text-center">How many verified emails do you need per month?</p>
+        <div class="mb-10">
+          <div class="text-text-default/70 mb-2 flex justify-between text-sm">
+            <span>1,000</span>
+            <span id="calc-emails" class="text-heading text-lg font-semibold">25,000</span>
+            <span>50,000</span>
+          </div>
+          <input type="range" id="calc-slider" min="1000" max="50000" step="1000" value="25000" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="text-center"><p class="text-text-default/70 mb-1 text-sm">Recommended plan</p><p id="calc-plan" class="text-primary text-2xl font-bold">Starter</p></div>
+          <div class="text-center"><p class="text-text-default/70 mb-1 text-sm">Monthly cost</p><p id="calc-cost" class="text-heading text-2xl font-bold">$59</p></div>
+        </div>
+      </div>
+    </div>
     <script is:inline>
       (function () {
         const slider = document.getElementById("calc-slider");
-        const buyersDisplay = document.getElementById("calc-buyers-display");
-        const creditsEl = document.getElementById("calc-credits");
+        const emailsEl = document.getElementById("calc-emails");
         const planEl = document.getElementById("calc-plan");
         const costEl = document.getElementById("calc-cost");
-        const perBuyerEl = document.getElementById("calc-per-buyer");
-
-        function getPlan(credits) {
-          if (credits <= 100) return { name: "Trial", cost: 0 };
-          if (credits <= 1500) return { name: "Pro", cost: 149 };
-          if (credits <= 5000) return { name: "Business", cost: 349 };
-          if (credits <= 15000) return { name: "Scale", cost: 599 };
-          return { name: "Enterprise", cost: null };
+        function plan(n) {
+          if (n <= 25000) return { name: "Starter", cost: "$59" };
+          if (n <= 50000) return { name: "Growth", cost: "$79" };
+          return { name: "Contact us", cost: "Custom" };
         }
-
         function update() {
-          const buyers = parseInt(slider.value, 10);
-          const credits = Math.round(buyers * 7.5);
-          const plan = getPlan(credits);
-
-          buyersDisplay.textContent = buyers.toLocaleString();
-          creditsEl.textContent = credits.toLocaleString();
-          planEl.textContent = plan.name;
-
-          if (plan.cost !== null) {
-            costEl.textContent = "$" + plan.cost;
-            const perBuyer = (plan.cost / buyers).toFixed(2);
-            perBuyerEl.textContent = "$" + perBuyer;
-          } else {
-            costEl.textContent = "Custom";
-            perBuyerEl.textContent = "Custom";
-          }
+          const n = parseInt(slider.value, 10);
+          const p = plan(n);
+          emailsEl.textContent = n.toLocaleString();
+          planEl.textContent = p.name;
+          costEl.textContent = p.cost;
         }
-
         slider.addEventListener("input", update);
         update();
       })();
     </script>
   </section>
 
-  <!-- Section 5: Enterprise -->
+  <!-- 6. FAQ -->
   <section class="pb-20 md:pb-28">
     <div class="container max-w-3xl">
-      <div
-        class="bg-accent rounded-2xl p-10 md:p-14 text-center"
-        data-aos="fade-up-sm"
-      >
-        <span class="inline-block bg-primary/20 text-primary text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-6">
-          Enterprise
-        </span>
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">
-          Need more than 15,000 credits?
-        </h2>
-        <p class="text-text-default max-w-xl mx-auto mb-8">
-          Custom pricing, 150+ managed mailboxes, dedicated domains, SLA, white-glove onboarding, and a dedicated customer success manager.
-        </p>
-        <div class="flex flex-wrap justify-center gap-3 mb-10">
-          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">Custom credits</span>
-          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">150+ mailboxes</span>
-          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">Dedicated domains</span>
-          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">SLA</span>
-          <span class="bg-white/10 text-white text-sm font-medium px-4 py-2 rounded-full">White-glove onboarding</span>
-        </div>
-        <a href="/contact" class="btn btn-md btn-primary">
-          Talk to Sales
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 6: Pricing FAQ -->
-  <section class="pb-20 md:pb-28">
-    <div class="container max-w-3xl">
-      <h2
-        class="text-2xl md:text-3xl font-bold text-white text-center mb-12"
-        data-aos="fade-up-sm"
-      >
-        Frequently asked questions
-      </h2>
-
+      <h2 class="text-heading mb-12 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">Frequently asked questions</h2>
       <div class="hs-accordion-group space-y-4" data-aos="fade-up-sm" data-aos-delay="100">
-        <!-- Q1 -->
-        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-1">
-          <button
-            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
-            aria-expanded="false"
-            aria-controls="faq-1-body"
-          >
-            What counts as a credit?
-            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="faq-1-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-1">
-            <p class="px-6 pb-5 text-text-default">
-              1 credit = 1 action in the pipeline. Lead discovery costs 5 credits, signal checks cost 2, email enrichment costs 5, verification costs 1, AI personalization costs 2, and each email send costs 0.1 credits. On average, reaching one buyer costs about 7.5 credits.
-            </p>
+        {[
+          ["What counts as a credit?", "One credit equals one verified, valid email delivered to you. Scraping Apollo and Sales Navigator, and finding emails, are free. You're never charged for invalid or undeliverable results."],
+          ["How much is the sequencer?", "$99/mo, everything unlimited — seats, workspaces, sending, warmup, reply management. It's built for agencies done paying per seat. Prefer your own tool? Push your SendEmAll leads and mailboxes to Instantly, Smartlead, or PlusVibe free — no lock-in."],
+          ["Can I change plans?", "Upgrade, downgrade, or cancel anytime. Changes take effect on your next billing cycle. No contracts, no lock-in."],
+          ["What if I need more than 50,000 credits?", "Reach out and we'll sort out a plan that fits your volume."],
+          ["Do unused credits roll over?", "Credits reset monthly. Pick the plan that matches your outbound volume so nothing goes to waste."],
+          ["How much does the sending infrastructure cost?", "Mailboxes start at $1.50 per mailbox per month, with SPF, DKIM, DMARC and warmup set up for you. Domains are provided at registrar cost. See the infrastructure page for details."],
+        ].map(([q, a], i) => (
+          <div class="hs-accordion bg-theme-dark border-border-light rounded-xl border" id={`pfaq-${i}`}>
+            <button class="hs-accordion-toggle text-heading hover:text-primary flex w-full items-center justify-between px-6 py-5 text-left font-medium transition-colors" aria-expanded="false" aria-controls={`pfaq-${i}-body`}>
+              {q}
+              <svg class="hs-accordion-active:rotate-180 text-text-default h-5 w-5 shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id={`pfaq-${i}-body`} class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region">
+              <p class="text-text-default/80 px-6 pb-5">{a}</p>
+            </div>
           </div>
-        </div>
-
-        <!-- Q2 -->
-        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-2">
-          <button
-            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
-            aria-expanded="false"
-            aria-controls="faq-2-body"
-          >
-            Can I change plans?
-            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="faq-2-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-2">
-            <p class="px-6 pb-5 text-text-default">
-              Yes, upgrade or downgrade anytime. Changes take effect on your next billing cycle. No penalties, no lock-in.
-            </p>
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-3">
-          <button
-            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
-            aria-expanded="false"
-            aria-controls="faq-3-body"
-          >
-            What's the reply guarantee?
-            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="faq-3-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-3">
-            <p class="px-6 pb-5 text-text-default">
-              On Business and Scale plans, if you don't receive 50+ qualified replies within your first 90 days, we'll add bonus credits to your account. We're that confident in the platform.
-            </p>
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-4">
-          <button
-            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
-            aria-expanded="false"
-            aria-controls="faq-4-body"
-          >
-            Is there a contract?
-            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="faq-4-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-4">
-            <p class="px-6 pb-5 text-text-default">
-              No contracts. Monthly billing, cancel anytime. We earn your business every month.
-            </p>
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-5">
-          <button
-            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
-            aria-expanded="false"
-            aria-controls="faq-5-body"
-          >
-            What happens when I run out of credits?
-            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="faq-5-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-5">
-            <p class="px-6 pb-5 text-text-default">
-              Enable pay-as-you-go overage to keep your campaigns running without interruption, or upgrade to a higher plan for a better per-credit rate.
-            </p>
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div class="hs-accordion bg-theme-dark border border-border-light rounded-xl" id="faq-6">
-          <button
-            class="hs-accordion-toggle py-5 px-6 w-full flex justify-between items-center text-left text-white font-medium hover:text-primary transition-colors"
-            aria-expanded="false"
-            aria-controls="faq-6-body"
-          >
-            Do unused credits roll over?
-            <svg class="hs-accordion-active:rotate-180 shrink-0 w-5 h-5 text-text-default transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div id="faq-6-body" class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region" aria-labelledby="faq-6">
-            <p class="px-6 pb-5 text-text-default">
-              Credits reset monthly. We recommend choosing a plan that matches your outbound volume so nothing goes to waste.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="mt-8 text-center">
-        <a href="/faq" class="text-primary hover:text-primary/80 font-medium transition">
-          See all FAQs →
-        </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Section 7: CTA -->
+  <!-- 7. CTA -->
   <section class="pb-20 md:pb-28">
     <div class="container text-center">
-      <h2
-        class="text-3xl md:text-4xl font-bold text-white mb-6"
-        data-aos="fade-up-sm"
-      >
-        Ready to simplify your outbound?
+      <h2 class="text-heading mb-6 text-3xl md:text-4xl font-bold has-italic-text" data-aos="fade-up-sm">
+        Ready to reach <strong class="font-tertiary italic">verified buyers?</strong>
       </h2>
-      <div
-        class="flex flex-col sm:flex-row gap-4 justify-center"
-        data-aos="fade-up-sm"
-        data-aos-delay="100"
-      >
-        <a href="/services/free-leads" class="btn btn-md btn-primary">
-          Get Access
-        </a>
-        <a href="/contact" class="btn btn-md btn-outline-primary">
-          Book a Demo
-        </a>
+      <div class="flex flex-col justify-center gap-4 sm:flex-row" data-aos="fade-up-sm" data-aos-delay="100">
+        <a href={APP} class="btn btn-md btn-primary">Create your account</a>
+        <a href="/contact" class="btn btn-md btn-outline-primary">Talk to us</a>
       </div>
     </div>
   </section>
   <script type="application/ld+json" set:html={pricingSchema} />
 </Base>
-
