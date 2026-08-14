@@ -6,8 +6,8 @@
 
 - SendEmAll scrapes B2B prospect data from Apollo and LinkedIn Sales Navigator (customers connect their own accounts), finds decision-maker emails, and verifies them before delivery.
 - Billing anchor: 1 credit = 1 verified, valid email delivered. You are never charged for invalid or undeliverable results. Scraping, email finding, and verification are included at no extra credit cost.
-- The sequencer — multi-step campaigns, a unified inbox, and email warmup — is free.
-- No lock-in: push your leads and mailboxes into any sequencer (Instantly, Smartlead, PlusVibe, Lemlist, Woodpecker) free of charge, or use SendEmAll's own.
+- The sequencer — multi-step campaigns, a unified inbox, and email warmup — is $99/mo with unlimited seats, workspaces, and sending.
+- No lock-in: push your leads and mailboxes to Instantly, Smartlead, or PlusVibe free of charge, export CSV for any other tool, or use SendEmAll's own sequencer.
 - Sending infrastructure (mailboxes and domains, with SPF/DKIM/DMARC and warmup) is available done-for-you, starting at $1.50 per mailbox per month; domains at registrar cost.
 
 ## Pricing

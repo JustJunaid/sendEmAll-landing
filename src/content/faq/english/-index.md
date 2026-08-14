@@ -24,7 +24,7 @@ list:
       - active: false
         title: "Do I have to use your sequencer?"
         content: |
-          No. Use our built-in sequencer — $99/mo with unlimited seats and workspaces — or push your verified leads and connected mailboxes straight into Instantly, Smartlead, Lemlist, Woodpecker, PlusVibe, or EmailBison. Pushing them out is free. No lock-in.
+          No. Use our built-in sequencer — $99/mo with unlimited seats and workspaces — or push your verified leads and connected mailboxes straight into Instantly, Smartlead, or PlusVibe for free. For any other tool, export a clean CSV. No lock-in.
   - label: "How It Compares"
     list:
       - active: false
@@ -49,6 +49,10 @@ list:
         title: "What counts as a credit?"
         content: |
           1 credit = 1 valid, verified email delivered to your list. Scraping, finding and verification are bundled in — you're never charged for invalid or undeliverable results.
+      - active: false
+        title: "What if the leads bounce?"
+        content: |
+          Under 3% bounce on the leads we provide, or we refund your first month. The guarantee covers leads sourced and verified by SendEmAll — not lists you upload — so it's a real promise, not fine print.
       - active: false
         title: "How much is the sequencer?"
         content: |
@@ -78,7 +82,7 @@ list:
       - active: false
         title: "Do you support email personalization?"
         content: |
-          Yes. Variable substitution (first name, company, etc.), Spintax for dynamic variations, and AI-generated personalization based on company research.
+          Yes. Variable substitution (first name, company, etc.) and Spintax for dynamic variations.
       - active: false
         title: "Can I use my own sending domain?"
         content: |
