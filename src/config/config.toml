@@ -50,7 +50,6 @@
 
 [settings]
   blogFolder        = "blog"
-  integrationFolder = "integration"
 
   pagination   = 9
   stickyHeader = true

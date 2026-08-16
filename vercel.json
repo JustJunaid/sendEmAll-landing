@@ -45,7 +45,14 @@
     { "source": "/use-cases/saas", "destination": "/", "permanent": true },
     { "source": "/use-cases/startups", "destination": "/", "permanent": true },
     { "source": "/use-cases/consultants", "destination": "/", "permanent": true },
-    { "source": "/use-cases/recruiters", "destination": "/", "permanent": true }
+    { "source": "/use-cases/recruiters", "destination": "/", "permanent": true },
+    { "source": "/integration/apollo", "destination": "/tools/apollo-scraper", "permanent": true },
+    { "source": "/integration/sales-navigator", "destination": "/tools/sales-navigator-scraper", "permanent": true },
+    { "source": "/integration/google-workspace", "destination": "/mailboxes", "permanent": true },
+    { "source": "/integration/instantly-compat", "destination": "/compare/instantly", "permanent": true },
+    { "source": "/integration/lemlist", "destination": "/compare/lemlist", "permanent": true },
+    { "source": "/integration/clay", "destination": "/compare/clay", "permanent": true },
+    { "source": "/integration/:slug*", "destination": "/leads", "permanent": true }
   ],
   "headers": [
     {
