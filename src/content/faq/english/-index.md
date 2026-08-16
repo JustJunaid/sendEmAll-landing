@@ -82,7 +82,7 @@ list:
       - active: false
         title: "Do you support email personalization?"
         content: |
-          Yes. Variable substitution (first name, company, etc.) and Spintax for dynamic variations.
+          Yes. Variable substitution (first name, company, etc.) and Spintax live in the sequencer. AI personalization happens on the leads side: signal-based drafts written per lead — referencing the hiring, funding, or tech signals that made them a match — and pushed in with your list.
       - active: false
         title: "Can I use my own sending domain?"
         content: |
