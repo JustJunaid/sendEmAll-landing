@@ -36,14 +36,13 @@ let {
 
 const { class: className, width = "sm", ...rest } = Astro.props;
 
-let duplicatedList = list;
-
-// If list length is less then 3 then duplicate the list at at least 3 times
-if (list.length <= 3) {
-  Array.from({ length: 3 }, () => [...list]).flat();
-} else if (list.length > 3) {
-  Array.from({ length: 2 }, () => [...list]).flat();
-}
+// The marquee renders this list TWICE and animates by exactly ONE copy's width,
+// so a copy narrower than its container leaves a visible gap mid-loop. Repeat the
+// source list until one copy is comfortably wider than the widest container.
+// (The template's original version computed this and discarded the result, so the
+// list was never actually repeated — that's what produced the clipped logo.)
+const repeatCount = list.length <= 3 ? 4 : list.length <= 6 ? 3 : 2;
+const duplicatedList = Array.from({ length: repeatCount }, () => list).flat();
 ---
 
 {
@@ -72,8 +71,9 @@ if (list.length <= 3) {
               marqueeElementWidthResponsive={
                 marquee.elementWidthInSmallDevices
               }>
-              {duplicatedList.map((item) => (
+              {duplicatedList.map((item, idx) => (
                 <div
+                  aria-hidden={idx >= list.length ? "true" : undefined}
                   class:list={[
                     "px-4",
                     {
@@ -99,6 +99,7 @@ if (list.length <= 3) {
               ))}
               {duplicatedList.map((item) => (
                 <div
+                  aria-hidden="true"
                   class:list={[
                     "px-4",
                     {
