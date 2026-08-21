@@ -6,18 +6,18 @@ interface Props {
 }
 
 const {
-  title = "Get Access to SendEmAll",
-  description = "Tell us which products interest you and we'll reach out with early access details.",
-  submitLabel = "Get Access",
+  title = "Tell us what you're solving",
+  description = "Pick what you're here for and send us the details. We'll come back with a straight answer, not a drip sequence.",
+  submitLabel = "Send message",
 } = Astro.props;
 
 const formId = "product-interest-form";
 
 const products = [
-  "Cold Email Platform",
-  "Email Warmup",
-  "Email Verification",
-  "Email Finder",
+  "Leads & verification",
+  "Mailboxes & deliverability",
+  "Sequencer",
+  "Agency / multi-client setup",
   "Everything",
 ];
 ---
@@ -80,7 +80,7 @@ const products = [
       <!-- Products (checkboxes) -->
       <div>
         <p class="mb-3 text-sm font-medium text-text-default">
-          Which products interest you? <span class="text-primary">*</span>
+          What are you here about? <span class="text-primary">*</span>
         </p>
         <div class="space-y-2">
           {products.map((product) => (
@@ -140,9 +140,9 @@ const products = [
         <polyline points="20 6 9 17 4 12"></polyline>
       </svg>
     </div>
-    <h3 class="mb-2 text-xl font-bold text-heading">You're on the list.</h3>
+    <h3 class="mb-2 text-xl font-bold text-heading">Message received.</h3>
     <p class="text-text-default">
-      We'll reach out with early access details as soon as your spot is ready.
+      We'll get back to you within one business day. In the meantime, you can create your account and start straight away.
     </p>
   </div>
 

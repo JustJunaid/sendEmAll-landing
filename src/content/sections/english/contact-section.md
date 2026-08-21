@@ -1,7 +1,7 @@
 ---
 enable: true # Control the visibility of this section across all pages where it is used
-title: "Contact Us for More **Information**"
-description: "Whether you're seeking expert assistance, our dedicated team is prepared to support you every step of the way."
+title: "Talk to the team **behind the platform**"
+description: "Questions about deliverability, data coverage, agency workspaces, or migrating from your current stack? Ask us directly — you'll get a straight answer from someone who runs outbound, usually within one business day."
 subtitle: "Contact"
 
 contactList:

@@ -27,7 +27,7 @@ const sources = [
   },
   {
     k: "Describe your ICP in plain English",
-    v: "Type who you want in one sentence. See a live per-filter match-rate and a leakage report — before you spend a single credit.",
+    v: "Type who you want in one sentence. See a live per-filter match rate — and exactly which filters drop good leads — before you spend a single credit.",
     icon: '<path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/>',
   },
 ];
@@ -61,6 +61,9 @@ const signals = [
         <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Start finding buyers", url: APP }} />
         <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "/pricing" }} />
       </div>
+      <p class="text-text-default/80 mx-auto mt-6 max-w-xl text-sm" data-aos="fade-up-sm" data-aos-delay="250">
+        <span class="text-primary mr-1.5 font-semibold">&#10003;</span> Under 3% bounce on the leads we provide, or we refund your first month.
+      </p>
       <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="300">
         <img
           src="/images/product/leads-table.svg"
