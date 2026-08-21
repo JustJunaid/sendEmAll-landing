@@ -178,6 +178,22 @@ const products = [
     }
     const referrerEl = form.querySelector<HTMLInputElement>('[name="referrer"]');
     if (referrerEl) referrerEl.value = document.referrer;
+
+    // Deep links like /contact?topic=agency arrive from a specific CTA — preselect
+    // the matching option so the visitor doesn't re-state what they just clicked.
+    const TOPIC_MATCH: Record<string, string> = {
+      agency: "Agency / multi-client setup",
+      leads: "Leads & verification",
+      mailboxes: "Mailboxes & deliverability",
+      sequencer: "Sequencer",
+    };
+    const topic = params.get("topic");
+    if (topic && TOPIC_MATCH[topic]) {
+      const box = form.querySelector<HTMLInputElement>(
+        `[data-product][value="${TOPIC_MATCH[topic]}"]`,
+      );
+      if (box) box.checked = true;
+    }
     const landingEl = form.querySelector<HTMLInputElement>('[name="landing_page"]');
     if (landingEl) landingEl.value = window.location.href;
 

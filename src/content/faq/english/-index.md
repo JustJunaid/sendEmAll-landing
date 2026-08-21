@@ -50,6 +50,10 @@ list:
         content: |
           1 credit = 1 valid, verified email delivered to your list. Scraping, finding and verification are bundled in — you're never charged for invalid or undeliverable results.
       - active: false
+        title: "Can I try it before I pay?"
+        content: |
+          Yes. Every new account starts with 500 free credits, no card required — enough to pull 500 verified emails from our 66M-contact lake, or to test verification, the email finder, decision-maker lookup, and buying signals. Scraping your own Apollo or Sales Navigator account runs on a dedicated residential IP reserved for you, so that part starts with a paid plan.
+      - active: false
         title: "What if the leads bounce?"
         content: |
           Under 3% bounce on the leads we provide, or we refund your first month. The guarantee covers leads sourced and verified by SendEmAll — not lists you upload — so it's a real promise, not fine print.
