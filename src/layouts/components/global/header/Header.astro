@@ -126,7 +126,10 @@ const {
   </div>
 </header>
 <script>
-  import { HSDropdown } from "preline";
+  // Subpath, not the barrel: `from "preline"` pulls the whole 382 KB library
+  // (27 plugins) onto every page for one autoInit. GlobalScripts already loads
+  // this same chunk lazily, so Rollup dedupes them into one shared module.
+  import HSDropdown from "preline/dist/dropdown.mjs";
 
   if (
     [".hs-dropdown", "[data-hs-dropdown]"].some((selector) =>
