@@ -17,6 +17,16 @@ services:
       LINKEDIN_CLIENT_SECRET: '${LINKEDIN_CLIENT_SECRET}'
       # Flip to 'true' after you create your admin account so nobody else can register
       DISABLE_REGISTRATION: '${DISABLE_REGISTRATION:-false}'
+    volumes:
+      # 2026-08-21: upstream's personal-LinkedIn provider started requesting org scopes
+      # (r_basicprofile + rw_organization_admin + w/r_organization_social) our app doesn't
+      # have -> unauthorized_scope_error on connect. patches/linkedin.provider.js is the
+      # stock file with scopes reverted to the four our app authorizes (openid profile
+      # email w_member_social). Mounted over both dist copies so it survives image pulls.
+      # Remove once the LinkedIn app gets Community Management API approval (or upstream
+      # makes org scopes optional). Page posting ("LinkedIn Page") still needs org scopes.
+      - ./patches/linkedin.provider.js:/app/apps/backend/dist/libraries/nestjs-libraries/src/integrations/social/linkedin.provider.js:ro
+      - ./patches/linkedin.provider.js:/app/apps/orchestrator/dist/libraries/nestjs-libraries/src/integrations/social/linkedin.provider.js:ro
 
   caddy:
     image: caddy:2-alpine

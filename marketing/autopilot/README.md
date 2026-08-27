@@ -4,7 +4,7 @@ The weekly pipeline. Generation is a Claude agent following [`generate.md`](gene
 analytics are the scripts in `scripts/`. Review happens in a PR. Nothing auto-publishes.
 
 ## One-time setup
-1. **Postiz up + channels connected** (see `../postiz/DEPLOY.md`). Create the new accounts first:
+1. **Postiz up + channels connected** (see `../infra/DEPLOY.md`). Create the new accounts first:
    SendEmAll company X, Sadiya X. Connect each in Postiz (X = paid API now — fund it).
 2. **API key:** in Postiz → Settings → Public API, generate a key. Copy `.env.example` → `.env` and set
    `POSTIZ_API_KEY` (+ `POSTIZ_URL`). `.env` is gitignored.

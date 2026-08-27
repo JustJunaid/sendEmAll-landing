@@ -1,39 +1,67 @@
-# SendEmAll GTM autopilot
+# marketing/
 
-One place where **what we ship** turns into **social posts + landing copy**, on a weekly cadence,
-with a human review gate. The goal: ~30 min/week to keep social, the site, and the product in sync.
+Everything for the SendEmAll social vertical. **Start here, go one level deep, stop.**
 
-```
-ships.md ──► weekly Claude agent ──► ONE PR ──► you review ~30min ──► merge ──┬─► Postiz API (schedules social)
-(what        reads ships + voices    · social posts / channel                 └─► changelog + A/B copy (site deploy)
- shipped)    + last week's analytics  · changelog entries                          │
-    ▲                                  · ONE A/B copy variant (sequential)          │
-    │                                  · 1 evergreen post (rotates old features)    │
-    └──────────────── analytics loop: Postiz engagement + A/B result feeds next week ◄┘
-```
+## The four files that matter
 
-## Folder map
-
-| Path | What |
+| File | The one question it answers |
 |---|---|
-| `ships.md` | **Source of truth** — what shipped. Auto-drafted from PR titles, you edit. Feeds both social + the site changelog. |
-| `social/` | Voice playbooks (per persona) + hooks bank + calendar. Colocated from the old `~/Desktop/sendemall/social`. |
-| `postiz/` | Self-hosted Postiz deploy config (the scheduler). See `postiz/DEPLOY.md`. |
-| `autopilot/` | The weekly pipeline: the generation brief, channel config, and the publish/analytics scripts. |
-| `analytics/` | Weekly engagement + A/B results pulled back from Postiz (closes the loop). |
-| `HANDOFF.md` | Open items + setup steps to go fully live. |
+| **[OPERATIONS.md](OPERATIONS.md)** | What do we do this week, and how do we know it worked? |
+| **[content/standard.md](content/standard.md)** | Is this post good enough to publish? |
+| **[content/voices.md](content/voices.md)** | Who writes what, and in whose voice? |
+| **[STATE.md](STATE.md)** | What is live right now, and what is broken? |
 
-## The loop in one paragraph
+Everything else is either the machine that schedules posts, the content itself, or history.
 
-Every week a Claude agent (scheduled via `/schedule`, or run by hand) follows
-[`autopilot/generate.md`](autopilot/generate.md): it reads the new `ships.md` entries, the voice
-playbooks, and last week's `analytics/`, then drafts the week's posts (one file per week under
-`autopilot/output/`), plus a changelog entry and **one** landing A/B copy variant — all in a single
-branch/PR. You review the PR, edit or delete drafts, and merge. On merge,
-`autopilot/scripts/publish.mjs` schedules the **approved** posts into Postiz, and the changelog/copy
-changes deploy with the site. Mid-week, `pull-analytics.mjs` writes results into `analytics/` so next
-week's drafts learn from what worked.
+## Layout
 
-Excluded from the Astro build automatically — Astro only builds `src/`, so this whole folder ships nowhere.
+```
+OPERATIONS.md    cadence · weekly loop · measurement · decision rules
+STATE.md         live ops state — connected channels, blockers, corrections log
+CALENDAR.md      GENERATED. Never hand-edit. Rebuild from posts.json.
 
-See [`autopilot/README.md`](autopilot/README.md) to run it, and [`HANDOFF.md`](HANDOFF.md) for what's left to wire.
+content/
+  standard.md    every copy rule, including openings. The linter enforces it.
+  voices.md      personas, territories, channel doctrine
+  claims.md      claim ledger (30-day cooldown) + the NEVER PUBLISH list
+  moments.md     two ugly lines a day. Story posts may only be written from this.
+  funnel.md      UTM scheme + what is and is not measurable
+
+autopilot/       the machine
+  channels.json  which accounts exist, their voice and cadence
+  generate.md    the drafting brief
+  scripts/       lint · publish · build-calendar · list-channels · pull-analytics
+  output/        posts.json per week — THE SOURCE OF TRUTH for post text
+
+infra/           the self-hosted Postiz droplet (deploy, compose, patches)
+analytics/       weekly pulls, written by pull-analytics.mjs
+```
+
+## The three commands
+
+```bash
+# 1. Check a batch against the standard. Run before anyone reads it.
+node autopilot/scripts/lint-posts.mjs autopilot/output/week-2026-08-31 autopilot/output/week-2026-09-07
+
+# 2. Prove the linter still works (20 cases incl. negative controls).
+node autopilot/scripts/lint-posts.mjs --self-test
+
+# 3. Schedule approved posts. Runs the linter itself and refuses to publish on any error.
+node autopilot/scripts/publish.mjs autopilot/output/week-2026-08-31
+```
+
+Regenerate the human-readable calendar after any edit to `posts.json`:
+
+```bash
+node autopilot/scripts/build-calendar.mjs CALENDAR.md autopilot/output/week-*
+```
+
+## Two rules that are not negotiable
+
+**`posts.json` is the source of truth.** `CALENDAR.md` is generated from it. Edit the JSON and
+re-run the builder — never hand-edit post text in the calendar. The two drifted twice before the
+generator existed.
+
+**Nothing publishes that the linter rejects.** The gate is in `publish.mjs`, not in someone's
+memory. `SKIP_LINT=1` overrides it, prints a loud warning, and should be rare enough that using it
+feels wrong.

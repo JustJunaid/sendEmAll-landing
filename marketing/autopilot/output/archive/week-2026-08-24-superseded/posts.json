@@ -1,0 +1,179 @@
+[
+  {
+    "channel": "junaid-x",
+    "voice": "voice-junaid",
+    "content": "Spent two months heads-down building the thing we kept complaining about:\n\nlead list, verification, mailboxes, sending — one place, actually talking to each other.\n\nBack now. Shipping weekly. I'll share numbers as we go — good and bad.",
+    "date": "2026-08-24T13:00:00.000Z",
+    "source": "category:building-in-public",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-li",
+    "voice": "voice-sadiya",
+    "needsConfirmation": true,
+    "content": "A founder showed me his campaign dashboard last week.\n\n11,000 emails sent. 9 replies. 6 of them said \"unsubscribe.\"\n\nHe'd already rewritten his sequence four times. New subject lines, new CTAs, new send windows. Nothing moved.\n\nSo I asked: who's actually on this list?\n\nThe answer: a database export, filtered by job title. 11,000 people whose only shared trait was a word in their headline.\n\nWhen a campaign fails, everyone audits the copy. Almost nobody audits the list.\n\nWe spent a week rebuilding his targeting around buying signals — companies actively hiring for sales roles, fresh funding, new CRM in the stack. The list shrank to 700. He hated how small it looked.\n\nThen the replies started. 23 in the first week. Real conversations, not unsubscribes.\n\nThe copy was never the problem. The list was.\n\nIf your reply rate has been flat for months: what would you find if you audited your list the way you audit your copy? 👇",
+    "date": "2026-08-24T14:00:00.000Z",
+    "source": "ship:2026-07-25",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "content": "A row in a database is not a potential buyer.\n\nA company that raised a round, posted 3 SDR roles, and just added Salesforce — that's a potential buyer.\n\nSame job title. But now you have something real to say — and the reply rate shows it.\n\nSignal beats spray.",
+    "date": "2026-08-24T16:00:00.000Z",
+    "source": "ship:2026-07-25",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-li",
+    "voice": "voice-brand",
+    "blockedOnLinkedInPageApproval": true,
+    "content": "Three DNS records decide whether your cold email reaches an inbox. Here's what each one does — and the specific mistake that breaks it.\n\nSPF — Sender Policy Framework\nTells providers which servers may send as your domain.\nCommon mistake: publishing more than one SPF record. You get exactly one. Two means both fail.\n\nDKIM — DomainKeys Identified Mail\nAdds a signature proving the message wasn't altered in transit.\nCommon mistake: configuring it on the primary domain but not the sending domains. Every domain signs for itself.\n\nDMARC — Domain-based Message Authentication, Reporting and Conformance\nThis is the one most explainers get wrong. DMARC does not trigger when SPF or DKIM fails. It passes as long as ONE of them passes and aligns with the domain in your From: address. The policy only applies when both fail.\nThat alignment requirement is what usually breaks when you send through a third-party platform.\nCommon mistake: publishing p=none with no rua address, so no reports are ever generated — or setting rua and never opening one. Either way you've built a monitor nobody watches.\n\nOn urgency, honestly: the headline thresholds are consumer-scoped — 5,000 messages a day to personal Gmail. Most B2B cold email never touches them. The direction of travel is what matters. Unauthenticated mail is treated as suspicious by default at corporate Workspace and M365 tenants too.\n\nNone of this improves your reply rate. It only decides whether you get to have one.\n\nIf you can't say with certainty that all three are right on every sending domain, that's an hour well spent this week — or two minutes with a free checker. Ours is on the site under Free tools, no signup.",
+    "date": "2026-08-25T13:00:00.000Z",
+    "source": "evergreen:deliverability",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "junaid-x",
+    "voice": "voice-junaid",
+    "content": "A one-rep outbound stack in 2026: data tool, sequencer, verifier, warmup, mailboxes, domains.\n\nSix subscriptions. Five dashboards. None of them talk.\n\nYou're not paying for tools. You're paying to be their integration layer.\n\nThe tool was never the expense. The stack is.",
+    "date": "2026-08-25T16:00:00.000Z",
+    "source": "ship:2026-07-20",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-x",
+    "voice": "voice-sadiya",
+    "content": "My favorite kind of cold-email reply:\n\n\"How did you know we were looking?\"\n\nYou only get it when the list comes from signals — fresh funding, new roles, new tools — not a title filter.\n\nTiming reads as magic. It's just paying attention.\n\nWhat's the best reply you've ever gotten?",
+    "date": "2026-08-25T18:00:00.000Z",
+    "source": "ship:2026-07-25",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "content": "A field mapping shifts. A suppression list doesn't sync. A mailbox drops out of warmup and nobody notices for a week.\n\nFive tools means four handoffs. Every handoff fails silently.\n\nFragmentation isn't just expensive. It's fragile.",
+    "date": "2026-08-25T21:00:00.000Z",
+    "source": "ship:2026-07-20",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "content": "1 bad address per 500 marked \"valid.\"\n\nThat's our verification's false-positive rate: 0.20%.\n\nCatch-alls? Labeled, and free — you shouldn't pay for a maybe.\n\nDeliverability isn't a warmup trick. It starts with data that's actually clean.",
+    "date": "2026-08-26T13:00:00.000Z",
+    "source": "evergreen:email-verifier",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-li",
+    "voice": "voice-sadiya",
+    "needsConfirmation": true,
+    "content": "I watched a client burn a 14-month-old domain in 9 days.\n\nNot with spam. With a \"clean\" list they bought from a reputable-sounding vendor.\n\nHere's what actually happened:\n\nDay 1-3: campaign starts. 7% of emails bounce. Nobody notices — the dashboard shows \"delivered: 93%,\" and that sounds fine.\n\nDay 4-6: Google notices. A domain that suddenly hits thousands of dead mailboxes looks exactly like a spammer warming up. Open rates quietly halve.\n\nDay 7-9: even replies to REAL conversations start landing in spam. The domain is cooked — including for the deals already in flight.\n\nThe lesson that stuck with me: deliverability doesn't fail loudly. It fails silently, while your dashboard says everything's fine.\n\nThe three numbers I now check before any list goes near a sending domain:\n\n→ Bounce rate on a test slice — over 3% and the list doesn't get sent. Period.\n→ Catch-all percentage — these \"deliver\" but tell you nothing. They get their own careful lane.\n→ How old the data is — people change jobs every 18-24 months. A 6-month-old list is a coin flip.\n\nA burned domain takes months to rebuild. Checking those three numbers takes an afternoon.\n\nHave you ever lost a domain to a bad list? What did it cost you? 👇",
+    "date": "2026-08-26T14:00:00.000Z",
+    "source": "evergreen:deliverability",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "junaid-x",
+    "voice": "voice-junaid",
+    "content": "We started ranking leads by buying-signal strength instead of just ICP match.\n\nEarly cohort, same copy, same mailboxes:\n\nGeneric ICP list: 0.9% reply rate\nSignal-qualified list: 3.4%\n\nNearly 4x. The only variable was WHO.\n\nFix who you email before you touch a word of the copy.",
+    "date": "2026-08-26T21:00:00.000Z",
+    "source": "ship:2026-07-25",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "junaid-x",
+    "voice": "voice-junaid",
+    "content": "Every AI SDR demo automates the same mistake:\n\nbeautifully personalized emails to people who were never going to buy.\n\nThat's not intelligence. It's spray and pray with better grammar.\n\nFix the input first. The targeting IS the product.",
+    "date": "2026-08-27T13:00:00.000Z",
+    "source": "category:hooks",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-x",
+    "voice": "voice-sadiya",
+    "content": "My proudest week, early in outbound:\n\nthousands of emails sent, hundreds of new contacts added.\n\nReply rate: under 1%. Mostly \"remove me.\"\n\nActivity looks like progress right up until you check replies.\n\nWhat's the emptiest metric you've ever reported as a win?",
+    "date": "2026-08-27T16:00:00.000Z",
+    "source": "category:hooks",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-li",
+    "voice": "voice-brand",
+    "blockedOnLinkedInPageApproval": true,
+    "content": "Email warmup is the most misunderstood part of cold outbound. Here's what it actually does.\n\nA new mailbox has no sending history. To Google and Microsoft, a brand-new address that suddenly sends 200 emails looks identical to a compromised account. So they filter it.\n\nWarmup builds the missing history. It has two halves, and you need both:\n\n1. An engagement network\nBusiness-like conversations between mailboxes in a managed pool — messages sent, opened, and replied to. This establishes that mail from your domain gets engaged with rather than ignored or marked as spam.\n\n2. A gradual ramp of real sends\nA couple of emails per mailbox per day at the start, climbing over weeks toward normal volume. The ramp matters as much as the network, because reputation is built by a pattern over time, not by a burst.\n\nThree things teams get wrong:\n\n→ Treating warmup as a phase. It isn't. Switch it off after six months and reputation starts decaying. It runs permanently.\n\n→ Skipping it because the domain is old. Domain age and mailbox sending history are different things. A fresh mailbox on a five-year-old domain still needs the ramp.\n\n→ Ramping fast because the campaign has a deadline. Providers are indifferent to your quarter.\n\nThe honest summary: reputation is a pattern, not a setting. Warmup is how you build the pattern before you need it.",
+    "date": "2026-08-27T16:00:00.000Z",
+    "source": "evergreen:warmup",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "content": "Unpopular product decision: exporting your data OUT of our platform is free.\n\nYour buyer lists → Instantly, Smartlead, wherever. Your mailboxes → yours to point anywhere.\n\nLock-in is what you build when you're not sure the product is enough.\n\nWe'd rather you stay by choice.",
+    "date": "2026-08-27T21:00:00.000Z",
+    "source": "evergreen:no-lock-in",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-li",
+    "voice": "voice-sadiya",
+    "needsConfirmation": true,
+    "content": "I timed my Monday morning routine last month. It hurt.\n\n8:30 — Export new contacts from the data tool\n8:50 — Clean the CSV (dedupe, fix formatting, remove the obvious junk)\n9:40 — Run it through verification, wait, download again\n10:10 — Upload to the sequencer, re-map the same fields as every week\n10:30 — Check warmup dashboards across mailboxes\n11:00 — First actual email goes out\n\nTwo and a half hours. Every Monday. Just moving data between tools that don't talk to each other.\n\nThat's not outbound. That's unpaid systems integration.\n\nAnd here's what it cost beyond the time: every handoff between tools is a place where things silently break. The verified list that didn't sync. The field mapping that shifted. The mailbox that dropped out of warmup and nobody saw.\n\nI used to think this was just what the job was. Assembly required, forever.\n\nIt took me embarrassingly long to ask: why am I the API between five products?\n\nThe teams I see winning right now aren't better at juggling five tools. They've stopped juggling.\n\nWhat's the most time you lose each week to moving data between tools? Genuinely curious what the worst routine out there looks like 👇",
+    "date": "2026-08-28T14:00:00.000Z",
+    "source": "ship:2026-07-20",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "content": "How domains actually get burned:\n\n1. Scraped list, never verified\n2. 8% of it bounces\n3. Google flags the domain\n4. Everything after lands in spam — even the good sends\n\nBad data doesn't waste sends. It poisons the domain you warmed for months.\n\nVerify first.",
+    "date": "2026-08-28T16:00:00.000Z",
+    "source": "evergreen:deliverability",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sendemall-li",
+    "voice": "voice-brand",
+    "blockedOnLinkedInPageApproval": true,
+    "content": "The math that quietly kills outbound agencies:\n\nYou sign a client at $2,500/mo. Then you provision for them — and per-seat, per-workspace pricing means those costs scale with the exact thing you're trying to grow.\n\nTen clients means ten workspaces. Hire a strategist and every tool bills you again for the seat.\n\nYou end up where no service business wants to be: cost of delivery rising in lockstep with revenue, so margin stays flat no matter how well you sell.\n\nTwo ways out:\n\n→ Productize delivery, so onboarding a client is configuration rather than construction.\n→ Move to tooling that doesn't tax headcount or client count.\n\nOn the second, our position: the seat and workspace tax goes to zero. Your eleventh workspace costs the same as your first.\n\nTo be straight about the rest — data credits and mailboxes still scale with client count, because those are real per-client costs. What disappears is the tax on adding a human.\n\nIf you run outbound for clients: what does tooling cost you per client per month, and does that number fall as you grow?",
+    "date": "2026-08-28T18:00:00.000Z",
+    "source": "evergreen:sequencer",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "junaid-x",
+    "voice": "voice-junaid",
+    "content": "Pricing rule I forced into our platform: 1 credit = 1 valid email.\n\nBounces: free.\nCatch-alls: free, and labeled.\n\nIf we sell you junk data, WE eat the cost. That one constraint changed how we built everything upstream.\n\nWild how rare \"aligned incentives\" is in data tools.",
+    "date": "2026-08-29T16:00:00.000Z",
+    "source": "evergreen:pricing",
+    "status": "proposed",
+    "postId": null
+  },
+  {
+    "channel": "sadiya-x",
+    "voice": "voice-sadiya",
+    "content": "Honest question for people running cold email:\n\nDo you actually know your bounce rate from last month?\n\nNot open rate. Not \"delivered.\" Bounces.\n\nI ask because every burned domain I've helped fix started the same way — nobody was watching that one number.",
+    "date": "2026-08-30T16:00:00.000Z",
+    "source": "evergreen:deliverability",
+    "status": "proposed",
+    "postId": null
+  }
+]

@@ -1,0 +1,343 @@
+[
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "date": "2026-08-27T18:05:00.000Z",
+    "skeleton": "taxonomy",
+    "territory": "data-quality",
+    "claims": [
+      "verified-means-four-things"
+    ],
+    "content": "\"Verified\" on an invoice can mean four different things.\n\nThe mailbox exists. The domain accepts anything sent to it. It's a shared inbox nobody reads. Or it was checked once at some unspecified point in the past.\n\nOne of those is worth paying for."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sadiya-x",
+    "voice": "sadiya",
+    "date": "2026-08-27T19:30:00.000Z",
+    "skeleton": "teardown",
+    "territory": "targeting-data",
+    "claims": [
+      "unreachable-but-matching-segment"
+    ],
+    "content": "Every list has a segment that costs more than it returns: companies that match perfectly and have no reachable buyer.\n\nFounders who read nothing. A shared inbox as the only address. Decision-makers with no LinkedIn presence at all.\n\nEvery filter passes them through."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "naved-li",
+    "voice": "naved",
+    "date": "2026-08-27T21:00:00.000Z",
+    "skeleton": "data-drop",
+    "territory": "multichannel",
+    "claims": [
+      "linkedin-email-capacity-mismatch"
+    ],
+    "content": "If you're adding LinkedIn to an email sequence, the capacity maths works differently from email, and cost is where the difference lands.\n\nEmail scales cheaply. Ten mailboxes give you ten mailboxes' worth of daily sends at a couple of dollars each.\n\nLinkedIn scales too. You can run several accounts and every serious tool supports it, but each one needs a seat, a real person attached to it, and its own dedicated IP if you want it to last. That is a different order of expense per unit of throughput.\n\nThe per-account ceiling is also weekly rather than daily, and no subscription lifts it. LinkedIn's own help pages say all members, Basic and Premium alike, are subject to the same invitation limits, and that you cannot buy more.\n\nNow the part people get wrong. The risk in running several accounts has nothing to do with pointing them at the same audience. Every sales team on earth has five reps working one ICP, and LinkedIn would be restricting most of its paying customers if that were the trigger.\n\nTwo things actually cause damage.\n\nOne person receiving a connection request from two of your identities. From their side that reads as spam rather than scale, and it is the shortest path to being reported by someone who was interested.\n\nIdentical message text going out on identical timing across accounts. That is the automation signature, because it is the one thing several humans running the same playbook would never produce.\n\nBoth are solvable and the fix is the same in any tool worth using: pin a prospect to a single account for the whole sequence, and let each account keep its own pacing rather than firing in lockstep.\n\nGet those two right and a second account buys you real throughput. Get them wrong and it buys you a faster way to burn two accounts instead of one."
+  },
+  {
+    "status": "proposed",
+    "postId": null,
+    "channel": "sendemall-li",
+    "voice": "voice-brand",
+    "date": "2026-08-27T22:30:00.000Z",
+    "skeleton": "single-argument",
+    "territory": "multichannel",
+    "blockedOnLinkedInPageApproval": true,
+    "claims": [
+      "linkedin-outreach-launch"
+    ],
+    "content": "LinkedIn outreach is live in SendEmAll.\n\nYou can add a LinkedIn seat next to your mailboxes, put LinkedIn steps in the same sequence as your email steps, and work the replies from one inbox. One thread per person, so a reply on either channel stops the whole sequence rather than letting a scheduled follow-up land two days after they already answered.\n\nThree decisions we made deliberately. The third one costs us money.\n\nA connection request is a step you add, never a default. Accepting one permanently changes your own network, and plenty of founders guard theirs. Leave that step out and we never send one.\n\nInMail cost is set by the recipient. Open Profile members can be messaged without a credit, some members cannot be messaged at all, and LinkedIn returns the credit whenever someone responds within 90 days, including the one-tap replies people use to decline.\n\nAnd the one that costs us. A second LinkedIn account does not double your reach: each carries its own weekly invitation cap, no subscription lifts it, and the throughput you gain is worth less than the seat unless you aim it somewhere new.\n\nSo aim the second account at a different audience, or wait."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "junaid-x",
+    "voice": "junaid",
+    "date": "2026-08-28T13:00:00.000Z",
+    "skeleton": "data-drop",
+    "territory": "metrics-economics",
+    "claims": [
+      "reply-rate-is-not-pipeline"
+    ],
+    "content": "Two campaigns can report the same reply rate and produce completely different pipeline.\n\nReply rate stops measuring at the first step. Everything expensive happens after it: response time, who answers, how the ask is phrased.\n\nMeasure held meetings per 1,000 sent."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "kamran-li",
+    "voice": "kamran",
+    "date": "2026-08-28T14:00:00.000Z",
+    "skeleton": "protocol",
+    "territory": "deliverability-infra",
+    "claims": [
+      "how-to-check-if-domain-burned"
+    ],
+    "content": "Everyone writes about how domains get burned. Almost nobody writes how to tell whether yours already is.\n\nFour checks, in the order I run them, with what each one can and can't tell you.\n\n1. Authentication, per sending domain\nSPF and DKIM are configured per domain and never inherited, so check them on each sending domain rather than on your root. DMARC behaves differently: a subdomain with no record of its own is covered by the policy at the organizational domain, so mail.brand.com inherits from brand.com. Separately registered sending domains inherit nothing and each needs its own. A domain that never authenticated properly was never healthy, so what you're finding is a setup broken from day one rather than a decline.\n\n2. Domain blocklists\nSpamhaus DBL is the one that matters for cold email, because it lists domains rather than IPs. Most outbound runs through Google Workspace or Microsoft 365, so the sending IPs belong to Google and Microsoft, and IP-based lists tell you about their reputation instead of yours. Check your link and tracking domains separately against a URI list like SURBL, since those get listed independently of the domain in your From address.\n\n3. Google Postmaster Tools, with a caveat nobody mentions\nDomain reputation and spam rate are the two numbers worth having. But Postmaster needs DKIM alignment on the domain and a real volume of daily mail to that one domain before the graphs populate. Running four mailboxes on a sending domain, you will probably never see data. An empty dashboard is not a clean bill of health, and plenty of people read it as one.\n\n4. Microsoft, where the standard advice is simply wrong\nYou will be told to check SNDS and the Junk Mail Reporting Program. Both report only on Microsoft's consumer mailboxes (Outlook.com, Hotmail, Live) and neither covers Microsoft 365 business tenants, which is where your B2B recipients actually are. Access is also granted per IP range to whoever owns that range, so sending through Google Workspace or Microsoft 365 rules you out even if it did help. For an ordinary outbound setup there is no Microsoft-side reputation dashboard at all. What you get instead is the rejection text in your own bounce log, and Microsoft's rejections are unusually specific about the reason.\n\nThen the part people skip. Not every domain is worth rehabilitating. A domain carrying a real brand earns patient, low-volume, high-engagement sending over a long stretch. A throwaway sending domain that cost eleven dollars does not: retire it, and spend the effort on why it burned.\n\nChecks 1 and 2 are free and take about two minutes at sendemall.com/deliverability-test, no signup."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sadiya-li",
+    "voice": "sadiya",
+    "date": "2026-08-28T16:00:00.000Z",
+    "skeleton": "teardown",
+    "territory": "targeting-data",
+    "claims": [
+      "filter-coverage-silent-narrowing"
+    ],
+    "content": "Every B2B database has a number it doesn't show you, and it changes what your filters actually do.\n\nField coverage.\n\nWhen you filter a list by employee count, you are not filtering the database. You are filtering the subset of the database that has an employee count recorded, and silently discarding every company where that field is empty, including ones that match you perfectly.\n\nStack three filters like that and the narrowing compounds. Employee count, then industry, then revenue. Revenue tends to be the sparsest field of all, so adding it can cut a list by most of its size while looking like a mild refinement.\n\nYou can test this yourself in about a minute, in whatever tool you use. Run your search and note the count. Remove one filter and watch how far the number moves.\n\nWhat I do instead: filter on the fields I genuinely need, then verify the rest afterwards. A smaller filter set plus a manual pass beats a beautiful filter stack applied to a fraction of the data.\n\nIf dropping 1 field triples your results, that field's coverage is shaping your list more than your ICP is."
+  },
+  {
+    "status": "proposed",
+    "postId": null,
+    "channel": "sendemall-li",
+    "voice": "voice-brand",
+    "date": "2026-08-29T13:00:00.000Z",
+    "skeleton": "teardown",
+    "territory": "targeting-data",
+    "blockedOnLinkedInPageApproval": true,
+    "claims": [
+      "deleted-the-audience-cap"
+    ],
+    "content": "We deleted a feature last week. Here is why, because the reasoning is more useful than the feature was.\n\nCampaign steps used to have an audience cap: a number you typed in advance to limit how many people a step would reach.\n\nIt counted the wrong thing. The cap counted rows planned, not people actually reached. On a campaign restricted to free-to-reach prospects, the unreachable majority ate the cap first, and the reachable leads at the back got no row at all. A lead with no row on step 3 can never advance to step 4, so they stalled there permanently.\n\nWorse, it was a second ceiling arguing with the first. The account's earned daily budget already reacts to measured account health. A number typed in advance cannot. Two ceilings that disagree is worse than one ceiling that works.\n\nSo the cap is gone and the health-based budget is the only limit.\n\nA control that measures the wrong unit is more dangerous than no control, because people trust it.\n\nSafety you can point at beats safety you can feel."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "junaid-x",
+    "voice": "junaid",
+    "date": "2026-08-29T14:00:00.000Z",
+    "skeleton": "teardown",
+    "territory": "strategy-market",
+    "claims": [
+      "per-meeting-pricing-variance"
+    ],
+    "content": "Per-meeting pricing sounds fair to both sides. It quietly moves all the variance onto the agency.\n\nWeak offer, soft market, a client sales team that no-shows: the agency absorbs all of it. Strong offer, and the agency capped its own upside.\n\nThe variance has to live somewhere."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "kamran-li",
+    "voice": "kamran",
+    "date": "2026-08-29T15:00:00.000Z",
+    "skeleton": "taxonomy",
+    "territory": "deliverability-infra",
+    "claims": [
+      "bounce-code-taxonomy"
+    ],
+    "content": "Most teams file every bounce under \"bad data.\" A large share of them have nothing to do with the address.\n\nThe first thing to fix is what you're reading. The useful field is the enhanced status code inside the failure (5.1.1, 5.7.1, 4.7.0) rather than the three-digit class in front of it. Providers routinely put very different problems behind the same 550. And some failures arrive as a separate message hours after the send was accepted, so the thing to sort is your delivery notifications rather than the SMTP conversation.\n\nFour buckets, and each asks you to do something different.\n\nTransient, the 4.x.x codes. A full mailbox, a busy server, a greylist. Retry with backoff, cap the retry window, and count whatever still fails after it. One exception matters: a 4.7.x deferral mentioning unsolicited mail or an unusual sending rate is not congestion. That is the receiving provider telling you it doesn't like you yet, and it usually appears before any permanent rejection does. Retrying into it makes things worse. Slow down instead.\n\nAddress-level permanent, 5.1.1 and its neighbours. User unknown, no such mailbox. Suppress the address. Worth saying that this is not always proof the record was junk when you got it. People leave jobs, and some servers return \"user unknown\" to a sender they have already decided to block, which is a policy decision wearing an address error's clothes.\n\nPolicy-level permanent, the 5.7.x family and anything saying access denied or blocked. The server evaluated you and declined. This is the important one, and the instruction reverses: leave these recipients in the campaign. Their addresses are fine. Pause the domain, fix the reputation problem, and reach those people later from healthy infrastructure. Suppressing them permanently is how a team quietly deletes an entire provider's users from its own addressable market and never finds out.\n\nThen the bucket that never reaches your bounce log at all: accepted and filed to junk, or accepted and silently dropped. For cold email this is the largest loss by some distance and it produces no error of any kind. Spam traps behave the same way, and they are a leading cause of the policy rejections above.\n\nThe practical version: sort last month's failures by enhanced status code and watch the trend between buckets rather than the total. Policy growing while address stays flat means no amount of list hygiene will help you.\n\nSequencers will show you hard versus soft. Very few split hard into address versus policy, and that split is where the diagnosis lives."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sadiya-x",
+    "voice": "sadiya",
+    "date": "2026-08-29T16:00:00.000Z",
+    "skeleton": "single-argument",
+    "territory": "copy-messaging",
+    "claims": [
+      "questions-beat-enthusiasm"
+    ],
+    "content": "Something I only noticed after reading a few hundred replies: the ones that turn into meetings rarely say yes.\n\nThey ask a specific question. \"How does this handle X?\" beats \"sounds interesting.\""
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "date": "2026-08-29T18:00:00.000Z",
+    "skeleton": "single-argument",
+    "territory": "data-quality",
+    "claims": [
+      "verification-has-a-timestamp"
+    ],
+    "content": "A verification result has a timestamp.\n\nA \"verified\" badge with no date attached is describing something that happened at an unknown point in the past. So ask a vendor when. The answer is often \"when we first collected the record.\""
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "junaid-x",
+    "voice": "junaid",
+    "date": "2026-08-30T14:00:00.000Z",
+    "skeleton": "protocol",
+    "territory": "metrics-economics",
+    "claims": [
+      "define-meeting-as-showed-up"
+    ],
+    "content": "Most outbound contracts have a show-rate clause. Very few define the word \"meeting.\"\n\nYou promise ten. Four don't show. By the contract you delivered ten, by the client's count six, and that argument has no winner.\n\nSo define it as showed-up, in writing, before the first invoice."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "naved-li",
+    "voice": "naved",
+    "date": "2026-08-30T15:00:00.000Z",
+    "skeleton": "data-drop",
+    "territory": "multichannel",
+    "claims": [
+      "inmail-refund-on-response"
+    ],
+    "content": "LinkedIn InMail economics work differently from how nearly everyone budgets them, and the difference is a refund rule almost nobody reads.\n\nLinkedIn returns your credit whenever the recipient responds within 90 days. An accept counts. A reply counts. A decline counts, and so do the one-tap quick replies: \"Interested\", \"Maybe later\", \"Not interested\". A flat no earns the credit back exactly the way a yes does.\n\nWhich means the cost of an InMail campaign is the count of people who ignored you. Everyone who engaged, positively or otherwise, was free.\n\nThat inverts the usual advice. Indifference drains a credit balance, and volume only decides how much indifference you buy. Fifty InMails to people with a real reason to reply can cost close to nothing. Fifty to a broad list costs fifty.\n\nThree things worth knowing before you plan around it.\n\nCredits do not pool across products. A Premium credit cannot be spent inside Sales Navigator or Recruiter — LinkedIn states that directly. Each carries its own monthly allotment and its own accumulation cap, and unused credits expire after 90 days.\n\nYou cannot waste a credit on someone unreachable. If a member has turned off \"Allow others to send you InMail\", LinkedIn removes the option on their profile rather than letting a send fail. There is no leak there to plug, which is worth saying because plenty of tooling implies otherwise.\n\nAnd Open Profile is real but awkward to work with. A Premium member switches it on so anyone, including free accounts, can message them without spending a credit. LinkedIn has never offered a way to search or filter for it, so you can check a profile one at a time and you cannot ask for the list. That gap is why almost nobody prices it in, and why the status you see riding along in a search result is worth less than a direct check.\n\nSo the number to optimise is reply rate on the InMails you send, because that is the only one that touches your balance."
+  },
+  {
+    "status": "scheduled",
+    "postId": "cmtbvt5bt0015o07qzyvs16u2",
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "date": "2026-08-30T18:00:00.000Z",
+    "skeleton": "teardown",
+    "territory": "deliverability-infra",
+    "claims": [
+      "seed-tests-are-weak-evidence"
+    ],
+    "content": "Seed inbox tests tell you where mail landed for the seed accounts.\n\nThose accounts don't behave like yours, don't get your volume, and are known to providers.\n\nSo: treat it as a smoke test, and use reply rate by recipient domain when you need the real answer."
+  },
+  {
+    "status": "scheduled",
+    "postId": "cmtbvt9dp0016o07qesy0l70s",
+    "channel": "junaid-x",
+    "voice": "junaid",
+    "date": "2026-08-31T13:00:00.000Z",
+    "skeleton": "single-argument",
+    "territory": "strategy-market",
+    "claims": [
+      "data-layer-commoditizing"
+    ],
+    "content": "Every outbound stack is a bet on which layer commoditizes first.\n\nSending went first. Verification went next and went hard: half a dozen vendors return near-identical results at fractions of a cent. Ask a data vendor what share of YOUR segment they hold."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "kamran-li",
+    "voice": "kamran",
+    "date": "2026-08-31T14:00:00.000Z",
+    "skeleton": "teardown",
+    "territory": "team-ops",
+    "claims": [
+      "silent-ops-failures"
+    ],
+    "content": "The outbound failures that hurt most are quiet ones. Nothing alerts on them.\n\nWhat I have actually seen take a client's sending down with no error appearing anywhere:\n\nAn OAuth token expired over a weekend. Sends stopped. The campaign still showed \"active\" on Monday morning.\n\nAn admin enforced MFA across the tenant. A connection that had worked for months became a silent authentication failure.\n\nA suppression list stopped syncing between two tools, so unsubscribed people kept receiving mail. That one is a compliance exposure rather than a tidiness problem.\n\nA mailbox dropped out of rotation. What happens next depends on your config, and both outcomes are bad in different ways. With a campaign-level daily target, the survivors absorb the missing share and quietly push past their own ramp. With per-mailbox hard caps, total volume just falls and your pipeline thins out for reasons nobody connects to a mailbox. Worth knowing which one your setup does before it matters.\n\nThat is the pattern behind all of them. Every failure was invisible in the aggregate and obvious per-mailbox.\n\nSo: alert on the components, never on the total. A total that stays healthy while a component is dead has stopped being a monitor."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sadiya-li",
+    "voice": "sadiya",
+    "date": "2026-08-31T16:00:00.000Z",
+    "skeleton": "taxonomy",
+    "territory": "copy-messaging",
+    "claims": [
+      "four-kinds-of-not-interested"
+    ],
+    "content": "\"Not interested\" means four different things, and three of them are worth something.\n\nReading replies all day, this is the distinction that changed how I work:\n\nWrong person. They aren't the buyer and never were. Worthless for this campaign, but it usually comes with a name attached if you ask, and that referral is the highest-converting thing in cold email.\n\nWrong time. Budget is spent, a project is mid-flight, they just signed with someone else. Nothing wrong with the targeting at all. This one belongs in a calendar.\n\nWrong problem. They have the profile without the pain. This reply is telling you your targeting is off, and it gets ignored because it looks identical to the others.\n\nGenuinely uninterested. Rare, and honestly fine.\n\nTeams count all four as one bucket, then read the size of that bucket as a copy problem.\n\nSo: split the bucket for a week, and count the four separately."
+  },
+  {
+    "status": "scheduled",
+    "postId": "cmtbvtdet0017o07qvpexwr64",
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "date": "2026-08-31T21:00:00.000Z",
+    "skeleton": "single-argument",
+    "territory": "copy-messaging",
+    "claims": [
+      "generated-openers-are-recognisable"
+    ],
+    "content": "Generated first lines had a good run. Buyers have seen thousands of them and now recognise the pattern at a glance.\n\nWhat still works is the kind of personalisation that required a decision somewhere. Why this company, why this week."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "naved-li",
+    "voice": "naved",
+    "date": "2026-09-01T14:00:00.000Z",
+    "skeleton": "single-argument",
+    "territory": "copy-messaging",
+    "claims": [
+      "followups-assume-first-was-read"
+    ],
+    "content": "Most follow-up emails are written as though the first one was read, and you can see it in the language.\n\n\"Just circling back.\" \"Following up on my note below.\" \"Did you get a chance to look at this?\" Every one of those leans on a shared context that may not exist.\n\nYou can't actually know whether the first email was read. Open tracking stopped being trustworthy once mail clients started prefetching images, so the honest position is that you don't know, and writing as if you do is a bet you're losing some of the time.\n\nWhat changes if you assume the reader is starting fresh:\n\nThe follow-up needs its own reason to exist. A different angle on the same problem, or a different piece of evidence, that stands up alone.\n\nThe strongest ones are usually shorter than the first email, because they get to be specific about one thing rather than establishing everything.\n\nAnd the sequence stops being one email repeated with rising impatience, which is what most sequences turn out to be once you read them end to end.\n\nOpen your own sequence and read step three as though you'd never seen step one. Most of them stop making sense."
+  },
+  {
+    "status": "proposed",
+    "postId": null,
+    "channel": "sendemall-li",
+    "voice": "voice-brand",
+    "date": "2026-09-01T15:00:00.000Z",
+    "skeleton": "taxonomy",
+    "territory": "metrics-economics",
+    "blockedOnLinkedInPageApproval": true,
+    "claims": [
+      "one-credit-one-valid-email"
+    ],
+    "content": "One pricing rule shaped more of this product than any feature decision we made.\n\nA credit buys a verified, valid email. Bounces cost nothing. Catch-alls are labelled as catch-alls and cost nothing, because an invoice is the wrong place for a maybe.\n\nThat sounds like a discount. It is really a constraint, and it points at us.\n\nCharge per record checked and a verifier has no reason to be strict, because every uncertain address is still revenue. Charge only for valid results and the uncertain ones become a cost you carry. Suddenly the strictness of your own classifier is your problem rather than the customer's.\n\nIt forced work upstream that we would otherwise have deferred. How catch-alls get detected, when a record gets re-checked, what happens to an address we cannot resolve. None of that is visible in the interface. All of it moved because of one line in the pricing.\n\nSo when you evaluate a data vendor, accuracy claims are the easy question.\n\nAsk what a wrong record costs them."
+  },
+  {
+    "status": "scheduled",
+    "postId": "cmtbvtiun0018o07q0p1h6uql",
+    "channel": "sendemall-x",
+    "voice": "voice-brand",
+    "date": "2026-09-01T16:00:00.000Z",
+    "skeleton": "data-drop",
+    "territory": "targeting-data",
+    "claims": [
+      "signals-have-shelf-life"
+    ],
+    "content": "Verifiers publish a false-positive rate. Almost none publish the other one.\n\nEvery address pushed into \"unknown\" or \"catch-all\" is a possible real buyer who drops out silently.\n\nNobody is measured on that bucket."
+  },
+  {
+    "status": "scheduled",
+    "postId": "cmtbvtmv50019o07q0j741lfw",
+    "channel": "sadiya-x",
+    "voice": "sadiya",
+    "date": "2026-09-01T21:00:00.000Z",
+    "skeleton": "taxonomy",
+    "territory": "data-quality",
+    "claims": [
+      "verification-is-not-employment-check"
+    ],
+    "content": "Verification tells you an address accepts mail today. It says nothing about whether the person still works there.\n\nTwo different questions, and only one of them has a test.\n\nSo a list can be clean and still be mostly wrong."
+  },
+  {
+    "status": "scheduled",
+    "postId": "cmtbvtqus001ao07qmvrl9t72",
+    "channel": "junaid-x",
+    "voice": "junaid",
+    "date": "2026-09-02T13:00:00.000Z",
+    "skeleton": "story-turn-lesson",
+    "territory": "metrics-economics",
+    "claims": [
+      "guarantee-cost-catchalls"
+    ],
+    "content": "Our bounce guarantee cost us something worth saying out loud.\n\nCatch-alls stopped counting as verified, which shrank the number we can put on a list. And mailing your own list falls outside the scope.\n\nThat last one disqualifies most people."
+  },
+  {
+    "channel": "kamran-li",
+    "voice": "kamran",
+    "status": "scheduled",
+    "postId": true,
+    "skeleton": "story-turn-lesson",
+    "territory": "deliverability-infra",
+    "claims": [
+      "domain-recovery-runbook"
+    ],
+    "date": "2026-09-02T14:00:00.000Z",
+    "content": "A domain went bad. Here is what actually happens next, including the part where you walk away from it.\n\nFirst, stop asking whether \"the domain is burned.\" That question has no single answer, because reputation is held per receiving provider. You can be landing normally at Google and rejected outright at Microsoft, or fine at both and listed by one blocklist that only some corporate filters consult. The useful question is which providers are refusing you.\n\nRead your own bounce text before anything else. This is the highest-signal, lowest-effort check in deliverability and it is the one people skip in favour of dashboards. Receiving servers frequently say exactly why they are refusing you, in plain language, in the rejection itself. Sort last month's rejections by receiving provider and read the actual strings. Ten minutes will usually tell you whether you have a blocklist problem, a reputation problem, an authentication problem, or one tenant with an aggressive filter.\n\nThen read your DMARC aggregate reports. If you set a rua address when you configured DMARC, receivers have been sending you daily summaries of what they saw: how much mail claimed to be from your domain, from where, and whether it authenticated. Almost nobody opens these. They are the only free, per-provider, retrospective record of what happened, and they cover the period before you started worrying.\n\nThen the decision nobody writes down. Not every domain is worth recovering.\n\nA throwaway sending domain that cost eleven dollars does not earn weeks of careful rehabilitation. Retire it, and spend that time on why it burned, because the cause will follow you to the replacement.\n\nA domain carrying your actual brand is worth the work, and the work is unglamorous. There is no repair procedure, no form to submit, no setting to change. What exists is stopping the sending that caused it, then sending small volumes of mail people genuinely engage with, over a period measured in weeks. Reputation is a moving average of recent behaviour, so the only lever is to give it better recent behaviour and wait.\n\nTwo moves that feel productive and make it worse: resuming at the old volume the moment things look better, and moving the same list onto a fresh domain. The first restarts the pattern that caused it. The second buys you a second burned domain and one extra week.\n\nOne thing worth separating out, because it is what people are really asking. If you sent cold email from a domain your customers also use, check that domain on its own, and look at whether your ordinary transactional mail is still landing and being opened as normal. That is a different investigation from your cold-email placement, and conflating the two is why this feels worse than it usually is.\n\nBounce text, then DMARC reports, then the decision."
+  },
+  {
+    "status": "scheduled",
+    "postId": true,
+    "channel": "sadiya-li",
+    "voice": "sadiya",
+    "date": "2026-09-02T16:00:00.000Z",
+    "skeleton": "protocol",
+    "territory": "targeting-data",
+    "claims": [
+      "list-checks-before-send"
+    ],
+    "content": "What I check before a list goes anywhere near a sending domain.\n\nSend a slice first, never the whole list. A few hundred addresses, from a sending domain rather than anything you care about. Then be clear about what that buys: a slice that size will catch a catastrophically bad list, and it will not tell 2% apart from 4%. The uncertainty at a few hundred sends is wider than the decision you are trying to make.\n\nSo use it for the obvious failures, and keep watching once volume is real. Bounces spread evenly across a list usually mean ordinary decay. Bounces concentrated on a handful of domains usually mean one company's records are stale, or that domain is rejecting you specifically, which is a completely different problem with a completely different fix. That second pattern needs more than a slice to see at all, because a few hundred addresses gives you two or three people at any one company.\n\nCheck the catch-all share, and be careful how you read it. Those domains accept mail at the door for any address, so a live check cannot tell you whether the mailbox exists. Plenty of them then reject the message afterwards and send the failure back hours or days later, which lands in your bounce numbers well after you stopped watching. Others accept and silently discard, and those never show up on any day at all. Treating catch-alls as a zero-bounce category is how a campaign posts a clean bounce rate on Tuesday and a bad one on Friday.\n\nCheck the age of the records. The most-cited figure for B2B contact decay is about 2% a month, which compounds to a little over a fifth across twelve months. Treat it as a rough order of magnitude rather than a measurement, because it traces to vendor research rather than an independent study. And note what it measures. A record going out of date is one failure. An address that hard-bounces is another, with a different cost attached.\n\nAbout 20 minutes, and it stops a campaign from starting badly."
+  }
+]

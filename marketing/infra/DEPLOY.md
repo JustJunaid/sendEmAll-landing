@@ -49,7 +49,13 @@ doctl compute firewall create --name postiz-social-fw \
 
 ## 2026 gotchas
 - **X API is no longer free** (pay-per-use since 6 Feb 2026; ~$0.20/post if it contains a link). A reconnected X channel needs paid API credits to publish. Consider posting X natively and using Postiz for LinkedIn.
-- **LinkedIn**: `latest` image is fine for personal posting (openid/profile/w_member_social). App needs "Share on LinkedIn" + "Sign In with LinkedIn using OpenID Connect" products.
+- **LinkedIn — `latest` needs our scope patch** (regression found 2026-08-21). Upstream's *personal*
+  provider now also requests `r_basicprofile` + three org scopes; our app isn't authorized for any of
+  them, so the connect dies with `unauthorized_scope_error` before the callback. `patches/linkedin.provider.js`
+  restores `openid profile email w_member_social` and is bind-mounted over both dist copies by
+  `docker-compose.override.yaml`. **Re-verify after every `docker compose pull`** — if upstream
+  refactors that file, the mount can go stale silently. Full evidence + removal criteria in `../HANDOFF.md`.
+  App still needs the "Share on LinkedIn" + "Sign In with LinkedIn using OpenID Connect" products.
 
 ## Ops
 ```bash
