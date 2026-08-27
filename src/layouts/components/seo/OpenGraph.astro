@@ -2,6 +2,7 @@
 import { absoluteUrl } from "@/lib/utils/absoluteUrl";
 import config from ".astro/config.generated.json";
 import { plainify, removeWhitespace } from "@/lib/utils/textConverter";
+import { buildPageTitle } from "@/lib/utils/pageTitle";
 
 // Destructure optional props with default fallback to config values
 let {
@@ -10,45 +11,50 @@ let {
   description,
   metaDescription,
   disableTagline,
-  image = config.opengraph.image,
+  image,
   twitter = config.opengraph.twitter,
   twitterCard = config.opengraph.twitterCard,
   ogType = config.opengraph.ogType,
   ogLocale = config.opengraph.ogLocale,
 } = Astro.props;
 
-// Get the possible value for title and description and remove any line breaks and extra spaces
-title = plainify(metaTitle ? metaTitle : title ? title : config.site.title);
-title = removeWhitespace(title);
+// `||`, not a default parameter: blog frontmatter ships `image: ""`, which is
+// defined-but-empty, so a default would never fire. That left 50 posts
+// declaring twitter:card="summary_large_image" with no image at all — X,
+// LinkedIn and Slack reserve the large-card slot and render an empty box.
+image = image || config.opengraph.image;
 
-description = plainify(
-  metaDescription
-    ? metaDescription
-    : description
-      ? description
-      : config.site.description,
+// Shared with <title> + JSON-LD so the three can never disagree again.
+title = buildPageTitle({ title, metaTitle, disableTagline }, config);
+
+description = removeWhitespace(
+  plainify(
+    metaDescription
+      ? metaDescription
+      : description
+        ? description
+        : config.site.description,
+  ),
 );
-
-description = removeWhitespace(description);
 
 // Generate the full URL for the current page
 const pageUrl = new URL(Astro.url.pathname, Astro.site);
-
-// Add tagline & separator to title
-if (!disableTagline) {
-  title =
-    title +
-    (config.site.tagline &&
-      (config.site.taglineSeparator || " - ") + config.site.tagline);
-}
+const imageUrl = absoluteUrl(image, Astro);
 ---
 
 <!-------------------------
     Standard Open Graph
 --------------------------->{
-  image && <meta property="og:image" content={absoluteUrl(image, Astro)} />
+  imageUrl && (
+    <>
+      <meta property="og:image" content={imageUrl} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={title} />
+    </>
+  )
 }
-{title && <meta property="og:title" content={removeWhitespace(title)} />}
+{title && <meta property="og:title" content={title} />}
 {
   config.site.title && (
     <meta
@@ -57,11 +63,7 @@ if (!disableTagline) {
     />
   )
 }
-{
-  description && (
-    <meta property="og:description" content={removeWhitespace(description)} />
-  )
-}
+{description && <meta property="og:description" content={description} />}
 {ogType && <meta property="og:type" content={ogType} />}
 {ogLocale && <meta property="og:locale" content={ogLocale} />}
 {pageUrl && <meta property="og:url" content={pageUrl} />}
@@ -70,12 +72,9 @@ if (!disableTagline) {
     Twitter Open Graph
 -------------------------->
 {twitter && <meta name="twitter:creator" content={removeWhitespace(twitter)} />}
-<meta name="twitter:site" content="@send_em_all" />
-{title && <meta name="twitter:title" content={removeWhitespace(title)} />}
-{
-  description && (
-    <meta name="twitter:description" content={removeWhitespace(description)} />
-  )
-}
+{twitter && <meta name="twitter:site" content={removeWhitespace(twitter)} />}
+{title && <meta name="twitter:title" content={title} />}
+{description && <meta name="twitter:description" content={description} />}
 {twitterCard && <meta name="twitter:card" content={twitterCard} />}
-{image && <meta name="twitter:image" content={absoluteUrl(image, Astro)} />}
+{imageUrl && <meta name="twitter:image" content={imageUrl} />}
+{imageUrl && <meta name="twitter:image:alt" content={title} />}

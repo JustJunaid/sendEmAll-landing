@@ -1,6 +1,7 @@
 ---
 import { getLocaleUrlCTM, supportedLanguages } from "@/lib/utils/i18nUtils";
 import { plainify, removeWhitespace } from "@/lib/utils/textConverter";
+import { buildPageTitle } from "@/lib/utils/pageTitle";
 import config from ".astro/config.generated.json";
 
 // Load the configuration
@@ -10,22 +11,13 @@ let {
   description,
   metaDescription,
   canonical,
-  keywords = config.seo.keywords,
   disableTagline,
   author = config.seo.author,
   robots = config.seo.robots,
 } = Astro.props;
 
-title = plainify(metaTitle ? metaTitle : title ? title : config.site.title);
-keywords = keywords.join(", ");
-
-// Add tagline & separator to title
-if (!disableTagline) {
-  title =
-    title +
-    (config.site.tagline &&
-      (config.site.taglineSeparator || " - ") + config.site.tagline);
-}
+// Shared with OpenGraph + JSON-LD so the three can never disagree again.
+title = buildPageTitle({ title, metaTitle, disableTagline }, config);
 
 description = plainify(
   metaDescription
@@ -55,7 +47,7 @@ if (
 }
 ---
 
-{title && <title>{removeWhitespace(title)}</title>}
+{title && <title>{title}</title>}
 {
   description && (
     <meta name="description" content={removeWhitespace(description)} />

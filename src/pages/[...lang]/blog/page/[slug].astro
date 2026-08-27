@@ -67,10 +67,16 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
-let { postIndex } = Astro.props;
+const { postIndex } = Astro.props;
+
+// Each paginated page inherited the blog index's title verbatim, so /blog/page/2
+// through /blog/page/6 all shipped the same <title> — a duplicate-title signal.
+// The brand suffix is appended downstream by buildPageTitle().
+const indexTitle = postIndex?.data?.metaTitle || postIndex?.data?.title || "Blog";
+const metaTitle = `${indexTitle} — Page ${currentPage}`;
 ---
 
-<Base {...postIndex?.data}>
+<Base {...postIndex?.data} metaTitle={metaTitle}>
   <BlogSection pagination={{ enable: true, currentPage: currentPage }} />
   <CallToAction />
 </Base>

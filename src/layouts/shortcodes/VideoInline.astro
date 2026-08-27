@@ -60,6 +60,8 @@ poster = poster && (await bgOptimizedImage(poster));
 <script>
   // @ts-nocheck
   import AOS from "aos";
+  import { loadStylesheet } from "@/lib/utils/loadStylesheet";
+  import plyrStylesUrl from "plyr/dist/plyr.css?url";
 
   // Function to handle AOS-related fixes
   function removeAosAttributesAfterAnimation() {
@@ -105,8 +107,10 @@ poster = poster && (await bgOptimizedImage(poster));
 
         (async () => {
           try {
-            const { default: Plyr } = await import("plyr");
-            await import("plyr/dist/plyr.css");
+            const [{ default: Plyr }] = await Promise.all([
+              import("plyr"),
+              loadStylesheet(plyrStylesUrl),
+            ]);
 
             Plyr.setup(".video-inline-player");
           } catch (error) {

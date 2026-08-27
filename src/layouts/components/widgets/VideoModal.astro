@@ -76,6 +76,8 @@ const isLocalHostedVideo = src?.includes("/videos/") && provider === "html5";
 <script>
   // @ts-nocheck
   import AOS from "aos";
+  import { loadStylesheet } from "@/lib/utils/loadStylesheet";
+  import plyrStylesUrl from "plyr/dist/plyr.css?url";
 
   const videoButtons = document.querySelectorAll(
     "[data-hs-overlay].video-modal-toggle",
@@ -127,9 +129,11 @@ const isLocalHostedVideo = src?.includes("/videos/") && provider === "html5";
   videoButtons.forEach((button) => {
     button.addEventListener("click", async () => {
       try {
-        // Dynamically import Plyr and its css
-        const { default: Plyr } = await import("plyr");
-        await import("plyr/dist/plyr.css");
+        // Player and stylesheet both load on demand — see loadStylesheet().
+        const [{ default: Plyr }] = await Promise.all([
+          import("plyr"),
+          loadStylesheet(plyrStylesUrl),
+        ]);
 
         const players = Plyr.setup(".video-player") as Plyr[];
 

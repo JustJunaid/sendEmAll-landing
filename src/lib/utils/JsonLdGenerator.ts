@@ -26,6 +26,7 @@ export default function JsonLdGenerator(content: JSONLDProps, Astro: any) {
   let {
     canonical = "/",
     title = "",
+    headline = "",
     description = "",
     image = "",
     pageType = "",
@@ -46,7 +47,8 @@ export default function JsonLdGenerator(content: JSONLDProps, Astro: any) {
   switch (pageType) {
     case "blog":
       jsonLdData["@type"] = "BlogPosting";
-      jsonLdData.headline = title;
+      // schema.org headline is the article title alone — no brand suffix.
+      jsonLdData.headline = headline || title;
       jsonLdData.description = description;
       jsonLdData.url = canonical;
       if (image) {
@@ -84,15 +86,12 @@ export default function JsonLdGenerator(content: JSONLDProps, Astro: any) {
       }
   }
 
-  // Add site metadata to `isPartOf` of jsonLdData
-  const siteTitle =
-    config.site.title +
-    (config.site.tagline &&
-      (config.site.taglineSeparator || " - ") + config.site.tagline);
-
+  // Add site metadata to `isPartOf` of jsonLdData.
+  // Google reads WebSite.name for the site name it displays in search results,
+  // and wants the bare brand ("SendEmAll") — not brand plus marketing tagline.
   jsonLdData["isPartOf"] = {
     "@type": "WebSite",
-    name: siteTitle,
+    name: config.site.title,
     description: config.site.description,
     url: trailingSlashChecker(Astro.url.origin),
   };

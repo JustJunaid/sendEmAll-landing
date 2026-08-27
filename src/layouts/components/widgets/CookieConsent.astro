@@ -25,7 +25,14 @@
 </script>
 
 <script>
-  // vanilla-cookieconsent CSS + JS are dynamically imported ONLY in the
+  import { loadStylesheet } from "@/lib/utils/loadStylesheet";
+  // `?url` keeps Vite from hoisting this stylesheet into <head>. A plain
+  // `import("...css")` is resolved at build time, so the 32 KB banner stylesheet
+  // was shipping render-blocking on all 82 pages — including for the non-GDPR
+  // visitors this branch is written to spare.
+  import cookieConsentStylesUrl from "vanilla-cookieconsent/dist/cookieconsent.css?url";
+
+  // vanilla-cookieconsent CSS + JS are dynamically loaded ONLY in the
   // consent-required branch below, so non-GDPR visitors never download the
   // banner bundle. Third-party loaders are deferred to idle time so they never
   // compete with first paint / the hero LCP.
@@ -151,8 +158,10 @@
 
   // --- Initialize CookieConsent (GDPR/ePrivacy regions only) ---
   // Banner CSS + JS are imported on demand here only — never for US/non-GDPR.
-  const CookieConsent = await import("vanilla-cookieconsent");
-  await import("vanilla-cookieconsent/dist/cookieconsent.css");
+  const [CookieConsent] = await Promise.all([
+    import("vanilla-cookieconsent"),
+    loadStylesheet(cookieConsentStylesUrl),
+  ]);
 
   CookieConsent.run({
     guiOptions: {

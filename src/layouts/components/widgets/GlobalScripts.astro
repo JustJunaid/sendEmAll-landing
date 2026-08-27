@@ -90,12 +90,18 @@
     const path = window.location.pathname;
 
     // High-intent page views
+    // Keyed to the live IA. The previous keys ("/products/", "/services/…")
+    // pointed at the retired sitemap, so every platform page visit went
+    // untracked — the funnel had no data on the three pillar pages at all.
+    // Longest prefixes first: the loop breaks on the first match.
     const intentPages: Record<string, string> = {
+      "/deliverability-test": "deliverability_test",
       "/pricing": "pricing",
       "/compare/": "compare",
-      "/products/": "product",
-      "/services/free-leads": "free_leads",
-      "/services/": "service",
+      "/tools/": "tools",
+      "/leads": "leads",
+      "/mailboxes": "mailboxes",
+      "/sequencer": "sequencer",
     };
 
     for (const [prefix, name] of Object.entries(intentPages)) {

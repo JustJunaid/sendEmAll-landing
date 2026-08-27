@@ -2,48 +2,53 @@
 import { absoluteUrl } from "@/lib/utils/absoluteUrl";
 import JsonLdGenerator from "@/lib/utils/JsonLdGenerator";
 import { supportedLanguages } from "@/lib/utils/i18nUtils";
+import { buildPageTitle, resolveBaseTitle } from "@/lib/utils/pageTitle";
 import config from ".astro/config.generated.json";
 
 const { content } = Astro.props;
 
-let {
-  title = config.site.title,
-  metaTitle = title,
-  description = config.site.description,
-  metaDescription = description,
-  image = config.opengraph.image,
-  taglineSeparator = " - ",
+const {
+  title,
+  metaTitle,
+  description,
+  metaDescription,
+  image,
   disableTagline,
   canonical,
-  lang,
   author = config.seo.author,
   structuredData,
-} = content;
+} = content ?? {};
 
-title =
-  !disableTagline && metaTitle ? metaTitle : title ? title : config.site.title;
+// Same helper as <title> and Open Graph. This block used to compose the title
+// itself and got it wrong three ways — it ignored `disableTagline`, dropped
+// `metaTitle`, and always appended the tagline — so every non-blog page
+// reported the identical name ("SendEmAll - Find verified buyers…") to search
+// engines regardless of what the page was actually about.
+const pageTitle = buildPageTitle({ title, metaTitle, disableTagline }, config);
+const headline = resolveBaseTitle({ title, metaTitle, disableTagline }, config);
 
-// Add tagline & separator to title
-// prettier-ignore
-const alternateLangs =  config.settings.multilingual.enable ? supportedLanguages : []
-title += config.site.tagline ? taglineSeparator + config.site.tagline : "";
-description = metaDescription ? metaDescription : description;
-canonical = canonical ? canonical : Astro.url.href;
-lang = Astro.currentLocale;
-image = absoluteUrl(image, Astro);
+// `||`, not a default: blog frontmatter ships `image: ""`. An empty string ran
+// through absoluteUrl("") and resolved to the *page URL*, so every post
+// published a BlogPosting whose `image` was a web page — invalid schema.
+const imageUrl = absoluteUrl(image || config.opengraph.image, Astro);
+
+const alternateLangs = config.settings.multilingual.enable
+  ? supportedLanguages
+  : [];
 
 // Generate JSON-LD dynamically
 const jsonLdData = JsonLdGenerator(
   {
     ...content,
     ...structuredData,
-    title,
-    description,
-    image,
-    canonical,
+    title: pageTitle,
+    headline,
+    description: metaDescription || description || config.site.description,
+    image: imageUrl,
+    canonical: canonical || Astro.url.href,
     config,
     author,
-    lang,
+    lang: Astro.currentLocale,
     alternateLangs,
   },
   Astro,

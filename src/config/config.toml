@@ -5,7 +5,11 @@
   tagline            = "Find verified buyers. Reach every one of them."
   taglineSeparator   = " | "
   baseUrl            = "https://www.sendemall.com"
-  logo               = "/images/sendemall-logo-dark.svg"
+  # Consumed by JSON-LD as the Organization publisher logo, so it must resolve
+  # at a public URL. The header logo does not read this path — it imports both
+  # theme variants from src/assets directly. This is the light-background
+  # variant (dark-grey wordmark), which is what Google renders it against.
+  logo               = "/images/sendemall-logo.svg"
   logoHoverAnimation = false
   logoText           = ""
   logoWidth          = "140px"
