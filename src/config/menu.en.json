@@ -8,7 +8,8 @@
       "children": [
         { "enable": true, "name": "Leads", "url": "/leads", "weight": 1 },
         { "enable": true, "name": "Mailboxes", "url": "/mailboxes", "weight": 2 },
-        { "enable": true, "name": "Sequencer", "url": "/sequencer", "weight": 3 }
+        { "enable": true, "name": "Sequencer", "url": "/sequencer", "weight": 3 },
+        { "enable": true, "name": "LinkedIn Outreach", "url": "/linkedin-outreach", "weight": 4 }
       ]
     },
     { "enable": true, "name": "Pricing", "url": "/pricing", "weight": 2 },
@@ -35,6 +36,7 @@
   "footerMenuQuickLink": [
     { "enable": true, "name": "Pricing", "url": "/pricing", "weight": 1 },
     { "enable": true, "name": "Mailboxes", "url": "/mailboxes", "weight": 2 },
+    { "enable": true, "name": "LinkedIn outreach", "url": "/linkedin-outreach", "weight": 2 },
     { "enable": true, "name": "Free deliverability test", "url": "/deliverability-test", "weight": 3 },
     { "enable": true, "name": "Developers", "url": "/developers", "weight": 4 },
     { "enable": true, "name": "Changelog", "url": "/changelog", "weight": 5 }

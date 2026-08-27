@@ -3,6 +3,34 @@ enable: true # Control the visibility of this section across all pages where it 
 title: Changelog - **What's New**
 
 list:
+  - title: LinkedIn outreach channel
+    version: 2.5.0
+    date: 24 Aug, 2026
+    content: |
+      LinkedIn joins email as a second channel inside the same sequence. Add a LinkedIn step next to your email steps — a reply on either channel stops the sequence for that prospect, and every conversation lands in the unified inbox.
+    types:
+      - icon: /images/icons/svg/feature.svg
+        label: New Feature
+    changes:
+      - active: true
+        title: Changes
+        list:
+          - label: Sequences
+            color: emerald # emerald | indigo | slate | crimson | amber
+            content: |
+              LinkedIn messages and InMail as sequence steps, right next to your email steps
+          - label: Safety
+            color: indigo # emerald | indigo | slate | crimson | amber
+            content: |
+              Each LinkedIn account runs on its own dedicated residential IP, with a gradual daily ramp and spacing between actions
+          - label: Free paths
+            color: slate # emerald | indigo | slate | crimson | amber
+            content: |
+              Open Profile detection routes free InMail; a free-only toggle means your own InMail credits are never spent unless you allow it
+          - label: Pricing
+            color: amber # emerald | indigo | slate | crimson | amber
+            content: |
+              One LinkedIn sending account included in every plan; add more at $39/mo each
   - title: Warmup 2.0
     version: 2.4.0
     date: 28 Mar, 2026

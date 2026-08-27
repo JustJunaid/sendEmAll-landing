@@ -20,11 +20,11 @@ list:
       - active: false
         title: "What makes the data different?"
         content: |
-          You only pay for valid, verified emails. Scraping, finding and verification are bundled — no per-reveal fees, and invalid results cost you nothing. The result is under 3% bounce, so your sender reputation stays intact.
+          You only pay for valid, verified emails — 1 credit = 1 valid email, and catch-alls are labeled free. The result is under 3% bounce, so your sender reputation stays intact.
       - active: false
         title: "Do I have to use your sequencer?"
         content: |
-          No. Use our built-in sequencer — $99/mo with unlimited seats and workspaces — or push your verified leads and connected mailboxes straight into Instantly, Smartlead, or PlusVibe for free. For any other tool, export a clean CSV. No lock-in.
+          No. Use our built-in sequencer — $99/mo with unlimited seats and workspaces — or push your verified leads and connected mailboxes straight into Instantly or PlusVibe for free. For any other tool, export a clean CSV. No lock-in.
   - label: "How It Compares"
     list:
       - active: false
@@ -48,7 +48,7 @@ list:
       - active: false
         title: "What counts as a credit?"
         content: |
-          1 credit = 1 valid, verified email delivered to your list. Scraping, finding and verification are bundled in — you're never charged for invalid or undeliverable results.
+          1 credit = 1 valid, verified email delivered to your list. Enrichments use credits at the rates shown in the app; catch-alls are labeled free, and you're never charged for invalid or undeliverable results.
       - active: false
         title: "Can I try it before I pay?"
         content: |
@@ -60,7 +60,7 @@ list:
       - active: false
         title: "How much is the sequencer?"
         content: |
-          $99/mo, everything unlimited — seats, workspaces, sending, warmup, and reply management. Agencies run every client workspace on one flat price instead of paying per seat. Prefer another tool? Push your leads and mailboxes to Instantly, Smartlead, or PlusVibe free — no lock-in.
+          $99/mo, everything unlimited — seats, workspaces, sending, warmup, and reply management. Agencies run every client workspace on one flat price instead of paying per seat. Prefer another tool? Push your leads and mailboxes to Instantly or PlusVibe free — no lock-in.
       - active: false
         title: "Can I change plans?"
         content: |
@@ -73,6 +73,20 @@ list:
         title: "Can I just buy mailboxes without the platform?"
         content: |
           Yes. Visit our [Mailboxes](/mailboxes) page to buy Google Workspace, Microsoft 365, Azure, or SMTP mailboxes with domains and DNS set up for you — from $1.50 per mailbox / month. Works with any sequencer.
+  - label: "LinkedIn Outreach"
+    list:
+      - active: false
+        title: "Can I send on LinkedIn too?"
+        content: |
+          Yes. Add LinkedIn steps — connection requests, messages, InMail — right between your email steps, in the same sequence. A reply on either channel stops the sequence for that prospect, and every conversation lands in your unified inbox. See [LinkedIn outreach](/linkedin-outreach).
+      - active: false
+        title: "Do I need Sales Navigator for LinkedIn outreach?"
+        content: |
+          No. Connection requests and direct messages run from a regular LinkedIn account. Sales Navigator adds the InMail path — reaching someone before they've accepted — using your own InMail credits, with a free-only toggle so you never spend one unless you choose to.
+      - active: false
+        title: "What does LinkedIn outreach cost?"
+        content: |
+          Every plan includes one LinkedIn sending account on its own dedicated residential IP. Add more at $39/mo each. LinkedIn sending spends your own LinkedIn allowances — never your SendEmAll credits.
   - label: "Cold Email & Sending"
     list:
       - active: false

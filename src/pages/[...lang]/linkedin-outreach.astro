@@ -1,0 +1,207 @@
+---
+import Base from "@/layouts/Base.astro";
+import { generatePaths } from "@/lib/utils/i18nUtils";
+import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
+import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+
+export function getStaticPaths() {
+  return generatePaths();
+}
+
+const SEQ = "https://sequencer.sendemall.com/register";
+
+const CARD =
+  "group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
+
+// How it works — mirrors the self-serve step pattern used on /mailboxes.
+const steps = [
+  { n: "01", t: "Connect your LinkedIn", d: "Log in inside a streamed browser window — your session stays yours, and we never see your password. Your account gets a dedicated residential IP in your region, so it always signs in from the same, expected place." },
+  { n: "02", t: "Add LinkedIn steps", d: "Drop a connection request, message, or InMail between your email steps. Same sequence, same schedule, same inbox — no second tool to babysit." },
+  { n: "03", t: "Replies stop everything", d: "A reply on LinkedIn stops the emails. A reply on email stops LinkedIn. Nobody gets double-chased, and every conversation lands in your unified inbox." },
+];
+
+// The reachability ladder — before a step spends anything, the platform looks for a free way in.
+const ladder = [
+  { n: "1", t: "Already connected? Free message.", d: "1st-degree connections get a direct message. Costs nothing and lands in their main LinkedIn inbox." },
+  { n: "2", t: "Open Profile? Free InMail.", d: "Some members accept InMail from anyone — no connection needed. We flag them during lead research, and the InMail itself is free." },
+  { n: "3", t: "Neither? Send the request.", d: "A connection request costs nothing — and once they accept, neither does the message. In a hurry? Reach them now with an InMail from your own Sales Navigator credits instead." },
+];
+
+const safety = [
+  ["A dedicated IP, reserved for you", "Your account gets its own residential IP — 64 countries, down to the US state — so LinkedIn always sees it logging in from the same place. No shared proxies, no location roulette.", '<path d="M12 3 5 6v6c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3z"/><path d="m9 12 2 2 4-4"/>'],
+  ["Human pace, enforced", "New accounts ramp from 10 actions a day up to 40 over the first weeks, with a hard ceiling of 50 and minutes between actions. The limits are built in — you can't accidentally burn your account.", '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>'],
+  ["Your session, your control", "You log in yourself — password and 2FA never touch our servers. We hold the session, never the credentials, and you can disconnect any time.", '<rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'],
+];
+
+const faqs = [
+  ["Do I need Sales Navigator?", "No. Connection requests and direct messages run from a regular LinkedIn account. Sales Navigator adds the InMail path — reaching someone before they've accepted — using your own InMail credits, and a free-only toggle on every step means you never spend one unless you choose to."],
+  ["Is my account safe?", "That's what the design is for: a dedicated residential IP that never changes, a ramp from 10 to 40 actions a day with a hard ceiling of 50, and minutes between every action. You log in yourself in a streamed browser and can disconnect whenever you like."],
+  ["What does LinkedIn outreach cost?", "Every plan includes one LinkedIn sending account on its own dedicated IP; add more at $39/mo each. Sending spends your LinkedIn account's own allowances — SendEmAll credits are never used for sending."],
+  ["Does a LinkedIn reply stop my email follow-ups?", "Yes. A reply on either channel stops the whole sequence for that prospect, and the conversation carries on in your unified inbox."],
+  ["What can a LinkedIn step do?", "One action per step: a connection request, a direct message to a connection, or an InMail. Steps space themselves out and respect your daily limits automatically."],
+  ["Whose account does the sending?", "Yours. You connect your own LinkedIn account and stay responsible for using it within LinkedIn's User Agreement. SendEmAll automates your own authorized access at human pace — never accounts that aren't yours."],
+];
+---
+
+<Base
+  metaTitle="LinkedIn Outreach Automation — Email + LinkedIn in One Sequence | SendEmAll"
+  disableTagline={true}
+  metaDescription="Add LinkedIn steps to your cold email sequences — connection requests, messages, and InMail from your own account, on a dedicated residential IP, at a safe human pace. A reply on either channel stops both. 1 LinkedIn account included in every plan."
+>
+  <!-- Hero -->
+  <section class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto max-w-3xl text-center">
+        <Subtitle content="LinkedIn outreach" />
+        <h1 class="font-secondary text-4xl md:text-5xl/tight has-italic-text mb-6" data-aos="fade-up-sm">
+          LinkedIn outreach, <strong class="font-tertiary italic">inside your email sequence.</strong>
+        </h1>
+        <p class="text-text-default/80 text-lg" data-aos="fade-up-sm" data-aos-delay="100">
+          Add LinkedIn steps between your emails — connection requests, messages, InMail. When a prospect
+          replies on either channel, the whole sequence stops for them. One LinkedIn account is included
+          in every plan.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="150">
+          <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Start sending", url: SEQ }} />
+          <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "/pricing" }} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section-gradient py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-14 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="How it works" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          One sequence. <strong class="font-tertiary italic">Two channels.</strong>
+        </h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          steps.map((s, i) => (
+            <div class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 100}>
+              <span class="bg-primary/10 text-primary font-secondary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl text-sm font-bold">{s.n}</span>
+              <h3 class="text-heading text-lg font-semibold">{s.t}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{s.d}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Reachability ladder -->
+  <section class="py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="The reachability ladder" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          The free path to <strong class="font-tertiary italic">every prospect.</strong>
+        </h2>
+        <p class="text-text-default/70 mt-4">
+          Before a LinkedIn step spends anything, we check for a free way in. Most of the time, there is one.
+        </p>
+      </div>
+      <div class="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+        {
+          ladder.map((r, i) => (
+            <div class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 100}>
+              <span class="bg-primary text-on-primary font-secondary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full text-base font-bold">{r.n}</span>
+              <h3 class="text-heading text-lg font-semibold">{r.t}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{r.d}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
+      </div>
+      <p class="text-text-default/70 mx-auto mt-8 max-w-2xl text-center text-sm" data-aos="fade-up-sm">
+        Every LinkedIn step has a <strong class="text-heading">free-only toggle</strong> — flip it and the step
+        never spends an InMail credit. Whatever you send, it uses your LinkedIn account's own allowances,
+        never your SendEmAll credits.
+      </p>
+    </div>
+  </section>
+
+  <!-- Account safety -->
+  <section class="bg-accent py-16 md:py-24">
+    <div class="container">
+      <div class="mx-auto mb-12 max-w-2xl text-center" data-aos="fade-up-sm">
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          Built to keep your account <strong class="font-tertiary italic">safe.</strong>
+        </h2>
+      </div>
+      <div class="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+        {
+          safety.map(([t, d, icon], i) => (
+            <div class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 100}>
+              <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icon} />
+              </span>
+              <h3 class="text-heading text-lg font-semibold">{t}</h3>
+              <p class="text-text-default/70 mt-2 text-sm">{d}</p>
+              <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-16 md:py-24">
+    <div class="container text-center">
+      <h2 class="font-secondary has-italic-text mx-auto mb-5 max-w-2xl text-3xl md:text-4xl/tight" data-aos="fade-up-sm">
+        One account in <strong class="font-tertiary italic">every plan.</strong>
+      </h2>
+      <p class="text-text-default/70 mx-auto max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="50">
+        Every SendEmAll plan includes one LinkedIn sending account with its own dedicated IP.
+        Add more at <strong class="text-heading">$39/mo each</strong>. LinkedIn steps spend your account's
+        own allowances — never your SendEmAll credits.
+      </p>
+      <div class="mt-9 flex flex-wrap justify-center gap-4" data-aos="fade-up-sm" data-aos-delay="100">
+        <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Start sending", url: SEQ }} />
+        <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "/pricing" }} />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="pb-16 md:pb-24">
+    <div class="container max-w-3xl">
+      <h2 class="text-heading mb-10 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">LinkedIn outreach FAQ</h2>
+      <div class="hs-accordion-group space-y-4" data-aos="fade-up-sm" data-aos-delay="100">
+        {
+          faqs.map(([q, a], i) => (
+            <div class="hs-accordion bg-theme-dark border-border-light rounded-xl border" id={`lifaq-${i}`}>
+              <button class="hs-accordion-toggle text-heading hover:text-primary flex w-full items-center justify-between px-6 py-5 text-left font-medium transition-colors" aria-expanded="false" aria-controls={`lifaq-${i}-body`}>
+                {q}
+                <svg class="hs-accordion-active:rotate-180 text-text-default h-5 w-5 shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id={`lifaq-${i}-body`} class="hs-accordion-content hidden overflow-hidden transition-[height] duration-300" role="region">
+                <p class="text-text-default/80 px-6 pb-5">{a}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="pb-16 md:pb-24">
+    <div class="container text-center">
+      <h2 class="text-heading mb-6 text-3xl md:text-4xl font-bold has-italic-text" data-aos="fade-up-sm">
+        Two channels. <strong class="font-tertiary italic">One follow-up.</strong>
+      </h2>
+      <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Start sending", url: SEQ }} />
+      <p class="text-text-default/50 mx-auto mt-10 max-w-2xl text-xs">
+        SendEmAll is not affiliated with, endorsed by, or sponsored by LinkedIn. You connect and automate
+        your own authorized account and are responsible for complying with LinkedIn's User Agreement.
+        All trademarks are the property of their respective owners.
+      </p>
+    </div>
+  </section>
+</Base>
