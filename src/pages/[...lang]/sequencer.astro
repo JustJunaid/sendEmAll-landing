@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
 
 export function getStaticPaths() {
   return generatePaths();
@@ -26,7 +27,7 @@ const features = [
 <Base
   metaTitle="Unlimited-Seat Cold Email Sequencer & Unified Inbox | SendEmAll"
   disableTagline={true}
-  metaDescription="A cold email sequencer with unlimited seats and workspaces, a unified inbox, and warmup built in — one flat price, no per-seat tax. Built for agencies. Or push your leads and mailboxes to any tool, free."
+  metaDescription="A cold email sequencer with unlimited seats and workspaces, a unified inbox, and warmup built in — one flat price, no per-seat tax. LinkedIn steps in the same sequence, 1 account included. Built for agencies. Or push your leads and mailboxes to any tool, free."
 >
   <!-- Hero -->
   <section class="py-20 lg:py-28">
@@ -46,13 +47,16 @@ const features = [
         <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "Talk through a multi-client setup", url: "/contact?topic=agency" }} />
       </div>
       <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="300">
-        <img
-          src="/images/product/sequence-builder.svg"
-          width="720"
-          height="460"
+        <OptimizedImage
+          src="/images/product/sequencer-senders.png"
+          width={1600}
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+          format="webp"
           loading="eager"
-          alt="SendEmAll sequence builder — multi-step follow-ups, A/B variants, and a unified reply inbox"
-          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border"
+          fetchpriority="high"
+          alt="SendEmAll senders dashboard — a fleet of mailboxes warming on schedule, daily send ramp, and a connected LinkedIn account"
+          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border shadow-lg"
         />
       </div>
     </div>
@@ -78,14 +82,32 @@ const features = [
     </div>
   </section>
 
-  <!-- No lock-in -->
+  <!-- LinkedIn channel -->
   <section class="py-16 md:py-24">
+    <div class="container text-center">
+      <Subtitle content="New — LinkedIn channel" />
+      <h2 class="font-secondary has-italic-text mx-auto mb-5 max-w-2xl text-3xl md:text-4xl/tight" data-aos="fade-up-sm">
+        Email opens the thread. <strong class="font-tertiary italic">LinkedIn keeps it warm.</strong>
+      </h2>
+      <p class="text-text-default/70 mx-auto max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="50">
+        Add LinkedIn steps — connection requests, messages, InMail — right between your email steps.
+        A reply on either channel stops the sequence for that prospect, and every conversation lands in the
+        same unified inbox. One LinkedIn account is included; add more at $39/mo each.
+      </p>
+      <div class="mt-9" data-aos="fade-up-sm" data-aos-delay="100">
+        <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See LinkedIn outreach", url: "/linkedin-outreach" }} />
+      </div>
+    </div>
+  </section>
+
+  <!-- No lock-in -->
+  <section class="section-gradient py-16 md:py-24">
     <div class="container text-center">
       <h2 class="font-secondary has-italic-text mx-auto mb-5 max-w-2xl text-3xl md:text-4xl/tight" data-aos="fade-up-sm">
         Prefer your own tool? <strong class="font-tertiary italic">Keep it.</strong>
       </h2>
       <p class="text-text-default/70 mx-auto max-w-2xl text-lg" data-aos="fade-up-sm" data-aos-delay="50">
-        Take the verified leads and mailboxes you get from SendEmAll and push them into Instantly, Smartlead, or
+        Take the verified leads and mailboxes you get from SendEmAll and push them into Instantly or
         PlusVibe — <strong class="text-heading">free, no lock-in.</strong> Use our sequencer because it's the
         better deal; your data is always yours to take.
       </p>

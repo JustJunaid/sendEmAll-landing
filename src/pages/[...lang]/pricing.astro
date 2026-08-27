@@ -38,6 +38,16 @@ const pricingSchema = JSON.stringify({
       availability: "https://schema.org/InStock",
       url: "https://www.sendemall.com/pricing",
     },
+    {
+      "@type": "Offer",
+      name: "Sequencer",
+      price: "99",
+      priceCurrency: "USD",
+      priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
+      description: "Unlimited seats, workspaces, email sending and warmup. One LinkedIn account included.",
+      availability: "https://schema.org/InStock",
+      url: "https://www.sendemall.com/pricing",
+    },
   ],
 });
 
@@ -47,7 +57,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
 <Base
   metaTitle="Pricing — Pay only for verified emails | SendEmAll"
   disableTagline={true}
-  metaDescription="Transparent pricing. Credits are only spent on valid, verified emails. Starter $59/mo (25,000 credits), Growth $79/mo (50,000). Sequencer $99/mo, unlimited seats. Mailboxes from $1.50/mo."
+  metaDescription="Transparent pricing. Credits buy verified emails, buying signals and enrichments — sending is a flat subscription. Starter $59/mo (25,000 credits), Growth $79/mo (50,000). Sequencer $99/mo, unlimited seats, LinkedIn included. Mailboxes from $1.50/mo."
 >
   <!-- 1. Hero -->
   <section class="py-20 md:py-28">
@@ -57,8 +67,8 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
           Pay per valid email. <strong class="font-tertiary italic">Not per attempt.</strong>
         </h1>
         <p class="text-text-default/80 text-lg" data-aos="fade-up-sm" data-aos-delay="100">
-          1 credit = 1 valid, verified email. Scraping, finding, and verification are free.
-          No per-seat fees, no setup fees, cancel anytime.
+          Credits buy your data — verified emails, buying signals, enrichments. 1 credit = 1 valid, verified email;
+          catch-alls are labeled free. Sending is a flat subscription, never credits. No per-seat fees, no setup fees, cancel anytime.
         </p>
       </div>
     </div>
@@ -72,27 +82,28 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm">
           <h3 class="text-heading text-lg font-semibold">Starter</h3>
           <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$59</span><span class="text-text-default/60">/mo</span></div>
-          <p class="text-text-default/70 mb-6 text-sm">25,000 verified-email credits / month</p>
+          <p class="text-text-default/70 mb-6 text-sm">25,000 credits a month — verified emails, signals & enrichments</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
-            <li class="flex items-start gap-2" set:html={check + " Scrape Apollo & Sales Navigator"} />
-            <li class="flex items-start gap-2" set:html={check + " Email finding + verification included"} />
-            <li class="flex items-start gap-2" set:html={check + " Pay only for valid emails"} />
-            <li class="flex items-start gap-2" set:html={check + " API access"} />
+            <li class="flex items-start gap-2" set:html={check + " Search 66M+ contacts & 10M+ companies"} />
+            <li class="flex items-start gap-2" set:html={check + " Scrape your own Apollo & Sales Nav on a dedicated IP"} />
+            <li class="flex items-start gap-2" set:html={check + " Describe your ICP in plain English"} />
+            <li class="flex items-start gap-2" set:html={check + " Buying signals & enrichments"} />
+            <li class="flex items-start gap-2" set:html={check + " 1 LinkedIn account included"} />
+            <li class="flex items-start gap-2" set:html={check + " API, MCP server & CSV export"} />
           </ul>
           <a href={APP} class="btn btn-md btn-outline-primary w-full text-center">Create account</a>
         </div>
 
         <!-- Growth (Featured) -->
         <div class="bg-theme-dark border-primary relative flex flex-col rounded-2xl border-2 p-8" data-aos="fade-up-sm" data-aos-delay="100">
-          <span class="bg-primary text-on-primary absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-bold tracking-wider uppercase">Most popular</span>
+          <span class="bg-primary text-on-primary absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-bold tracking-wider uppercase">Best rate — $1.58 / 1,000</span>
           <h3 class="text-heading text-lg font-semibold">Growth</h3>
           <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$79</span><span class="text-text-default/60">/mo</span></div>
-          <p class="text-text-default/70 mb-6 text-sm">50,000 verified-email credits / month</p>
+          <p class="text-text-default/70 mb-6 text-sm">50,000 credits — for teams running steady volume</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
             <li class="flex items-start gap-2" set:html={check + " Everything in Starter"} />
             <li class="flex items-start gap-2" set:html={check + " Double the monthly credits"} />
-            <li class="flex items-start gap-2" set:html={check + " Best per-email rate"} />
-            <li class="flex items-start gap-2" set:html={check + " Priority support"} />
+            <li class="flex items-start gap-2" set:html={check + " $1.58 per 1,000 valid emails — vs $2.36 on Starter"} />
           </ul>
           <a href={APP} class="btn btn-md btn-primary w-full text-center">Create account</a>
         </div>
@@ -101,12 +112,13 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="200">
           <h3 class="text-heading text-lg font-semibold">Sequencer</h3>
           <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$99</span><span class="text-text-default/60">/mo</span></div>
-          <p class="text-text-default/70 mb-6 text-sm">Unlimited seats, workspaces & warmup</p>
+          <p class="text-text-default/70 mb-6 text-sm">Unlimited email — seats, workspaces & sending</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
-            <li class="flex items-start gap-2" set:html={check + " Unlimited seats & workspaces"} />
+            <li class="flex items-start gap-2" set:html={check + " Unlimited seats, workspaces & email sending"} />
             <li class="flex items-start gap-2" set:html={check + " Multi-step sequences + A/B testing"} />
-            <li class="flex items-start gap-2" set:html={check + " Unified inbox + reply management"} />
-            <li class="flex items-start gap-2" set:html={check + " Or push to your own tool, free"} />
+            <li class="flex items-start gap-2" set:html={check + " Unified inbox, warmup & reply detection"} />
+            <li class="flex items-start gap-2" set:html={check + " LinkedIn outreach — 1 account included, +$39/mo each"} />
+            <li class="flex items-start gap-2" set:html={check + " Works standalone — bring your own leads"} />
           </ul>
           <a href="https://sequencer.sendemall.com/register" class="btn btn-md btn-outline-primary w-full text-center">Start sending</a>
         </div>
@@ -115,11 +127,12 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="300">
           <h3 class="text-heading text-lg font-semibold">Infrastructure</h3>
           <div class="mt-3 mb-1"><span class="text-text-default/60 text-lg">from </span><span class="text-heading text-4xl font-bold">$1.50</span><span class="text-text-default/60">/mailbox/mo</span></div>
-          <p class="text-text-default/70 mb-6 text-sm">Mailboxes + domains, done for you</p>
+          <p class="text-text-default/70 mb-6 text-sm">SMTP $1.50 · Google & Microsoft $3.50 · Azure $40/tenant</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
-            <li class="flex items-start gap-2" set:html={check + " Google Workspace, M365 & SMTP"} />
-            <li class="flex items-start gap-2" set:html={check + " SPF, DKIM, DMARC + warmup"} />
-            <li class="flex items-start gap-2" set:html={check + " Domains at registrar cost"} />
+            <li class="flex items-start gap-2" set:html={check + " Provisioned for you in minutes"} />
+            <li class="flex items-start gap-2" set:html={check + " SPF, DKIM & DMARC set up automatically"} />
+            <li class="flex items-start gap-2" set:html={check + " Buy, pre-age, or bring your own domains"} />
+            <li class="flex items-start gap-2" set:html={check + " Pre-warmed mailboxes available"} />
             <li class="flex items-start gap-2" set:html={check + " Works with any sequencer"} />
           </ul>
           <a href="/mailboxes" class="btn btn-md btn-outline-primary w-full text-center">See mailboxes</a>
@@ -133,6 +146,9 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <p class="text-text-default/80 text-sm">
           <span class="text-primary mr-1.5 font-semibold">&#10003;</span> Under 3% bounce on the leads we provide, or we refund your first month.
         </p>
+        <p class="text-text-default/80 text-sm">
+          <span class="text-primary mr-1.5 font-semibold">&#10003;</span> In-app chat support on every plan — stuck anywhere, we're a message away.
+        </p>
       </div>
     </div>
   </section>
@@ -140,10 +156,10 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
   <!-- 3. Credit model -->
   <section class="pb-20 md:pb-28">
     <div class="container max-w-2xl">
-      <h2 class="text-heading mb-3 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">What does a credit cost?</h2>
+      <h2 class="text-heading mb-3 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">How credits work</h2>
       <p class="text-text-default/70 mb-10 text-center" data-aos="fade-up-sm">
-        The anchor is simple: <strong class="text-heading">1 credit = 1 verified, valid email delivered to you.</strong>
-        You are never charged for invalid results.
+        One rule: <strong class="text-heading">1 credit = 1 verified, valid email delivered to you.</strong>
+        Enrichments use credits at the rates below. Sending never does — that's the sequencer's flat subscription.
       </p>
       <div class="bg-theme-dark border-border-light overflow-hidden rounded-2xl border" data-aos="fade-up-sm" data-aos-delay="100">
         <table class="w-full text-left">
@@ -154,17 +170,17 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
             </tr>
           </thead>
           <tbody class="text-text-default/80">
-            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Scrape Apollo / Sales Navigator</td><td class="text-primary px-6 py-3.5 text-right font-medium">Free</td></tr>
-            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Find an email</td><td class="text-primary px-6 py-3.5 text-right font-medium">Free</td></tr>
             <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5"><strong class="text-heading">Verified, valid email delivered</strong></td><td class="text-heading px-6 py-3.5 text-right font-medium">1</td></tr>
-            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Sales Nav open-profile check</td><td class="text-heading px-6 py-3.5 text-right font-medium">3</td></tr>
-            <tr><td class="px-6 py-3.5">Ads / tech-stack signal</td><td class="text-heading px-6 py-3.5 text-right font-medium">1</td></tr>
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Catch-all, invalid or risky result</td><td class="text-primary px-6 py-3.5 text-right font-medium">Free — labeled</td></tr>
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Google or Meta ads detection</td><td class="text-heading px-6 py-3.5 text-right font-medium">1 per domain</td></tr>
+            <tr class="border-border-light/50 border-b"><td class="px-6 py-3.5">Tech-stack detection</td><td class="text-heading px-6 py-3.5 text-right font-medium">1 per domain</td></tr>
+            <tr><td class="px-6 py-3.5">LinkedIn Open Profile check</td><td class="text-heading px-6 py-3.5 text-right font-medium">3</td></tr>
           </tbody>
         </table>
       </div>
       <p class="text-text-default/60 mt-4 text-center text-sm">
         That's <strong class="text-heading">$2.36 per 1,000 verified emails</strong> on Starter, and
-        <strong class="text-heading">$1.58</strong> on Growth.
+        <strong class="text-heading">$1.58</strong> on Growth. Full enrichment rates are shown in the app before you run anything.
       </p>
     </div>
   </section>
@@ -185,15 +201,15 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
               </div>
             ))}
           </div>
-          <div class="mt-6 rounded-xl bg-[#EF4444]/10 p-4 text-center">
-            <p class="text-sm text-[#EF4444]">Total monthly cost</p>
-            <p class="text-2xl font-bold text-[#EF4444]">$190–474<span class="text-base font-normal">/mo</span></p>
+          <div class="mt-6 rounded-xl bg-danger/10 p-4 text-center">
+            <p class="text-sm text-danger">Total monthly cost</p>
+            <p class="text-2xl font-bold text-danger">$190–474<span class="text-base font-normal">/mo</span></p>
           </div>
         </div>
         <div class="bg-theme-dark border-primary/50 relative rounded-2xl border-2 p-8" data-aos="fade-up-sm" data-aos-delay="100">
           <h3 class="font-secondary text-primary mb-6 text-center text-lg font-medium">SendEmAll</h3>
           <div class="space-y-3 text-sm">
-            {[["Verified B2B leads","$59/mo"],["Email finding + verification","Included"],["Ads & tech-stack signals","Included"],["Sequencer + unified inbox","$99/mo"],["Email warmup","Included"]].map(([k,v]) => (
+            {[["Verified B2B leads","$59/mo"],["Email finding + verification","In the credit"],["Email warmup","Included"],["Sequencer + unified inbox","$99/mo"],["LinkedIn outreach","1 account included"]].map(([k,v]) => (
               <div class="border-border-light/50 flex items-center justify-between border-b pb-3">
                 <span class="text-text-default/80">{k}</span><span class="text-heading font-medium">{v}</span>
               </div>
@@ -213,7 +229,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
     <div class="container max-w-2xl">
       <div class="bg-theme-dark border-border-light rounded-2xl border p-8 md:p-12" data-aos="fade-up-sm">
         <h2 class="text-heading mb-2 text-center text-2xl md:text-3xl font-bold">Estimate your plan</h2>
-        <p class="text-text-default/70 mb-10 text-center">How many verified emails do you need per month?</p>
+        <p class="text-text-default/70 mb-10 text-center">How many verified emails do you need per month? Add the sequencer at a flat $99/mo when you're ready to send.</p>
         <div class="mb-10">
           <div class="text-text-default/70 mb-2 flex justify-between text-sm">
             <span>1,000</span>
@@ -237,7 +253,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         function plan(n) {
           if (n <= 25000) return { name: "Starter", cost: "$59" };
           if (n <= 50000) return { name: "Growth", cost: "$79" };
-          return { name: "Contact us", cost: "Custom" };
+          return { name: "Talk to us", cost: "Custom" };
         }
         function update() {
           const n = parseInt(slider.value, 10);
@@ -258,13 +274,16 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
       <h2 class="text-heading mb-12 text-center text-2xl md:text-3xl font-bold" data-aos="fade-up-sm">Frequently asked questions</h2>
       <div class="hs-accordion-group space-y-4" data-aos="fade-up-sm" data-aos-delay="100">
         {[
-          ["What counts as a credit?", "One credit equals one verified, valid email delivered to you. Scraping Apollo and Sales Navigator, and finding emails, are free. You're never charged for invalid or undeliverable results."],
+          ["What counts as a credit?", "One credit equals one verified, valid email delivered to you. Enrichments — verification, ads and tech-stack detection, LinkedIn Open Profile checks — use credits too, at the rates shown in the app. Catch-alls are labeled free, and you're never charged for invalid results."],
           ["What do the 500 free credits cover?", "Every new account gets 500 credits, no card required — enough to pull 500 verified emails from our 66M-contact lake, or to test email verification, the email finder, decision-maker lookup, and buying signals. The one thing they don't cover is scraping your own Apollo or Sales Navigator account: that runs on a dedicated residential IP reserved for you, so it starts with a paid plan."],
-          ["How much is the sequencer?", "$99/mo, everything unlimited — seats, workspaces, sending, warmup, reply management. It's built for agencies done paying per seat. Prefer your own tool? Push your SendEmAll leads and mailboxes to Instantly, Smartlead, or PlusVibe free — no lock-in."],
+          ["How much is the sequencer?", "$99/mo, everything unlimited — seats, workspaces, sending, warmup, reply management. It's built for agencies done paying per seat. Prefer your own tool? Push your SendEmAll leads and mailboxes to Instantly or PlusVibe free — no lock-in."],
           ["Can I change plans?", "Upgrade, downgrade, or cancel anytime. Changes take effect on your next billing cycle. No contracts, no lock-in."],
           ["What if I need more than 50,000 credits?", "Reach out and we'll sort out a plan that fits your volume."],
           ["Do unused credits roll over?", "Credits reset monthly. Pick the plan that matches your outbound volume so nothing goes to waste."],
-          ["How much does the sending infrastructure cost?", "Mailboxes start at $1.50 per mailbox per month, with SPF, DKIM, DMARC and warmup set up for you. Domains are provided at registrar cost. See the mailboxes page for details."],
+          ["Does LinkedIn cost extra?", "Every plan includes one LinkedIn sending account on its own dedicated residential IP. Add more at $39/mo each. LinkedIn sending spends your own LinkedIn allowances — never your SendEmAll credits."],
+          ["Do credits pay for sending?", "No. Credits only buy data — verified emails and enrichments. Sending is the sequencer's flat $99/mo subscription, however much you send."],
+          ["How much does the sending infrastructure cost?", "SMTP mailboxes are $1.50 per month and Google Workspace or Microsoft 365 are $3.50 — SPF, DKIM, DMARC and warmup set up for you. For volume, an Azure shared tenant is $40/mo and carries 100 mailboxes on one domain. Buy domains at the live registrar price, pick from our pre-aged inventory, or bring your own. See the mailboxes page for details."],
+          ["What if I get stuck?", "Chat with us from inside the app — real people, during working hours, on every plan. Wherever you hit a wall, we're a message away."],
         ].map(([q, a], i) => (
           <div class="hs-accordion bg-theme-dark border-border-light rounded-xl border" id={`pfaq-${i}`}>
             <button class="hs-accordion-toggle text-heading hover:text-primary flex w-full items-center justify-between px-6 py-5 text-left font-medium transition-colors" aria-expanded="false" aria-controls={`pfaq-${i}-body`}>

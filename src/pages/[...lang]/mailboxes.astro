@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
 
 export function getStaticPaths() {
   return generatePaths();
@@ -13,12 +14,13 @@ const INFRA = "https://infra.sendemall.com/register";
 const CARD =
   "group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
 
-// Landing pricing is the source of truth (app is being updated to match).
+// Landing pricing is the source of truth — the monorepo recommender is stale here (Junaid, 27 Aug).
+// Daily caps are the industry-safe cold-email limits; warmup traffic runs alongside them.
 const mailboxes = [
-  { name: "Google Workspace", price: "$3.50", unit: "/mailbox/mo", cap: "~30 cold emails/day each" },
-  { name: "Microsoft 365", price: "$3.50", unit: "/mailbox/mo", cap: "~30 cold emails/day each" },
-  { name: "SMTP", price: "$1.50", unit: "/mailbox/mo", cap: "~50 cold emails/day each" },
-  { name: "Microsoft Azure", price: "$30", unit: "/tenant/mo", cap: "high-volume sending" },
+  { name: "Google Workspace", price: "$3.50", unit: "/mailbox/mo", cap: "Up to 30 cold + 30 warmup emails a day each" },
+  { name: "Microsoft 365", price: "$3.50", unit: "/mailbox/mo", cap: "Up to 30 cold + 30 warmup emails a day each" },
+  { name: "SMTP", price: "$1.50", unit: "/mailbox/mo", cap: "Up to 50 cold + 50 warmup emails a day each" },
+  { name: "Microsoft Azure", price: "$40", unit: "/tenant/mo", cap: "100 mailboxes on one domain — up to 500 cold + 500 warmup emails a day" },
 ];
 
 // Self-serve flow — you drive it, the automation does the plumbing.
@@ -35,13 +37,14 @@ const included = [
   ["Warmup + monitoring built in", "Mailboxes warm from day one; bounce, spam and blacklist health are watched continuously across your fleet.", '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>'],
 ];
 
-const interop = ["SendEmAll", "Instantly", "Smartlead", "PlusVibe"];
+const interop = ["SendEmAll", "Instantly", "PlusVibe"];
 
 const faqs = [
   ["Do I set this up myself, or do you?", "You do — from your own dashboard, in minutes. You order mailboxes and domains, and the platform provisions and configures everything automatically. It's self-serve software, not a done-for-you agency."],
   ["What's the difference between standard and pre-warmed?", "Standard mailboxes provision immediately and warm from day one. Pre-warmed mailboxes come from a live catalog of inboxes we've already warmed — buy them and start sending sooner."],
   ["Can I use my own domain?", "Yes. Connect your own registrar or reuse domains you already own at no extra cost, or buy a fresh or pre-aged domain through the platform. Either way, DNS and authentication are handled for you."],
-  ["Which sequencers can I push to?", "Push mailboxes straight into SendEmAll's own sequencer, Instantly, Smartlead, or PlusVibe — no manual export/import."],
+  ["How many emails can each mailbox send?", "Up to 30 cold emails a day per Google Workspace or Microsoft 365 mailbox, 50 per SMTP mailbox, and 500 a day across an Azure tenant's 100 mailboxes — the safe limits the cold-email industry has settled on, with warmup traffic running alongside. We recommend up to 5 mailboxes per domain; an Azure tenant's 100 share one domain."],
+  ["Which sequencers can I push to?", "Push mailboxes straight into SendEmAll's own sequencer, Instantly or PlusVibe — no manual export/import."],
   ["What happens to my domains if I cancel?", "Domains you purchase are yours. You keep them and can point them wherever you like."],
 ];
 ---
@@ -69,6 +72,19 @@ const faqs = [
           <ButtonLink class="btn-md btn-outline-primary" content={{ enable: true, label: "See pricing", url: "#mailbox-pricing" }} />
         </div>
       </div>
+      <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="250">
+        <OptimizedImage
+          src="/images/product/infra-hub.png"
+          width={1600}
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+          alt="SendEmAll infrastructure — register a domain, auto-configure DNS, and provision Google, Microsoft or SMTP mailboxes in one flow"
+          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border shadow-lg"
+        />
+      </div>
     </div>
   </section>
 
@@ -93,6 +109,19 @@ const faqs = [
           ))
         }
       </div>
+      <div class="mt-12" data-aos="fade-up-sm">
+        <OptimizedImage
+          src="/images/product/infra-provisioning.png"
+          width={1600}
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+          format="webp"
+          loading="lazy"
+          alt="Live order tracker — payment received, domain registered, DNS configured, mailboxes provisioning automatically in about two minutes"
+          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border shadow-lg"
+        />
+        <p class="text-text-default/60 mt-4 text-center text-sm">A real order, mid-provision — domain, DNS and mailboxes done in minutes, no ticket queue.</p>
+      </div>
     </div>
   </section>
 
@@ -115,9 +144,117 @@ const faqs = [
         }
       </div>
       <p class="text-text-default/60 mt-6 text-center text-sm">
-        Prices are per mailbox; a 5% platform fee is added at checkout. Domains billed at registrar cost, pre-aged from $10, or bring your own for free.
+        A 5% platform fee is added at checkout. Domains billed at registrar cost, pre-aged from $10, or bring your own for free.
+        We recommend up to 5 mailboxes per domain — an Azure tenant's 100 mailboxes share one.
       </p>
     </div>
+  </section>
+
+  <!-- Mailbox calculator -->
+  <section class="section-gradient py-16 md:py-24">
+    <div class="container max-w-4xl">
+      <div class="mx-auto mb-10 max-w-2xl text-center" data-aos="fade-up-sm">
+        <Subtitle content="Calculator" />
+        <h2 class="font-secondary has-italic-text text-3xl md:text-4xl/tight">
+          How many mailboxes <strong class="font-tertiary italic">do you need?</strong>
+        </h2>
+        <p class="text-text-default/70 mt-4">
+          Pick how many leads you want to reach each month. We size the fleet at safe sending limits, so your volume never outruns your deliverability.
+        </p>
+      </div>
+      <div class="bg-theme-dark border-border-light rounded-2xl border p-8 md:p-10" data-aos="fade-up-sm">
+        <div class="mb-8 grid gap-8 md:grid-cols-2">
+          <div>
+            <div class="text-text-default/70 mb-2 flex items-baseline justify-between text-sm">
+              <span>Leads per month</span>
+              <span id="mbx-leads" class="text-heading text-lg font-semibold">1,000</span>
+            </div>
+            <input type="range" id="mbx-leads-slider" min="100" max="25000" step="100" value="1000" aria-label="Leads per month" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
+          </div>
+          <div>
+            <div class="text-text-default/70 mb-2 flex items-baseline justify-between text-sm">
+              <span>Steps per sequence</span>
+              <span id="mbx-steps-label" class="text-heading text-lg font-semibold">3</span>
+            </div>
+            <input type="range" id="mbx-steps" min="1" max="5" step="1" value="3" aria-label="Steps per sequence" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
+          </div>
+        </div>
+        <p class="text-text-default/80 mb-6 text-center text-sm">
+          That's <strong id="mbx-monthly" class="text-heading">3,000</strong> emails a month — about
+          <strong id="mbx-daily" class="text-heading">137</strong> a day, sending on weekdays. Three ways to carry it:
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-border-light border-b">
+                <th class="text-heading px-4 py-3 font-semibold">Option</th>
+                <th class="text-heading px-4 py-3 text-right font-semibold">Mailboxes</th>
+                <th class="text-heading px-4 py-3 text-right font-semibold">Domains</th>
+                <th class="text-heading px-4 py-3 text-right font-semibold">Cost / mo</th>
+              </tr>
+            </thead>
+            <tbody class="text-text-default/80">
+              <tr class="border-border-light/50 border-b">
+                <td class="px-4 py-3">Google Workspace or Microsoft 365</td>
+                <td id="mbx-gw-n" class="px-4 py-3 text-right">5</td>
+                <td id="mbx-gw-d" class="px-4 py-3 text-right">1</td>
+                <td id="mbx-gw-c" class="text-heading px-4 py-3 text-right font-medium">$17.50</td>
+              </tr>
+              <tr class="border-border-light/50 border-b">
+                <td class="px-4 py-3">SMTP</td>
+                <td id="mbx-smtp-n" class="px-4 py-3 text-right">3</td>
+                <td id="mbx-smtp-d" class="px-4 py-3 text-right">1</td>
+                <td id="mbx-smtp-c" class="text-heading px-4 py-3 text-right font-medium">$4.50</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3">Azure shared tenant</td>
+                <td id="mbx-az-n" class="px-4 py-3 text-right">100 · 1 tenant</td>
+                <td id="mbx-az-d" class="px-4 py-3 text-right">1</td>
+                <td id="mbx-az-c" class="text-heading px-4 py-3 text-right font-medium">$40</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="text-text-default/60 mt-5 text-center text-xs">
+          Sized at safe limits — up to 30 cold emails a day per Google/Microsoft mailbox, 50 per SMTP, 500 per Azure tenant, warmup running alongside — with up to 5 mailboxes per domain. Domains billed separately at registrar cost.
+        </p>
+        <div class="mt-8 text-center">
+          <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Get mailboxes", url: INFRA }} />
+        </div>
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+        const leads = $("mbx-leads-slider");
+        const steps = $("mbx-steps");
+        const fmt = (n) => n.toLocaleString("en-US");
+        const money = (n) => "$" + (Number.isInteger(n) ? fmt(n) : n.toFixed(2));
+        function update() {
+          const monthly = +leads.value * +steps.value;
+          const daily = Math.ceil(monthly / 22); // weekday sending days per month
+          const gwN = Math.max(1, Math.ceil(daily / 30));
+          const smtpN = Math.max(1, Math.ceil(daily / 50));
+          const azT = Math.max(1, Math.ceil(daily / 500));
+          $("mbx-leads").textContent = fmt(+leads.value);
+          $("mbx-steps-label").textContent = steps.value;
+          $("mbx-monthly").textContent = fmt(monthly);
+          $("mbx-daily").textContent = fmt(daily);
+          $("mbx-gw-n").textContent = fmt(gwN);
+          $("mbx-gw-d").textContent = fmt(Math.ceil(gwN / 5));
+          $("mbx-gw-c").textContent = money(gwN * 3.5);
+          $("mbx-smtp-n").textContent = fmt(smtpN);
+          $("mbx-smtp-d").textContent = fmt(Math.ceil(smtpN / 5));
+          $("mbx-smtp-c").textContent = money(smtpN * 1.5);
+          $("mbx-az-n").textContent = fmt(azT * 100) + " · " + azT + (azT > 1 ? " tenants" : " tenant");
+          $("mbx-az-d").textContent = fmt(azT);
+          $("mbx-az-c").textContent = money(azT * 40);
+        }
+        leads.addEventListener("input", update);
+        steps.addEventListener("input", update);
+        update();
+      })();
+    </script>
   </section>
 
   <!-- What's included -->

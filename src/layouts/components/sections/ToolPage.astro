@@ -7,6 +7,7 @@
 import Base from "@/layouts/Base.astro";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
 const { tool } = Astro.props;
@@ -49,14 +50,28 @@ const faqSchema = tool.faqs?.length
       {
         tool.image && (
           <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="300">
-            <img
-              src={tool.image}
-              width="720"
-              height="460"
-              loading="eager"
-              alt={tool.imageAlt || tool.metaTitle}
-              class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border"
-            />
+            {tool.image.endsWith(".svg") ? (
+              <img
+                src={tool.image}
+                width="720"
+                height="460"
+                loading="eager"
+                alt={tool.imageAlt || tool.metaTitle}
+                class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border"
+              />
+            ) : (
+              <OptimizedImage
+                src={tool.image}
+                width={1600}
+                widths={[640, 1024, 1600]}
+                sizes="(min-width: 1024px) 896px, 100vw"
+                format="webp"
+                loading="eager"
+                fetchpriority="high"
+                alt={tool.imageAlt || tool.metaTitle}
+                class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border shadow-lg"
+              />
+            )}
           </div>
         )
       }

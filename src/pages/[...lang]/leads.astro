@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import { generatePaths } from "@/lib/utils/i18nUtils";
 import Subtitle from "@/layouts/components/widgets/Subtitle.astro";
 import ButtonLink from "@/layouts/components/buttons/ButtonLink.astro";
+import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
 
 export function getStaticPaths() {
   return generatePaths();
@@ -70,14 +71,16 @@ const signals = [
         </p>
       </div>
       <div class="mt-14" data-aos="fade-up-sm" data-aos-delay="300">
-        <img
-          src="/images/product/leads-table.svg"
-          width="720"
-          height="460"
+        <OptimizedImage
+          src="/images/product/leads-search.png"
+          width={1600}
+          widths={[640, 1024, 1600]}
+          sizes="(min-width: 1024px) 896px, 100vw"
+          format="webp"
           loading="eager"
           fetchpriority="high"
-          alt="SendEmAll lead search — each email marked valid, accepts-all, or unverified before delivery"
-          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border"
+          alt="SendEmAll lead search — 3.7 million matches filtered by title and department, every email verified Valid"
+          class="border-border-light mx-auto w-full max-w-4xl rounded-2xl border shadow-lg"
         />
       </div>
     </div>
@@ -138,6 +141,16 @@ const signals = [
           </div>
         </div>
         <div class="from-primary/35 to-body -bg-linear-20 border-border-light rounded-3xl border p-8 md:p-10" data-aos="fade-up-sm" data-aos-delay="100">
+          <OptimizedImage
+            src="/images/product/enrichment-catalog.png"
+            width={1200}
+            widths={[640, 1200]}
+            sizes="(min-width: 1024px) 560px, 100vw"
+            format="webp"
+            loading="lazy"
+            alt="Enrichment catalog on a verified list — Google ads, Meta ads and tech-stack detection at 1 credit per row"
+            class="border-border-light mb-6 h-auto w-full rounded-xl border shadow-lg"
+          />
           <p class="text-heading font-secondary text-xl font-semibold">Right person. Right time.</p>
           <p class="text-text-default/70 mt-3">
             A verified email at a company that's hiring for the exact role you help, or just raised a round, or
@@ -168,7 +181,7 @@ const signals = [
         {
           [
             { n: "1 credit", l: "= 1 verified, deliverable email" },
-            { n: "0.20%", l: "measured false-positive rate" },
+            { n: "<3%", l: "bounce on our leads — or your first month refunded" },
             { n: "Free", l: "catch-alls, clearly labeled — never billed" },
           ].map((x) => (
             <div class="border-border-light bg-theme-dark rounded-2xl border p-8">
@@ -191,7 +204,7 @@ const signals = [
         </h2>
         <p class="text-text-default/70 mt-5 text-lg">
           Hand us a company domain and we'll find the right decision-maker's verified email. Then export a clean
-          CSV, or push straight into Instantly, Smartlead, PlusVibe, or SendEmAll's own sequencer — no
+          CSV, or push straight into Instantly, PlusVibe, or SendEmAll's own sequencer — no
           manual re-import.
         </p>
         <div class="mt-9 flex flex-wrap justify-center gap-4">

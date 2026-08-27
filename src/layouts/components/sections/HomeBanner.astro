@@ -15,6 +15,7 @@ import type { customersSectionType } from "@/types";
 type homeBannerSectionType = Section & {
   buttons: Button[];
   customers: customersSectionType;
+  imageAlt?: string;
 };
 
 type Props = {
@@ -36,27 +37,38 @@ let actualContent = overrideObjects(
 ) as homeBannerSectionType;
 
 // Extracting required values from 'content' object
-let { title, customers, description, image, buttons } =
+let { title, customers, description, image, imageAlt, buttons } =
   actualContent as homeBannerSectionType;
 
 const videoButton = buttons.find((button) => button.type === "video");
 
-// Hero headline A/B harness (PostHog experiment flag key: `hero_headline`).
-// `control` = the title from content and renders by default (SEO-safe single h1,
-// no flash). initExperiments() (fired after PostHog resolves flags in
-// CookieConsent.astro) swaps `hidden` to the assigned variant. The harness is
-// DORMANT until (a) approved variant copy is added below and (b) a matching
-// PostHog experiment exists (flag `hero_headline`, variant keys, goal
-// `signup_click`). Until then only `control` ever renders.
+// Hero A/B harness (PostHog flag `hero_headline`, experiment #453312).
+// Headline and description swap TOGETHER as one message: `control` (value-led,
+// from the content file) vs `product_led` — never mixed, so each cell reads as
+// one coherent voice. `control` renders by default (SEO-safe single h1, no
+// flash); initExperiments() swaps `hidden` once PostHog resolves the flag.
+// Conversion is measured on `app_signed_in` (cross-subdomain identity), not
+// clicks. Approved by Junaid 2026-08-27.
 const heroVariants = [
   { variant: "control", text: title },
-  { variant: "bounce", text: "Stop paying for **leads that bounce.**" },
-  // More candidates to A/B later — uncomment one and create its matching PostHog variant key:
+  { variant: "product_led", text: "Verified leads. Warmed mailboxes. **Email + LinkedIn sequences.**" },
+  // Earlier candidates, parked — to try one later: uncomment it AND add the
+  // matching variant key to the PostHog flag/experiment first.
+  // { variant: "bounce", text: "Stop paying for **leads that bounce.**" },
   // { variant: "domain", text: "Cold email that lands — **without burning your domain.**" },
   // { variant: "one_system", text: "Right buyers, real deliverability — **one system.**" },
   // { variant: "agency", text: "Outbound for agencies. **Unlimited seats, one price.**" },
   // { variant: "rigged_stack", text: "Your outbound stack is rigged. **Here's the fix.**" },
   // { variant: "five_tools", text: "Find them and reach them. **One platform, not five tools.**" },
+];
+
+// Each headline cell's matching description — same flag, same variant keys.
+const heroDescriptions = [
+  { variant: "control", text: description },
+  {
+    variant: "product_led",
+    text: "Search 66M+ B2B contacts and 10M+ companies — every email verified before it reaches you. Spin up Google and Microsoft mailboxes with warmup built in. Follow up on email and LinkedIn from one sequencer. Each piece works on its own.",
+  },
 ];
 ---
 
@@ -91,13 +103,22 @@ const heroVariants = [
           }
           {
             description && (
-              <AnimatedText
-                class="text-center text-lg/normal"
-                stagger={0.008}
-                delay={0.15}
-                duration={0.5}
-                content={markdownify(description)}
-              />
+              <div>
+                {heroDescriptions.map((d) => (
+                  <div
+                    data-ab="hero_headline"
+                    data-ab-variant={d.variant}
+                    hidden={d.variant !== "control"}>
+                    <AnimatedText
+                      class="text-center text-lg/normal"
+                      stagger={0.008}
+                      delay={0.15}
+                      duration={0.5}
+                      content={markdownify(d.text)}
+                    />
+                  </div>
+                ))}
+              </div>
             )
           }
         </div>
@@ -188,7 +209,7 @@ const heroVariants = [
             <span class="bg-border-light h-1 w-1 rounded-full" aria-hidden="true" />
             <span><strong class="text-heading">18</strong> data sources</span>
             <span class="bg-border-light h-1 w-1 rounded-full" aria-hidden="true" />
-            <span><strong class="text-heading">0.20%</strong> false-positive</span>
+            <span><strong class="text-heading">10M+</strong> companies</span>
             <span class="bg-border-light h-1 w-1 rounded-full" aria-hidden="true" />
             <span>from <strong class="text-heading">$59/mo</strong></span>
           </div>
@@ -224,9 +245,13 @@ const heroVariants = [
                 />
               ) : (
                 <OptimizedImage
-                  class="rounded-t-2xl md:rounded-t-3xl"
+                  class="rounded-t-2xl md:rounded-t-3xl w-full h-auto"
                   src={image}
-                  alt={"About " + plainify(title).toLowerCase()}
+                  width={1920}
+                  widths={[768, 1280, 1920]}
+                  sizes="(min-width: 1280px) 1280px, 100vw"
+                  format="webp"
+                  alt={imageAlt || "About " + plainify(title).toLowerCase()}
                   loading="eager"
                   fetchpriority="high"
                 />
