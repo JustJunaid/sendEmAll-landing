@@ -77,6 +77,14 @@ sendemall-*.json
 # Playwright MCP
 .playwright-mcp/
 
+# Probe/audit screenshots dropped at repo root by browser tooling — never commit
+/*.png
+/*.jpg
+/*.webp
+
+# Unused screenshot variants parked for later (dark themes, stale-price shots)
+design/screenshots-unused/
+
 # Jest
 coverage/
 .superpowers/

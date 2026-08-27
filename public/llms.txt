@@ -1,34 +1,42 @@
 # SendEmAll
 
-> The outbound platform. Find verified B2B buyers, run your campaigns, and land in the inbox — with sending infrastructure done for you. You only pay for valid, verified emails.
+> The all-in-one B2B outbound platform. Find buyers with verified emails, send from warmed mailboxes, and follow up on email and LinkedIn in one sequence. Use the full stack — or just the piece your outbound is missing.
 
 ## Key Information
 
-- SendEmAll scrapes B2B prospect data from Apollo and LinkedIn Sales Navigator (customers connect their own accounts), finds decision-maker emails, and verifies them before delivery.
-- Billing anchor: 1 credit = 1 verified, valid email delivered. You are never charged for invalid or undeliverable results. Scraping, email finding, and verification are included at no extra credit cost.
-- The sequencer — multi-step campaigns, a unified inbox, and email warmup — is $99/mo with unlimited seats, workspaces, and sending.
-- No lock-in: push your leads and mailboxes to Instantly, Smartlead, or PlusVibe free of charge, export CSV for any other tool, or use SendEmAll's own sequencer.
-- Sending infrastructure (mailboxes and domains, with SPF/DKIM/DMARC and warmup) is available done-for-you, starting at $1.50 per mailbox per month; domains at registrar cost.
+- SendEmAll finds B2B leads three ways: a 66M+ contact / 10M+ company data lake, scraping the customer's own Apollo or LinkedIn Sales Navigator account (their seat, on a dedicated residential IP), and Google Maps public listings. Every email is verified before delivery.
+- Billing anchor: credits buy data. 1 credit = 1 verified, valid email delivered. Catch-all, invalid, and risky results are labeled and free. Buying signals and enrichments (Google/Meta ads detection, tech-stack detection, LinkedIn Open Profile checks) also use credits, at rates shown in the app. Sending never uses credits — it is a flat subscription.
+- The sequencer is $99/mo with unlimited seats, workspaces, email sending, warmup, and reply management. It also runs LinkedIn outreach: connection requests, messages, and InMail as steps inside the same sequence as email; a reply on either channel stops both. Every plan includes 1 LinkedIn sending account on its own dedicated residential IP; extra LinkedIn accounts are $39/mo each.
+- Risk reversal: under 3% bounce on the leads SendEmAll provides, or the first month is refunded (applies to leads SendEmAll provided, first month only).
+- No lock-in: push leads and mailboxes to Instantly or PlusVibe free of charge, export CSV for any other tool, or use SendEmAll's own sequencer.
+- Sending infrastructure is self-serve: Google Workspace and Microsoft 365 mailboxes at $3.50/mo each, SMTP at $1.50/mo, and Azure shared tenants at $40/mo carrying 100 mailboxes on one domain. SPF, DKIM, DMARC, and warmup are automated; domains at live registrar cost, pre-aged inventory available, or bring your own. A 5% platform fee applies at checkout.
+- Safe sending limits: up to 30 cold + 30 warmup emails/day per Google/Microsoft mailbox, 50 + 50 per SMTP mailbox, 500 + 500 per Azure tenant; up to 5 mailboxes recommended per domain.
+- Every new account starts with 500 free credits, no card required. In-app chat support on every plan.
 
 ## Pricing
 
-- Starter: $59/mo — 25,000 verified-email credits per month
-- Growth: $79/mo — 50,000 verified-email credits per month
-- Sequencer: $99/mo — unlimited seats, workspaces, and sending, with warmup and a unified inbox included
-- Infrastructure: from $1.50 per mailbox per month (Google Workspace and Microsoft 365 from $3.50, SMTP from $1.50, Azure $30/tenant); a 5% platform fee applies at checkout; domains at registrar cost
+- Starter: $59/mo — 25,000 credits per month (verified emails, signals & enrichments)
+- Growth: $79/mo — 50,000 credits per month, the best rate at $1.58 per 1,000 valid emails
+- Sequencer: $99/mo — unlimited seats, workspaces, email sending, warmup, and reply management; 1 LinkedIn account included, extra LinkedIn accounts $39/mo each
+- Infrastructure: SMTP mailboxes $1.50/mo, Google Workspace & Microsoft 365 $3.50/mo, Azure shared tenant $40/mo (100 mailboxes); domains at registrar cost
 
 ## Capabilities
 
-- Lead data: scrape Apollo and Sales Navigator, find and verify decision-maker emails, pay only for valid results
-- Sequencer ($99/mo, unlimited seats): multi-step campaigns, A/B testing, sending schedules, unified inbox, email warmup
-- Infrastructure: done-for-you Google Workspace, Microsoft 365, and SMTP mailboxes with DNS configured and deliverability monitoring
-- Developer access: REST API, and an MCP server and CLI (beta)
+- Leads: search 66M+ B2B contacts and 10M+ companies, scrape your own Apollo / Sales Navigator / Google Maps, describe your ICP in plain English, filter by buying signals, verify every email — pay only for valid results
+- Sequencer: multi-step email + LinkedIn sequences, A/B testing, sending schedules, unified inbox, warmup, positive-reply detection — unlimited seats and workspaces at one flat price
+- LinkedIn outreach: connection requests, messages, and InMail from the customer's own LinkedIn account, on a dedicated residential IP, at a safe human pace (ramp to 40 actions/day, hard ceiling 50); Sales Navigator is only needed for the InMail path, never as a blanket requirement
+- Infrastructure: self-serve Google Workspace, Microsoft 365, Azure, and SMTP mailboxes with DNS configured, warmup built in, pre-warmed inventory, and deliverability monitoring
+- Developer access: REST API, MCP server, webhooks, CSV import/export, CLI (beta)
 
 ## Pages
 
 - [Home](https://www.sendemall.com/)
 - [Pricing](https://www.sendemall.com/pricing)
+- [Leads](https://www.sendemall.com/leads)
 - [Mailboxes](https://www.sendemall.com/mailboxes)
+- [Sequencer](https://www.sendemall.com/sequencer)
+- [LinkedIn outreach](https://www.sendemall.com/linkedin-outreach)
+- [Free tools](https://www.sendemall.com/tools)
 - [Free deliverability test](https://www.sendemall.com/deliverability-test)
 - [Compare vs Instantly](https://www.sendemall.com/compare/instantly)
 - [Compare vs Apollo](https://www.sendemall.com/compare/apollo)
@@ -36,3 +44,7 @@
 - [Compare vs Lemlist](https://www.sendemall.com/compare/lemlist)
 - [For Developers](https://www.sendemall.com/developers)
 - [Blog](https://www.sendemall.com/blog)
+- [Changelog](https://www.sendemall.com/changelog)
+- [FAQ](https://www.sendemall.com/faq)
+
+SendEmAll is not affiliated with Apollo, LinkedIn, Google, or Microsoft. Customers connect and automate their own authorized accounts only.
