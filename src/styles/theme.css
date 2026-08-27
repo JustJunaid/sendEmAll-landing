@@ -31,6 +31,10 @@
   --se-primary-ink: #7D3CC2;   /* readable violet for primary TEXT/icons on white — 6.11:1 */
   --se-secondary:   #6D28D9;   /* links                —  6.81:1 on page */
   --se-border:      #E7E2EF;   /* dividers, card borders */
+  --se-success:     #15803D;   /* status green — 4.54:1 on page */
+  --se-warning:     #A16207;   /* status amber — 4.60:1 on page */
+  --se-danger:      #B91C1C;   /* status red   — 5.94:1 on page */
+  --se-info:        #1D4ED8;   /* status blue  — 6.33:1 on page */
   --se-dark:        #0e0c0c;   /* fixed near-black reference */
   --se-light:       #FFFFFF;   /* fixed near-white reference */
 }
@@ -48,6 +52,10 @@
   --se-primary-ink: #D2B3F3;   /* on dark, lavender reads fine as text — 10.67:1 */
   --se-secondary:   #B896E8;
   --se-border:      #2A2433;
+  --se-success:     #4ade80;   /* 10.77:1 on page */
+  --se-warning:     #fbbf24;   /* 11.51:1 on page */
+  --se-danger:      #f87171;   /*  6.85:1 on page */
+  --se-info:        #60a5fa;   /*  7.19:1 on page */
   --se-dark:        #0e0c0c;
   --se-light:       #fff6f6;
 }
@@ -69,6 +77,10 @@
   --color-text-default: var(--se-text);         /* body text */
   --color-heading:      var(--se-heading);       /* text-heading — headings + strong */
   --color-muted:        var(--se-muted);         /* text-muted — secondary text */
+  --color-success:      var(--se-success);       /* status green — verdicts, valid states */
+  --color-warning:      var(--se-warning);       /* status amber — partial/promotions */
+  --color-danger:       var(--se-danger);        /* status red — spam/failures */
+  --color-info:         var(--se-info);          /* status blue — neutral info states */
   --color-dark:         var(--se-dark);          /* fixed near-black */
   --color-light:        var(--se-light);         /* fixed near-white */
 

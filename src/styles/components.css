@@ -3,7 +3,7 @@
   @apply prose text-text-default max-w-none;
 
   /* Typography */
-  @apply prose-headings:scroll-mt-32 prose-headings:font-medium prose-headings:mb-[.6em] prose-headings:mt-10 prose-headings:text-light;
+  @apply prose-headings:scroll-mt-32 prose-headings:font-medium prose-headings:mb-[.6em] prose-headings:mt-10 prose-headings:text-heading;
   @apply prose-h1:text-h1-sm;
   @apply prose-h2:text-h2-sm;
   @apply prose-h3:text-h3-sm;
@@ -11,7 +11,7 @@
   @apply prose-h5:text-h5-sm;
   @apply prose-h6:text-h6;
   @apply prose-strong:text-secondary prose-strong:font-normal;
-  @apply prose-pre:bg-white/5;
+  @apply prose-pre:bg-accent;
   @apply prose-a:text-secondary prose-a:underline prose-a:transition prose-a:duration-300 prose-a:font-normal [&_a:hover]:no-underline;
   @apply prose-p:text-text-default prose-p:mt-2 prose-p:mb-3;
 
@@ -22,10 +22,10 @@
   @apply prose-img:mt-2.5 prose-img:max-w-full;
 
   /* Table */
-  @apply prose-thead:border-border-light prose-thead:bg-white/5;
+  @apply prose-thead:border-border-light prose-thead:bg-accent;
   @apply prose-tr:border-border-light;
   @apply prose-td:relative prose-td:z-10 prose-td:px-3 prose-td:py-4.5;
-  @apply prose-th:relative prose-th:z-10 prose-th:px-4 prose-th:py-4.5 prose-th:text-light;
+  @apply prose-th:relative prose-th:z-10 prose-th:px-4 prose-th:py-4.5 prose-th:text-heading;
   @apply prose-table:relative prose-table:overflow-hidden prose-table:before:absolute prose-table:before:left-0 prose-table:before:top-0 prose-table:before:h-full prose-table:before:w-full prose-table:before:border-border-light prose-table:before:rounded-[inherit] prose-table:before:border prose-table:before:content-[""];
 
   /* Blockquote */
@@ -42,9 +42,9 @@
   ul:not(.list-unstyled) {
     @apply prose-p:mb-0 list-none;
     @apply prose-li:after:content-[""];
-    @apply prose-li:after:w-4 prose-li:after:h-4 prose-li:after:bg-white/10 prose-li:relative prose-li:after:absolute prose-li:after:left-0 prose-li:after:top-[0.35em] prose-li:pl-8 prose-li:after:rounded-full;
+    @apply prose-li:after:w-4 prose-li:after:h-4 prose-li:after:bg-primary/20 prose-li:relative prose-li:after:absolute prose-li:after:left-0 prose-li:after:top-[0.35em] prose-li:pl-8 prose-li:after:rounded-full;
     @apply prose-li:before:content-[""];
-    @apply prose-li:before:w-1.5 prose-li:before:h-1.5 prose-li:before:bg-white prose-li:relative prose-li:before:absolute prose-li:before:left-1.25 prose-li:before:top-2.75 prose-li:pl-[1.8em] prose-li:before:rounded-full;
+    @apply prose-li:before:w-1.5 prose-li:before:h-1.5 prose-li:before:bg-secondary prose-li:relative prose-li:before:absolute prose-li:before:left-1.25 prose-li:before:top-2.75 prose-li:pl-[1.8em] prose-li:before:rounded-full;
   }
 
   ol {

@@ -33,36 +33,36 @@ const SEED_INBOXES_FALLBACK = [
   {/* The deliverability wizard is a self-contained dark-designed tool (fixed
       dark-hex cards + JS that toggles those hex classes). Wrap it in a dark
       surface so it stays coherent in both light and dark site themes. */}
-  <div class="bg-[#0e0c0c]">
+  <div class="bg-body">
   <!-- Hero -->
   <section class="relative overflow-hidden pt-24 pb-4">
     <div
       class="pointer-events-none absolute inset-0 -z-10"
-      style="background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(210,179,243,0.12) 0%, transparent 70%);"
+      style="background: radial-gradient(ellipse 70% 40% at 50% 0%, color-mix(in srgb, var(--se-primary) 12%, transparent) 0%, transparent 70%);"
     >
     </div>
     <div class="container mx-auto max-w-4xl px-4 text-center">
       <div
-        class="mb-4 inline-flex items-center gap-2 rounded-full border border-[#2A2433] bg-[#1A191C] px-4 py-1.5 text-sm text-[#D2B3F3]"
+        class="mb-4 inline-flex items-center gap-2 rounded-full border border-border-light bg-theme-dark px-4 py-1.5 text-sm text-primary"
       >
         <span class="relative flex h-2 w-2">
           <span
-            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D2B3F3] opacity-75"
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"
           ></span>
           <span
-            class="relative inline-flex h-2 w-2 rounded-full bg-[#D2B3F3]"
+            class="relative inline-flex h-2 w-2 rounded-full bg-primary"
           ></span>
         </span>
         Free Deliverability Audit
       </div>
       <h1
-        class="mb-4 text-4xl font-bold text-white md:text-5xl lg:text-6xl"
+        class="mb-4 text-4xl font-bold text-heading md:text-5xl lg:text-6xl"
         style="font-family: 'Sora', sans-serif; line-height: 1.1;"
       >
         See exactly where<br />
-        <span style="color: #D2B3F3;">your emails land</span>
+        <span style="color: var(--se-primary-ink);">your emails land</span>
       </h1>
-      <p class="mx-auto mb-10 max-w-2xl text-lg text-[#C8C1C1]">
+      <p class="mx-auto mb-10 max-w-2xl text-lg text-text-default">
         Send a test email to our seed inboxes across Gmail, Outlook, Yahoo, and
         more. Get your inbox placement rate, spam score, and sender reputation
         — no account required.
@@ -72,20 +72,20 @@ const SEED_INBOXES_FALLBACK = [
       <div id="step-indicator" class="mx-auto mb-12 flex max-w-xs items-center justify-center gap-0">
         <div class="step-item flex flex-col items-center" data-step="1">
           <div
-            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#D2B3F3] bg-[#D2B3F3] text-sm font-bold text-black transition-all duration-300"
+            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-primary bg-primary text-sm font-bold text-on-primary transition-all duration-300"
           >
             1
           </div>
-          <span class="mt-1.5 text-xs font-medium text-[#D2B3F3]">Send</span>
+          <span class="mt-1.5 text-xs font-medium text-primary">Send</span>
         </div>
-        <div class="mb-5 h-px w-16 bg-[#2A2433] transition-all duration-500" id="connector-1"></div>
+        <div class="mb-5 h-px w-16 bg-border-light transition-all duration-500" id="connector-1"></div>
         <div class="step-item flex flex-col items-center" data-step="2">
           <div
-            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#2A2433] bg-[#1A191C] text-sm font-bold text-[#C8C1C1] transition-all duration-300"
+            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-border-light bg-theme-dark text-sm font-bold text-text-default transition-all duration-300"
           >
             2
           </div>
-          <span class="mt-1.5 text-xs font-medium text-[#C8C1C1] transition-all duration-300"
+          <span class="mt-1.5 text-xs font-medium text-text-default transition-all duration-300"
             >Results</span
           >
         </div>
@@ -101,24 +101,24 @@ const SEED_INBOXES_FALLBACK = [
       <div id="step-1" class="step-panel">
 
         <!-- Tracking code block -->
-        <div class="mb-5 rounded-2xl border border-[#D2B3F3]/30 bg-[#1A191C] p-6 md:p-8">
+        <div class="mb-5 rounded-2xl border border-primary/30 bg-theme-dark p-6 md:p-8">
           <div class="mb-4 flex items-center gap-3">
-            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
-              <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+              <svg class="h-4.5 w-4.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/>
               </svg>
             </div>
             <div>
-              <h3 class="font-semibold text-white">Your tracking code</h3>
-              <p class="text-xs text-[#6b6875]">Include this in your email subject or body</p>
+              <h3 class="font-semibold text-heading">Your tracking code</h3>
+              <p class="text-xs text-muted">Include this in your email subject or body</p>
             </div>
           </div>
-          <div class="flex items-center gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
-            <code id="tracking-code" class="flex-1 font-mono text-base font-bold text-[#D2B3F3] tracking-wide select-all"></code>
+          <div class="flex items-center gap-3 rounded-lg border border-border-light bg-body p-4">
+            <code id="tracking-code" class="flex-1 font-mono text-base font-bold text-primary tracking-wide select-all"></code>
             <button
               id="copy-code-btn"
-              class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-3 py-1.5 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]"
+              class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-3 py-1.5 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary"
             >
               <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/>
@@ -126,21 +126,21 @@ const SEED_INBOXES_FALLBACK = [
               Copy
             </button>
           </div>
-          <div class="mt-3 rounded-lg bg-[#D2B3F3]/5 px-4 py-3 text-xs text-[#C8C1C1]">
-            <strong class="text-[#D2B3F3]">How to use:</strong> Add this code anywhere in your email subject line or body — e.g. <em>"[SEA-TEST-XXXXXX]"</em>. This lets us identify your email in the seed inboxes.
+          <div class="mt-3 rounded-lg bg-primary/5 px-4 py-3 text-xs text-text-default">
+            <strong class="text-primary">How to use:</strong> Add this code anywhere in your email subject line or body — e.g. <em>"[SEA-TEST-XXXXXX]"</em>. This lets us identify your email in the seed inboxes.
           </div>
         </div>
 
         <!-- Seed inboxes -->
-        <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
+        <div class="mb-5 rounded-2xl border border-border-light bg-theme-dark p-6 md:p-8">
           <div class="mb-5 flex items-center justify-between">
             <div>
-              <h3 class="font-semibold text-white">Send to these addresses</h3>
-              <p class="mt-0.5 text-xs text-[#6b6875]">Real inboxes across 12+ email providers</p>
+              <h3 class="font-semibold text-heading">Send to these addresses</h3>
+              <p class="mt-0.5 text-xs text-muted">Real inboxes across 12+ email providers</p>
             </div>
             <button
               id="copy-all-btn"
-              class="flex items-center gap-1.5 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-3 py-2 text-xs font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]"
+              class="flex items-center gap-1.5 rounded-lg border border-border-light bg-body px-3 py-2 text-xs font-medium text-text-default transition-all hover:border-primary/50 hover:text-primary"
             >
               <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/>
@@ -152,10 +152,10 @@ const SEED_INBOXES_FALLBACK = [
           <!-- Loading state -->
           <div id="inboxes-loading" class="space-y-2.5">
             {Array.from({ length: 8 }).map(() => (
-              <div class="flex animate-pulse items-center gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3">
-                <div class="h-3 w-3 rounded-full bg-[#2A2433]"></div>
-                <div class="h-3 flex-1 rounded bg-[#2A2433]"></div>
-                <div class="h-5 w-16 rounded-md bg-[#2A2433]"></div>
+              <div class="flex animate-pulse items-center gap-3 rounded-lg border border-border-light bg-body px-4 py-3">
+                <div class="h-3 w-3 rounded-full bg-border-light"></div>
+                <div class="h-3 flex-1 rounded bg-border-light"></div>
+                <div class="h-5 w-16 rounded-md bg-border-light"></div>
               </div>
             ))}
           </div>
@@ -165,35 +165,35 @@ const SEED_INBOXES_FALLBACK = [
         </div>
 
         <!-- Instructions -->
-        <div class="mb-5 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6 md:p-8">
-          <h3 class="mb-4 font-semibold text-white">How to send the test</h3>
+        <div class="mb-5 rounded-2xl border border-border-light bg-theme-dark p-6 md:p-8">
+          <h3 class="mb-4 font-semibold text-heading">How to send the test</h3>
           <ol class="space-y-4">
             <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">1</div>
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">1</div>
               <div>
-                <p class="text-sm font-medium text-white">Open your email client</p>
-                <p class="mt-0.5 text-xs text-[#6b6875]">Gmail, Outlook, Apple Mail, or any other client you use.</p>
+                <p class="text-sm font-medium text-heading">Open your email client</p>
+                <p class="mt-0.5 text-xs text-muted">Gmail, Outlook, Apple Mail, or any other client you use.</p>
               </div>
             </li>
             <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">2</div>
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">2</div>
               <div>
-                <p class="text-sm font-medium text-white">Compose your email</p>
-                <p class="mt-0.5 text-xs text-[#6b6875]">Use the subject and body you entered above. Include the tracking code somewhere visible.</p>
+                <p class="text-sm font-medium text-heading">Compose your email</p>
+                <p class="mt-0.5 text-xs text-muted">Use the subject and body you entered above. Include the tracking code somewhere visible.</p>
               </div>
             </li>
             <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">3</div>
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">3</div>
               <div>
-                <p class="text-sm font-medium text-white">Paste all seed addresses in the To field</p>
-                <p class="mt-0.5 text-xs text-[#6b6875]">Copy all addresses above and paste them as recipients. Most email clients accept comma-separated addresses.</p>
+                <p class="text-sm font-medium text-heading">Paste all seed addresses in the To field</p>
+                <p class="mt-0.5 text-xs text-muted">Copy all addresses above and paste them as recipients. Most email clients accept comma-separated addresses.</p>
               </div>
             </li>
             <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D2B3F3]/10 text-xs font-bold text-[#D2B3F3]">4</div>
+              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">4</div>
               <div>
-                <p class="text-sm font-medium text-white">Hit send, then come back here</p>
-                <p class="mt-0.5 text-xs text-[#6b6875]">Click the button below and we'll check each inbox for your email and report where it landed.</p>
+                <p class="text-sm font-medium text-heading">Hit send, then come back here</p>
+                <p class="mt-0.5 text-xs text-muted">Click the button below and we'll check each inbox for your email and report where it landed.</p>
               </div>
             </li>
           </ol>
@@ -201,7 +201,7 @@ const SEED_INBOXES_FALLBACK = [
 
         <button
           id="btn-sent"
-          class="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#D2B3F3] px-6 py-3.5 text-sm font-semibold text-black transition-all duration-200 hover:bg-[#B896E8]"
+          class="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-sm font-semibold text-on-primary transition-all duration-200 hover:opacity-90"
         >
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
@@ -212,45 +212,45 @@ const SEED_INBOXES_FALLBACK = [
 
       <!-- ==================== STEP 2: ANALYZING ==================== -->
       <div id="step-2" class="step-panel hidden">
-        <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-8 text-center md:p-12">
+        <div class="rounded-2xl border border-border-light bg-theme-dark p-8 text-center md:p-12">
           <!-- Animated rings -->
           <div class="relative mx-auto mb-8 h-24 w-24">
             <div class="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-[#D2B3F3]" style="animation-duration: 1.2s;"></div>
-            <div class="absolute inset-2 animate-spin rounded-full border-2 border-transparent border-t-[#B896E8]" style="animation-duration: 1.8s; animation-direction: reverse;"></div>
+            <div class="absolute inset-2 animate-spin rounded-full border-2 border-transparent border-t-primary" style="animation-duration: 1.8s; animation-direction: reverse;"></div>
             <div class="absolute inset-4 animate-spin rounded-full border-2 border-transparent border-t-[#D2B3F3]/50" style="animation-duration: 2.4s;"></div>
             <div class="absolute inset-0 flex items-center justify-center">
-              <svg class="h-8 w-8 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
               </svg>
             </div>
           </div>
 
-          <h2 class="mb-2 text-2xl font-bold text-white">Checking your inboxes...</h2>
-          <p class="mx-auto mb-8 max-w-sm text-sm text-[#C8C1C1]">
+          <h2 class="mb-2 text-2xl font-bold text-heading">Checking your inboxes...</h2>
+          <p class="mx-auto mb-8 max-w-sm text-sm text-text-default">
             We're scanning 12+ email providers for your message. This takes about 60 seconds.
           </p>
 
           <!-- Progress steps -->
           <div id="analysis-steps" class="mx-auto max-w-xs space-y-3 text-left">
             <div class="analysis-step flex items-center gap-3 text-sm" data-index="0">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
-              <span class="text-[#6b6875]">Checking Gmail inboxes</span>
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
+              <span class="text-muted">Checking Gmail inboxes</span>
             </div>
             <div class="analysis-step flex items-center gap-3 text-sm" data-index="1">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
-              <span class="text-[#6b6875]">Checking Outlook & Hotmail</span>
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
+              <span class="text-muted">Checking Outlook & Hotmail</span>
             </div>
             <div class="analysis-step flex items-center gap-3 text-sm" data-index="2">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
-              <span class="text-[#6b6875]">Checking Yahoo, iCloud, AOL</span>
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
+              <span class="text-muted">Checking Yahoo, iCloud, AOL</span>
             </div>
             <div class="analysis-step flex items-center gap-3 text-sm" data-index="3">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
-              <span class="text-[#6b6875]">Analyzing email content</span>
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
+              <span class="text-muted">Analyzing email content</span>
             </div>
             <div class="analysis-step flex items-center gap-3 text-sm" data-index="4">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-[#2A2433] bg-[#0e0c0c]"></div>
-              <span class="text-[#6b6875]">Generating reputation report</span>
+              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
+              <span class="text-muted">Generating reputation report</span>
             </div>
           </div>
         </div>
@@ -264,28 +264,28 @@ const SEED_INBOXES_FALLBACK = [
           <div class="flex flex-wrap items-start justify-between gap-5">
             <!-- Left: label + title + sender + status -->
             <div class="flex-1 min-w-0">
-              <span class="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-[#D2B3F3]">Performance Report</span>
-              <h2 class="text-2xl font-bold text-white" id="report-domain-title">Deliverability Report</h2>
-              <p id="results-sender" class="mt-0.5 text-xs text-[#6b6875]"></p>
-              <p id="score-summary" class="mt-2 max-w-xl text-sm leading-relaxed text-[#C8C1C1]"></p>
+              <span class="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-primary">Performance Report</span>
+              <h2 class="text-2xl font-bold text-heading" id="report-domain-title">Deliverability Report</h2>
+              <p id="results-sender" class="mt-0.5 text-xs text-muted"></p>
+              <p id="score-summary" class="mt-2 max-w-xl text-sm leading-relaxed text-text-default"></p>
             </div>
             <!-- Right: big inbox rate card -->
-            <div class="shrink-0 rounded-2xl border border-[#2A2433] bg-[#1A191C] px-8 py-5 text-center" style="min-width:140px;">
-              <span id="inbox-pct-center" class="block text-5xl font-black leading-none text-white">—</span>
-              <span class="mt-1.5 block text-[10px] font-bold uppercase tracking-widest text-[#6b6875]">Overall Score</span>
+            <div class="shrink-0 rounded-2xl border border-border-light bg-theme-dark px-8 py-5 text-center" style="min-width:140px;">
+              <span id="inbox-pct-center" class="block text-5xl font-black leading-none text-heading">—</span>
+              <span class="mt-1.5 block text-[10px] font-bold uppercase tracking-widest text-muted">Overall Score</span>
               <!-- Hidden elements kept for JS compat -->
               <div class="hidden">
                 <svg viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="10"/>
-                  <circle id="score-ring" cx="50" cy="50" r="38" fill="none" stroke="#D2B3F3" stroke-width="10" stroke-linecap="round" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease,stroke 0.5s ease;"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke-width="10" style="stroke: var(--se-border);"/>
+                  <circle id="score-ring" cx="50" cy="50" r="38" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-primary); transition:stroke-dashoffset 1.2s ease,stroke 0.5s ease;"/>
                 </svg>
                 <span id="score-value">—</span>
                 <span id="score-badge"></span>
                 <svg id="placement-donut" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke="#2A2433" stroke-width="16"/>
-                  <circle id="donut-inbox" cx="50" cy="50" r="38" fill="none" stroke="#4ade80" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease 0.2s;"/>
-                  <circle id="donut-promo" cx="50" cy="50" r="38" fill="none" stroke="#fbbf24" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease 0.4s;"/>
-                  <circle id="donut-spam" cx="50" cy="50" r="38" fill="none" stroke="#f87171" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="transition:stroke-dashoffset 1.2s ease 0.6s;"/>
+                  <circle cx="50" cy="50" r="38" fill="none" stroke-width="16" style="stroke: var(--se-border);"/>
+                  <circle id="donut-inbox" cx="50" cy="50" r="38" fill="none" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-success); transition:stroke-dashoffset 1.2s ease 0.2s;"/>
+                  <circle id="donut-promo" cx="50" cy="50" r="38" fill="none" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-warning); transition:stroke-dashoffset 1.2s ease 0.4s;"/>
+                  <circle id="donut-spam" cx="50" cy="50" r="38" fill="none" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-danger); transition:stroke-dashoffset 1.2s ease 0.6s;"/>
                 </svg>
                 <span id="inbox-pct">—</span>
                 <span id="promo-pct">—</span>
@@ -295,13 +295,13 @@ const SEED_INBOXES_FALLBACK = [
           </div>
           <!-- Tracking code + action buttons row -->
           <div class="mt-5 flex flex-wrap items-center gap-3">
-            <div class="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-[#D2B3F3]/20 bg-[#D2B3F3]/5 px-4 py-2.5">
-              <svg class="h-3.5 w-3.5 shrink-0 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div class="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5">
+              <svg class="h-3.5 w-3.5 shrink-0 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3ZM6 6h.008v.008H6Z"/>
               </svg>
-              <span class="text-xs text-[#6b6875]">Tracking code</span>
-              <code id="results-tracking-code" class="flex-1 select-all font-mono text-sm font-bold tracking-wide text-[#D2B3F3]"></code>
-              <button id="copy-results-code-btn" class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-2.5 py-1 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]">
+              <span class="text-xs text-muted">Tracking code</span>
+              <code id="results-tracking-code" class="flex-1 select-all font-mono text-sm font-bold tracking-wide text-primary"></code>
+              <button id="copy-results-code-btn" class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-2.5 py-1 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary">
                 <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
                 Copy
               </button>
@@ -310,7 +310,7 @@ const SEED_INBOXES_FALLBACK = [
               <svg id="recalc-icon" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
               Recalculate
             </button>
-            <button id="btn-restart" class="flex items-center gap-1.5 rounded-lg border border-[#2A2433] bg-[#1A191C] px-3 py-2 text-xs font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white">
+            <button id="btn-restart" class="flex items-center gap-1.5 rounded-lg border border-border-light bg-theme-dark px-3 py-2 text-xs font-medium text-text-default transition-all hover:border-primary/40 hover:text-heading">
               <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
               New test
             </button>
@@ -318,14 +318,14 @@ const SEED_INBOXES_FALLBACK = [
         </div>
 
         <!-- Sender Reputation — full width -->
-        <div class="mb-6 rounded-2xl border border-[#2A2433] bg-[#1A191C] p-6">
+        <div class="mb-6 rounded-2xl border border-border-light bg-theme-dark p-6">
           <div class="mb-5 flex items-start justify-between gap-4">
             <div>
-              <h3 class="text-base font-semibold text-white">Sender Reputation</h3>
-              <p id="rep-domain-subtitle" class="mt-0.5 text-xs text-[#6b6875]">Domain authentication status</p>
+              <h3 class="text-base font-semibold text-heading">Sender Reputation</h3>
+              <p id="rep-domain-subtitle" class="mt-0.5 text-xs text-muted">Domain authentication status</p>
             </div>
             <div class="text-right">
-              <div id="rep-score-display" class="text-2xl font-black leading-none text-white">—</div>
+              <div id="rep-score-display" class="text-2xl font-black leading-none text-heading">—</div>
               <div id="rep-overall-badge" class="hidden mt-0.5 text-[10px] font-bold uppercase tracking-wider"></div>
             </div>
           </div>
@@ -336,20 +336,20 @@ const SEED_INBOXES_FALLBACK = [
         </div>
 
         <!-- Seed Inbox Granularity -->
-        <div class="mb-6 overflow-hidden rounded-2xl border border-[#2A2433] bg-[#1A191C]">
-          <div class="border-b border-[#2A2433] px-6 py-5">
-            <h3 class="text-base font-semibold italic text-white">Seed Inbox Granularity</h3>
-            <p class="mt-0.5 text-xs text-[#6b6875]">Placement result per seed inbox.</p>
+        <div class="mb-6 overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+          <div class="border-b border-border-light px-6 py-5">
+            <h3 class="text-base font-semibold italic text-heading">Seed Inbox Granularity</h3>
+            <p class="mt-0.5 text-xs text-muted">Placement result per seed inbox.</p>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full">
               <thead>
-                <tr class="border-b border-[#2A2433]">
-                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">Provider</th>
-                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">Placement</th>
+                <tr class="border-b border-border-light">
+                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-muted">Provider</th>
+                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-muted">Placement</th>
                 </tr>
               </thead>
-              <tbody id="seed-table-body" class="divide-y divide-[#2A2433]"></tbody>
+              <tbody id="seed-table-body" class="divide-y divide-border-light"></tbody>
             </table>
           </div>
           <div id="seed-provider-cards" class="hidden"></div>
@@ -359,57 +359,57 @@ const SEED_INBOXES_FALLBACK = [
         <div id="gated-details">
 
           <!-- Editorial Audit (content analysis) -->
-          <div class="mb-5 overflow-hidden rounded-2xl border border-[#2A2433] bg-[#1A191C]">
-            <div class="flex items-start justify-between gap-4 border-b border-[#2A2433] px-6 py-5">
+          <div class="mb-5 overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+            <div class="flex items-start justify-between gap-4 border-b border-border-light px-6 py-5">
               <div>
-                <h3 class="text-base font-semibold italic text-white">Editorial Audit</h3>
-                <p class="mt-0.5 text-xs text-[#6b6875]">AI-analyzed email content for spam triggers and deliverability friction.</p>
+                <h3 class="text-base font-semibold italic text-heading">Editorial Audit</h3>
+                <p class="mt-0.5 text-xs text-muted">AI-analyzed email content for spam triggers and deliverability friction.</p>
               </div>
               <div id="content-score-badge" class="hidden shrink-0 rounded-full px-3 py-1 text-xs font-bold"></div>
             </div>
-            <div id="content-checks" class="divide-y divide-[#2A2433] overflow-y-auto" style="max-height:420px;"></div>
+            <div id="content-checks" class="divide-y divide-border-light overflow-y-auto" style="max-height:420px;"></div>
           </div>
 
           <!-- Strategic Improvements — moved below Editorial Audit -->
-          <div class="mb-5 overflow-hidden rounded-2xl border border-[#2A2433] bg-[#1A191C]">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#2A2433] px-6 py-5">
+          <div class="mb-5 overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border-light px-6 py-5">
               <div>
-                <h3 class="text-base font-semibold italic text-white">Strategic Improvements</h3>
-                <p class="mt-0.5 text-xs text-[#6b6875]">Actionable steps to optimize your deliverability.</p>
+                <h3 class="text-base font-semibold italic text-heading">Strategic Improvements</h3>
+                <p class="mt-0.5 text-xs text-muted">Actionable steps to optimize your deliverability.</p>
               </div>
               <div class="flex items-center gap-2">
-                <button id="btn-expand-all" class="rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white">
+                <button id="btn-expand-all" class="rounded-lg border border-border-light bg-body px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-text-default transition-all hover:border-primary/40 hover:text-heading">
                   Expand All
                 </button>
               </div>
             </div>
 
             <div id="recommendations-section" class="hidden">
-              <ul id="all-recs-list" class="divide-y divide-[#2A2433] overflow-y-auto" style="max-height:420px;"></ul>
+              <ul id="all-recs-list" class="divide-y divide-border-light overflow-y-auto" style="max-height:420px;"></ul>
             </div>
 
             <div id="email-capture-card" class="px-6 py-8">
               <div class="mx-auto max-w-md text-center">
-                <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#D2B3F3]/10">
-                  <svg class="h-5 w-5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                  <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
                   </svg>
                 </div>
-                <h4 class="mb-1 text-sm font-semibold text-white">Unlock your full action plan</h4>
-                <p class="mb-4 text-xs text-[#C8C1C1]/70">Get all recommendations ranked by impact — sent directly to you.</p>
-                <div id="report-success" class="hidden mb-3 rounded-lg border border-[#4ade80]/30 bg-[#4ade80]/10 px-4 py-3 text-sm text-[#4ade80]">
+                <h4 class="mb-1 text-sm font-semibold text-heading">Unlock your full action plan</h4>
+                <p class="mb-4 text-xs text-text-default/70">Get all recommendations ranked by impact — sent directly to you.</p>
+                <div id="report-success" class="hidden mb-3 rounded-lg border border-success/30 bg-success/10 px-4 py-3 text-sm text-success">
                   Sent! Check your inbox for the full report.
                 </div>
                 <div id="report-form">
                   <div class="flex gap-2">
                     <input type="email" id="report-email" placeholder="you@yourdomain.com"
-                      class="flex-1 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-2.5 text-sm text-white placeholder-[#6b6875] outline-none transition-all focus:border-[#D2B3F3]"/>
-                    <button id="btn-send-report" class="rounded-lg bg-[#D2B3F3] px-4 py-2.5 text-sm font-semibold text-black transition-all hover:bg-[#B896E8] disabled:opacity-50 whitespace-nowrap">
+                      class="flex-1 rounded-lg border border-border-light bg-body px-4 py-2.5 text-sm text-heading placeholder-muted outline-none transition-all focus:border-primary"/>
+                    <button id="btn-send-report" class="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition-all hover:opacity-90 disabled:opacity-50 whitespace-nowrap">
                       Send Report
                     </button>
                   </div>
-                  <div id="report-error" class="mt-2 hidden rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-400"></div>
-                  <p class="mt-2 text-[10px] text-[#6b6875]">No spam · No account needed</p>
+                  <div id="report-error" class="mt-2 hidden rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-xs text-danger"></div>
+                  <p class="mt-2 text-[10px] text-muted">No spam · No account needed</p>
                 </div>
               </div>
             </div>
@@ -422,61 +422,61 @@ const SEED_INBOXES_FALLBACK = [
           </div>
 
           <!-- AI rewritten version (triggered by button) -->
-          <div id="ai-fix-section" class="mb-5 hidden rounded-2xl border border-[#D2B3F3]/20 p-6 md:p-8"
-               style="background: linear-gradient(135deg, rgba(210,179,243,0.05) 0%, rgba(14,12,12,0.8) 100%);">
+          <div id="ai-fix-section" class="mb-5 hidden rounded-2xl border border-primary/20 p-6 md:p-8"
+               style="background: linear-gradient(135deg, color-mix(in srgb, var(--se-primary) 5%, transparent) 0%, color-mix(in srgb, var(--se-body) 80%, transparent) 100%);">
             <div class="mb-5 flex items-center gap-3">
-              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#D2B3F3]/10">
-                <svg class="h-4.5 w-4.5 text-[#D2B3F3]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
+                <svg class="h-4.5 w-4.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
                 </svg>
               </div>
               <div>
-                <h3 class="font-semibold text-white">AI-rewritten version</h3>
-                <p class="text-xs text-[#6b6875]">Same offer, better inbox placement — spam triggers removed</p>
+                <h3 class="font-semibold text-heading">AI-rewritten version</h3>
+                <p class="text-xs text-muted">Same offer, better inbox placement — spam triggers removed</p>
               </div>
             </div>
 
             <!-- Loading state -->
             <div id="ai-fix-loading" class="space-y-3">
-              <div class="animate-pulse space-y-2 rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
-                <div class="h-3 w-1/4 rounded bg-[#2A2433]"></div>
-                <div class="h-4 w-3/4 rounded bg-[#2A2433]"></div>
+              <div class="animate-pulse space-y-2 rounded-lg border border-border-light bg-body p-4">
+                <div class="h-3 w-1/4 rounded bg-border-light"></div>
+                <div class="h-4 w-3/4 rounded bg-border-light"></div>
               </div>
-              <div class="animate-pulse space-y-2 rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
-                <div class="h-3 w-1/4 rounded bg-[#2A2433]"></div>
-                <div class="h-4 w-full rounded bg-[#2A2433]"></div>
-                <div class="h-4 w-5/6 rounded bg-[#2A2433]"></div>
-                <div class="h-4 w-4/6 rounded bg-[#2A2433]"></div>
+              <div class="animate-pulse space-y-2 rounded-lg border border-border-light bg-body p-4">
+                <div class="h-3 w-1/4 rounded bg-border-light"></div>
+                <div class="h-4 w-full rounded bg-border-light"></div>
+                <div class="h-4 w-5/6 rounded bg-border-light"></div>
+                <div class="h-4 w-4/6 rounded bg-border-light"></div>
               </div>
             </div>
 
             <!-- Generated content (shown after load) -->
             <div id="ai-fix-content" class="hidden space-y-4">
               <!-- Subject -->
-              <div class="rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+              <div class="rounded-lg border border-border-light bg-body p-4">
                 <div class="mb-2 flex items-center justify-between">
-                  <span class="text-xs font-medium uppercase tracking-wider text-[#6b6875]">Subject line</span>
-                  <button id="copy-ai-subject" class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-2.5 py-1 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]">
+                  <span class="text-xs font-medium uppercase tracking-wider text-muted">Subject line</span>
+                  <button id="copy-ai-subject" class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-2.5 py-1 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary">
                     <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
                     Copy
                   </button>
                 </div>
-                <p id="ai-subject-text" class="text-sm font-medium text-white"></p>
+                <p id="ai-subject-text" class="text-sm font-medium text-heading"></p>
               </div>
               <!-- Body -->
-              <div class="rounded-lg border border-[#2A2433] bg-[#0e0c0c] p-4">
+              <div class="rounded-lg border border-border-light bg-body p-4">
                 <div class="mb-2 flex items-center justify-between">
-                  <span class="text-xs font-medium uppercase tracking-wider text-[#6b6875]">Email body</span>
-                  <button id="copy-ai-body" class="flex items-center gap-1.5 rounded-md border border-[#2A2433] bg-[#1A191C] px-2.5 py-1 text-xs text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/50 hover:text-[#D2B3F3]">
+                  <span class="text-xs font-medium uppercase tracking-wider text-muted">Email body</span>
+                  <button id="copy-ai-body" class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-2.5 py-1 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary">
                     <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
                     Copy
                   </button>
                 </div>
-                <pre id="ai-body-text" class="whitespace-pre-wrap text-sm text-[#C8C1C1]"></pre>
+                <pre id="ai-body-text" class="whitespace-pre-wrap text-sm text-text-default"></pre>
               </div>
               <!-- Test this version CTA -->
               <button id="btn-test-ai-version"
-                class="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#D2B3F3] px-5 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8]">
+                class="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-on-primary transition-all hover:opacity-90">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
                 </svg>
@@ -490,21 +490,21 @@ const SEED_INBOXES_FALLBACK = [
         <!-- CTA block -->
         <div
           class="rounded-2xl p-6 md:p-8 text-center"
-          style="background: linear-gradient(135deg, rgba(210,179,243,0.08) 0%, rgba(26,18,46,0.8) 100%); border: 1px solid rgba(210,179,243,0.2);"
+          style="background: linear-gradient(135deg, color-mix(in srgb, var(--se-primary) 8%, transparent) 0%, color-mix(in srgb, var(--se-accent) 80%, transparent) 100%); border: 1px solid color-mix(in srgb, var(--se-primary) 20%, transparent);"
         >
-          <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-[#D2B3F3]/20 bg-[#D2B3F3]/10 px-3 py-1 text-xs text-[#D2B3F3]">
+          <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs text-primary">
             Want real-time placement tracking?
           </div>
-          <h3 class="mb-2 text-xl font-bold text-white">
+          <h3 class="mb-2 text-xl font-bold text-heading">
             Track every email, every send
           </h3>
-          <p class="mx-auto mb-6 max-w-md text-sm text-[#C8C1C1]">
+          <p class="mx-auto mb-6 max-w-md text-sm text-text-default">
             This test gives you a snapshot. SendEmAll's warmup engine monitors your inbox rate daily, auto-rescues emails from spam, and keeps your sender reputation healthy — automatically.
           </p>
           <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="https://app.sendemall.com/register"
-              class="inline-flex items-center gap-2 rounded-lg bg-[#D2B3F3] px-6 py-3 text-sm font-semibold text-black transition-all hover:bg-[#B896E8]"
+              class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-on-primary transition-all hover:opacity-90"
             >
               Create your account
               <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -513,12 +513,12 @@ const SEED_INBOXES_FALLBACK = [
             </a>
             <a
               href="/pricing"
-              class="inline-flex items-center gap-2 rounded-lg border border-[#2A2433] bg-[#1A191C] px-5 py-3 text-sm font-medium text-[#C8C1C1] transition-all hover:border-[#D2B3F3]/40 hover:text-white"
+              class="inline-flex items-center gap-2 rounded-lg border border-border-light bg-theme-dark px-5 py-3 text-sm font-medium text-text-default transition-all hover:border-primary/40 hover:text-heading"
             >
               See plans
             </a>
           </div>
-          <p class="mt-4 text-xs text-[#6b6875]">No credit card required · Cancel anytime · Under 3% bounce on the leads we provide, or we refund your first month</p>
+          <p class="mt-4 text-xs text-muted">No credit card required · Cancel anytime · Under 3% bounce on the leads we provide, or we refund your first month</p>
         </div>
       </div>
 
@@ -537,8 +537,8 @@ const SEED_INBOXES_FALLBACK = [
   }
   .analysis-step.active .step-dot {
     background: #D2B3F3;
-    border-color: #D2B3F3;
-    box-shadow: 0 0 0 4px rgba(210, 179, 243, 0.15);
+    border-color: var(--se-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--se-primary) 15%, transparent);
   }
   .analysis-step.done .step-dot {
     background: #4ade80;
@@ -555,7 +555,7 @@ const SEED_INBOXES_FALLBACK = [
   const PROVIDER_COLORS = {
     Gmail: "#EA4335", Outlook: "#0078D4", Yahoo: "#6001D2",
     iCloud: "#555555", ProtonMail: "#6D4AFF", Zoho: "#E42527",
-    AOL: "#FF0B00", Hotmail: "#0078D4", Other: "#D2B3F3",
+    AOL: "#FF0B00", Hotmail: "#0078D4", Other: "var(--se-primary)",
   };
 
   let testCode = "";
@@ -586,27 +586,27 @@ const SEED_INBOXES_FALLBACK = [
     circles.forEach((c, i) => {
       const step = i + 1;
       if (step < active) {
-        c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#D2B3F3\]|bg-\[#D2B3F3\]|text-black/g, "").trim();
-        c.classList.add("border-[#4ade80]", "bg-[#4ade80]", "text-black");
+        c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#D2B3F3\]|bg-\[#D2B3F3\]|text-on-primary/g, "").trim();
+        c.classList.add("border-success", "bg-success", "text-on-primary");
         c.innerHTML = `<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-        labels[i].classList.add("text-[#4ade80]");
-        labels[i].classList.remove("text-[#D2B3F3]", "text-[#C8C1C1]");
+        labels[i].classList.add("text-success");
+        labels[i].classList.remove("text-primary", "text-text-default");
       } else if (step === active) {
         c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#4ade80\]|bg-\[#4ade80\]/g, "").trim();
-        c.classList.add("border-[#D2B3F3]", "bg-[#D2B3F3]", "text-black");
+        c.classList.add("border-primary", "bg-primary", "text-on-primary");
         c.textContent = step;
-        labels[i].classList.add("text-[#D2B3F3]");
-        labels[i].classList.remove("text-[#C8C1C1]", "text-[#4ade80]");
+        labels[i].classList.add("text-primary");
+        labels[i].classList.remove("text-text-default", "text-success");
       } else {
-        c.classList.remove("border-[#D2B3F3]", "bg-[#D2B3F3]", "text-black", "border-[#4ade80]", "bg-[#4ade80]");
-        c.classList.add("border-[#2A2433]", "bg-[#1A191C]", "text-[#C8C1C1]");
+        c.classList.remove("border-primary", "bg-primary", "text-on-primary", "border-success", "bg-success");
+        c.classList.add("border-border-light", "bg-theme-dark", "text-text-default");
         c.textContent = step;
-        labels[i].classList.add("text-[#C8C1C1]");
-        labels[i].classList.remove("text-[#D2B3F3]", "text-[#4ade80]");
+        labels[i].classList.add("text-text-default");
+        labels[i].classList.remove("text-primary", "text-success");
       }
     });
     connectors.forEach((c, i) => {
-      if (c) c.style.background = active > i + 1 ? "#4ade80" : "#2A2433";
+      if (c) c.style.background = active > i + 1 ? "var(--se-success)" : "#2A2433";
     });
   }
 
@@ -615,8 +615,8 @@ const SEED_INBOXES_FALLBACK = [
       await navigator.clipboard.writeText(text);
       const orig = btn.innerHTML;
       btn.innerHTML = btn.innerHTML.replace(/Copy.*/, "Copied!");
-      btn.classList.add("text-[#4ade80]", "border-[#4ade80]/40");
-      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("text-[#4ade80]", "border-[#4ade80]/40"); }, 1800);
+      btn.classList.add("text-success", "border-success/40");
+      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("text-success", "border-success/40"); }, 1800);
     } catch {}
   }
 
@@ -753,19 +753,19 @@ const SEED_INBOXES_FALLBACK = [
     if (isGood) {
       return `
         <div class="flex items-center gap-4 px-6 py-3.5">
-          <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4ade80]/10 border border-[#4ade80]/20">
-            <svg class="h-3 w-3 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+          <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-success/10 border border-success/20">
+            <svg class="h-3 w-3 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
           </div>
-          <p class="text-sm text-[#C8C1C1]">${msg}</p>
+          <p class="text-sm text-text-default">${msg}</p>
         </div>
       `;
     }
     const sev = getAuditSeverity(msg);
     const [sevLabel, sevCss, iconColor, iconBg] = sev === "high"
-      ? ["HIGH SEVERITY",  "color:#f87171;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);", "#f87171", "bg-red-500/10 border-red-500/20"]
+      ? ["HIGH SEVERITY",  "color:var(--se-danger);background:color-mix(in srgb, var(--se-danger) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-danger) 30%, transparent);", "var(--se-danger)", "bg-danger/10 border-danger/20"]
       : sev === "medium"
-      ? ["MEDIUM SEVERITY","color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);",  "#fbbf24", "bg-amber-500/10 border-amber-500/20"]
-      : ["LOW SEVERITY",   "color:#60a5fa;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.3);",  "#60a5fa", "bg-blue-500/10 border-blue-500/20"];
+      ? ["MEDIUM SEVERITY","color:var(--se-warning);background:color-mix(in srgb, var(--se-warning) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-warning) 30%, transparent);",  "var(--se-warning)", "bg-warning/10 border-warning/20"]
+      : ["LOW SEVERITY",   "color:var(--se-info);background:color-mix(in srgb, var(--se-info) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-info) 30%, transparent);",  "var(--se-info)", "bg-info/10 border-info/20"];
     const iconSvg = sev === "high"
       ? `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
       : sev === "medium"
@@ -775,7 +775,7 @@ const SEED_INBOXES_FALLBACK = [
       <div class="flex items-center gap-4 px-6 py-3.5">
         <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border ${iconBg}">${iconSvg}</div>
         <div class="flex flex-1 min-w-0 flex-wrap items-center gap-2">
-          <span class="text-sm font-semibold text-white">${msg}</span>
+          <span class="text-sm font-semibold text-heading">${msg}</span>
           <span class="inline-flex shrink-0 rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider" style="${sevCss}">${sevLabel}</span>
         </div>
       </div>
@@ -793,9 +793,9 @@ const SEED_INBOXES_FALLBACK = [
       const pct = Math.round((good.length / total) * 100);
       badge.textContent = `${pct}% clean`;
       badge.classList.remove("hidden");
-      if (pct >= 80) badge.style.cssText = "display:inline-flex;background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.3);";
-      else if (pct >= 50) badge.style.cssText = "display:inline-flex;background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);";
-      else badge.style.cssText = "display:inline-flex;background:rgba(248,113,113,0.1);color:#f87171;border:1px solid rgba(248,113,113,0.3);";
+      if (pct >= 80) badge.style.cssText = "display:inline-flex;background:color-mix(in srgb, var(--se-success) 10%, transparent);color:var(--se-success);border:1px solid color-mix(in srgb, var(--se-success) 30%, transparent);";
+      else if (pct >= 50) badge.style.cssText = "display:inline-flex;background:color-mix(in srgb, var(--se-warning) 10%, transparent);color:var(--se-warning);border:1px solid color-mix(in srgb, var(--se-warning) 30%, transparent);";
+      else badge.style.cssText = "display:inline-flex;background:color-mix(in srgb, var(--se-danger) 10%, transparent);color:var(--se-danger);border:1px solid color-mix(in srgb, var(--se-danger) 30%, transparent);";
     }
   }
 
@@ -829,8 +829,8 @@ const SEED_INBOXES_FALLBACK = [
 
     const scoreEl = document.getElementById("rep-score-display");
     if (scoreEl && scoreNum !== null) {
-      const scoreColor = scoreNum >= 80 ? "#4ade80" : scoreNum >= 50 ? "#fbbf24" : "#f87171";
-      scoreEl.innerHTML = `<span style="color:${scoreColor}">${scoreNum}</span><span style="font-size:1rem;color:#6b6875;font-weight:500;">/100</span>`;
+      const scoreColor = scoreNum >= 80 ? "var(--se-success)" : scoreNum >= 50 ? "var(--se-warning)" : "var(--se-danger)";
+      scoreEl.innerHTML = `<span style="color:${scoreColor}">${scoreNum}</span><span style="font-size:1rem;color:var(--se-muted);font-weight:500;">/100</span>`;
     }
 
     const badge = document.getElementById("rep-overall-badge");
@@ -838,13 +838,13 @@ const SEED_INBOXES_FALLBACK = [
       badge.classList.remove("hidden");
       if (failed === 0) {
         badge.textContent = "EXCELLENT STATUS";
-        badge.style.cssText = "display:block;color:#4ade80;";
+        badge.style.cssText = "display:block;color:var(--se-success);";
       } else if (failed >= 2) {
         badge.textContent = `${failed} ISSUES DETECTED`;
-        badge.style.cssText = "display:block;color:#f87171;";
+        badge.style.cssText = "display:block;color:var(--se-danger);";
       } else {
         badge.textContent = `${failed} ISSUE DETECTED`;
-        badge.style.cssText = "display:block;color:#fbbf24;";
+        badge.style.cssText = "display:block;color:var(--se-warning);";
       }
     }
   }
@@ -852,23 +852,23 @@ const SEED_INBOXES_FALLBACK = [
   function reputationMiniCard(c) {
     let iconHtml, bg, border, textColor;
     if (c.passed == null) {
-      iconHtml = `<div class="h-3.5 w-3.5 animate-pulse rounded-full bg-[#6b6875]"></div>`;
-      bg = "bg-[#0e0c0c]"; border = "border-[#2A2433]"; textColor = "text-[#6b6875]";
+      iconHtml = `<div class="h-3.5 w-3.5 animate-pulse rounded-full bg-muted"></div>`;
+      bg = "bg-body"; border = "border-border-light"; textColor = "text-muted";
     } else if (c.passed) {
-      iconHtml = `<svg class="h-3.5 w-3.5 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-      bg = "bg-[#4ade80]/5"; border = "border-[#4ade80]/20"; textColor = "text-white";
+      iconHtml = `<svg class="h-3.5 w-3.5 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+      bg = "bg-success/5"; border = "border-success/20"; textColor = "text-heading";
     } else {
-      iconHtml = `<svg class="h-3.5 w-3.5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
-      bg = "bg-red-500/5"; border = "border-red-500/20"; textColor = "text-white";
+      iconHtml = `<svg class="h-3.5 w-3.5 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
+      bg = "bg-danger/5"; border = "border-danger/20"; textColor = "text-heading";
     }
     const shortDesc = c.desc.length > 55 ? c.desc.slice(0, 52) + "…" : c.desc;
     return `
       <div class="rounded-xl border ${border} ${bg} p-4">
         <div class="mb-2 flex items-center justify-between">
           <span class="text-xs font-bold uppercase tracking-wide ${textColor}">${c.label}</span>
-          <div class="flex h-5 w-5 items-center justify-center rounded-full bg-[#1A191C]">${iconHtml}</div>
+          <div class="flex h-5 w-5 items-center justify-center rounded-full bg-theme-dark">${iconHtml}</div>
         </div>
-        <p class="text-[11px] leading-snug text-[#6b6875]">${shortDesc}</p>
+        <p class="text-[11px] leading-snug text-muted">${shortDesc}</p>
       </div>
     `;
   }
@@ -975,32 +975,32 @@ const SEED_INBOXES_FALLBACK = [
     let iconHtml, borderClass;
     if (c.passed == null) {
       // Pending / unknown (null OR undefined treated the same)
-      iconHtml = `<div class="h-3 w-3 animate-pulse rounded-full bg-[#6b6875]"></div>`;
-      borderClass = "border-[#2A2433]";
+      iconHtml = `<div class="h-3 w-3 animate-pulse rounded-full bg-muted"></div>`;
+      borderClass = "border-border-light";
     } else if (c.passed) {
-      iconHtml = `<svg class="h-3 w-3 text-[#4ade80]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-      borderClass = "border-[#4ade80]/20";
+      iconHtml = `<svg class="h-3 w-3 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+      borderClass = "border-success/20";
     } else {
-      iconHtml = `<svg class="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
-      borderClass = "border-red-500/20";
+      iconHtml = `<svg class="h-3 w-3 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
+      borderClass = "border-danger/20";
     }
 
-    const bgClass = c.passed == null ? "bg-[#0e0c0c]"
-                  : c.passed          ? "bg-[#4ade80]/5"
-                  : "bg-red-500/5";
+    const bgClass = c.passed == null ? "bg-body"
+                  : c.passed          ? "bg-success/5"
+                  : "bg-danger/5";
 
     const recordPill = c.record
-      ? `<p class="mt-1 truncate font-mono text-xs text-[#6b6875]" title="${c.record}">${c.record.substring(0, 60)}${c.record.length > 60 ? "…" : ""}</p>`
+      ? `<p class="mt-1 truncate font-mono text-xs text-muted" title="${c.record}">${c.record.substring(0, 60)}${c.record.length > 60 ? "…" : ""}</p>`
       : "";
 
     return `
       <div class="flex items-start gap-3 rounded-lg border ${borderClass} ${bgClass} px-4 py-3.5">
-        <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1A191C]">
+        <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-theme-dark">
           ${iconHtml}
         </div>
         <div class="min-w-0 flex-1">
-          <p class="text-sm font-medium text-white">${c.label}</p>
-          <p class="mt-0.5 text-xs text-[#6b6875]">${c.desc}</p>
+          <p class="text-sm font-medium text-heading">${c.label}</p>
+          <p class="mt-0.5 text-xs text-muted">${c.desc}</p>
           ${recordPill}
         </div>
       </div>
@@ -1015,17 +1015,17 @@ const SEED_INBOXES_FALLBACK = [
 
     let color, tier, summary, statusWord;
     if (score >= 75) {
-      color = "#4ade80"; tier = "Excellent"; statusWord = "Optimal";
-      summary = `Your placement is <strong style="color:#4ade80">Optimal</strong>. Authentication checks pass and inbox rate is strong.`;
+      color = "var(--se-success)"; tier = "Excellent"; statusWord = "Optimal";
+      summary = `Your placement is <strong style="color:var(--se-success)">Optimal</strong>. Authentication checks pass and inbox rate is strong.`;
     } else if (score >= 55) {
-      color = "#fbbf24"; tier = "Fair"; statusWord = "Fair";
-      summary = `Your placement is <strong style="color:#fbbf24">Fair</strong>. Minor issues detected — review the checks below to improve inbox rate.`;
+      color = "var(--se-warning)"; tier = "Fair"; statusWord = "Fair";
+      summary = `Your placement is <strong style="color:var(--se-warning)">Fair</strong>. Minor issues detected — review the checks below to improve inbox rate.`;
     } else if (score >= 35) {
-      color = "#fb923c"; tier = "At Risk"; statusWord = "At Risk";
-      summary = `Your placement is <strong style="color:#fb923c">At Risk</strong>. High spam rate detected — address the flagged issues before sending at scale.`;
+      color = "var(--se-warning)"; tier = "At Risk"; statusWord = "At Risk";
+      summary = `Your placement is <strong style="color:var(--se-warning)">At Risk</strong>. High spam rate detected — address the flagged issues before sending at scale.`;
     } else {
-      color = "#f87171"; tier = "Critical"; statusWord = "Critical";
-      summary = `Your placement is <strong style="color:#f87171">Critical</strong>. Most emails are landing in spam. Fix authentication and content issues immediately.`;
+      color = "var(--se-danger)"; tier = "Critical"; statusWord = "Critical";
+      summary = `Your placement is <strong style="color:var(--se-danger)">Critical</strong>. Most emails are landing in spam. Fix authentication and content issues immediately.`;
     }
     ring.style.stroke = color;
     document.getElementById("score-value").textContent = score;
@@ -1070,11 +1070,11 @@ const SEED_INBOXES_FALLBACK = [
   }
 
   function recItem(text) {
-    return `<li class="flex items-start gap-2.5 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3 text-sm">
-      <svg class="mt-0.5 h-4 w-4 shrink-0 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    return `<li class="flex items-start gap-2.5 rounded-lg border border-border-light bg-body px-4 py-3 text-sm">
+      <svg class="mt-0.5 h-4 w-4 shrink-0 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
       </svg>
-      <span class="leading-relaxed text-[#C8C1C1]">${text}</span>
+      <span class="leading-relaxed text-text-default">${text}</span>
     </li>`;
   }
 
@@ -1095,28 +1095,28 @@ const SEED_INBOXES_FALLBACK = [
       list.innerHTML = all.map((r, i) => {
         const num = String(i + 1).padStart(2, "0");
         const [priLabel, priCss] = r.priority === "high"
-          ? ["High Priority",   "color:#f87171;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.25);"]
+          ? ["High Priority",   "color:var(--se-danger);background:color-mix(in srgb, var(--se-danger) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-danger) 25%, transparent);"]
           : r.priority === "medium"
-          ? ["Medium Priority", "color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.25);"]
-          : ["Low Priority",    "color:#60a5fa;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);"];
+          ? ["Medium Priority", "color:var(--se-warning);background:color-mix(in srgb, var(--se-warning) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-warning) 25%, transparent);"]
+          : ["Low Priority",    "color:var(--se-info);background:color-mix(in srgb, var(--se-info) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-info) 25%, transparent);"];
         const title = r.text.split(/[—.\-]/)[0].trim().slice(0, 60);
         const desc = r.text;
         const isFirst = i === 0;
         return `
           <li class="rec-accordion-item" data-open="${isFirst}">
-            <div class="flex cursor-pointer items-center gap-4 px-6 py-4 transition-colors hover:bg-[#0e0c0c]"
+            <div class="flex cursor-pointer items-center gap-4 px-6 py-4 transition-colors hover:bg-body"
                  onclick="this.closest('li').dataset.open=this.closest('li').dataset.open==='true'?'false':'true';this.closest('li').querySelector('.rec-body').style.display=this.closest('li').dataset.open==='true'?'block':'none';this.querySelector('.rec-chevron').style.transform=this.closest('li').dataset.open==='true'?'rotate(180deg)':'';">
-              <span class="shrink-0 text-xs font-bold text-[#6b6875]">${num}</span>
+              <span class="shrink-0 text-xs font-bold text-muted">${num}</span>
               <div class="flex flex-1 min-w-0 flex-wrap items-center gap-2">
-                <span class="text-sm font-semibold text-white">${title}</span>
+                <span class="text-sm font-semibold text-heading">${title}</span>
                 <span class="inline-flex rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider" style="${priCss}">${priLabel}</span>
               </div>
-              <svg class="rec-chevron h-4 w-4 shrink-0 text-[#6b6875] transition-transform" style="${isFirst ? "transform:rotate(180deg)" : ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg class="rec-chevron h-4 w-4 shrink-0 text-muted transition-transform" style="${isFirst ? "transform:rotate(180deg)" : ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
               </svg>
             </div>
             <div class="rec-body px-6 pb-4 pt-0" style="display:${isFirst ? "block" : "none"}">
-              <p class="text-sm leading-relaxed text-[#C8C1C1]/80">${desc}</p>
+              <p class="text-sm leading-relaxed text-text-default/80">${desc}</p>
             </div>
           </li>
         `;
@@ -1167,29 +1167,29 @@ const SEED_INBOXES_FALLBACK = [
       const plLower = pl ? pl.toLowerCase() : null;
       let badgeHtml;
       if (!plLower || plLower === "unknown" || plLower === "not_found") {
-        badgeHtml = `<span class="inline-flex items-center gap-1.5 rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]"><svg class="animate-spin h-2.5 w-2.5" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Checking…</span>`;
+        badgeHtml = `<span class="inline-flex items-center gap-1.5 rounded border border-border-light bg-body px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted"><svg class="animate-spin h-2.5 w-2.5" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Checking…</span>`;
       } else if (plLower === "inbox") {
         const label = provider === "Gmail" ? "Inbox (Primary)" : "Inbox";
-        badgeHtml = `<span class="inline-flex rounded border border-[#4ade80]/30 bg-[#4ade80]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#4ade80]">${label}</span>`;
+        badgeHtml = `<span class="inline-flex rounded border border-success/30 bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-success">${label}</span>`;
       } else if (plLower === "promotions" || plLower === "promo") {
-        badgeHtml = `<span class="inline-flex rounded border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#fbbf24]">Promotions</span>`;
+        badgeHtml = `<span class="inline-flex rounded border border-warning/30 bg-warning/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-warning">Promotions</span>`;
       } else if (plLower === "spam") {
-        badgeHtml = `<span class="inline-flex rounded border border-red-500/30 bg-red-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-red-400">Spam</span>`;
+        badgeHtml = `<span class="inline-flex rounded border border-danger/30 bg-danger/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-danger">Spam</span>`;
       } else if (plLower === "updates" || plLower === "social") {
-        badgeHtml = `<span class="inline-flex rounded border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#fbbf24]">${pl}</span>`;
+        badgeHtml = `<span class="inline-flex rounded border border-warning/30 bg-warning/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-warning">${pl}</span>`;
       } else {
-        badgeHtml = `<span class="inline-flex rounded border border-[#2A2433] bg-[#0e0c0c] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#6b6875]">${pl}</span>`;
+        badgeHtml = `<span class="inline-flex rounded border border-border-light bg-body px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted">${pl}</span>`;
       }
 
-      return `<tr class="transition-colors hover:bg-[#0e0c0c]">
+      return `<tr class="transition-colors hover:bg-body">
         <td class="px-6 py-4">
           <div class="flex items-center gap-3">
             <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style="background:${color}18;border:1px solid ${color}30;">
               <span class="h-2 w-2 rounded-full" style="background:${color};"></span>
             </div>
             <div class="min-w-0">
-              <p class="text-sm font-semibold text-white">${provider}</p>
-              <p class="font-mono text-[11px] text-[#6b6875] truncate max-w-[200px]">${s.email}</p>
+              <p class="text-sm font-semibold text-heading">${provider}</p>
+              <p class="font-mono text-[11px] text-muted truncate max-w-[200px]">${s.email}</p>
             </div>
           </div>
         </td>
@@ -1204,47 +1204,47 @@ const SEED_INBOXES_FALLBACK = [
     if (checking || inboxPct === null) {
       pctDisplay = "—";
       statusLabel = "Propagating tests";
-      statusStyle = "color:#6b6875;";
+      statusStyle = "color:var(--se-muted);";
       barColor = "#2A2433";
       barPct = 0;
     } else if (spamPct > 30) {
       pctDisplay = `${spamPct}%`;
       statusLabel = "Spam filtered";
-      statusStyle = "color:#f87171;";
-      barColor = "#f87171";
+      statusStyle = "color:var(--se-danger);";
+      barColor = "var(--se-danger)";
       barPct = spamPct;
     } else if (spamPct > 0 || inboxPct < 80) {
       pctDisplay = `${inboxPct}%`;
       statusLabel = "Partial spam filtered";
-      statusStyle = "color:#fbbf24;";
-      barColor = "#fbbf24";
+      statusStyle = "color:var(--se-warning);";
+      barColor = "var(--se-warning)";
       barPct = inboxPct;
     } else {
       pctDisplay = `${inboxPct}%`;
       statusLabel = "Inbox placement";
-      statusStyle = "color:#4ade80;";
-      barColor = "#4ade80";
+      statusStyle = "color:var(--se-success);";
+      barColor = "var(--se-success)";
       barPct = inboxPct;
     }
     // Status icon
     const icon = checking || inboxPct === null
-      ? `<svg class="h-5 w-5 text-[#6b6875]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`
+      ? `<svg class="h-5 w-5 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`
       : spamPct > 30
-      ? `<svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
+      ? `<svg class="h-5 w-5 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
       : spamPct > 0 || inboxPct < 80
-      ? `<svg class="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
+      ? `<svg class="h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
       : `<svg class="h-5 w-5" style="color:${color}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3"/></svg>`;
     return `
-      <div class="rounded-2xl border border-[#2A2433] bg-[#1A191C] p-5">
+      <div class="rounded-2xl border border-border-light bg-theme-dark p-5">
         <div class="mb-3 flex items-center justify-between">
-          <span class="text-sm font-semibold text-white">${provider}</span>
+          <span class="text-sm font-semibold text-heading">${provider}</span>
           ${icon}
         </div>
         <div class="mb-1">
-          <span class="text-4xl font-black leading-none" style="${pctDisplay === "—" ? "color:#6b6875;" : "color:#fff;"}">${pctDisplay}</span>
+          <span class="text-4xl font-black leading-none" style="${pctDisplay === "—" ? "color:var(--se-muted);" : "color:var(--se-heading);"}">${pctDisplay}</span>
         </div>
         <p class="mb-3 text-[10px] font-bold uppercase tracking-wider" style="${statusStyle}">${statusLabel}</p>
-        <div class="h-1 w-full overflow-hidden rounded-full bg-[#2A2433]">
+        <div class="h-1 w-full overflow-hidden rounded-full bg-border-light">
           <div class="h-full rounded-full transition-all duration-700" style="width:${barPct}%;background:${barColor};"></div>
         </div>
       </div>
@@ -1270,10 +1270,10 @@ const SEED_INBOXES_FALLBACK = [
     list.innerHTML = inboxes.map(s => {
       const color = PROVIDER_COLORS[s.provider] || PROVIDER_COLORS.Other;
       return `
-        <div class="group flex items-center gap-3 rounded-lg border border-[#2A2433] bg-[#0e0c0c] px-4 py-3 transition-all hover:border-[#D2B3F3]/20">
+        <div class="group flex items-center gap-3 rounded-lg border border-border-light bg-body px-4 py-3 transition-all hover:border-primary/20">
           <div class="flex h-2.5 w-2.5 shrink-0 rounded-full" style="background:${color};"></div>
-          <span class="flex-1 font-mono text-sm text-[#C8C1C1] select-all">${s.email}</span>
-          <span class="shrink-0 rounded-full border border-[#2A2433] px-2 py-0.5 text-xs" style="color:${color}; border-color:${color}30; background:${color}10;">${s.provider}</span>
+          <span class="flex-1 font-mono text-sm text-text-default select-all">${s.email}</span>
+          <span class="shrink-0 rounded-full border border-border-light px-2 py-0.5 text-xs" style="color:${color}; border-color:${color}30; background:${color}10;">${s.provider}</span>
         </div>
       `;
     }).join("");
@@ -1291,7 +1291,7 @@ const SEED_INBOXES_FALLBACK = [
         steps[i - 1].classList.remove("active");
         steps[i - 1].classList.add("done");
         const dot = steps[i - 1].querySelector(".step-dot");
-        dot.innerHTML = `<svg class="h-3 w-3 text-black" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
+        dot.innerHTML = `<svg class="h-3 w-3 text-on-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
       }
       if (i < steps.length) {
         steps[i].classList.add("active");
