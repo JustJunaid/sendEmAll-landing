@@ -128,7 +128,7 @@ $ sendemall campaigns create \\
   <section class="py-20 lg:py-28">
     <div class="container">
       <div class="mx-auto mb-12 max-w-2xl text-center">
-        <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">Webhooks</span>
+        <span class="text-primary mb-2 inline-block text-sm font-semibold">Webhooks</span>
         <h2 class="text-3xl font-bold sm:text-4xl" data-aos="fade-up-sm">Real-time event notifications</h2>
         <p class="mt-4 text-text-default/70" data-aos="fade-up-sm" data-aos-delay="100">Subscribe to events and react in real-time. Push data to your CRM, trigger automations, or update dashboards.</p>
       </div>
@@ -150,24 +150,26 @@ $ sendemall campaigns create \\
     </div>
   </section>
 
-  <!-- CSV Import/Export -->
+  <!-- Bulk operations + Auth -->
   <section class="py-20 lg:py-28">
     <div class="container">
-      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
-        <span class="mb-2 inline-block text-sm font-semibold text-[#14B8A6]">CSV Import / Export</span>
-        <h2 class="text-3xl font-bold sm:text-4xl">Bulk operations</h2>
-        <p class="mt-4 text-text-default/70">Import contacts via CSV, export campaign results, and perform bulk operations through the API or dashboard.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Auth -->
-  <section class="py-20 lg:py-28">
-    <div class="container">
-      <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
-        <span class="mb-2 inline-block text-sm font-semibold text-text-default/50">Authentication</span>
-        <h2 class="text-2xl font-bold sm:text-3xl">Simple API key authentication</h2>
-        <p class="mt-4 text-text-default/70">API keys via <code class="rounded bg-theme-dark px-2 py-0.5 font-mono text-sm text-primary">x-user-context</code> header. Generate keys in your dashboard.</p>
+      <div class="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+        <div class="group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-8 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1" data-aos="fade-up-sm">
+          <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4" /><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /></svg>
+          </span>
+          <h2 class="text-heading text-xl font-bold">Bulk operations</h2>
+          <p class="text-text-default/70 mt-3 text-sm">Import contacts via CSV, export campaign results, and perform bulk operations through the API or dashboard.</p>
+          <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></span>
+        </div>
+        <div class="group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-8 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1" data-aos="fade-up-sm" data-aos-delay="100">
+          <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2 19 4m-5.5 5.5L19 4m0 0 3 3m-7 0 2 2" /><circle cx="7.5" cy="15.5" r="5.5" /></svg>
+          </span>
+          <h2 class="text-heading text-xl font-bold">Simple API key authentication</h2>
+          <p class="text-text-default/70 mt-3 text-sm">API keys via <code class="rounded bg-accent px-2 py-0.5 font-mono text-sm text-primary">x-user-context</code> header. Generate keys in your dashboard.</p>
+          <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true"></span>
+        </div>
       </div>
     </div>
   </section>

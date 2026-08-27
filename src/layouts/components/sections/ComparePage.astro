@@ -79,9 +79,9 @@ function isNegative(value: string): boolean {
         data-aos-delay="0"
       >
         <h3 class="mb-2 text-xl font-semibold text-heading">
-          <span class="mr-2 text-[#EF4444]">✕</span> {competitor}
+          <span class="text-danger mr-2">✕</span> {competitor}
         </h3>
-        <div class="mb-4 text-3xl font-bold text-[#EF4444]">{competitorPrice}</div>
+        <div class="text-danger mb-4 text-3xl font-bold">{competitorPrice}</div>
         <p class="text-sm text-text-default">{competitorPriceNote}</p>
       </div>
 
@@ -127,10 +127,10 @@ function isNegative(value: string): boolean {
       {features.map((feature, i) => (
         <div class={`grid grid-cols-3 px-6 py-4 ${i % 2 === 0 ? "bg-theme-dark" : "bg-theme-dark/50"}`}>
           <span class="text-sm font-medium text-heading">{feature.name}</span>
-          <span class={`text-center text-sm ${isNegative(feature.competitor) ? "text-[#EF4444]" : isPositive(feature.competitor) ? "text-[#14B8A6]" : "text-text-default"}`}>
+          <span class={`text-center text-sm ${isNegative(feature.competitor) ? "text-danger" : isPositive(feature.competitor) ? "text-success" : "text-text-default"}`}>
             {isNegative(feature.competitor) ? "✕ " : isPositive(feature.competitor) ? "✓ " : ""}{feature.competitor}
           </span>
-          <span class={`text-center text-sm ${isNegative(feature.sendemall) ? "text-[#EF4444]" : isPositive(feature.sendemall) ? "text-[#14B8A6]" : "text-primary"}`}>
+          <span class={`text-center text-sm ${isNegative(feature.sendemall) ? "text-danger" : isPositive(feature.sendemall) ? "text-success" : "text-primary"}`}>
             {isNegative(feature.sendemall) ? "✕ " : isPositive(feature.sendemall) ? "✓ " : ""}{feature.sendemall}
           </span>
         </div>

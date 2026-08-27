@@ -11,13 +11,13 @@ const CARD =
   "group border-border-light bg-theme-dark hover:border-primary/40 relative block overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";
 
 const tools = [
-  { t: "Apollo scraper", d: "Export verified leads from your own Apollo account.", url: "/tools/apollo-scraper" },
-  { t: "Sales Navigator scraper", d: "Turn your Sales Nav searches into a verified, sendable list.", url: "/tools/sales-navigator-scraper" },
-  { t: "Google Maps scraper", d: "Pull local businesses — then find the owner's verified email.", url: "/tools/google-maps-scraper" },
-  { t: "Email verifier", d: "SMTP + platform-level verification at 0.20% false-positive.", url: "/tools/email-verifier" },
-  { t: "Email finder", d: "Find and verify anyone's work email from a name and domain.", url: "/tools/email-finder" },
-  { t: "Decision-maker finder", d: "Get the right decision-maker's verified email from just a domain.", url: "/tools/decision-maker-finder" },
-  { t: "Deliverability test", d: "See exactly where your emails land — inbox, spam, or promotions.", url: "/deliverability-test" },
+  { t: "Apollo scraper", d: "Export verified leads from your own Apollo account.", url: "/tools/apollo-scraper", icon: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4L15 12l-3-3 2.7-2.7z"/>' },
+  { t: "Sales Navigator scraper", d: "Turn your Sales Nav searches into a verified, sendable list.", url: "/tools/sales-navigator-scraper", icon: '<rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/>' },
+  { t: "Google Maps scraper", d: "Pull local businesses — then find the owner's verified email.", url: "/tools/google-maps-scraper", icon: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>' },
+  { t: "Email verifier", d: "SMTP + platform-level verification. You only pay for valid results.", url: "/tools/email-verifier", icon: '<path d="M12 3 5 6v6c0 4 3 7 7 8 4-1 7-4 7-8V6l-7-3z"/><path d="m9 12 2 2 4-4"/>' },
+  { t: "Email finder", d: "Find and verify anyone's work email from a name and domain.", url: "/tools/email-finder", icon: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>' },
+  { t: "Decision-maker finder", d: "Get the right decision-maker's verified email from just a domain.", url: "/tools/decision-maker-finder", icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m16 11 2 2 4-4"/>' },
+  { t: "Deliverability test", d: "See exactly where your emails land — inbox, spam, or promotions.", url: "/deliverability-test", icon: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>' },
 ];
 ---
 
@@ -42,6 +42,9 @@ const tools = [
         {
           tools.map((t, i) => (
             <a href={t.url} class={CARD} data-aos="fade-up-sm" data-aos-delay={i * 60}>
+              <span class="bg-primary/10 text-primary mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={t.icon} />
+              </span>
               <h2 class="text-heading text-lg font-semibold">{t.t}</h2>
               <p class="text-text-default/70 mt-2 text-sm">{t.d}</p>
               <span class="text-primary mt-4 inline-block text-sm font-medium">Learn more &rarr;</span>

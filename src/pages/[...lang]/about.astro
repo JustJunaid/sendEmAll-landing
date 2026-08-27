@@ -76,14 +76,15 @@ export function getStaticPaths() {
       </div>
       <div class="mx-auto grid max-w-4xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { stat: "66M+", label: "Verified B2B contacts in the data lake" },
+          { stat: "66M+", label: "B2B contacts in the data lake" },
           { stat: "18", label: "Data providers integrated into one pipeline" },
-          { stat: "0.20%", label: "False-positive rate on verified emails" },
-          { stat: "4", label: "Pipeline stages handled automatically" },
+          { stat: "10M+", label: "Companies with firmographics and signals" },
+          { stat: "<3%", label: "Bounce on our leads — or your first month refunded" },
         ].map((item, i) => (
-          <div class="rounded-2xl border border-border-light bg-accent p-8 text-center" data-aos="fade-up-sm" data-aos-delay={i * 75}>
+          <div class="group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-8 text-center shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1" data-aos="fade-up-sm" data-aos-delay={i * 75}>
             <span class="block text-4xl font-bold text-primary">{item.stat}</span>
             <p class="mt-3 text-sm text-text-default/70">{item.label}</p>
+            <span class="bg-primary/10 pointer-events-none absolute -top-8 -right-8 h-24 w-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
           </div>
         ))}
       </div>
@@ -96,7 +97,7 @@ export function getStaticPaths() {
       <div class="mx-auto max-w-3xl rounded-2xl border border-border-light bg-accent p-12 text-center" data-aos="fade-up-sm">
         <h2 class="text-3xl font-bold sm:text-4xl">Run outbound that lands</h2>
         <p class="mx-auto mt-4 max-w-xl text-text-default/70">
-          Verified buyers, protected domains, and a bill that only counts what's real.
+          Verified buyers, protected domains, and a bill that only counts valid emails.
         </p>
         <p class="text-text-default/80 mx-auto mt-6 max-w-xl text-sm">
           <span class="text-primary mr-1.5 font-semibold">&#10003;</span> Under 3% bounce on the leads we provide, or we refund your first month.

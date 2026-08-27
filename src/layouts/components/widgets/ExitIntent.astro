@@ -1,0 +1,237 @@
+---
+/**
+ * Exit-intent requirement capture.
+ *
+ * Desktop-only (mouse leaving through the top of the viewport — there is no
+ * reliable, non-janky mobile equivalent). Armed a few seconds after load,
+ * shown at most once every 14 days per browser (localStorage, try/catch'd).
+ *
+ * Two jobs: route a leaving visitor to the page they actually came for, or
+ * capture their email + requirement via formsubmit.co (same provider and
+ * inbox as the contact page). PostHog events mirror tracking.ts's guarded
+ * window.posthog pattern: exit_intent_shown / _choice / _submitted / _dismissed.
+ */
+const options = [
+  { label: "Verified leads", desc: "66M+ contacts, pay per valid email", url: "/leads", icon: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>' },
+  { label: "Mailboxes & domains", desc: "Provisioned in minutes, from $1.50", url: "/mailboxes", icon: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6l3-7z"/>' },
+  { label: "Email sequencer", desc: "$99 flat — unlimited seats & sending", url: "/sequencer", icon: '<path d="M4 6h16M4 12h10M4 18h7"/>' },
+  { label: "LinkedIn outreach", desc: "In the same sequence as email", url: "/linkedin-outreach", icon: '<rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 11v5M8 8v.01M12 16v-5M16 16v-3a2 2 0 0 0-4 0"/>' },
+  { label: "Free tools", desc: "Scrapers, verifier, deliverability test", url: "/tools", icon: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4L15 12l-3-3 2.7-2.7z"/>' },
+];
+---
+
+<div
+  id="exit-intent"
+  class="fixed inset-0 z-[90] hidden items-center justify-center p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="exit-intent-title"
+>
+  <div id="exit-intent-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+  <div class="border-border-light bg-theme-dark relative w-full max-w-xl overflow-hidden rounded-3xl border p-8 shadow-[0_20px_80px_-20px_rgba(125,60,194,0.45)] md:p-10">
+    <span class="bg-primary/15 pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full blur-3xl" aria-hidden="true"></span>
+    <button
+      id="exit-intent-close"
+      type="button"
+      class="text-text-default/60 hover:text-heading absolute top-4 right-4 inline-flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+      aria-label="Close"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+    </button>
+
+    <div id="exit-intent-main">
+      <p class="text-primary text-sm font-semibold tracking-wide">Before you go</p>
+      <h3 id="exit-intent-title" class="text-heading font-secondary mt-2 text-2xl font-bold md:text-3xl">What did you come looking for?</h3>
+      <p class="text-text-default/70 mt-2 text-sm">Jump straight to it — or tell us what you need and we'll point you right.</p>
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        {
+          options.map((o) => (
+            <a
+              href={o.url}
+              data-exit-choice={o.label}
+              class="group border-border-light bg-accent hover:border-primary/50 flex items-start gap-3 rounded-xl border p-4 transition"
+            >
+              <span class="bg-primary/10 text-primary mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={o.icon} />
+              </span>
+              <span>
+                <span class="text-heading block text-sm font-semibold">{o.label}</span>
+                <span class="text-text-default/60 mt-0.5 block text-xs">{o.desc}</span>
+              </span>
+            </a>
+          ))
+        }
+        <button
+          id="exit-intent-other"
+          type="button"
+          class="group border-border-light bg-accent hover:border-primary/50 flex items-start gap-3 rounded-xl border p-4 text-left transition"
+        >
+          <span class="bg-primary/10 text-primary mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+          </span>
+          <span>
+            <span class="text-heading block text-sm font-semibold">Something else</span>
+            <span class="text-text-default/60 mt-0.5 block text-xs">Tell us what you need — we'll reply</span>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <form id="exit-intent-form" class="hidden" novalidate>
+      <p class="text-primary text-sm font-semibold tracking-wide">Tell us what you need</p>
+      <h3 class="text-heading font-secondary mt-2 text-2xl font-bold">We'll point you right.</h3>
+      <p class="text-text-default/70 mt-2 text-sm">A sentence is enough — a real person reads these and replies in working hours.</p>
+      <label class="text-heading mt-5 block text-sm font-medium" for="exit-intent-email">Your email</label>
+      <input
+        id="exit-intent-email"
+        name="email"
+        type="email"
+        required
+        placeholder="you@company.com"
+        class="border-border-light bg-accent text-heading placeholder:text-text-default/40 focus:border-primary mt-1.5 w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"
+      />
+      <label class="text-heading mt-4 block text-sm font-medium" for="exit-intent-need">What are you trying to do?</label>
+      <textarea
+        id="exit-intent-need"
+        name="need"
+        rows="3"
+        required
+        placeholder="e.g. I need 5k verified SaaS founder emails a month, plus somewhere to send from"
+        class="border-border-light bg-accent text-heading placeholder:text-text-default/40 focus:border-primary mt-1.5 w-full rounded-xl border px-4 py-2.5 text-sm outline-none transition"></textarea>
+      <p id="exit-intent-error" class="text-danger mt-3 hidden text-sm">That didn't send — try again, or email hello@sendemall.com.</p>
+      <div class="mt-5 flex items-center gap-3">
+        <button type="submit" class="btn btn-md btn-primary">Send it</button>
+        <button type="button" id="exit-intent-back" class="text-text-default/70 hover:text-heading text-sm transition-colors">Back</button>
+      </div>
+    </form>
+
+    <div id="exit-intent-thanks" class="hidden py-6 text-center">
+      <span class="bg-primary/10 text-primary mx-auto inline-flex h-12 w-12 items-center justify-center rounded-full">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7" /></svg>
+      </span>
+      <h3 class="text-heading font-secondary mt-4 text-2xl font-bold">Got it.</h3>
+      <p class="text-text-default/70 mt-2 text-sm">We'll read it and reply to your email — usually the same working day.</p>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.getElementById("exit-intent");
+    if (!root) return;
+    var KEY = "se_exit_shown";
+    var COOLDOWN_DAYS = 14;
+    var armed = false;
+    var shown = false;
+
+    function ph(event, props) {
+      try {
+        if (window.posthog) window.posthog.capture(event, props);
+      } catch (e) {}
+    }
+    function seen() {
+      try {
+        var t = parseInt(localStorage.getItem(KEY) || "0", 10);
+        return t && Date.now() - t < COOLDOWN_DAYS * 864e5;
+      } catch (e) {
+        return shown;
+      }
+    }
+    function markSeen() {
+      try {
+        localStorage.setItem(KEY, String(Date.now()));
+      } catch (e) {}
+    }
+    function open() {
+      if (shown || seen()) return;
+      shown = true;
+      markSeen();
+      root.classList.remove("hidden");
+      root.classList.add("flex");
+      document.getElementById("exit-intent-close").focus();
+      ph("exit_intent_shown", { path: location.pathname });
+    }
+    function close(reason) {
+      root.classList.add("hidden");
+      root.classList.remove("flex");
+      if (reason) ph("exit_intent_dismissed", { reason: reason });
+    }
+
+    // Desktop only: coarse pointers never fire top-exit mouseout reliably.
+    if (window.matchMedia("(pointer: fine)").matches && !seen()) {
+      setTimeout(function () {
+        armed = true;
+      }, 6000);
+      document.addEventListener("mouseout", function (e) {
+        if (armed && !e.relatedTarget && e.clientY <= 0) open();
+      });
+    }
+
+    document.getElementById("exit-intent-close").addEventListener("click", function () {
+      close("close_button");
+    });
+    document.getElementById("exit-intent-backdrop").addEventListener("click", function () {
+      close("backdrop");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !root.classList.contains("hidden")) close("escape");
+    });
+
+    root.querySelectorAll("[data-exit-choice]").forEach(function (a) {
+      a.addEventListener("click", function () {
+        ph("exit_intent_choice", { choice: a.getAttribute("data-exit-choice") });
+      });
+    });
+
+    var main = document.getElementById("exit-intent-main");
+    var form = document.getElementById("exit-intent-form");
+    var thanks = document.getElementById("exit-intent-thanks");
+    var errorEl = document.getElementById("exit-intent-error");
+
+    document.getElementById("exit-intent-other").addEventListener("click", function () {
+      main.classList.add("hidden");
+      form.classList.remove("hidden");
+      document.getElementById("exit-intent-email").focus();
+      ph("exit_intent_choice", { choice: "something_else" });
+    });
+    document.getElementById("exit-intent-back").addEventListener("click", function () {
+      form.classList.add("hidden");
+      main.classList.remove("hidden");
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = document.getElementById("exit-intent-email").value.trim();
+      var need = document.getElementById("exit-intent-need").value.trim();
+      if (!email || !need || !form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      errorEl.classList.add("hidden");
+      var btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+      fetch("https://formsubmit.co/ajax/hello@sendemall.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          email: email,
+          need: need,
+          _subject: "Exit-intent requirement from " + location.pathname,
+          _template: "table",
+        }),
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error("send_failed");
+          form.classList.add("hidden");
+          thanks.classList.remove("hidden");
+          ph("exit_intent_submitted", { path: location.pathname });
+        })
+        .catch(function () {
+          errorEl.classList.remove("hidden");
+          btn.disabled = false;
+          btn.textContent = "Send it";
+        });
+    });
+  })();
+</script>
