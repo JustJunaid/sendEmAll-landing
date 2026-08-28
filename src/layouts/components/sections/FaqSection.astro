@@ -13,6 +13,11 @@ type faqSectionType = Section & {
 };
 type Props = {
   content?: faqSectionType;
+  /** Heading level for this section's title. Defaults to h2, which is correct
+   *  when the section sits inside a page that already has its own h1 (the
+   *  homepage). On /faq the section IS the page, so it passes "h1" — without
+   *  it that page shipped with no h1 at all. */
+  as?: "h1" | "h2";
 };
 
 // Fetching the default content for the this section
@@ -27,6 +32,8 @@ let actualContent = overrideObjects(
   { ...defaultContent },
   Astro.props.content,
 ) as faqSectionType;
+
+const Heading = Astro.props.as ?? "h2";
 
 // Extracting required values from 'content' object
 let {
@@ -55,7 +62,7 @@ if (!showCategories) {
           <div class="mx-auto max-w-2xl text-center" data-aos="fade-up-sm">
             <Subtitle content={subtitle} />
             {title && (
-              <h2
+              <Heading
                 class="has-italic-text text-heading capitalize"
                 set:html={markdownify(title)}
               />

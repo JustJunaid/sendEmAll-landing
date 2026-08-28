@@ -46,6 +46,10 @@ type pricingSectionType = Section & {
 
 type Props = {
   content?: pricingSectionType;
+  /** Heading level for the section title. Defaults to h1 because this section
+   *  is only ever the main content of /contact — which shipped with no h1 at
+   *  all while this was hardcoded to h2. */
+  as?: "h1" | "h2";
 };
 
 // Fetching the default content for the this section
@@ -61,6 +65,8 @@ let actualContent = overrideObjects(
   { ...defaultContent },
   Astro.props.content,
 ) as pricingSectionType;
+
+const Heading = Astro.props.as ?? "h1";
 
 // Extracting required values from 'content' object
 let {
@@ -133,7 +139,7 @@ form = {
           <div data-aos="fade-up-sm" class="lg:sticky lg:top-32 lg:max-w-lg">
             <Subtitle class="ml-0" content={subtitle} />
             {title && (
-              <h2
+              <Heading
                 class="h2 has-italic-text capitalize"
                 set:html={markdownify(title)}
               />

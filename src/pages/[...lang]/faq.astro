@@ -37,7 +37,7 @@ const faqSchema = faqItems.length > 0 ? JSON.stringify({
 >
   {faqSchema && <script type="application/ld+json" set:html={faqSchema} />}
 
-  <FaqSection content={{
+  <FaqSection as="h1" content={{
     ...faqData,
     showCategories: true,
   }} />

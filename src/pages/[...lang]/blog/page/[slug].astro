@@ -74,9 +74,20 @@ const { postIndex } = Astro.props;
 // The brand suffix is appended downstream by buildPageTitle().
 const indexTitle = postIndex?.data?.metaTitle || postIndex?.data?.title || "Blog";
 const metaTitle = `${indexTitle} — Page ${currentPage}`;
+
+// Same story for the description: all six pages shipped the index's verbatim,
+// which reads to a crawler as six copies of one page.
+const indexDescription =
+  postIndex?.data?.metaDescription ||
+  postIndex?.data?.description ||
+  "Outbound strategy, cold email infrastructure, and growth insights from the SendEmAll team.";
+const metaDescription = `${indexDescription} Page ${currentPage} of our archive.`;
 ---
 
-<Base {...postIndex?.data} metaTitle={metaTitle}>
+<Base
+  {...postIndex?.data}
+  metaTitle={metaTitle}
+  metaDescription={metaDescription}>
   <BlogSection pagination={{ enable: true, currentPage: currentPage }} />
   <CallToAction />
 </Base>

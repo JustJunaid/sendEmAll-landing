@@ -1,5 +1,5 @@
 ---
-title: "Contact"
-description: "Get in touch with the SendEmAll team. Questions about pricing, integrations, or your outbound pipeline? We're here to help."
+title: "Contact — Talk to the Team"
+description: "Questions about leads, deliverability, LinkedIn outreach, or an agency setup? Ask the team that runs outbound — usually answered within a business day."
 draft: false
 ---
