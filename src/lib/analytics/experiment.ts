@@ -34,9 +34,21 @@ export function initExperiments() {
       const chosen = typeof flag === "string" ? flag : "control";
       els.forEach((el) => {
         const variant = el.getAttribute("data-ab-variant") || "control";
-        el.hidden = variant !== chosen;
+        // Inline + important, so this beats both the default stylesheet rule and
+        // the pre-paint style regardless of cascade layers. (`hidden` can't be
+        // used here — see the note in components.css.)
+        el.style.setProperty(
+          "display",
+          variant === chosen ? "block" : "none",
+          "important",
+        );
       });
     });
+
+    // The pre-paint script in Head.astro applied the *cached* assignment as
+    // !important CSS. Real flags have now landed, so drop it — otherwise a
+    // stale cached variant would outrank the answer we just applied.
+    document.getElementById("ab-preboot")?.remove();
   };
 
   // Fires now if flags are already loaded, and again if they change.

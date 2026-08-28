@@ -89,8 +89,7 @@ const heroDescriptions = [
                   <span
                     class="block"
                     data-ab="hero_headline"
-                    data-ab-variant={v.variant}
-                    hidden={v.variant !== "control"}>
+                    data-ab-variant={v.variant}>
                     <AnimatedText
                       content={markdownify(v.text)}
                       stagger={0.04}
@@ -105,10 +104,7 @@ const heroDescriptions = [
             description && (
               <div>
                 {heroDescriptions.map((d) => (
-                  <div
-                    data-ab="hero_headline"
-                    data-ab-variant={d.variant}
-                    hidden={d.variant !== "control"}>
+                  <div data-ab="hero_headline" data-ab-variant={d.variant}>
                     <AnimatedText
                       class="text-center text-lg/normal"
                       stagger={0.008}

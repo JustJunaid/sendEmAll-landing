@@ -25,3 +25,19 @@
   @import "./navigation.css";
   @import "./components.css";
 }
+
+/* A/B variant cells — see Head.astro's pre-paint script and lib/analytics/experiment.ts.
+   Every variant is rendered into the HTML; only `control` shows until the pre-paint
+   script (cached assignment) or PostHog (live flags) picks one.
+
+   Deliberately UNLAYERED, and deliberately not the `hidden` attribute. Cascade layers
+   decide this before specificity ever gets a vote:
+     - `hidden` is out because Tailwind's preflight sets `[hidden]{display:none!important}`
+       inside @layer base, and for !important declarations an earlier layer beats both
+       later layers and unlayered CSS — nothing could un-hide the chosen variant.
+     - Unlayered is required because the headline cell carries the `.block` utility from
+       @layer utilities, which would otherwise win: for normal declarations later layers
+       beat earlier ones, and unlayered beats every layer. */
+[data-ab][data-ab-variant]:not([data-ab-variant="control"]) {
+  display: none;
+}

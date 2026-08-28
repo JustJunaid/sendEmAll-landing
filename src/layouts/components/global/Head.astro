@@ -34,6 +34,58 @@ const fontVariables = fontsJson.map((font) => font.cssVariable) as any[];
     })();
   </script>
 
+  {/* A/B pre-paint — kills the variant flash.
+
+      The server renders the `control` variant visible (right for crawlers and
+      for JS-off visitors). PostHog only answers which variant a person gets
+      after its /flags round-trip — measured at ~670ms against a ~290ms first
+      paint — so a non-control visitor watched the wrong headline for a beat
+      before it swapped.
+
+      PostHog caches the person's assignment in localStorage, so on every visit
+      after the first we already know the answer synchronously. Emitting the
+      swap as CSS here, before the body parses, means those visitors only ever
+      see their own variant. A first-ever visitor still gets control until the
+      network answers — unavoidable without server-side rendering, and control
+      is the approved default headline.
+
+      experiment.ts removes this style once real flags land, so the live answer
+      always wins over the cached one. */}
+  <script is:inline>
+    (function () {
+      try {
+        var storeKey = null;
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && /^ph_.+_posthog$/.test(k)) {
+            storeKey = k;
+            break;
+          }
+        }
+        if (!storeKey) return;
+        var flags =
+          (JSON.parse(localStorage.getItem(storeKey)) || {})
+            .$enabled_feature_flags || {};
+        var safe = /^[A-Za-z0-9_-]+$/;
+        var css = "";
+        for (var flag in flags) {
+          var variant = flags[flag];
+          if (typeof variant !== "string" || variant === "control") continue;
+          if (!safe.test(flag) || !safe.test(variant)) continue;
+          css +=
+            '[data-ab="' + flag + '"]{display:none !important}' +
+            '[data-ab="' + flag + '"][data-ab-variant="' + variant +
+            '"]{display:block !important}';
+        }
+        if (!css) return;
+        var style = document.createElement("style");
+        style.id = "ab-preboot";
+        style.textContent = css;
+        document.head.appendChild(style);
+      } catch (e) {}
+    })();
+  </script>
+
   {/* LCP fail-safe: mark JS active before first paint so AnimatedText can hide
       words for its entrance animation, and force-reveal them if motion never
       initializes (blocked script, slow network) — hero text is never stuck. */}
