@@ -60,7 +60,7 @@ const faqs = [
       <div class="mx-auto max-w-3xl text-center">
         <Subtitle content="Mailboxes" />
         <h1 class="font-secondary text-4xl md:text-5xl/tight has-italic-text mb-6" data-aos="fade-up-sm">
-          Spin up mailboxes and domains — <strong class="font-tertiary italic">you're in control.</strong>
+          Spin up mailboxes and domains — <strong class="font-tertiary italic">self-serve, in minutes.</strong>
         </h1>
         <p class="text-text-default/80 text-lg" data-aos="fade-up-sm" data-aos-delay="100">
           Order Google Workspace, Microsoft 365, Azure or SMTP mailboxes and provision them yourself in minutes
@@ -147,11 +147,17 @@ const faqs = [
         A 5% platform fee is added at checkout. Domains billed at registrar cost, pre-aged from $10, or bring your own for free.
         We recommend up to 5 mailboxes per domain — an Azure tenant's 100 mailboxes share one.
       </p>
+      <div class="mt-8 text-center" data-aos="fade-up-sm">
+        <ButtonLink class="btn-md btn-primary" content={{ enable: true, label: "Get mailboxes", url: INFRA }} />
+        <p class="text-text-default/70 mt-4 text-sm">
+          Not sure how many you need? <a href="#mailbox-calculator" class="text-primary font-medium underline-offset-4 hover:underline">Use the calculator below</a>.
+        </p>
+      </div>
     </div>
   </section>
 
   <!-- Mailbox calculator -->
-  <section class="section-gradient py-16 md:py-24">
+  <section id="mailbox-calculator" class="section-gradient py-16 md:py-24">
     <div class="container max-w-4xl">
       <div class="mx-auto mb-10 max-w-2xl text-center" data-aos="fade-up-sm">
         <Subtitle content="Calculator" />
