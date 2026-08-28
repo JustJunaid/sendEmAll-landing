@@ -64,9 +64,25 @@
 
   // PostHog — product analytics, session replay, funnels, feature flags/experiments.
   // Replaces Microsoft Clarity (session replay is native). Consent-gated like GA4.
+  /** Local dev and preview hosts must never reach the production project —
+   *  our own `npm run dev` sessions would otherwise land in the same funnels
+   *  and experiment as real visitors and quietly skew them. */
+  function isTrackableHost() {
+    const h = location.hostname;
+    return !(
+      h === "localhost" ||
+      h === "127.0.0.1" ||
+      h === "[::1]" ||
+      h.endsWith(".localhost") ||
+      h.endsWith(".local") ||
+      h.endsWith(".vercel.app")
+    );
+  }
+
   async function loadPostHog() {
     const key = import.meta.env.PUBLIC_POSTHOG_KEY;
     if (!key) return;
+    if (!isTrackableHost()) return;
     if ((window as any).posthog?.__loaded) return;
     const posthog = (await import("posthog-js")).default;
     posthog.init(key, {
