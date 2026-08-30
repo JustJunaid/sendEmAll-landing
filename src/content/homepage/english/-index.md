@@ -1,5 +1,5 @@
 ---
-title: "SendEmAll | The Complete Outbound Platform"
+title: "SendEmAll | The All-in-One Outbound Platform"
 
 faqSection:
   showCategories: false

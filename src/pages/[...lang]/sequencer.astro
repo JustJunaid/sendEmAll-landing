@@ -9,7 +9,9 @@ export function getStaticPaths() {
   return generatePaths();
 }
 
-const APP = "https://app.sendemall.com/register";
+// The sequencer's own register — NOT app.sendemall.com. A visitor sold on the
+// sequencer must land in the sequencer product, not the leads app.
+const APP = "https://sequencer.sendemall.com/register";
 
 const CARD =
   "group border-border-light bg-theme-dark hover:border-primary/40 relative overflow-hidden rounded-2xl border p-6 shadow-[0_10px_40px_-18px_rgba(125,60,194,0.22)] transition duration-300 hover:-translate-y-1";

@@ -94,7 +94,12 @@ export const POST: APIRoute = async ({ request }) => {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ fields }),
+        // typecast lets Airtable create select options it hasn't seen before.
+        // Without it, EVERY submission fails with INVALID_MULTIPLE_CHOICE_OPTIONS
+        // when "Products Interested" contains a label the table wasn't manually
+        // seeded with — which is how the live contact form was broken (reproduced
+        // 2026-08-30, fixed by this flag; probe records verified the green path).
+        body: JSON.stringify({ fields, typecast: true }),
       },
     );
 

@@ -1,7 +1,7 @@
 # Site Configuration
 [site]
   title              = "SendEmAll"
-  description        = "The outbound platform. Find verified B2B buyers, run your campaigns, and land in the inbox — with sending infrastructure done for you. Pay only for valid emails. From $59/mo."
+  description        = "The all-in-one outbound platform. Find B2B buyers with verified emails, reach them on email and LinkedIn, and land in the inbox — with sending infrastructure done for you. From $59/mo."
   tagline            = "Find verified buyers. Reach every one of them."
   taglineSeparator   = " | "
   baseUrl            = "https://www.sendemall.com"
@@ -61,7 +61,7 @@
   contactFormAction   = "https://formsubmit.co/hello@sendemall.com"
   contactFormProvider = "formsubmit.co"
 
-  footerDescription = "The outbound platform. Find verified buyers, run your campaigns, and land in the inbox — with sending infrastructure done for you."
+  footerDescription = "The all-in-one outbound platform. Find verified buyers, reach them on email and LinkedIn, and land in the inbox — with sending infrastructure done for you."
 
   [settings.copyright]
     enable = true
