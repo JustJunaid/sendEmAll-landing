@@ -1,0 +1,143 @@
+{
+  "pulledFor": "2026-08-28",
+  "windowDays": 7,
+  "channels": {
+    "junaid-x": {
+      "connected": true,
+      "supported": true,
+      "provider": "x",
+      "metrics": {
+        "impression": 71,
+        "bookmark": 0,
+        "like": 0,
+        "quote": 0,
+        "reply": 0,
+        "retweet": 0
+      }
+    },
+    "sendemall-x": {
+      "connected": true,
+      "supported": true,
+      "provider": "x",
+      "metrics": {
+        "impression": 3,
+        "bookmark": 0,
+        "like": 0,
+        "quote": 0,
+        "reply": 0,
+        "retweet": 0
+      }
+    },
+    "sadiya-li": {
+      "connected": true,
+      "supported": false,
+      "provider": "linkedin",
+      "reason": "Postiz has no analytics() for this provider (upstream gitroomhq/postiz-app#1680)"
+    },
+    "sadiya-x": {
+      "connected": true,
+      "supported": true,
+      "provider": "x",
+      "metrics": {
+        "impression": 0,
+        "bookmark": 0,
+        "like": 0,
+        "quote": 0,
+        "reply": 0,
+        "retweet": 0
+      }
+    },
+    "kamran-li": {
+      "connected": true,
+      "supported": false,
+      "provider": "linkedin",
+      "reason": "Postiz has no analytics() for this provider (upstream gitroomhq/postiz-app#1680)"
+    },
+    "naved-li": {
+      "connected": true,
+      "supported": false,
+      "provider": "linkedin",
+      "reason": "Postiz has no analytics() for this provider (upstream gitroomhq/postiz-app#1680)"
+    },
+    "sendemall-li": {
+      "connected": false
+    }
+  },
+  "posts": [
+    {
+      "channel": "sendemall-x",
+      "provider": "x",
+      "date": "2026-08-27T18:05:00.000Z",
+      "url": "https://twitter.com/send_em_all/status/2093037080121315499",
+      "postizId": "cmtbtnub1000yo07qvzhso01y",
+      "preview": "\"Verified\" on an invoice can mean four different things. The mailbox e",
+      "metrics": {
+        "impression": 3,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "sadiya-x",
+      "provider": "x",
+      "date": "2026-08-27T19:30:00.000Z",
+      "url": "https://twitter.com/sadiya_sea/status/2093058468450357515",
+      "postizId": "cmtbtnug2000zo07qx0jqcop9",
+      "preview": "Every list has a segment that costs more than it returns: companies th",
+      "metrics": {
+        "impression": 0,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "junaid-x",
+      "provider": "x",
+      "date": "2026-08-28T13:00:00.000Z",
+      "url": "https://twitter.com/JustJunaidHere/status/2093322710596345997",
+      "postizId": "cmtbtnuib0010o07qo7lij4oa",
+      "preview": "Two campaigns can report the same reply rate and produce completely di",
+      "metrics": {
+        "impression": 52,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "kamran-li",
+      "provider": "linkedin",
+      "date": "2026-08-28T14:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7499103499499102208",
+      "postizId": "cmtbtmuzs000po07qwyjr0hhu",
+      "preview": "Everyone writes about how domains get burned. Almost nobody writes how",
+      "metrics": null
+    },
+    {
+      "channel": "sadiya-li",
+      "provider": "linkedin",
+      "date": "2026-08-28T16:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7499133698341064704",
+      "postizId": "cmtbtmv5n000qo07qqwhfu34b",
+      "preview": "Every B2B database has a number it doesn't show you, and it changes wh",
+      "metrics": null
+    },
+    {
+      "channel": "naved-li",
+      "provider": "linkedin",
+      "date": "2026-08-27T21:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7498846807985360896",
+      "postizId": "cmtbtmut4000oo07qqpcwg5a5",
+      "preview": "If you're adding LinkedIn to an email sequence, the capacity maths wor",
+      "metrics": null
+    }
+  ]
+}

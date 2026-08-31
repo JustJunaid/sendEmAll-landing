@@ -17,7 +17,7 @@ post written to drive clicks stops being worth reading, and then it drives no cl
 
 | Stage | Job | Primary metric | Where it lives |
 |---|---|---|---|
-| **1. Post** | Be worth 15 seconds | comments + saves (not likes) | Postiz analytics / native |
+| **1. Post** | Be worth 15 seconds | comments + saves (not likes) | X: `pull-analytics.mjs`. **LinkedIn: native UI by hand** — no API (see OPERATIONS §6) |
 | **2. Profile** | Explain who we are in 5s | profile views → bio link clicks | native platform analytics |
 | **3. Website** | Earn the signup | `signup_click` event | PostHog (already instrumented) |
 | **4. Signup** | — | registrations | app.sendemall.com |

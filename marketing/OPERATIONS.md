@@ -153,6 +153,23 @@ is the leading indicator we can actually move and read.
 
 Attributed sessions are a **monthly cohort** number — trailing 30 days, never weekly.
 
+### What is actually machine-readable (verified 2026-08-28, against the live API)
+
+| Channel | Per-post impressions | How we read them |
+|---|---|---|
+| X (3 accounts) | **yes** | `pull-analytics.mjs` — impressions, likes, replies, retweets, quotes, bookmarks |
+| LinkedIn (3 accounts) | **no** | native UI only, by hand |
+
+LinkedIn personal-profile posts have **no analytics method in Postiz at all** — verified against the
+upstream image, so it is not our scope patch. LinkedIn itself shipped a member analytics API
+(`memberCreatorPostAnalytics`, July 2025) but it needs the `r_member_postAnalytics` permission, which
+is a separate application; upstream issue gitroomhq/postiz-app#1680 tracks wiring it up.
+
+**This is half our accounts and the half carrying our best content.** Until that permission exists,
+LinkedIn numbers get read by hand out of the native UI once a week and typed into the monthly sheet.
+`pull-analytics.mjs` reports those channels as `n/a`, never as `0` — a zero would be a fabricated
+number that quietly drags every average down.
+
 ### Known bias, written down so nobody re-derives it
 
 `respect_dnt: true` plus geo-gated consent means observed traffic is roughly **60–75% of true**
