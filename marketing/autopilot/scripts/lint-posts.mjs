@@ -50,6 +50,12 @@ const NEVER_PUBLISH = [
     why: 'mailbox-per-domain ratios are never published' },
   { id: 'customer-volume', re: /\b(?:agencies|customers|clients|teams|users)\s+(?:who\s+)?(?:send|sending|push)\b[^.\n]{0,30}\d/i,
     why: 'no customer volume claim — we have no customer proof yet' },
+  // RETIRED by CLAUDE.md: the only accuracy claim we publish is the <3% bounce guarantee. This one
+  // sat in claims.md as an ownable claim with an owner until 2026-08-28 — the ledger that exists to
+  // be the guard was itself offering a banned number. Matches our stat, not the general topic:
+  // a post may discuss false-positive rates as a category, it may not assert a figure as ours.
+  { id: 'retired-fp-rate', re: /\b0?\.\d+\s*%[^.\n]{0,40}\b(?:false[ -]positive|accuracy|accurate)\b|\b(?:false[ -]positive|accuracy)\s+rate[^.\n]{0,30}\b0?\.\d+\s*%/i,
+    why: 'the 0.20% false-positive stat is RETIRED — the <3% bounce guarantee is our only accuracy claim' },
 ];
 
 // R3. Colon-labels — a labelled summary line standing in for actually writing the sentence.
