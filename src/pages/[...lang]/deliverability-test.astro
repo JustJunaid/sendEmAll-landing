@@ -6,1720 +6,709 @@ export function getStaticPaths() {
   return generatePaths();
 }
 
+/*
+  The free inbox placement test — ported from the Claude Design "Deliverability Test" file.
+
+  Four stages, one page: start → send → checking → report. The visitor sends ONE email from the
+  mailbox they really use to a panel of mailboxes we own; the API reads them and reports the folder each
+  copy reached, then scores the domain out of 100 on placement, authentication and reputation.
+  Nothing is held back behind an email form.
+
+  Every surface uses the theme-adaptive utilities from src/styles/theme.css (bg-body, bg-theme-dark,
+  bg-accent, text-heading, text-text-default, text-muted, text-primary, border-border-light, status
+  colours), so light and dark both work without per-element work.
+
+  Wire contract: sendEmAll/docs/specs/2026-09-05-placement-public-contract.md
+*/
 const meta = {
-  title: "Free Email Deliverability Test | SendEmAll",
+  title: "Free Inbox Placement Test | SendEmAll",
   description:
-    "Test where your emails land — inbox, spam, or promotions — in minutes. Get your content score, sender reputation tips, and placement breakdown across 12+ email providers.",
+    "Send one email to a panel of real mailboxes across Google, Microsoft and other providers. See the folder each copy reached and get your domain scored out of 100 on placement, authentication and reputation. Free, no account.",
   disableTagline: true,
 };
 
-const SEED_INBOXES_FALLBACK = [
-  { email: "seed.test.gmail.1@gmail.com", provider: "Gmail" },
-  { email: "seed.test.gmail.2@gmail.com", provider: "Gmail" },
-  { email: "seed.test.gmail.3@gmail.com", provider: "Gmail" },
-  { email: "seed.test.outlook.1@outlook.com", provider: "Outlook" },
-  { email: "seed.test.outlook.2@outlook.com", provider: "Outlook" },
-  { email: "seed.test.yahoo.1@yahoo.com", provider: "Yahoo" },
-  { email: "seed.test.yahoo.2@yahoo.com", provider: "Yahoo" },
-  { email: "seed.test.icloud.1@icloud.com", provider: "iCloud" },
-  { email: "seed.test.proton.1@protonmail.com", provider: "ProtonMail" },
-  { email: "seed.test.zoho.1@zohomail.com", provider: "Zoho" },
-  { email: "seed.test.aol.1@aol.com", provider: "AOL" },
-  { email: "seed.test.hotmail.1@hotmail.com", provider: "Hotmail" },
-];
+const API_BASE = import.meta.env.PUBLIC_API_BASE || "https://api.sendemall.com";
+const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.com";
 ---
 
 <Base {...meta} sectionSpacing="md">
-  {/* The deliverability wizard is a self-contained dark-designed tool (fixed
-      dark-hex cards + JS that toggles those hex classes). Wrap it in a dark
-      surface so it stays coherent in both light and dark site themes. */}
-  <div class="bg-body">
-  <!-- Hero -->
-  <section class="relative overflow-hidden pt-24 pb-4">
-    <div
-      class="pointer-events-none absolute inset-0 -z-10"
-      style="background: radial-gradient(ellipse 70% 40% at 50% 0%, color-mix(in srgb, var(--se-primary) 12%, transparent) 0%, transparent 70%);"
-    >
-    </div>
-    <div class="container mx-auto max-w-4xl px-4 text-center">
-      <div
-        class="mb-4 inline-flex items-center gap-2 rounded-full border border-border-light bg-theme-dark px-4 py-1.5 text-sm text-primary"
-      >
-        <span class="relative flex h-2 w-2">
-          <span
-            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"
-          ></span>
-          <span
-            class="relative inline-flex h-2 w-2 rounded-full bg-primary"
-          ></span>
-        </span>
-        Free Deliverability Audit
-      </div>
-      <h1
-        class="mb-4 text-4xl font-bold text-heading md:text-5xl lg:text-6xl"
-        style="font-family: 'Sora', sans-serif; line-height: 1.1;"
-      >
-        See exactly where<br />
-        <span style="color: var(--se-primary-ink);">your emails land</span>
-      </h1>
-      <p class="mx-auto mb-10 max-w-2xl text-lg text-text-default">
-        Send a test email to our seed inboxes across Gmail, Outlook, Yahoo, and
-        more. Get your inbox placement rate, spam score, and sender reputation
-        — no account required.
-      </p>
+  <div class="bg-body" id="dt">
 
-      <!-- Step indicator -->
-      <div id="step-indicator" class="mx-auto mb-12 flex max-w-xs items-center justify-center gap-0">
-        <div class="step-item flex flex-col items-center" data-step="1">
-          <div
-            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-primary bg-primary text-sm font-bold text-on-primary transition-all duration-300"
-          >
-            1
-          </div>
-          <span class="mt-1.5 text-xs font-medium text-primary">Send</span>
-        </div>
-        <div class="mb-5 h-px w-16 bg-border-light transition-all duration-500" id="connector-1"></div>
-        <div class="step-item flex flex-col items-center" data-step="2">
-          <div
-            class="step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 border-border-light bg-theme-dark text-sm font-bold text-text-default transition-all duration-300"
-          >
-            2
-          </div>
-          <span class="mt-1.5 text-xs font-medium text-text-default transition-all duration-300"
-            >Results</span
-          >
-        </div>
-      </div>
-    </div>
-  </section>
+    <!-- ══════════ 1 · START ══════════ -->
+    <section id="stage-start" class="dt-stage">
+      <div class="container mx-auto grid max-w-6xl items-start gap-10 px-4 pb-8 pt-24 lg:grid-cols-[minmax(0,1fr)_402px] lg:gap-14">
+        <div class="min-w-0">
+          <span class="inline-flex h-[26px] items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 text-[11.5px] font-bold uppercase tracking-[.04em] text-primary">Free · no account</span>
+          <h1 class="mt-4 text-4xl font-extrabold leading-[1.04] tracking-[-0.045em] text-heading md:text-5xl lg:text-[50px]" style="text-wrap: balance">
+            Find out where your email actually lands.
+          </h1>
+          <p class="mt-4 max-w-[540px] text-[16.5px] leading-relaxed text-muted" style="text-wrap: pretty">
+            Send one email to our panel of real mailboxes across Google, Microsoft and other providers. We tell you which folder each one reached — and score the domain out of 100 on placement, authentication and reputation.
+          </p>
 
-  <!-- Main wizard container -->
-  <section class="pb-24">
-    <div class="container mx-auto max-w-3xl px-4">
-
-      <!-- ==================== STEP 1: SEND ==================== -->
-      <div id="step-1" class="step-panel">
-
-        <!-- Tracking code block -->
-        <div class="mb-5 rounded-2xl border border-primary/30 bg-theme-dark p-6 md:p-8">
-          <div class="mb-4 flex items-center gap-3">
-            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-              <svg class="h-4.5 w-4.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/>
-              </svg>
+          <div class="mt-6 flex flex-wrap gap-6">
+            <div class="min-w-[150px]">
+              <div class="text-[13px] font-bold tracking-tight text-heading">Real mailboxes</div>
+              <div class="mt-0.5 text-[12.5px] leading-snug text-muted">Google, Microsoft and other providers — not a simulator.</div>
             </div>
-            <div>
-              <h3 class="font-semibold text-heading">Your tracking code</h3>
-              <p class="text-xs text-muted">Include this in your email subject or body</p>
+            <div class="min-w-[150px]">
+              <div class="text-[13px] font-bold tracking-tight text-heading">Five outcomes</div>
+              <div class="mt-0.5 text-[12.5px] leading-snug text-muted">Inbox, promotions, spam, bounced and missing, never merged.</div>
+            </div>
+            <div class="min-w-[150px]">
+              <div class="text-[13px] font-bold tracking-tight text-heading">The whole report</div>
+              <div class="mt-0.5 text-[12.5px] leading-snug text-muted">Every fix is on the page. No email gate, no account.</div>
             </div>
           </div>
-          <div class="flex items-center gap-3 rounded-lg border border-border-light bg-body p-4">
-            <code id="tracking-code" class="flex-1 font-mono text-base font-bold text-primary tracking-wide select-all"></code>
+
+          <div class="mt-7 rounded-r-lg border-l-[3px] border-primary bg-theme-dark px-4 py-4">
+            <div class="text-[13px] font-bold text-heading">Why you have to send it yourself</div>
+            <p class="mt-1 max-w-[500px] text-[12.5px] leading-relaxed text-muted" style="text-wrap: pretty">
+              Placement is a verdict on <em>your</em> domain and <em>your</em> sending setup. If we sent it for you we would be testing our own reputation, and the number would mean nothing.
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-border-light bg-theme-dark p-5 shadow-lg md:p-6">
+          <div class="text-[17px] font-bold tracking-tight text-heading">Test a domain</div>
+          <p class="mt-1 text-[12.5px] leading-relaxed text-muted">The address you send from. We score the domain behind it.</p>
+          <form id="start-form" class="mt-4" novalidate>
+            <label for="sender-email" class="sr-only">The address you send from</label>
+            <input
+              id="sender-email"
+              name="senderEmail"
+              type="email"
+              inputmode="email"
+              autocomplete="email"
+              required
+              placeholder="dana@growthlabs.io"
+              class="h-[42px] w-full rounded-lg border border-border-light bg-body px-3.5 text-[14px] text-heading placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20"
+            />
+            <p id="start-error" class="mt-2 hidden text-[12px] text-danger" role="alert"></p>
             <button
-              id="copy-code-btn"
-              class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-3 py-1.5 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary"
+              id="btn-begin"
+              type="submit"
+              class="mt-3 flex h-12 w-full items-center justify-center rounded-lg bg-primary text-[14px] font-semibold text-on-primary transition hover:opacity-90 disabled:opacity-60"
             >
-              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/>
-              </svg>
-              Copy
+              Get my seed addresses
             </button>
-          </div>
-          <div class="mt-3 rounded-lg bg-primary/5 px-4 py-3 text-xs text-text-default">
-            <strong class="text-primary">How to use:</strong> Add this code anywhere in your email subject line or body — e.g. <em>"[SEA-TEST-XXXXXX]"</em>. This lets us identify your email in the seed inboxes.
-          </div>
-        </div>
-
-        <!-- Seed inboxes -->
-        <div class="mb-5 rounded-2xl border border-border-light bg-theme-dark p-6 md:p-8">
-          <div class="mb-5 flex items-center justify-between">
-            <div>
-              <h3 class="font-semibold text-heading">Send to these addresses</h3>
-              <p class="mt-0.5 text-xs text-muted">Real inboxes across 12+ email providers</p>
-            </div>
-            <button
-              id="copy-all-btn"
-              class="flex items-center gap-1.5 rounded-lg border border-border-light bg-body px-3 py-2 text-xs font-medium text-text-default transition-all hover:border-primary/50 hover:text-primary"
-            >
-              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/>
-              </svg>
-              Copy all
-            </button>
-          </div>
-
-          <!-- Loading state -->
-          <div id="inboxes-loading" class="space-y-2.5">
-            {Array.from({ length: 8 }).map(() => (
-              <div class="flex animate-pulse items-center gap-3 rounded-lg border border-border-light bg-body px-4 py-3">
-                <div class="h-3 w-3 rounded-full bg-border-light"></div>
-                <div class="h-3 flex-1 rounded bg-border-light"></div>
-                <div class="h-5 w-16 rounded-md bg-border-light"></div>
-              </div>
+          </form>
+          <ul class="mt-3.5 flex flex-col gap-2">
+            {[
+              "We read the mailboxes we own — never yours.",
+              "One send. Results in about two minutes.",
+              "The score and its full working are shown, not just a grade.",
+            ].map((line) => (
+              <li class="flex items-start gap-2">
+                <svg class="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                <span class="text-[12px] leading-relaxed text-muted">{line}</span>
+              </li>
             ))}
-          </div>
-
-          <!-- Inbox list (populated by JS) -->
-          <div id="inbox-list" class="hidden space-y-2.5"></div>
-        </div>
-
-        <!-- Instructions -->
-        <div class="mb-5 rounded-2xl border border-border-light bg-theme-dark p-6 md:p-8">
-          <h3 class="mb-4 font-semibold text-heading">How to send the test</h3>
-          <ol class="space-y-4">
-            <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">1</div>
-              <div>
-                <p class="text-sm font-medium text-heading">Open your email client</p>
-                <p class="mt-0.5 text-xs text-muted">Gmail, Outlook, Apple Mail, or any other client you use.</p>
-              </div>
-            </li>
-            <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">2</div>
-              <div>
-                <p class="text-sm font-medium text-heading">Compose your email</p>
-                <p class="mt-0.5 text-xs text-muted">Use the subject and body you entered above. Include the tracking code somewhere visible.</p>
-              </div>
-            </li>
-            <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">3</div>
-              <div>
-                <p class="text-sm font-medium text-heading">Paste all seed addresses in the To field</p>
-                <p class="mt-0.5 text-xs text-muted">Copy all addresses above and paste them as recipients. Most email clients accept comma-separated addresses.</p>
-              </div>
-            </li>
-            <li class="flex gap-4">
-              <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">4</div>
-              <div>
-                <p class="text-sm font-medium text-heading">Hit send, then come back here</p>
-                <p class="mt-0.5 text-xs text-muted">Click the button below and we'll check each inbox for your email and report where it landed.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-
-        <button
-          id="btn-sent"
-          class="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-sm font-semibold text-on-primary transition-all duration-200 hover:opacity-90"
-        >
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
-          </svg>
-          I've sent the emails — show my results
-        </button>
-      </div>
-
-      <!-- ==================== STEP 2: ANALYZING ==================== -->
-      <div id="step-2" class="step-panel hidden">
-        <div class="rounded-2xl border border-border-light bg-theme-dark p-8 text-center md:p-12">
-          <!-- Animated rings -->
-          <div class="relative mx-auto mb-8 h-24 w-24">
-            <div class="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-[#D2B3F3]" style="animation-duration: 1.2s;"></div>
-            <div class="absolute inset-2 animate-spin rounded-full border-2 border-transparent border-t-primary" style="animation-duration: 1.8s; animation-direction: reverse;"></div>
-            <div class="absolute inset-4 animate-spin rounded-full border-2 border-transparent border-t-[#D2B3F3]/50" style="animation-duration: 2.4s;"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
-              </svg>
-            </div>
-          </div>
-
-          <h2 class="mb-2 text-2xl font-bold text-heading">Checking your inboxes...</h2>
-          <p class="mx-auto mb-8 max-w-sm text-sm text-text-default">
-            We're scanning 12+ email providers for your message. This takes about 60 seconds.
-          </p>
-
-          <!-- Progress steps -->
-          <div id="analysis-steps" class="mx-auto max-w-xs space-y-3 text-left">
-            <div class="analysis-step flex items-center gap-3 text-sm" data-index="0">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
-              <span class="text-muted">Checking Gmail inboxes</span>
-            </div>
-            <div class="analysis-step flex items-center gap-3 text-sm" data-index="1">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
-              <span class="text-muted">Checking Outlook & Hotmail</span>
-            </div>
-            <div class="analysis-step flex items-center gap-3 text-sm" data-index="2">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
-              <span class="text-muted">Checking Yahoo, iCloud, AOL</span>
-            </div>
-            <div class="analysis-step flex items-center gap-3 text-sm" data-index="3">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
-              <span class="text-muted">Analyzing email content</span>
-            </div>
-            <div class="analysis-step flex items-center gap-3 text-sm" data-index="4">
-              <div class="step-dot h-5 w-5 shrink-0 rounded-full border-2 border-border-light bg-body"></div>
-              <span class="text-muted">Generating reputation report</span>
-            </div>
-          </div>
+          </ul>
         </div>
       </div>
+    </section>
 
-      <!-- ==================== STEP 3: RESULTS ==================== -->
-      <div id="step-3" class="step-panel hidden">
-
-        <!-- PERFORMANCE REPORT header -->
-        <div class="mb-8">
-          <div class="flex flex-wrap items-start justify-between gap-5">
-            <!-- Left: label + title + sender + status -->
-            <div class="flex-1 min-w-0">
-              <span class="mb-2 inline-block text-[10px] font-bold uppercase tracking-widest text-primary">Performance Report</span>
-              <h2 class="text-2xl font-bold text-heading" id="report-domain-title">Deliverability Report</h2>
-              <p id="results-sender" class="mt-0.5 text-xs text-muted"></p>
-              <p id="score-summary" class="mt-2 max-w-xl text-sm leading-relaxed text-text-default"></p>
-            </div>
-            <!-- Right: big inbox rate card -->
-            <div class="shrink-0 rounded-2xl border border-border-light bg-theme-dark px-8 py-5 text-center" style="min-width:140px;">
-              <span id="inbox-pct-center" class="block text-5xl font-black leading-none text-heading">—</span>
-              <span class="mt-1.5 block text-[10px] font-bold uppercase tracking-widest text-muted">Overall Score</span>
-              <!-- Hidden elements kept for JS compat -->
-              <div class="hidden">
-                <svg viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke-width="10" style="stroke: var(--se-border);"/>
-                  <circle id="score-ring" cx="50" cy="50" r="38" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-primary); transition:stroke-dashoffset 1.2s ease,stroke 0.5s ease;"/>
-                </svg>
-                <span id="score-value">—</span>
-                <span id="score-badge"></span>
-                <svg id="placement-donut" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke-width="16" style="stroke: var(--se-border);"/>
-                  <circle id="donut-inbox" cx="50" cy="50" r="38" fill="none" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-success); transition:stroke-dashoffset 1.2s ease 0.2s;"/>
-                  <circle id="donut-promo" cx="50" cy="50" r="38" fill="none" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-warning); transition:stroke-dashoffset 1.2s ease 0.4s;"/>
-                  <circle id="donut-spam" cx="50" cy="50" r="38" fill="none" stroke-width="16" stroke-dasharray="238.76" stroke-dashoffset="238.76" style="stroke: var(--se-danger); transition:stroke-dashoffset 1.2s ease 0.6s;"/>
-                </svg>
-                <span id="inbox-pct">—</span>
-                <span id="promo-pct">—</span>
-                <span id="spam-pct">—</span>
-              </div>
-            </div>
-          </div>
-          <!-- Tracking code + action buttons row -->
-          <div class="mt-5 flex flex-wrap items-center gap-3">
-            <div class="flex min-w-0 flex-1 items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5">
-              <svg class="h-3.5 w-3.5 shrink-0 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3ZM6 6h.008v.008H6Z"/>
-              </svg>
-              <span class="text-xs text-muted">Tracking code</span>
-              <code id="results-tracking-code" class="flex-1 select-all font-mono text-sm font-bold tracking-wide text-primary"></code>
-              <button id="copy-results-code-btn" class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-2.5 py-1 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary">
-                <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
-                Copy
-              </button>
-            </div>
-            <button id="btn-recalculate" class="hidden" style="display:none;">
-              <svg id="recalc-icon" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
-              Recalculate
-            </button>
-            <button id="btn-restart" class="flex items-center gap-1.5 rounded-lg border border-border-light bg-theme-dark px-3 py-2 text-xs font-medium text-text-default transition-all hover:border-primary/40 hover:text-heading">
-              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
-              New test
-            </button>
-          </div>
+    <!-- ══════════ 2 · SEND ══════════ -->
+    <section id="stage-send" class="dt-stage hidden">
+      <div class="container mx-auto max-w-[900px] px-4 pb-10 pt-24">
+        <div class="flex flex-wrap items-baseline gap-3">
+          <h1 class="text-3xl font-bold tracking-[-0.035em] text-heading">Send one email, then come back</h1>
+          <span id="send-addr" class="font-mono text-[13px] text-muted"></span>
         </div>
+        <p class="mt-2 max-w-[640px] text-[14.5px] leading-relaxed text-muted" style="text-wrap: pretty">
+          Use the mailbox you actually send campaigns from — same client, same signature, same copy. A test from a clean personal account tells you nothing about your outbound.
+        </p>
 
-        <!-- Sender Reputation — full width -->
-        <div class="mb-6 rounded-2xl border border-border-light bg-theme-dark p-6">
-          <div class="mb-5 flex items-start justify-between gap-4">
-            <div>
-              <h3 class="text-base font-semibold text-heading">Sender Reputation</h3>
-              <p id="rep-domain-subtitle" class="mt-0.5 text-xs text-muted">Domain authentication status</p>
+        <ol class="mt-6 grid grid-cols-[34px_minmax(0,1fr)] gap-x-4">
+          <li class="contents">
+            <div class="flex flex-col items-center">
+              <span class="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full bg-primary/20 font-mono text-[13px] font-bold text-heading">1</span>
+              <span class="min-h-3 w-px flex-1 bg-border-light"></span>
             </div>
-            <div class="text-right">
-              <div id="rep-score-display" class="text-2xl font-black leading-none text-heading">—</div>
-              <div id="rep-overall-badge" class="hidden mt-0.5 text-[10px] font-bold uppercase tracking-wider"></div>
+            <div class="min-w-0 pb-5">
+              <div class="pt-1 text-[15.5px] font-bold tracking-tight text-heading">Put this code in your subject line</div>
+              <p class="mt-1 text-[13.5px] leading-relaxed text-muted">It is how we recognise your email among everything else arriving in the panel.</p>
+              <div class="mt-3 flex flex-wrap items-center gap-3 rounded-lg border border-border-light bg-theme-dark px-4 py-3">
+                <code id="test-code" class="min-w-[160px] flex-1 select-all font-mono text-[16px] font-semibold tracking-[.02em] text-heading"></code>
+                <button type="button" data-copy="code" class="dt-btn-secondary">Copy</button>
+              </div>
             </div>
-          </div>
-          <!-- SPF / DKIM / DMARC as 3 mini tiles -->
-          <div id="reputation-main-checks" class="mb-4 grid grid-cols-3 gap-3"></div>
-          <!-- MX, blacklist as rows -->
-          <div id="reputation-checks" class="space-y-2.5"></div>
+          </li>
+          <li class="contents">
+            <div class="flex flex-col items-center">
+              <span class="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full bg-primary/20 font-mono text-[13px] font-bold text-heading">2</span>
+              <span class="min-h-3 w-px flex-1 bg-border-light"></span>
+            </div>
+            <div class="min-w-0 pb-5">
+              <div class="pt-1 text-[15.5px] font-bold tracking-tight text-heading">Add every address below as a recipient</div>
+              <p class="mt-1 text-[13.5px] leading-relaxed text-muted">One email, all of them as recipients. Send the copy you would really send — the content is scored too.</p>
+              <div class="mt-3 overflow-hidden rounded-lg border border-border-light bg-theme-dark">
+                <div id="seed-list"></div>
+                <div class="flex flex-wrap items-center gap-3 bg-accent px-4 py-3">
+                  <span id="seed-note" class="min-w-[180px] flex-1 text-[12px] leading-snug text-muted">One send to every mailbox. Paste them all into the To field — comma separated works in every client.</span>
+                  <button type="button" data-copy="seeds" class="dt-btn-secondary">Copy all addresses</button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="contents">
+            <div class="flex flex-col items-center">
+              <span class="grid h-[30px] w-[30px] shrink-0 place-items-center rounded-full bg-primary/20 font-mono text-[13px] font-bold text-heading">3</span>
+            </div>
+            <div class="min-w-0 pb-5">
+              <div class="pt-1 text-[15.5px] font-bold tracking-tight text-heading">Send it, then come back to this page</div>
+              <p class="mt-1 text-[13.5px] leading-relaxed text-muted">Keep this tab open. Nothing is stored against you and no account is created.</p>
+            </div>
+          </li>
+        </ol>
+
+        <div class="flex flex-wrap items-center gap-3.5 rounded-xl border border-primary bg-theme-dark px-4 py-4 shadow-sm">
+          <span class="min-w-[220px] flex-1 text-[13.5px] leading-relaxed text-text-default">Sent it? We will read every mailbox and report the folder each copy reached.</span>
+          <button id="btn-check" type="button" class="flex h-11 items-center justify-center rounded-lg bg-primary px-5 text-[14px] font-semibold text-on-primary transition hover:opacity-90 disabled:opacity-60">Check the mailboxes</button>
         </div>
+        <p id="send-error" class="mt-3 hidden text-[12.5px] text-danger" role="alert"></p>
+        <button type="button" data-reset class="mt-3.5 text-[12.5px] text-muted hover:text-heading">Start over with a different address</button>
+      </div>
+    </section>
 
-        <!-- Seed Inbox Granularity -->
-        <div class="mb-6 overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
-          <div class="border-b border-border-light px-6 py-5">
-            <h3 class="text-base font-semibold italic text-heading">Seed Inbox Granularity</h3>
-            <p class="mt-0.5 text-xs text-muted">Placement result per seed inbox.</p>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="border-b border-border-light">
-                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-muted">Provider</th>
-                  <th class="px-6 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-muted">Placement</th>
-                </tr>
-              </thead>
-              <tbody id="seed-table-body" class="divide-y divide-border-light"></tbody>
-            </table>
-          </div>
-          <div id="seed-provider-cards" class="hidden"></div>
+    <!-- ══════════ 3 · CHECKING ══════════ -->
+    <section id="stage-checking" class="dt-stage hidden">
+      <div class="container mx-auto max-w-[620px] px-4 pb-24 pt-32 text-center">
+        <div class="flex justify-center gap-[7px]" aria-hidden="true">
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+            <span class="dt-dot h-2.5 w-2.5 rounded-full bg-primary" style={`animation-delay: ${i * 0.14}s`}></span>
+          ))}
         </div>
-
-        <!-- Gated details -->
-        <div id="gated-details">
-
-          <!-- Editorial Audit (content analysis) -->
-          <div class="mb-5 overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
-            <div class="flex items-start justify-between gap-4 border-b border-border-light px-6 py-5">
-              <div>
-                <h3 class="text-base font-semibold italic text-heading">Editorial Audit</h3>
-                <p class="mt-0.5 text-xs text-muted">AI-analyzed email content for spam triggers and deliverability friction.</p>
-              </div>
-              <div id="content-score-badge" class="hidden shrink-0 rounded-full px-3 py-1 text-xs font-bold"></div>
-            </div>
-            <div id="content-checks" class="divide-y divide-border-light overflow-y-auto" style="max-height:420px;"></div>
-          </div>
-
-          <!-- Strategic Improvements — moved below Editorial Audit -->
-          <div class="mb-5 overflow-hidden rounded-2xl border border-border-light bg-theme-dark">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border-light px-6 py-5">
-              <div>
-                <h3 class="text-base font-semibold italic text-heading">Strategic Improvements</h3>
-                <p class="mt-0.5 text-xs text-muted">Actionable steps to optimize your deliverability.</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <button id="btn-expand-all" class="rounded-lg border border-border-light bg-body px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-text-default transition-all hover:border-primary/40 hover:text-heading">
-                  Expand All
-                </button>
-              </div>
-            </div>
-
-            <div id="recommendations-section" class="hidden">
-              <ul id="all-recs-list" class="divide-y divide-border-light overflow-y-auto" style="max-height:420px;"></ul>
-            </div>
-
-            <div id="email-capture-card" class="px-6 py-8">
-              <div class="mx-auto max-w-md text-center">
-                <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                  <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
-                  </svg>
-                </div>
-                <h4 class="mb-1 text-sm font-semibold text-heading">Unlock your full action plan</h4>
-                <p class="mb-4 text-xs text-text-default/70">Get all recommendations ranked by impact — sent directly to you.</p>
-                <div id="report-success" class="hidden mb-3 rounded-lg border border-success/30 bg-success/10 px-4 py-3 text-sm text-success">
-                  Sent! Check your inbox for the full report.
-                </div>
-                <div id="report-form">
-                  <div class="flex gap-2">
-                    <input type="email" id="report-email" placeholder="you@yourdomain.com"
-                      class="flex-1 rounded-lg border border-border-light bg-body px-4 py-2.5 text-sm text-heading placeholder-muted outline-none transition-all focus:border-primary"/>
-                    <button id="btn-send-report" class="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition-all hover:opacity-90 disabled:opacity-50 whitespace-nowrap">
-                      Send Report
-                    </button>
-                  </div>
-                  <div id="report-error" class="mt-2 hidden rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-xs text-danger"></div>
-                  <p class="mt-2 text-[10px] text-muted">No spam · No account needed</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="hidden">
-              <div id="deliverability-recs-section"><ul id="deliverability-recs-list"></ul></div>
-              <div id="reputation-recs-section"><ul id="reputation-recs-list"></ul></div>
-              <div id="content-recs-section"><ul id="content-recs-list"></ul></div>
-            </div>
-          </div>
-
-          <!-- AI rewritten version (triggered by button) -->
-          <div id="ai-fix-section" class="mb-5 hidden rounded-2xl border border-primary/20 p-6 md:p-8"
-               style="background: linear-gradient(135deg, color-mix(in srgb, var(--se-primary) 5%, transparent) 0%, color-mix(in srgb, var(--se-body) 80%, transparent) 100%);">
-            <div class="mb-5 flex items-center gap-3">
-              <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-                <svg class="h-4.5 w-4.5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
-                </svg>
-              </div>
-              <div>
-                <h3 class="font-semibold text-heading">AI-rewritten version</h3>
-                <p class="text-xs text-muted">Same offer, better inbox placement — spam triggers removed</p>
-              </div>
-            </div>
-
-            <!-- Loading state -->
-            <div id="ai-fix-loading" class="space-y-3">
-              <div class="animate-pulse space-y-2 rounded-lg border border-border-light bg-body p-4">
-                <div class="h-3 w-1/4 rounded bg-border-light"></div>
-                <div class="h-4 w-3/4 rounded bg-border-light"></div>
-              </div>
-              <div class="animate-pulse space-y-2 rounded-lg border border-border-light bg-body p-4">
-                <div class="h-3 w-1/4 rounded bg-border-light"></div>
-                <div class="h-4 w-full rounded bg-border-light"></div>
-                <div class="h-4 w-5/6 rounded bg-border-light"></div>
-                <div class="h-4 w-4/6 rounded bg-border-light"></div>
-              </div>
-            </div>
-
-            <!-- Generated content (shown after load) -->
-            <div id="ai-fix-content" class="hidden space-y-4">
-              <!-- Subject -->
-              <div class="rounded-lg border border-border-light bg-body p-4">
-                <div class="mb-2 flex items-center justify-between">
-                  <span class="text-xs font-medium uppercase tracking-wider text-muted">Subject line</span>
-                  <button id="copy-ai-subject" class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-2.5 py-1 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary">
-                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
-                    Copy
-                  </button>
-                </div>
-                <p id="ai-subject-text" class="text-sm font-medium text-heading"></p>
-              </div>
-              <!-- Body -->
-              <div class="rounded-lg border border-border-light bg-body p-4">
-                <div class="mb-2 flex items-center justify-between">
-                  <span class="text-xs font-medium uppercase tracking-wider text-muted">Email body</span>
-                  <button id="copy-ai-body" class="flex items-center gap-1.5 rounded-md border border-border-light bg-theme-dark px-2.5 py-1 text-xs text-text-default transition-all hover:border-primary/50 hover:text-primary">
-                    <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2m-6 12h8a2 2 0 0 1 2-2v-8a2 2 0 0 1-2-2h-8a2 2 0 0 1-2 2v8a2 2 0 0 1 2 2Z"/></svg>
-                    Copy
-                  </button>
-                </div>
-                <pre id="ai-body-text" class="whitespace-pre-wrap text-sm text-text-default"></pre>
-              </div>
-              <!-- Test this version CTA -->
-              <button id="btn-test-ai-version"
-                class="group flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-on-primary transition-all hover:opacity-90">
-                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
-                </svg>
-                Test this version now
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- CTA block -->
-        <div
-          class="rounded-2xl p-6 md:p-8 text-center"
-          style="background: linear-gradient(135deg, color-mix(in srgb, var(--se-primary) 8%, transparent) 0%, color-mix(in srgb, var(--se-accent) 80%, transparent) 100%); border: 1px solid color-mix(in srgb, var(--se-primary) 20%, transparent);"
-        >
-          <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs text-primary">
-            Want real-time placement tracking?
-          </div>
-          <h3 class="mb-2 text-xl font-bold text-heading">
-            Track every email, every send
-          </h3>
-          <p class="mx-auto mb-6 max-w-md text-sm text-text-default">
-            This test gives you a snapshot. SendEmAll's warmup engine monitors your inbox rate daily, auto-rescues emails from spam, and keeps your sender reputation healthy — automatically.
-          </p>
-          <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="https://app.sendemall.com/register"
-              class="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-on-primary transition-all hover:opacity-90"
-            >
-              Create your account
-              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-              </svg>
-            </a>
-            <a
-              href="/pricing"
-              class="inline-flex items-center gap-2 rounded-lg border border-border-light bg-theme-dark px-5 py-3 text-sm font-medium text-text-default transition-all hover:border-primary/40 hover:text-heading"
-            >
-              See plans
-            </a>
-          </div>
-          <p class="mt-4 text-xs text-muted">No credit card required · Cancel anytime · Under 3% bounce on the leads we provide, or we refund your first month</p>
+        <h1 class="mt-6 text-[27px] font-bold tracking-[-0.035em] text-heading">Reading every mailbox</h1>
+        <p class="mt-2 text-[14.5px] leading-relaxed text-muted" style="text-wrap: pretty">
+          We open each one and record the folder your email reached. A mailbox that shows nothing gets the full window before we call it missing — silence is a result, not a timeout.
+        </p>
+        <p id="checking-progress" class="mt-4 font-mono text-[13px] text-muted" aria-live="polite"></p>
+        <div class="mt-5 inline-flex">
+          <button id="btn-peek" type="button" class="dt-btn-secondary h-[42px] px-4 text-[13.5px]">Show what is in so far</button>
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ══════════ 4 · REPORT ══════════ -->
+    <section id="stage-report" class="dt-stage hidden">
+      <div class="container mx-auto max-w-[1000px] px-4 pb-6 pt-24">
+        <div class="flex flex-wrap items-baseline gap-3">
+          <h1 id="rep-domain" class="font-mono text-[26px] font-semibold tracking-[-0.03em] text-heading"></h1>
+          <span id="rep-meta" class="text-[13px] text-muted"></span>
+          <button type="button" data-reset class="ml-auto text-[12.5px] text-muted hover:text-heading">Test another address</button>
+        </div>
+
+        <p id="rep-brief" class="mt-4 max-w-[780px] text-[21px] font-semibold leading-[1.38] tracking-[-0.025em] text-muted md:text-[23px]" style="text-wrap: pretty"></p>
+        <p id="rep-pending" class="mt-3 hidden rounded-lg border border-border-light bg-accent px-4 py-2.5 text-[12.5px] text-muted"></p>
+
+        <!-- score, always with its composition -->
+        <div class="mt-6 grid overflow-hidden rounded-xl border border-border-light bg-border-light shadow-sm md:grid-cols-[208px_minmax(0,1fr)] md:gap-px">
+          <div class="flex flex-col justify-center bg-theme-dark p-5">
+            <div class="text-[11px] font-bold uppercase tracking-[.07em] text-muted">Placement score</div>
+            <div class="mt-2 flex items-baseline gap-2">
+              <span id="rep-score" class="font-mono text-[44px] font-bold leading-none tracking-[-0.05em] text-heading">—</span>
+              <span id="rep-score-note" class="font-mono text-[13px] text-muted">out of 100</span>
+            </div>
+            <div class="mt-2.5 text-[11.5px] leading-relaxed text-muted/80" style="text-wrap: pretty">Three components, no weighting we hide from you.</div>
+          </div>
+          <div id="rep-parts" class="flex flex-col gap-3 bg-theme-dark px-5 pb-4 pt-4"></div>
+        </div>
+
+        <!-- five placements, never merged -->
+        <div class="mt-3.5 rounded-xl border border-border-light bg-theme-dark px-5 pb-5 pt-4 shadow-sm">
+          <div class="flex flex-wrap items-baseline gap-3">
+            <div id="rep-landed-title" class="text-[15px] font-bold tracking-tight text-heading">Where your copies landed</div>
+            <span class="text-[12.5px] text-muted">Five outcomes, kept apart. Bounced and missing are not the same failure.</span>
+          </div>
+          <div id="rep-split" class="mt-3.5 flex h-3.5 overflow-hidden rounded-full bg-accent"></div>
+          <div id="rep-buckets" class="mt-4 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]"></div>
+        </div>
+
+        <div class="mt-3.5 grid items-start gap-3.5 lg:grid-cols-[minmax(0,1fr)_390px]">
+          <div class="flex min-w-0 flex-col gap-3.5">
+            <div class="overflow-hidden rounded-xl border border-border-light bg-theme-dark shadow-sm">
+              <div class="px-5 pb-3 pt-4">
+                <div class="text-[15px] font-bold tracking-tight text-heading">Placement by provider</div>
+                <p class="mt-1 text-[12.5px] leading-relaxed text-muted" style="text-wrap: pretty">Worst first. A rate from fewer than five seeds is shown untoned — it is a hint, not evidence.</p>
+              </div>
+              <div id="rep-providers"></div>
+            </div>
+
+            <div class="overflow-hidden rounded-xl border border-border-light bg-theme-dark shadow-sm">
+              <div class="px-5 pb-3 pt-4">
+                <div class="text-[14.5px] font-bold tracking-tight text-heading">Every copy we found</div>
+                <p class="mt-1 text-[12.5px] text-muted">One row per mailbox, with the folder it reached.</p>
+              </div>
+              <div id="rep-probes"></div>
+            </div>
+
+            <div id="rep-fixes-card" class="overflow-hidden rounded-xl border border-warning bg-theme-dark shadow-sm">
+              <div class="bg-warning/10 px-5 pb-3 pt-4">
+                <div class="text-[14.5px] font-bold tracking-tight text-heading">What to fix, in this order</div>
+                <p class="mt-1 text-[12.5px] leading-relaxed text-text-default" style="text-wrap: pretty">Ranked by what moves placement. Every line is a check that actually failed — nothing is held back behind an email form.</p>
+              </div>
+              <div id="rep-fixes"></div>
+            </div>
+          </div>
+
+          <aside class="flex min-w-0 flex-col gap-3.5">
+            <div class="overflow-hidden rounded-xl border border-border-light bg-theme-dark shadow-sm">
+              <div class="px-4 pb-3 pt-4">
+                <div class="text-[13.5px] font-bold tracking-tight text-heading">Authentication</div>
+                <p class="mt-1 text-[12px] leading-snug text-muted" style="text-wrap: pretty">What the receivers concluded, next to what your domain publishes. Two different questions.</p>
+              </div>
+              <div id="rep-auth"></div>
+            </div>
+
+            <div class="overflow-hidden rounded-xl border border-border-light bg-theme-dark shadow-sm">
+              <div class="px-4 pb-3 pt-4">
+                <div class="text-[13.5px] font-bold tracking-tight text-heading">Reputation</div>
+                <p id="rep-rep-note" class="mt-1 text-[12px] leading-snug text-muted" style="text-wrap: pretty"></p>
+              </div>
+              <div id="rep-rep"></div>
+            </div>
+
+            <!-- inverse card: heading colour as the surface, page colour as the text — flips with the theme -->
+            <div class="rounded-xl bg-heading p-4 pb-5 shadow-lg">
+              <div class="text-[11px] font-bold uppercase tracking-[.08em] text-body/60">What this test cannot tell you</div>
+              <div id="rep-limits" class="mt-2.5 flex flex-col gap-3"></div>
+              <a href={`${APP_URL}/placement`} class="mt-4 flex h-[42px] w-full items-center justify-center rounded-lg bg-primary text-[14px] font-semibold text-on-primary transition hover:opacity-90">Run this on every domain</a>
+              <div class="mt-2 text-center text-[11px] text-body/60">Every domain, every week, scheduled.</div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="mt-3.5 flex flex-wrap items-center gap-3 rounded-xl border border-border-light bg-accent px-4 py-3">
+          <span class="min-w-[220px] flex-1 text-[12.5px] leading-relaxed text-muted">Want a copy of this report? It is already all on the page — we can email it too.</span>
+          <form id="email-form" class="flex flex-wrap items-center gap-2" novalidate>
+            <label for="report-email" class="sr-only">Email address</label>
+            <input id="report-email" type="email" required placeholder="you@company.com" class="h-9 w-56 rounded-lg border border-border-light bg-body px-3 text-[13px] text-heading placeholder:text-muted/70 focus:border-primary focus:outline-none" />
+            <button id="btn-email" type="submit" class="dt-btn-secondary h-9">Email me the report</button>
+          </form>
+          <span id="email-status" class="w-full text-[12px] text-muted"></span>
+        </div>
+      </div>
+    </section>
   </div>
 </Base>
 
 <style>
-  .step-panel {
-    animation: fade-in 0.3s ease;
+  .dt-stage { animation: dtRiseIn 0.26s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .dt-stage.hidden { display: none; }
+  @keyframes dtRiseIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .dt-dot { animation: dtPulse 1.1s ease-in-out infinite; }
+  @keyframes dtPulse { 0%, 100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .dt-stage, .dt-dot { animation: none; } }
+  .dt-btn-secondary {
+    display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 0.85rem;
+    border-radius: 0.5rem; border: 1px solid var(--se-border); background: var(--se-surface);
+    font-size: 12.5px; font-weight: 600; color: var(--se-heading); transition: background 0.15s ease;
   }
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .analysis-step.active .step-dot {
-    background: #D2B3F3;
-    border-color: var(--se-primary);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--se-primary) 15%, transparent);
-  }
-  .analysis-step.done .step-dot {
-    background: #4ade80;
-    border-color: #4ade80;
-  }
-  .analysis-step.active span,
-  .analysis-step.done span {
-    color: #fff;
-  }
+  .dt-btn-secondary:hover { background: var(--se-accent); }
+  .dt-btn-secondary:disabled { opacity: 0.6; }
 </style>
 
-<script define:vars={{ SEED_INBOXES_FALLBACK }}>
-  const API_BASE = "https://api.sendemall.com";
-  const PROVIDER_COLORS = {
-    Gmail: "#EA4335", Outlook: "#0078D4", Yahoo: "#6001D2",
-    iCloud: "#555555", ProtonMail: "#6D4AFF", Zoho: "#E42527",
-    AOL: "#FF0B00", Hotmail: "#0078D4", Other: "var(--se-primary)",
+<script define:vars={{ API_BASE }}>
+  /* ── state ────────────────────────────────────────────────────────────────── */
+  const S = { addr: "", test: null, report: null, pollTimer: null, peeked: false };
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+  const PROVIDER = { google: "Google", microsoft: "Microsoft 365", yahoo: "Yahoo / AOL", zoho: "Zoho", apple: "iCloud", custom: "Other", other: "Other", unknown: "Other" };
+  const provider = (esp) => PROVIDER[esp] || esp || "Other";
+
+  /* five placements, kept apart — same tones as the in-app report */
+  const FOLDER = {
+    INBOX:      { label: "Inbox",      bar: "bg-success", fg: "text-success", badge: "success", note: "landed where you want it" },
+    PROMOTIONS: { label: "Promotions", bar: "bg-warning", fg: "text-warning", badge: "warning", note: "tabbed away from the inbox" },
+    SPAM:       { label: "Spam",       bar: "bg-danger",  fg: "text-danger",  badge: "danger",  note: "delivered to the spam folder" },
+    BOUNCED:    { label: "Bounced",    bar: "bg-muted",   fg: "text-muted",   badge: "neutral", note: "refused by the receiver" },
+    MISSING:    { label: "Missing",    bar: "bg-primary", fg: "text-primary", badge: "brand",   note: "silently dropped — worse than spam" },
+    OTHER:      { label: "Other folder", bar: "bg-muted", fg: "text-muted",   badge: "neutral", note: "filed somewhere else" },
+    UNSENT:     { label: "Unsent",     bar: "bg-muted",   fg: "text-muted",   badge: "neutral", note: "never left" },
   };
+  const BADGE = {
+    success: "bg-success/10 text-success", warning: "bg-warning/10 text-warning", danger: "bg-danger/10 text-danger",
+    neutral: "bg-accent text-muted", brand: "bg-primary/15 text-primary",
+  };
+  const badge = (tone, text) => `<span class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold ${BADGE[tone] || BADGE.neutral}">${esc(text)}</span>`;
+  const WEIGHTS = { placement: 50, spf: 12, dkim: 12, dmarc: 11, mx: 5, blocklist: 7, domainAge: 3 };
 
-  let testCode = "";
-  let testId = "";
-  let viewToken = "";    // raw token from POST /tests — must be sent with all subsequent requests
-  let reportToken = "";  // raw report token — issued on email submission, unlocks full data
-  let seedInboxes = [];
-  let testState = {};
-  let pollTimer = null;
-
-  // ─── Utility ────────────────────────────────────────────────────────────────
-
-  // Steps: 1=send, 2=analyzing, 3=results
-  // Indicator maps: step1→indicator1, step2→indicator1, step3→indicator2
-  function showStep(n) {
-    document.querySelectorAll(".step-panel").forEach(el => el.classList.add("hidden"));
-    document.getElementById(`step-${n}`)?.classList.remove("hidden");
-    updateStepIndicator(n === 3 ? 2 : 1);
+  /* ── stages ───────────────────────────────────────────────────────────────── */
+  function show(stage) {
+    document.querySelectorAll(".dt-stage").forEach((el) => el.classList.add("hidden"));
+    $(`stage-${stage}`).classList.remove("hidden");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  function updateStepIndicator(active) {
-    const circles = document.querySelectorAll(".step-circle");
-    const labels = document.querySelectorAll(".step-item span");
-    const connectors = [
-      document.getElementById("connector-1"),
-    ];
-    circles.forEach((c, i) => {
-      const step = i + 1;
-      if (step < active) {
-        c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#D2B3F3\]|bg-\[#D2B3F3\]|text-on-primary/g, "").trim();
-        c.classList.add("border-success", "bg-success", "text-on-primary");
-        c.innerHTML = `<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-        labels[i].classList.add("text-success");
-        labels[i].classList.remove("text-primary", "text-text-default");
-      } else if (step === active) {
-        c.className = c.className.replace(/border-\[#2A2433\]|bg-\[#1A191C\]|text-\[#C8C1C1\]|border-\[#4ade80\]|bg-\[#4ade80\]/g, "").trim();
-        c.classList.add("border-primary", "bg-primary", "text-on-primary");
-        c.textContent = step;
-        labels[i].classList.add("text-primary");
-        labels[i].classList.remove("text-text-default", "text-success");
-      } else {
-        c.classList.remove("border-primary", "bg-primary", "text-on-primary", "border-success", "bg-success");
-        c.classList.add("border-border-light", "bg-theme-dark", "text-text-default");
-        c.textContent = step;
-        labels[i].classList.add("text-text-default");
-        labels[i].classList.remove("text-primary", "text-success");
-      }
-    });
-    connectors.forEach((c, i) => {
-      if (c) c.style.background = active > i + 1 ? "var(--se-success)" : "#2A2433";
-    });
-  }
-
-  async function copyText(text, btn) {
-    try {
-      await navigator.clipboard.writeText(text);
-      const orig = btn.innerHTML;
-      btn.innerHTML = btn.innerHTML.replace(/Copy.*/, "Copied!");
-      btn.classList.add("text-success", "border-success/40");
-      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("text-success", "border-success/40"); }, 1800);
-    } catch {}
-  }
-
-  // ─── API helpers ─────────────────────────────────────────────────────────────
-
-  function withToken(path) {
-    return viewToken ? `${path}?token=${encodeURIComponent(viewToken)}` : path;
-  }
-
-  function withReportToken(path) {
-    const base = withToken(path);
-    return reportToken ? `${base}&reportToken=${encodeURIComponent(reportToken)}` : base;
-  }
-
-  async function apiPost(path, body) {
+  /* ── api ──────────────────────────────────────────────────────────────────── */
+  async function api(method, path, body) {
     const res = await fetch(`${API_BASE}${path}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      method,
+      headers: body ? { "Content-Type": "application/json" } : undefined,
+      body: body ? JSON.stringify(body) : undefined,
       signal: AbortSignal.timeout(15000),
     });
-    if (!res.ok) throw new Error(`API ${res.status}`);
+    if (res.status === 429) throw new Error("Too many tests from this network. Try again in ten minutes.");
+    if (res.status === 410) throw new Error("This test expired before the email was sent. Start a new one.");
+    if (!res.ok) throw new Error(`The test service answered ${res.status}. Please try again.`);
     return res.json();
   }
+  const withToken = (path) => `${path}?token=${encodeURIComponent(S.test.viewToken)}`;
 
-  async function apiGet(path) {
-    const res = await fetch(`${API_BASE}${path}`, { signal: AbortSignal.timeout(15000) });
-    if (!res.ok) throw new Error(`API ${res.status}`);
-    return res.json();
-  }
-
-  // ─── Content Analysis (client-side fallback) ──────────────────────────────
-
-  const SPAM_WORDS = [
-    "free","act now","limited time","urgent","cash","money","winner","won",
-    "click here","buy now","order now","discount","sale","offer","deal",
-    "guarantee","risk-free","no cost","no obligation","no purchase necessary",
-    "double your","earn money","extra income","fast cash","financial freedom",
-    "get paid","make money","miracle","promise","special promotion",
-  ];
-
-  function analyzeContent(subject, body) {
-    let score = 100;
-    const issues = [];
-    const good = [];
-    const recs = [];
-
-    const fullText = (subject + " " + body).toLowerCase();
-    const foundSpam = SPAM_WORDS.filter(w => fullText.includes(w));
-    if (foundSpam.length > 0) {
-      score -= 20;
-      issues.push(`Contains ${foundSpam.length} spam trigger word${foundSpam.length > 1 ? "s" : ""}: ${foundSpam.slice(0, 4).join(", ")}${foundSpam.length > 4 ? " +" + (foundSpam.length - 4) + " more" : ""}`);
-      recs.push(`Remove spam trigger words: ${foundSpam.slice(0, 3).join(", ")}`);
-    } else {
-      good.push("No spam trigger words detected");
+  /* ── 1 · start ────────────────────────────────────────────────────────────── */
+  $("start-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const input = $("sender-email");
+    const err = $("start-error");
+    const addr = input.value.trim();
+    err.classList.add("hidden");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) {
+      err.textContent = "Enter the address you send from — we score the domain behind it.";
+      err.classList.remove("hidden");
+      return;
     }
-
-    const hasPersonalization = /\{[a-z_]+\}|{{[a-z_]+}}|\[\[.*?\]\]/i.test(body);
-    if (!hasPersonalization) {
-      score -= 10;
-      issues.push("No personalization tokens found (e.g. {first_name})");
-      recs.push("Add personalization — even just a first name improves open rates by 26%");
-    } else {
-      good.push("Personalization tokens detected");
-    }
-
-    const hasUnsubscribe = /unsubscribe|opt.out|opt out|manage preferences/i.test(body);
-    if (!hasUnsubscribe) {
-      score -= 15;
-      issues.push("No unsubscribe link — required by CAN-SPAM & GDPR");
-      recs.push("Add an unsubscribe link to comply with CAN-SPAM and GDPR");
-    } else {
-      good.push("Unsubscribe option found");
-    }
-
-    const hasAddress = /\d{1,6}\s+\w+.*(?:st|street|ave|avenue|rd|road|blvd|lane|ln|dr|drive)/i.test(body)
-      || /(?:llc|inc|corp|ltd).*\d{4,5}/i.test(body);
-    if (!hasAddress) {
-      score -= 5;
-      issues.push("No physical address detected — recommended for commercial email");
-      recs.push("Include your company address in the footer");
-    } else {
-      good.push("Physical address detected");
-    }
-
-    const subjLen = subject.length;
-    if (subjLen < 10) {
-      score -= 10;
-      issues.push(`Subject too short (${subjLen} chars — aim for 20–50)`);
-      recs.push("Lengthen your subject line to at least 20 characters");
-    } else if (subjLen > 60) {
-      score -= 5;
-      issues.push(`Subject may be truncated (${subjLen} chars — keep under 60)`);
-      recs.push("Shorten subject to under 60 characters to avoid truncation");
-    } else {
-      good.push(`Subject length is good (${subjLen} chars)`);
-    }
-
-    const bodyLen = body.replace(/<[^>]+>/g, "").trim().length;
-    if (bodyLen < 50) {
-      score -= 10;
-      issues.push("Email body is very short — spam filters distrust short emails");
-      recs.push("Expand your email body to at least 150 words");
-    } else if (bodyLen > 5000) {
-      score -= 5;
-      issues.push("Very long email body may reduce engagement");
-    } else {
-      good.push(`Email body length is appropriate (${bodyLen} chars)`);
-    }
-
-    const hasLinks = /<a\s/i.test(body) || /https?:\/\//i.test(body);
-    const textToHtmlRatio = bodyLen / Math.max(body.length, 1);
-    if (textToHtmlRatio < 0.2 && body.length > 200) {
-      score -= 5;
-      issues.push("Low text-to-HTML ratio — image-heavy emails land in spam more often");
-      recs.push("Increase the text-to-HTML ratio; aim for at least 60% text content");
-    } else if (hasLinks) {
-      good.push("Email contains links (good for engagement)");
-    }
-
-    score = Math.max(0, Math.min(100, score));
-    return { score, issues, good, recs };
-  }
-
-  // ─── Render results ───────────────────────────────────────────────────────
-
-  function getAuditSeverity(msg) {
-    if (/spam|trigger|blacklist|phish|block|unsubscrib/i.test(msg)) return "high";
-    if (/link|ssl|certificate|image|ratio|address|physical/i.test(msg)) return "medium";
-    return "low";
-  }
-
-  function auditIssueRow(msg, isGood) {
-    if (isGood) {
-      return `
-        <div class="flex items-center gap-4 px-6 py-3.5">
-          <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-success/10 border border-success/20">
-            <svg class="h-3 w-3 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
-          </div>
-          <p class="text-sm text-text-default">${msg}</p>
-        </div>
-      `;
-    }
-    const sev = getAuditSeverity(msg);
-    const [sevLabel, sevCss, iconColor, iconBg] = sev === "high"
-      ? ["HIGH SEVERITY",  "color:var(--se-danger);background:color-mix(in srgb, var(--se-danger) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-danger) 30%, transparent);", "var(--se-danger)", "bg-danger/10 border-danger/20"]
-      : sev === "medium"
-      ? ["MEDIUM SEVERITY","color:var(--se-warning);background:color-mix(in srgb, var(--se-warning) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-warning) 30%, transparent);",  "var(--se-warning)", "bg-warning/10 border-warning/20"]
-      : ["LOW SEVERITY",   "color:var(--se-info);background:color-mix(in srgb, var(--se-info) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-info) 30%, transparent);",  "var(--se-info)", "bg-info/10 border-info/20"];
-    const iconSvg = sev === "high"
-      ? `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
-      : sev === "medium"
-      ? `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/></svg>`
-      : `<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:${iconColor}"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/></svg>`;
-    return `
-      <div class="flex items-center gap-4 px-6 py-3.5">
-        <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border ${iconBg}">${iconSvg}</div>
-        <div class="flex flex-1 min-w-0 flex-wrap items-center gap-2">
-          <span class="text-sm font-semibold text-heading">${msg}</span>
-          <span class="inline-flex shrink-0 rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider" style="${sevCss}">${sevLabel}</span>
-        </div>
-      </div>
-    `;
-  }
-
-  function renderContentChecks(issues, good) {
-    const container = document.getElementById("content-checks");
-    container.innerHTML = [...good.map(m => auditIssueRow(m, true)), ...issues.map(m => auditIssueRow(m, false))].join("");
-
-    // Content score badge
-    const total = issues.length + good.length;
-    const badge = document.getElementById("content-score-badge");
-    if (badge && total > 0) {
-      const pct = Math.round((good.length / total) * 100);
-      badge.textContent = `${pct}% clean`;
-      badge.classList.remove("hidden");
-      if (pct >= 80) badge.style.cssText = "display:inline-flex;background:color-mix(in srgb, var(--se-success) 10%, transparent);color:var(--se-success);border:1px solid color-mix(in srgb, var(--se-success) 30%, transparent);";
-      else if (pct >= 50) badge.style.cssText = "display:inline-flex;background:color-mix(in srgb, var(--se-warning) 10%, transparent);color:var(--se-warning);border:1px solid color-mix(in srgb, var(--se-warning) 30%, transparent);";
-      else badge.style.cssText = "display:inline-flex;background:color-mix(in srgb, var(--se-danger) 10%, transparent);color:var(--se-danger);border:1px solid color-mix(in srgb, var(--se-danger) 30%, transparent);";
-    }
-  }
-
-  function renderReputationChecks(senderEmail, reputation) {
-    const domain = (reputation?.domain || senderEmail.split("@")[1] || senderEmail || "yourdomain.com").toLowerCase();
-
-    // Build checks from live data when available, otherwise show pending state
-    const checks = reputation ? buildLiveReputationChecks(domain, reputation) : buildPendingReputationChecks(domain);
-
-    // First 3 (SPF, DKIM, DMARC) → mini tile cards
-    const mainContainer = document.getElementById("reputation-main-checks");
-    if (mainContainer) {
-      mainContainer.innerHTML = checks.slice(0, 3).map(c => reputationMiniCard(c)).join("");
-    }
-
-    // Remaining (MX, Blacklist, Domain age) → list rows
-    const container = document.getElementById("reputation-checks");
-    if (container) {
-      container.innerHTML = checks.slice(3).map(c => reputationCheckRow(c)).join("");
-    }
-
-    // Update domain subtitle
-    const sub = document.getElementById("rep-domain-subtitle");
-    if (sub && domain !== "yourdomain.com") sub.textContent = `Real-time health for ${domain}`;
-
-    // Overall score + badge
-    const failed = checks.filter(c => c.passed != null && c.passed === false).length;
-    const passed = checks.filter(c => c.passed === true).length;
-    const total = checks.length;
-    const scoreNum = total > 0 ? Math.round((passed / total) * 100) : null;
-
-    const scoreEl = document.getElementById("rep-score-display");
-    if (scoreEl && scoreNum !== null) {
-      const scoreColor = scoreNum >= 80 ? "var(--se-success)" : scoreNum >= 50 ? "var(--se-warning)" : "var(--se-danger)";
-      scoreEl.innerHTML = `<span style="color:${scoreColor}">${scoreNum}</span><span style="font-size:1rem;color:var(--se-muted);font-weight:500;">/100</span>`;
-    }
-
-    const badge = document.getElementById("rep-overall-badge");
-    if (badge && reputation) {
-      badge.classList.remove("hidden");
-      if (failed === 0) {
-        badge.textContent = "EXCELLENT STATUS";
-        badge.style.cssText = "display:block;color:var(--se-success);";
-      } else if (failed >= 2) {
-        badge.textContent = `${failed} ISSUES DETECTED`;
-        badge.style.cssText = "display:block;color:var(--se-danger);";
-      } else {
-        badge.textContent = `${failed} ISSUE DETECTED`;
-        badge.style.cssText = "display:block;color:var(--se-warning);";
-      }
-    }
-  }
-
-  function reputationMiniCard(c) {
-    let iconHtml, bg, border, textColor;
-    if (c.passed == null) {
-      iconHtml = `<div class="h-3.5 w-3.5 animate-pulse rounded-full bg-muted"></div>`;
-      bg = "bg-body"; border = "border-border-light"; textColor = "text-muted";
-    } else if (c.passed) {
-      iconHtml = `<svg class="h-3.5 w-3.5 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-      bg = "bg-success/5"; border = "border-success/20"; textColor = "text-heading";
-    } else {
-      iconHtml = `<svg class="h-3.5 w-3.5 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
-      bg = "bg-danger/5"; border = "border-danger/20"; textColor = "text-heading";
-    }
-    const shortDesc = c.desc.length > 55 ? c.desc.slice(0, 52) + "…" : c.desc;
-    return `
-      <div class="rounded-xl border ${border} ${bg} p-4">
-        <div class="mb-2 flex items-center justify-between">
-          <span class="text-xs font-bold uppercase tracking-wide ${textColor}">${c.label}</span>
-          <div class="flex h-5 w-5 items-center justify-center rounded-full bg-theme-dark">${iconHtml}</div>
-        </div>
-        <p class="text-[11px] leading-snug text-muted">${shortDesc}</p>
-      </div>
-    `;
-  }
-
-  function derivePlacementPcts(placement, seedResults) {
-    if (placement?.total > 0) {
-      const t = placement.total;
-      const inboxPct = Math.round((placement.inbox / t) * 100);
-      const spamPct  = Math.round((placement.spam  / t) * 100);
-      return { inboxPct, spamPct, promoPct: Math.max(0, 100 - inboxPct - spamPct) };
-    }
-    if (Array.isArray(seedResults) && seedResults.length > 0) {
-      const withPl = seedResults.filter(r => r.placementStatus || r.placement);
-      if (withPl.length > 0) {
-        const t = withPl.length;
-        const pl = r => r.placementStatus || r.placement || "";
-        const inbox = withPl.filter(r => pl(r) === "inbox").length;
-        const spam  = withPl.filter(r => pl(r) === "spam").length;
-        const promo = withPl.filter(r => pl(r) === "promotions" || pl(r) === "promo").length;
-        const inboxPct = Math.round((inbox / t) * 100);
-        const spamPct  = Math.round((spam  / t) * 100);
-        const promoPct = Math.round((promo / t) * 100);
-        return { inboxPct, spamPct, promoPct };
-      }
-    }
-    return null; // no data yet
-  }
-
-  function extractReputationRecs(reputation) {
-    if (!reputation) return [];
-    const recs = [];
-    // Only flag checks that explicitly failed (passed === false), not pending (null/undefined)
-    if (reputation.spf?.passed === false)   recs.push("Add an SPF record (v=spf1 include:youresp.com ~all) — this authorizes your ESP to send on your behalf");
-    if (reputation.dkim?.passed === false)  recs.push("Enable DKIM signing in your ESP settings and add the provided CNAME records to your DNS");
-    if (reputation.dmarc?.passed === false) recs.push("Add a DMARC policy starting with p=none to monitor, then upgrade to p=quarantine once SPF & DKIM pass consistently");
-    if (reputation.mx?.passed === false)    recs.push("Fix your MX records — without them, replies can't reach your domain");
-    if (reputation.blacklist?.isBlacklisted) recs.push(`Your domain appears on a blacklist (${(reputation.blacklist.reasons || []).slice(0,2).join(", ")}). Submit removal requests at each RBL's delisting page`);
-    return recs;
-  }
-
-  function buildLiveReputationChecks(domain, rep) {
-    // Blacklist — guard against missing data
-    const bl = rep.blacklist || {};
-    const blacklistPassed = !bl.isBlacklisted;
-    const blacklistDesc = blacklistPassed
-      ? `${domain} is not listed on Spamhaus, SURBL, or URIBL.`
-      : `Listed on: ${(bl.reasons || []).slice(0, 2).join("; ")}`;
-
-    // Each check — use optional chaining so a missing sub-object shows as pending (null)
-    // rather than crashing or rendering as failed
-    const spf   = rep.spf   || null;
-    const dkim  = rep.dkim  || null;
-    const dmarc = rep.dmarc || null;
-    const mx    = rep.mx    || null;
-
-    return [
-      {
-        label: "SPF record",
-        passed: spf != null ? (spf.passed ?? null) : null,
-        desc: spf?.details || (spf?.passed === false
-          ? (spf?.record ? "SPF record found but failed validation — check your include chain" : "SPF record missing or invalid")
-          : `Checking TXT records for ${domain}…`),
-        record: spf?.record,
-      },
-      {
-        label: "DKIM signature",
-        passed: dkim != null ? (dkim.passed ?? null) : null,
-        desc: dkim?.details || (dkim?.passed === false
-          ? (dkim?.record ? "DKIM record found but signature validation failed — verify your ESP signing settings" : "No valid DKIM record found for common selectors")
-          : `Checking DKIM selectors for ${domain}…`),
-        record: dkim?.record,
-      },
-      {
-        label: "DMARC policy",
-        passed: dmarc != null ? (dmarc.passed ?? null) : null,
-        desc: dmarc?.details || (dmarc?.passed === false
-          ? (dmarc?.record ? "DMARC record found but policy failed validation — check your policy syntax" : "DMARC record missing or invalid")
-          : `Checking _dmarc.${domain}…`),
-        record: dmarc?.record,
-      },
-      {
-        label: "MX records",
-        passed: mx != null ? (mx.passed ?? null) : null,
-        desc: mx?.details || (mx?.passed === false
-          ? (mx?.record ? "MX record found but failed validation — verify your mail server is reachable" : "No MX records found — replies can't reach this domain")
-          : `Checking MX records for ${domain}…`),
-        record: mx?.record,
-      },
-      { label: "Blacklist status", passed: rep.blacklist != null ? blacklistPassed : null, desc: rep.blacklist != null ? blacklistDesc : "Checking Spamhaus, SURBL, URIBL…" },
-    ];
-  }
-
-  function buildPendingReputationChecks(domain) {
-    return [
-      { label: "SPF record",      passed: null, desc: `Checking TXT records for ${domain}…` },
-      { label: "DKIM signature",  passed: null, desc: "Checking common DKIM selectors…" },
-      { label: "DMARC policy",    passed: null, desc: `Checking _dmarc.${domain}…` },
-      { label: "MX records",      passed: null, desc: `Checking MX records for ${domain}…` },
-      { label: "Blacklist status", passed: null, desc: "Checking Spamhaus, SURBL, URIBL…" },
-    ];
-  }
-
-  function reputationCheckRow(c) {
-    let iconHtml, borderClass;
-    if (c.passed == null) {
-      // Pending / unknown (null OR undefined treated the same)
-      iconHtml = `<div class="h-3 w-3 animate-pulse rounded-full bg-muted"></div>`;
-      borderClass = "border-border-light";
-    } else if (c.passed) {
-      iconHtml = `<svg class="h-3 w-3 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-      borderClass = "border-success/20";
-    } else {
-      iconHtml = `<svg class="h-3 w-3 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>`;
-      borderClass = "border-danger/20";
-    }
-
-    const bgClass = c.passed == null ? "bg-body"
-                  : c.passed          ? "bg-success/5"
-                  : "bg-danger/5";
-
-    const recordPill = c.record
-      ? `<p class="mt-1 truncate font-mono text-xs text-muted" title="${c.record}">${c.record.substring(0, 60)}${c.record.length > 60 ? "…" : ""}</p>`
-      : "";
-
-    return `
-      <div class="flex items-start gap-3 rounded-lg border ${borderClass} ${bgClass} px-4 py-3.5">
-        <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-theme-dark">
-          ${iconHtml}
-        </div>
-        <div class="min-w-0 flex-1">
-          <p class="text-sm font-medium text-heading">${c.label}</p>
-          <p class="mt-0.5 text-xs text-muted">${c.desc}</p>
-          ${recordPill}
-        </div>
-      </div>
-    `;
-  }
-
-  function renderScoreRing(score) {
-    const circ = 238.76;
-    const offset = circ - (score / 100) * circ;
-    const ring = document.getElementById("score-ring");
-    ring.style.strokeDashoffset = offset;
-
-    let color, tier, summary, statusWord;
-    if (score >= 75) {
-      color = "var(--se-success)"; tier = "Excellent"; statusWord = "Optimal";
-      summary = `Your placement is <strong style="color:var(--se-success)">Optimal</strong>. Authentication checks pass and inbox rate is strong.`;
-    } else if (score >= 55) {
-      color = "var(--se-warning)"; tier = "Fair"; statusWord = "Fair";
-      summary = `Your placement is <strong style="color:var(--se-warning)">Fair</strong>. Minor issues detected — review the checks below to improve inbox rate.`;
-    } else if (score >= 35) {
-      color = "var(--se-warning)"; tier = "At Risk"; statusWord = "At Risk";
-      summary = `Your placement is <strong style="color:var(--se-warning)">At Risk</strong>. High spam rate detected — address the flagged issues before sending at scale.`;
-    } else {
-      color = "var(--se-danger)"; tier = "Critical"; statusWord = "Critical";
-      summary = `Your placement is <strong style="color:var(--se-danger)">Critical</strong>. Most emails are landing in spam. Fix authentication and content issues immediately.`;
-    }
-    ring.style.stroke = color;
-    document.getElementById("score-value").textContent = score;
-    const badge = document.getElementById("score-badge");
-    badge.textContent = tier;
-    badge.style.background = color + "20";
-    badge.style.color = color;
-    badge.style.border = `1px solid ${color}40`;
-    const summaryEl = document.getElementById("score-summary");
-    if (summaryEl) summaryEl.innerHTML = summary;
-
-    // Show overall score in the prominent inbox-rate card
-    const centerEl = document.getElementById("inbox-pct-center");
-    if (centerEl) {
-      centerEl.textContent = score + "%";
-      centerEl.style.color = color;
-    }
-  }
-
-  function renderPlacementDonut(inbox, promo, spam) {
-    const circ = 238.76;
-    const inboxArc = (inbox / 100) * circ;
-    const promoArc = (promo / 100) * circ;
-    const spamArc = (spam / 100) * circ;
-
-    const dInbox = document.getElementById("donut-inbox");
-    const dPromo = document.getElementById("donut-promo");
-    const dSpam = document.getElementById("donut-spam");
-
-    dInbox.style.strokeDasharray = `${inboxArc} ${circ}`;
-    dInbox.style.strokeDashoffset = "0";
-
-    dPromo.style.strokeDasharray = `${promoArc} ${circ}`;
-    dPromo.style.strokeDashoffset = `-${inboxArc}`;
-
-    dSpam.style.strokeDasharray = `${spamArc} ${circ}`;
-    dSpam.style.strokeDashoffset = `-${inboxArc + promoArc}`;
-
-    document.getElementById("inbox-pct").textContent = inbox + "%";
-    document.getElementById("promo-pct").textContent = promo + "%";
-    document.getElementById("spam-pct").textContent = spam + "%";
-  }
-
-  function recItem(text) {
-    return `<li class="flex items-start gap-2.5 rounded-lg border border-border-light bg-body px-4 py-3 text-sm">
-      <svg class="mt-0.5 h-4 w-4 shrink-0 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-      </svg>
-      <span class="leading-relaxed text-text-default">${text}</span>
-    </li>`;
-  }
-
-  function renderRecommendations(contentRecs, reputationRecs, deliverabilityRecs) {
-    const section = document.getElementById("recommendations-section");
-    section.classList.add("hidden");
-
-    // Merge all: deliverability (high) → reputation (high/med) → content (med/low)
-    const all = [
-      ...(deliverabilityRecs || []).map(t => ({ text: t, priority: "high" })),
-      ...(reputationRecs || []).map(t => ({ text: t, priority: "high" })),
-      ...(contentRecs || []).map((t, i) => ({ text: t, priority: i === 0 ? "medium" : "low" })),
-    ];
-    if (!all.length) return;
-
-    const list = document.getElementById("all-recs-list");
-    if (list) {
-      list.innerHTML = all.map((r, i) => {
-        const num = String(i + 1).padStart(2, "0");
-        const [priLabel, priCss] = r.priority === "high"
-          ? ["High Priority",   "color:var(--se-danger);background:color-mix(in srgb, var(--se-danger) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-danger) 25%, transparent);"]
-          : r.priority === "medium"
-          ? ["Medium Priority", "color:var(--se-warning);background:color-mix(in srgb, var(--se-warning) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-warning) 25%, transparent);"]
-          : ["Low Priority",    "color:var(--se-info);background:color-mix(in srgb, var(--se-info) 12%, transparent);border:1px solid color-mix(in srgb, var(--se-info) 25%, transparent);"];
-        const title = r.text.split(/[—.\-]/)[0].trim().slice(0, 60);
-        const desc = r.text;
-        const isFirst = i === 0;
-        return `
-          <li class="rec-accordion-item" data-open="${isFirst}">
-            <div class="flex cursor-pointer items-center gap-4 px-6 py-4 transition-colors hover:bg-body"
-                 onclick="this.closest('li').dataset.open=this.closest('li').dataset.open==='true'?'false':'true';this.closest('li').querySelector('.rec-body').style.display=this.closest('li').dataset.open==='true'?'block':'none';this.querySelector('.rec-chevron').style.transform=this.closest('li').dataset.open==='true'?'rotate(180deg)':'';">
-              <span class="shrink-0 text-xs font-bold text-muted">${num}</span>
-              <div class="flex flex-1 min-w-0 flex-wrap items-center gap-2">
-                <span class="text-sm font-semibold text-heading">${title}</span>
-                <span class="inline-flex rounded border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider" style="${priCss}">${priLabel}</span>
-              </div>
-              <svg class="rec-chevron h-4 w-4 shrink-0 text-muted transition-transform" style="${isFirst ? "transform:rotate(180deg)" : ""}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7"/>
-              </svg>
-            </div>
-            <div class="rec-body px-6 pb-4 pt-0" style="display:${isFirst ? "block" : "none"}">
-              <p class="text-sm leading-relaxed text-text-default/80">${desc}</p>
-            </div>
-          </li>
-        `;
-      }).join("");
-    }
-
-    // Also populate hidden categorized lists (unlockGate compat)
-    const delivList = document.getElementById("deliverability-recs-list");
-    if (delivList) delivList.innerHTML = (deliverabilityRecs || []).map(recItem).join("");
-    const repList = document.getElementById("reputation-recs-list");
-    if (repList) repList.innerHTML = (reputationRecs || []).map(recItem).join("");
-    const contentList = document.getElementById("content-recs-list");
-    if (contentList) contentList.innerHTML = (contentRecs || []).map(recItem).join("");
-
-    // Only show section if email capture is already hidden (gate unlocked)
-    const captureCard = document.getElementById("email-capture-card");
-    if (!captureCard || captureCard.style.display === "none") {
-      section.classList.remove("hidden");
-    }
-
-    // Wire up expand all button
-    const expandBtn = document.getElementById("btn-expand-all");
-    if (expandBtn && !expandBtn._wired) {
-      expandBtn._wired = true;
-      expandBtn.addEventListener("click", () => {
-        document.querySelectorAll(".rec-accordion-item").forEach(item => {
-          item.dataset.open = "true";
-          const body = item.querySelector(".rec-body");
-          const chev = item.querySelector(".rec-chevron");
-          if (body) body.style.display = "block";
-          if (chev) chev.style.transform = "rotate(180deg)";
-        });
-      });
-    }
-  }
-
-  function renderSeedTable(inboxes, seedResults) {
-    const displayInboxes = Array.isArray(inboxes) && inboxes.length > 0 ? inboxes : (seedResults ?? []);
-    const tbody = document.getElementById("seed-table-body");
-    if (!tbody) return;
-
-    tbody.innerHTML = displayInboxes.map(s => {
-      const provider = s.provider || guessProvider(s.email);
-      const color = PROVIDER_COLORS[provider] || PROVIDER_COLORS.Other;
-      const fallback = Array.isArray(seedResults) ? seedResults.find(r => r.email === s.email) : null;
-      const pl = s.placementStatus || s.placement || fallback?.placementStatus || fallback?.placement || null;
-
-      const plLower = pl ? pl.toLowerCase() : null;
-      let badgeHtml;
-      if (!plLower || plLower === "unknown" || plLower === "not_found") {
-        badgeHtml = `<span class="inline-flex items-center gap-1.5 rounded border border-border-light bg-body px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted"><svg class="animate-spin h-2.5 w-2.5" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>Checking…</span>`;
-      } else if (plLower === "inbox") {
-        const label = provider === "Gmail" ? "Inbox (Primary)" : "Inbox";
-        badgeHtml = `<span class="inline-flex rounded border border-success/30 bg-success/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-success">${label}</span>`;
-      } else if (plLower === "promotions" || plLower === "promo") {
-        badgeHtml = `<span class="inline-flex rounded border border-warning/30 bg-warning/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-warning">Promotions</span>`;
-      } else if (plLower === "spam") {
-        badgeHtml = `<span class="inline-flex rounded border border-danger/30 bg-danger/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-danger">Spam</span>`;
-      } else if (plLower === "updates" || plLower === "social") {
-        badgeHtml = `<span class="inline-flex rounded border border-warning/30 bg-warning/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-warning">${pl}</span>`;
-      } else {
-        badgeHtml = `<span class="inline-flex rounded border border-border-light bg-body px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted">${pl}</span>`;
-      }
-
-      return `<tr class="transition-colors hover:bg-body">
-        <td class="px-6 py-4">
-          <div class="flex items-center gap-3">
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style="background:${color}18;border:1px solid ${color}30;">
-              <span class="h-2 w-2 rounded-full" style="background:${color};"></span>
-            </div>
-            <div class="min-w-0">
-              <p class="text-sm font-semibold text-heading">${provider}</p>
-              <p class="font-mono text-[11px] text-muted truncate max-w-[200px]">${s.email}</p>
-            </div>
-          </div>
-        </td>
-        <td class="px-6 py-4">${badgeHtml}</td>
-      </tr>`;
-    }).join("");
-  }
-
-  function providerCard(provider, inboxPct, spamPct, checking) {
-    const color = PROVIDER_COLORS[provider] || PROVIDER_COLORS.Other;
-    let pctDisplay, statusLabel, statusStyle, barColor, barPct;
-    if (checking || inboxPct === null) {
-      pctDisplay = "—";
-      statusLabel = "Propagating tests";
-      statusStyle = "color:var(--se-muted);";
-      barColor = "#2A2433";
-      barPct = 0;
-    } else if (spamPct > 30) {
-      pctDisplay = `${spamPct}%`;
-      statusLabel = "Spam filtered";
-      statusStyle = "color:var(--se-danger);";
-      barColor = "var(--se-danger)";
-      barPct = spamPct;
-    } else if (spamPct > 0 || inboxPct < 80) {
-      pctDisplay = `${inboxPct}%`;
-      statusLabel = "Partial spam filtered";
-      statusStyle = "color:var(--se-warning);";
-      barColor = "var(--se-warning)";
-      barPct = inboxPct;
-    } else {
-      pctDisplay = `${inboxPct}%`;
-      statusLabel = "Inbox placement";
-      statusStyle = "color:var(--se-success);";
-      barColor = "var(--se-success)";
-      barPct = inboxPct;
-    }
-    // Status icon
-    const icon = checking || inboxPct === null
-      ? `<svg class="h-5 w-5 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`
-      : spamPct > 30
-      ? `<svg class="h-5 w-5 text-danger" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
-      : spamPct > 0 || inboxPct < 80
-      ? `<svg class="h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>`
-      : `<svg class="h-5 w-5" style="color:${color}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3"/></svg>`;
-    return `
-      <div class="rounded-2xl border border-border-light bg-theme-dark p-5">
-        <div class="mb-3 flex items-center justify-between">
-          <span class="text-sm font-semibold text-heading">${provider}</span>
-          ${icon}
-        </div>
-        <div class="mb-1">
-          <span class="text-4xl font-black leading-none" style="${pctDisplay === "—" ? "color:var(--se-muted);" : "color:var(--se-heading);"}">${pctDisplay}</span>
-        </div>
-        <p class="mb-3 text-[10px] font-bold uppercase tracking-wider" style="${statusStyle}">${statusLabel}</p>
-        <div class="h-1 w-full overflow-hidden rounded-full bg-border-light">
-          <div class="h-full rounded-full transition-all duration-700" style="width:${barPct}%;background:${barColor};"></div>
-        </div>
-      </div>
-    `;
-  }
-
-  // ─── Provider color helper ────────────────────────────────────────────────
-
-  function guessProvider(email) {
-    const domain = (email.split("@")[1] || "").toLowerCase();
-    if (domain.includes("gmail"))    return "Gmail";
-    if (domain.includes("outlook") || domain.includes("hotmail") || domain.includes("live")) return "Outlook";
-    if (domain.includes("yahoo"))    return "Yahoo";
-    if (domain.includes("icloud") || domain.includes("me.com")) return "iCloud";
-    if (domain.includes("proton") || domain.includes("pm.me"))  return "ProtonMail";
-    if (domain.includes("zoho"))     return "Zoho";
-    if (domain.includes("aol"))      return "AOL";
-    return "Other";
-  }
-
-  function renderInboxList(inboxes) {
-    const list = document.getElementById("inbox-list");
-    list.innerHTML = inboxes.map(s => {
-      const color = PROVIDER_COLORS[s.provider] || PROVIDER_COLORS.Other;
-      return `
-        <div class="group flex items-center gap-3 rounded-lg border border-border-light bg-body px-4 py-3 transition-all hover:border-primary/20">
-          <div class="flex h-2.5 w-2.5 shrink-0 rounded-full" style="background:${color};"></div>
-          <span class="flex-1 font-mono text-sm text-text-default select-all">${s.email}</span>
-          <span class="shrink-0 rounded-full border border-border-light px-2 py-0.5 text-xs" style="color:${color}; border-color:${color}30; background:${color}10;">${s.provider}</span>
-        </div>
-      `;
-    }).join("");
-    document.getElementById("inboxes-loading").classList.add("hidden");
-    list.classList.remove("hidden");
-  }
-
-  // ─── Analyzing animation ──────────────────────────────────────────────────
-
-  function runAnalysisAnimation(callback) {
-    const steps = document.querySelectorAll(".analysis-step");
-    let i = 0;
-    const advance = () => {
-      if (i > 0) {
-        steps[i - 1].classList.remove("active");
-        steps[i - 1].classList.add("done");
-        const dot = steps[i - 1].querySelector(".step-dot");
-        dot.innerHTML = `<svg class="h-3 w-3 text-on-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>`;
-      }
-      if (i < steps.length) {
-        steps[i].classList.add("active");
-        i++;
-        setTimeout(advance, 900 + Math.random() * 600);
-      } else {
-        setTimeout(callback, 400);
-      }
-    };
-    advance();
-  }
-
-  // ─── Gate helpers ─────────────────────────────────────────────────────────
-
-  let aiFixSubject = "";
-  let aiFixBody = "";
-  let aiFixStarted = false;
-
-  // Called as soon as results complete with spam > 20% — runs in background.
-  async function fetchAiFix() {
-    if (aiFixStarted || !testId) return;
-    aiFixStarted = true;
+    const btn = $("btn-begin");
+    btn.disabled = true;
+    btn.textContent = "Picking your seed mailboxes…";
     try {
-      const data = await apiPost(withToken(`/open/deliverability/tests/${testId}/generate-fix`), {});
-      aiFixSubject = data.subject || "";
-      aiFixBody = data.body || "";
-      document.getElementById("ai-fix-loading")?.classList.add("hidden");
-      document.getElementById("ai-subject-text").textContent = aiFixSubject;
-      document.getElementById("ai-body-text").textContent = aiFixBody;
-      document.getElementById("ai-fix-content")?.classList.remove("hidden");
-    } catch {
-      document.getElementById("ai-fix-section")?.classList.add("hidden");
+      S.addr = addr;
+      S.test = await api("POST", "/open/placement/tests", { senderEmail: addr });
+      renderSend();
+      show("send");
+    } catch (ex) {
+      err.textContent = ex.message;
+      err.classList.remove("hidden");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Get my seed addresses";
     }
-  }
-
-  function unlockGate(spamPct) {
-    // Show recommendations section if any category has items
-    const recSection = document.getElementById("recommendations-section");
-    const hasRecs = ["deliverability-recs-list","reputation-recs-list","content-recs-list"]
-      .some(id => (document.getElementById(id)?.children.length ?? 0) > 0);
-    if (recSection && hasRecs) recSection.classList.remove("hidden");
-    // Hide email capture card
-    document.getElementById("report-form")?.classList.add("hidden");
-    const card = document.getElementById("email-capture-card");
-    if (card) card.style.display = "none";
-    // Show AI fix section
-    if (testId) {
-      document.getElementById("ai-fix-section")?.classList.remove("hidden");
-      if (!aiFixStarted) fetchAiFix();
-    }
-  }
-
-  // ─── Wire up interactions ─────────────────────────────────────────────────
-
-  function resetState() {
-    testCode    = "";
-    testId      = "";
-    viewToken   = "";
-    reportToken = "";
-    seedInboxes = [];
-    testState = {};
-    aiFixStarted = false;
-    aiFixSubject = "";
-    aiFixBody = "";
-    if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
-    // Reset analysis steps
-    document.querySelectorAll(".analysis-step").forEach(s => {
-      s.classList.remove("active", "done");
-      s.querySelector(".step-dot").innerHTML = "";
-    });
-    // Re-lock gated section
-    // Reset recommendation categories
-    ["deliverability-recs-section","reputation-recs-section","content-recs-section"].forEach(id => {
-      document.getElementById(id)?.classList.add("hidden");
-    });
-    // Reset reputation badge
-    const repBadge = document.getElementById("rep-overall-badge");
-    if (repBadge) { repBadge.classList.add("hidden"); repBadge.style.cssText = ""; }
-    const contentBadge = document.getElementById("content-score-badge");
-    if (contentBadge) { contentBadge.classList.add("hidden"); contentBadge.style.cssText = ""; }
-    const captureCard = document.getElementById("email-capture-card");
-    if (captureCard) captureCard.style.display = "";
-    document.getElementById("report-form")?.classList.remove("hidden");
-    document.getElementById("report-success")?.classList.add("hidden");
-    document.getElementById("report-email").value = "";
-    document.getElementById("ai-fix-section")?.classList.add("hidden");
-    document.getElementById("ai-fix-loading")?.classList.remove("hidden");
-    document.getElementById("ai-fix-content")?.classList.add("hidden");
-  }
-
-  function generateLocalCode() {
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    let c = "SEA-TEST-";
-    for (let i = 0; i < 8; i++) c += chars[Math.floor(Math.random() * chars.length)];
-    return c;
-  }
-
-  // Phase 1: load seed inboxes and show step 1 — does NOT create a DB record
-  async function initializeTest(prefillSubject, prefillBody) {
-    document.getElementById("tracking-code").textContent = "Generating…";
-    document.getElementById("inboxes-loading").classList.remove("hidden");
-    document.getElementById("inbox-list").classList.add("hidden");
-
-    testCode  = generateLocalCode();
-    testId    = "";
-    viewToken = "";
-    testState = { subject: prefillSubject || "", body: prefillBody || "", contentAnalysis: null };
-
-    try {
-      const data = await apiGet("/open/deliverability/seed-inboxes");
-      seedInboxes = (Array.isArray(data) && data.length ? data : SEED_INBOXES_FALLBACK).map(s => ({
-        ...s, provider: s.provider || guessProvider(s.email),
-      }));
-    } catch {
-      seedInboxes = SEED_INBOXES_FALLBACK;
-    }
-
-    document.getElementById("tracking-code").textContent = testCode;
-    showStep(1);
-    renderInboxList(seedInboxes);
-  }
-
-  // Phase 2: create the DB record just before marking sent
-  async function ensureTestCreated() {
-    if (testId) return; // already created
-    try {
-      const body = { trackingCode: testCode };
-      if (testState.subject) body.subject = testState.subject;
-      if (testState.body)    body.body    = testState.body;
-      const data = await apiPost("/open/deliverability/tests", body);
-      testId    = data.id;
-      viewToken = data.viewToken || "";
-      // testCode is unchanged — server used the same code we sent
-      // Use the confirmed seed inbox list from the server
-      if (data.seedInboxes?.length) {
-        seedInboxes = data.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
-        renderInboxList(seedInboxes);
-      }
-    } catch {
-      // Keep the local testCode for display; testId stays empty (mark-sent will be skipped gracefully)
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-
-    // Only create a fresh test if NOT loading from an emailed link (?testId= in URL)
-    if (!new URLSearchParams(window.location.search).get("testId")) {
-      initializeTest();
-    }
-
-    // Copy tracking code — both the button and clicking the code itself
-    const copyBtn = document.getElementById("copy-code-btn");
-    const codeEl = document.getElementById("tracking-code");
-    copyBtn.addEventListener("click", function() {
-      copyText(testCode, copyBtn);
-    });
-    codeEl.addEventListener("click", function() {
-      copyText(testCode, copyBtn);
-    });
-    codeEl.style.cursor = "pointer";
-
-    // Copy all seed addresses
-    document.getElementById("copy-all-btn").addEventListener("click", function() {
-      copyText(seedInboxes.map(s => s.email).join(", "), this);
-    });
-
-    // Shared: mark sent → poll → render results
-    async function runCheck() {
-      showStep(2);
-
-      // Reset analysis steps animation
-      document.querySelectorAll(".analysis-step").forEach(s => {
-        s.classList.remove("active", "done");
-        s.querySelector(".step-dot").innerHTML = "";
-      });
-
-      await ensureTestCreated();
-      if (testId) {
-        apiPost(withToken(`/open/deliverability/tests/${testId}/mark-sent`), {}).catch(() => {});
-      }
-
-      runAnalysisAnimation(async () => {
-        let results = null;
-
-        // Phase 1: show results as soon as the first successful API response arrives (poll every 30s)
-        if (testId) {
-          for (let attempt = 0; attempt < 10; attempt++) {
-            await new Promise(r => setTimeout(r, 30000));
-            try {
-              const data = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
-              results = data;
-              break; // hide loader on first 200 response regardless of status
-            } catch {}
-          }
-        }
-
-        function applyResults(r) {
-          let contentAnalysis = r?.contentAnalysis || testState.contentAnalysis;
-          if (!contentAnalysis) contentAnalysis = analyzeContent(testState.subject, testState.body);
-          const { score, issues = [], positives = [], recommendations = [] } = contentAnalysis;
-
-          const _pcts = derivePlacementPcts(r?.placement, r?.seedResults);
-          const inboxPct = _pcts?.inboxPct ?? 0;
-          const spamPct  = _pcts?.spamPct  ?? 0;
-          const promoPct = _pcts?.promoPct ?? 0;
-
-          const overallScore = r?.overallScore ?? Math.round(score * 0.6 + (inboxPct / 100) * 40);
-
-          const domain = r?.senderReputation?.domain || r?.contactEmail?.split("@")[1] || "";
-          const senderLabel = domain ? `Sender: ${r?.contactEmail || domain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
-          document.getElementById("results-sender").textContent = senderLabel;
-          const titleEl = document.getElementById("report-domain-title");
-          if (titleEl && domain) titleEl.textContent = `Report: ${domain}`;
-          const resultsCode = document.getElementById("results-tracking-code");
-          if (resultsCode) resultsCode.textContent = testCode;
-
-          testState.spamPct = spamPct;
-
-          const reputationRecs = extractReputationRecs(r?.senderReputation ?? null);
-          const deliverabilityRecs = [];
-          if (spamPct > 30) deliverabilityRecs.push(`${spamPct}% of your emails landed in spam. Fix SPF/DKIM/DMARC immediately and remove spam trigger words from your content.`);
-          else if (spamPct > 15) deliverabilityRecs.push(`${spamPct}% of emails hit spam. Review your sender reputation checks and remove any trigger words from your content.`);
-          if (inboxPct < 50) deliverabilityRecs.push("Less than half your emails reach the primary inbox. Review all authentication checks and consider warming up on a fresh domain.");
-          if (promoPct > 40) deliverabilityRecs.push("Over 40% of emails land in Promotions. Use plain text, reduce links, and write in a personal one-to-one tone.");
-
-          renderScoreRing(Math.max(0, Math.min(100, overallScore)));
-          renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
-          renderContentChecks(issues, positives);
-          renderReputationChecks(testState.email || "", r?.senderReputation ?? null);
-          renderRecommendations(recommendations, reputationRecs, deliverabilityRecs);
-          if (r?.seedInboxes?.length) seedInboxes = r.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
-          renderSeedTable(seedInboxes?.length ? seedInboxes : SEED_INBOXES_FALLBACK, r?.seedResults ?? null);
-        }
-
-        applyResults(results);
-        showStep(3);
-        document.getElementById("btn-recalculate").disabled = false;
-        document.getElementById("recalc-icon").classList.remove("animate-spin");
-
-        // Phase 2: keep polling in background every 30s for up to 5 min total if not yet completed
-        if (results?.status !== "completed" && testId) {
-          (async () => {
-            for (let attempt = 0; attempt < 9; attempt++) {
-              await new Promise(r => setTimeout(r, 30000));
-              try {
-                const data = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
-                results = data;
-                if (data.seedInboxes?.length) seedInboxes = data.seedInboxes.map(s => ({ ...s, provider: s.provider || guessProvider(s.email) }));
-                renderSeedTable(seedInboxes?.length ? seedInboxes : SEED_INBOXES_FALLBACK, data.seedResults ?? null);
-                if (data.status === "completed") {
-                  applyResults(data);
-                  break;
-                }
-              } catch {}
-            }
-          })();
-        }
-      });
-    }
-
-    // "I've sent" → run check
-    document.getElementById("btn-sent").addEventListener("click", () => runCheck());
-
-    // Recalculate button
-    document.getElementById("btn-recalculate").addEventListener("click", () => {
-      if (!testId) return;
-      document.getElementById("btn-recalculate").disabled = true;
-      document.getElementById("recalc-icon").classList.add("animate-spin");
-      runCheck();
-    });
-
-    // New test button
-    document.getElementById("btn-restart").addEventListener("click", () => {
-      resetState();
-      initializeTest();
-    });
-
-    // Send report button
-    document.getElementById("btn-send-report").addEventListener("click", async () => {
-      const emailInput = document.getElementById("report-email");
-      const errorEl = document.getElementById("report-error");
-      const btn = document.getElementById("btn-send-report");
-      const email = emailInput.value.trim();
-
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errorEl.textContent = "Please enter a valid email address.";
-        errorEl.classList.remove("hidden");
-        return;
-      }
-      errorEl.classList.add("hidden");
-
-      if (!testId) {
-        errorEl.textContent = "No test ID found. Please run a new test first.";
-        errorEl.classList.remove("hidden");
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = "Sending…";
-
-      try {
-        const data = await apiPost(withToken(`/open/deliverability/tests/${testId}/send-report`), { email });
-        if (data.success) {
-          document.getElementById("report-form").classList.add("hidden");
-          document.getElementById("report-success").classList.remove("hidden");
-          // Full data is only accessible via the emailed link — do not unlock here
-        } else {
-          errorEl.textContent = data.message || "Failed to send. Please try again.";
-          errorEl.classList.remove("hidden");
-          btn.disabled = false;
-          btn.textContent = "Send me the full report";
-        }
-      } catch {
-        errorEl.textContent = "Something went wrong. Please try again.";
-        errorEl.classList.remove("hidden");
-        btn.disabled = false;
-        btn.textContent = "Send me the full report";
-      }
-    });
-
-    // Load full results from URL ?testId=&token= (emailed link)
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlTestId = urlParams.get("testId");
-    if (urlTestId) {
-      testId      = urlTestId;
-      viewToken   = urlParams.get("token") || "";
-      reportToken = urlParams.get("reportToken") || "";
-      showStep(2);
-      document.querySelectorAll(".analysis-step").forEach(s => {
-        s.classList.remove("active", "done");
-        s.querySelector(".step-dot").innerHTML = "";
-      });
-      runAnalysisAnimation(async () => {
-        try {
-          // Use full-report endpoint when reportToken is present (emailed link)
-          const endpoint = reportToken
-            ? withReportToken(`/open/deliverability/tests/${testId}/full-report`)
-            : withToken(`/open/deliverability/tests/${testId}/results`);
-          const data = await apiGet(endpoint);
-          const contentAnalysis = data.contentAnalysis || {};
-          const { issues = [], positives = [], recommendations = [] } = contentAnalysis;
-          const overallScore = data.overallScore ?? 0;
-
-          const _pcts2 = derivePlacementPcts(data.placement, data.seedResults);
-          let inboxPct = _pcts2?.inboxPct ?? 0;
-          let spamPct  = _pcts2?.spamPct  ?? 0;
-          let promoPct = _pcts2?.promoPct ?? 0;
-
-          testState = { subject: "", body: "" };
-          testCode = data.trackingCode || "";
-          const sentDomain = data.senderReputation?.domain || data.contactEmail?.split("@")[1] || "";
-          document.getElementById("results-sender").textContent =
-            sentDomain ? `Domain: ${sentDomain} · Test ${testCode}` : testCode ? `Test ${testCode}` : "";
-          const resultsCodeEl = document.getElementById("results-tracking-code");
-          if (resultsCodeEl) resultsCodeEl.textContent = testCode;
-
-          const repRecs = extractReputationRecs(data.senderReputation ?? null);
-          const delivRecs = [];
-          if (spamPct > 30) delivRecs.push(`${spamPct}% of your emails landed in spam. Fix SPF/DKIM/DMARC immediately and remove spam trigger words.`);
-          else if (spamPct > 15) delivRecs.push(`${spamPct}% of emails hit spam. Review your sender reputation checks and email content.`);
-          if (inboxPct < 50) delivRecs.push("Less than half your emails reach the primary inbox. Review all authentication checks.");
-          if ((100 - inboxPct - spamPct) > 40) delivRecs.push("Over 40% of emails land in Promotions. Use plain text, fewer links, and a more personal tone.");
-
-          renderScoreRing(Math.max(0, Math.min(100, overallScore)));
-          renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
-          renderContentChecks(issues, positives);
-          renderReputationChecks(data.contactEmail || "", data.senderReputation ?? null);
-          renderRecommendations(recommendations, repRecs, delivRecs);
-          renderSeedTable((data.seedInboxes?.length ? data.seedInboxes : SEED_INBOXES_FALLBACK), data.seedResults ?? null);
-          showStep(3);
-          // Full report from emailed link — unlock gate
-          if (reportToken) unlockGate(spamPct);
-        } catch {
-          // reportToken invalid or expired — fall back to limited results view
-          reportToken = "";
-          try {
-            const limited = await apiGet(withToken(`/open/deliverability/tests/${testId}/results`));
-            const { issues = [], positives = [], recommendations = [] } = limited.contentAnalysis || {};
-            const overallScore = limited.overallScore ?? 0;
-            const _pcts3 = derivePlacementPcts(limited.placement, limited.seedResults);
-            let inboxPct = _pcts3?.inboxPct ?? 0;
-            let spamPct  = _pcts3?.spamPct  ?? 0;
-            let promoPct = _pcts3?.promoPct ?? 0;
-            testCode = limited.trackingCode || "";
-            const limCodeEl = document.getElementById("results-tracking-code");
-            if (limCodeEl) limCodeEl.textContent = testCode;
-            renderScoreRing(Math.max(0, Math.min(100, overallScore)));
-            renderPlacementDonut(inboxPct, Math.max(0, promoPct), spamPct);
-            renderContentChecks(issues, positives);
-            renderReputationChecks("", limited.senderReputation ?? null);
-            renderRecommendations(recommendations, extractReputationRecs(limited.senderReputation ?? null), []);
-            renderSeedTable((limited.seedInboxes?.length ? limited.seedInboxes : SEED_INBOXES_FALLBACK), limited.seedResults ?? null);
-            showStep(3);
-          } catch {
-            initializeTest();
-          }
-        }
-      });
-    }
-
-    // Copy tracking code on results page
-    document.getElementById("copy-results-code-btn")?.addEventListener("click", function() {
-      copyText(testCode, this);
-    });
-
-    // Generate AI content button (always visible in content analysis)
-    document.getElementById("btn-generate-ai-content")?.addEventListener("click", () => {
-      const section = document.getElementById("ai-fix-section");
-      section?.classList.remove("hidden");
-      if (!aiFixStarted && testId) fetchAiFix();
-      section?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    });
-
-    // AI fix copy buttons
-    document.getElementById("copy-ai-subject").addEventListener("click", function() {
-      copyText(aiFixSubject, this);
-    });
-    document.getElementById("copy-ai-body").addEventListener("click", function() {
-      copyText(aiFixBody, this);
-    });
-
-    // "Test this version" — create a new test with AI-generated content
-    document.getElementById("btn-test-ai-version").addEventListener("click", () => {
-      if (!aiFixSubject && !aiFixBody) return;
-      const subj = aiFixSubject;
-      const bod  = aiFixBody;
-      resetState();
-      initializeTest(subj, bod);
-    });
   });
+
+  /* ── 2 · send ─────────────────────────────────────────────────────────────── */
+  function renderSend() {
+    const t = S.test;
+    $("send-addr").textContent = S.addr;
+    $("test-code").textContent = t.code;
+    $("seed-list").innerHTML = t.panel
+      .map(
+        (s) => `<div class="flex items-center gap-3 border-b border-border-light px-4 py-2.5">
+          <span class="min-w-0 flex-1 truncate font-mono text-[12.5px] text-text-default">${esc(s.email)}</span>
+          <span class="shrink-0 text-[11.5px] text-muted">${esc(provider(s.provider))}</span>
+        </div>`,
+      )
+      .join("");
+  }
+
+  document.querySelectorAll("[data-copy]").forEach((btn) =>
+    btn.addEventListener("click", async () => {
+      const what = btn.dataset.copy;
+      const text = what === "code" ? S.test.code : S.test.panel.map((s) => s.email).join(", ");
+      const orig = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "Copied";
+      } catch {
+        btn.textContent = "Select and copy";
+      }
+      setTimeout(() => (btn.textContent = orig), 1600);
+    }),
+  );
+
+  $("btn-check").addEventListener("click", async () => {
+    const btn = $("btn-check");
+    const err = $("send-error");
+    err.classList.add("hidden");
+    btn.disabled = true;
+    try {
+      await api("POST", withToken(`/open/placement/tests/${S.test.id}/sent`));
+      show("checking");
+      startPolling();
+    } catch (ex) {
+      err.textContent = ex.message;
+      err.classList.remove("hidden");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  document.querySelectorAll("[data-reset]").forEach((b) => b.addEventListener("click", reset));
+  function reset() {
+    stopPolling();
+    S.addr = ""; S.test = null; S.report = null; S.peeked = false;
+    $("sender-email").value = "";
+    show("start");
+  }
+
+  /* ── 3 · checking ─────────────────────────────────────────────────────────── */
+  function startPolling() {
+    stopPolling();
+    const tick = async () => {
+      try {
+        S.report = await api("GET", withToken(`/open/placement/tests/${S.test.id}`));
+      } catch {
+        return; // a blip; the next tick tries again
+      }
+      const r = S.report;
+      const found = r.panelSize - r.counts.pending;
+      $("checking-progress").textContent = `${found} of ${r.panelSize} mailboxes read`;
+      const done = r.status === "COMPLETE" || r.status === "EXPIRED";
+      if (S.peeked || done) renderReport(r);
+      if (done) { stopPolling(); show("report"); }
+    };
+    tick();
+    S.pollTimer = setInterval(tick, 5000);
+  }
+  function stopPolling() { if (S.pollTimer) clearInterval(S.pollTimer); S.pollTimer = null; }
+  $("btn-peek").addEventListener("click", () => { S.peeked = true; if (S.report) renderReport(S.report); show("report"); });
+
+  /* ── 4 · report ───────────────────────────────────────────────────────────── */
+  function renderReport(r) {
+    const c = r.counts;
+    const n = r.panelSize;
+    const done = r.status === "COMPLETE" || r.status === "EXPIRED";
+    const observed = n - c.pending;
+
+    $("rep-domain").textContent = r.reputationKey || (r.senderEmail || "").split("@")[1] || "";
+    $("rep-meta").textContent = `${n} seeds · sent from ${r.senderEmail || S.addr}${r.completedAt ? ` · read ${ago(r.completedAt)}` : ""}`;
+    $("rep-pending").classList.toggle("hidden", done);
+    if (!done) $("rep-pending").textContent = `${c.pending} of ${n} mailboxes have not answered yet. Rates below are provisional until every copy lands or the window closes.`;
+
+    /* the brief: one sentence a person can act on, coloured by outcome */
+    $("rep-brief").innerHTML = brief(r);
+
+    /* score, always with its composition */
+    const s = r.score;
+    $("rep-score").textContent = s ? String(s.total) : "—";
+    $("rep-score-note").textContent = s ? (s.incomplete ? "partly unchecked" : "out of 100") : "pending";
+    const pPts = s ? s.placement : observed ? ((c.inbox + 0.5 * c.promotions) / n) * 50 : 0;
+    const aPts = s ? s.authentication : authPoints(r);
+    const rPts = s ? s.reputation : repPoints(r);
+    $("rep-parts").innerHTML = [
+      part("Placement", pPts.toFixed(1), 50, "bg-primary", `(${c.inbox} inbox + 0.5 × ${c.promotions} promotions) ÷ ${n} seeds × 50`),
+      part("Authentication", String(aPts), 35, "bg-primary/80", "SPF 12 + DKIM 12 + DMARC 11"),
+      part("Reputation", String(rPts), 15, "bg-primary/60", "MX 5 + not blocklisted 7 + domain age 3"),
+    ].join("");
+
+    /* five placements, never merged */
+    const keys = ["INBOX", "PROMOTIONS", "SPAM", "BOUNCED", "MISSING"];
+    $("rep-split").innerHTML = keys.map((k) => `<span title="${FOLDER[k].label}" class="${FOLDER[k].bar}" style="width:${(c[k.toLowerCase()] / n) * 100}%"></span>`).join("");
+    $("rep-buckets").innerHTML = keys
+      .map(
+        (k) => `<div>
+          <div class="flex items-center gap-2"><span class="h-[9px] w-[9px] shrink-0 rounded-[3px] ${FOLDER[k].bar}"></span><span class="text-[12px] font-bold text-heading">${FOLDER[k].label}</span></div>
+          <div class="mt-1.5 flex items-baseline gap-1.5"><span class="font-mono text-[20px] font-bold tracking-tight ${FOLDER[k].fg}">${c[k.toLowerCase()]}</span><span class="font-mono text-[11.5px] text-muted">of ${n}</span></div>
+          <div class="mt-0.5 text-[11.5px] leading-snug text-muted/80">${FOLDER[k].note}</div>
+        </div>`,
+      )
+      .join("");
+
+    /* providers, worst first (the API sorts); everything under five seeds is untoned */
+    $("rep-providers").innerHTML = r.providers.length
+      ? r.providers
+          .map((p) => {
+            const thin = p.seeds < 5;
+            const rate = p.inboxRate === null ? "—" : `${p.inboxRate}%`;
+            const rateFg = thin || p.inboxRate === null ? "text-muted" : p.inboxRate >= 80 ? "text-success" : "text-danger";
+            const fill = (k) => (thin ? "bg-muted/40" : FOLDER[k].bar);
+            const w = (x) => `${(x / p.seeds) * 100}%`;
+            return `<div class="border-t border-border-light px-5 py-3">
+              <div class="flex flex-wrap items-baseline gap-3">
+                <span class="shrink-0 text-[13px] font-bold text-heading">${esc(provider(p.esp))}</span>
+                <span class="min-w-[100px] flex-1 text-[11.5px] text-muted">${p.seeds} ${p.seeds === 1 ? "seed — far too few to judge" : "seeds — too few to judge"}</span>
+                <span class="shrink-0 font-mono text-[16px] font-semibold tracking-tight ${rateFg}">${rate}</span>
+                <span class="shrink-0 text-[11px] text-muted">inbox</span>
+              </div>
+              <div class="mt-2 flex h-[9px] overflow-hidden rounded-full bg-accent">
+                <span class="${fill("INBOX")}" style="width:${w(p.inbox)}"></span><span class="${fill("PROMOTIONS")}" style="width:${w(p.promotions)}"></span><span class="${fill("SPAM")}" style="width:${w(p.spam)}"></span><span class="${fill("BOUNCED")}" style="width:${w(p.bounced)}"></span><span class="${fill("MISSING")}" style="width:${w(p.missing)}"></span>
+              </div>
+              <div class="mt-1.5 text-[11.5px] text-muted">${p.inbox} inbox · ${p.promotions} promotions · ${p.spam} spam · ${p.bounced} bounced · ${p.missing} missing</div>
+            </div>`;
+          })
+          .join("")
+      : `<p class="border-t border-border-light px-5 py-3 text-[12.5px] text-muted">Nothing observed yet.</p>`;
+
+    /* every copy */
+    $("rep-probes").innerHTML = r.probes
+      .map((p, i) => {
+        const f = p.folder ? FOLDER[p.folder] : null;
+        return `<div class="flex flex-wrap items-center gap-3 border-t border-border-light px-5 py-2.5 ${i % 2 ? "bg-theme-dark" : "bg-accent"}">
+          <span class="min-w-[170px] flex-1 truncate font-mono text-[11.5px] text-text-default">${esc(p.seedEmail || "")}</span>
+          <span class="w-[104px] shrink-0 text-[12px] text-text-default">${esc(provider(p.seedProvider))}</span>
+          <span class="w-[62px] shrink-0 font-mono text-[11px] text-muted">${p.observedAt ? clock(p.observedAt) : "—"}</span>
+          ${f ? badge(f.badge, f.label) : badge("neutral", "Pending")}
+        </div>`;
+      })
+      .join("");
+
+    /* fixes: only checks that actually failed, ranked by what moves placement */
+    const fixes = fixesFor(r);
+    $("rep-fixes-card").classList.toggle("hidden", fixes.length === 0);
+    $("rep-fixes").innerHTML = fixes
+      .map(
+        (x, i) => `<div class="flex items-start gap-3 border-t border-border-light px-5 py-3">
+          <span class="mt-px grid h-[21px] w-[21px] shrink-0 place-items-center rounded-full font-mono text-[11px] font-bold ${x.tone === "danger" ? "bg-danger/10 text-danger" : "bg-warning/10 text-warning"}">${i + 1}</span>
+          <span class="min-w-0 flex-1">
+            <span class="flex flex-wrap items-baseline gap-2"><span class="text-[13px] font-bold text-heading">${esc(x.title)}</span>${badge(x.tone, x.impact)}</span>
+            <span class="mt-0.5 block text-[12.5px] leading-relaxed text-muted">${esc(x.body)}</span>
+          </span>
+        </div>`,
+      )
+      .join("");
+
+    /* authentication: published vs receiver, per method */
+    $("rep-auth").innerHTML = authRows(r).join("");
+
+    /* reputation */
+    $("rep-rep-note").textContent = `Scored against ${r.reputationKey || "your domain"}. Reputation belongs to the domain, so it cannot be pinned on one mailbox.`;
+    $("rep-rep").innerHTML = repRows(r).join("");
+
+    /* what it cannot tell you */
+    const dom = r.reputationKey || "this domain";
+    $("rep-limits").innerHTML = [
+      ["One domain, one moment", `This is a snapshot of ${dom} at ${r.completedAt ? clock(r.completedAt) : "now"}. Placement moves with volume, content and time.`],
+      ["A small panel is a hint", "Enough to spot a problem, never enough to trust a per-provider rate. That is why thin rates are not coloured above."],
+      ["Nobody is watching it for you", "The next silent drop happens whether or not you come back to this page."],
+    ]
+      .map(([t, b]) => `<div><div class="text-[13px] font-bold tracking-tight text-body">${esc(t)}</div><div class="mt-0.5 text-[12px] leading-relaxed text-body/70">${esc(b)}</div></div>`)
+      .join("");
+  }
+
+  function part(label, got, max, fill, formula) {
+    const w = Math.max(0, Math.min(100, (Number(got) / max) * 100));
+    return `<div>
+      <div class="flex items-baseline gap-2"><span class="min-w-0 flex-1 text-[12.5px] font-bold text-heading">${label}</span><span class="shrink-0 font-mono text-[13px] font-semibold text-heading">${got}</span><span class="shrink-0 font-mono text-[11.5px] text-muted">/ ${max}</span></div>
+      <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-accent"><div class="h-full rounded-full ${fill}" style="width:${w}%"></div></div>
+      <div class="mt-1 font-mono text-[11px] text-muted">${esc(formula)}</div>
+    </div>`;
+  }
+
+  const PASSING = new Set(["pass", "none", "neutral"]);
+  function verdicts(r, m) {
+    const reported = r.probes.filter((p) => p.auth && p.auth[m] !== null && p.auth[m] !== undefined);
+    const failing = reported.filter((p) => !PASSING.has(p.auth[m]));
+    const byEsp = {};
+    failing.forEach((p) => (byEsp[p.seedProvider] = (byEsp[p.seedProvider] || 0) + 1));
+    return { reported, failing, byEsp };
+  }
+  function authPoints(r) {
+    const pub = r.auth && r.auth.published;
+    if (!pub) return 0;
+    return (pub.spf ? WEIGHTS.spf : 0) + (pub.dkim ? WEIGHTS.dkim : 0) + (pub.dmarc ? WEIGHTS.dmarc : 0);
+  }
+  function repPoints(r) {
+    const rep = r.reputation;
+    if (!rep) return 0;
+    return (rep.mx ? WEIGHTS.mx : 0) + (rep.blocklisted === false ? WEIGHTS.blocklist : 0) + (rep.domainAgeDays !== null && rep.domainAgeDays > 180 ? WEIGHTS.domainAge : 0);
+  }
+  function authRows(r) {
+    const pub = r.auth && r.auth.published;
+    const rec = r.auth && r.auth.records;
+    if (!pub) return [`<p class="border-t border-border-light px-4 py-3 text-[12px] text-muted">${(r.reputationKey || "").includes("@") ? "A freemail address publishes no records of its own." : "DNS was not checked for this test."}</p>`];
+    return [["spf", "SPF", WEIGHTS.spf], ["dkim", "DKIM", WEIGHTS.dkim], ["dmarc", "DMARC", WEIGHTS.dmarc]].map(([m, name, max]) => {
+      const ok = pub[m];
+      const dns = m === "spf" ? rec && rec.spf : m === "dmarc" ? rec && rec.dmarc : rec && rec.dkimSelectors && rec.dkimSelectors.length ? `${rec.dkimSelectors.join(", ")} — key resolves` : null;
+      const v = verdicts(r, m);
+      const receiver = v.reported.length === 0 ? "Not reported by the panel" : v.failing.length === 0 ? `Pass at all ${v.reported.length} seeds` : `Fail at ${Object.entries(v.byEsp).map(([e, k]) => `${provider(e)} (${k} ${k === 1 ? "seed" : "seeds"})`).join(", ")}`;
+      const recTone = v.reported.length === 0 ? "neutral" : v.failing.length === 0 ? "success" : "danger";
+      let note = null;
+      if (v.failing.length && ok) note = `The record publishes correctly, so DNS scores in full. ${Object.keys(v.byEsp).map(provider).join(" and ")} still refused it on ${v.failing.length} of ${v.reported.length} seeds.`;
+      else if (m === "dmarc" && pub.dmarcPolicy === "none") note = "p=none is published, so it scores in full — but the policy enforces nothing. A receiver that fails your alignment is told to deliver the message anyway, and anyone can spoof this domain without being stopped.";
+      return `<div class="border-t border-border-light px-4 py-3">
+        <div class="flex items-center gap-2"><span class="shrink-0 font-mono text-[12.5px] font-bold text-heading">${name}</span><span class="ml-auto font-mono text-[12px] text-muted">${ok ? max : 0} / ${max}</span></div>
+        <div class="mt-2 flex items-center gap-2"><span class="w-[84px] shrink-0 text-[11px] font-semibold text-muted">Published DNS</span>${badge(ok === null ? "neutral" : ok ? "success" : "danger", ok === null ? "Unknown" : ok ? "Published" : "Not published")}</div>
+        ${dns ? `<div class="ml-[92px] mt-1 break-all font-mono text-[10.5px] leading-snug text-muted">${esc(dns)}</div>` : ""}
+        <div class="mt-2 flex items-center gap-2"><span class="w-[84px] shrink-0 text-[11px] font-semibold text-muted">Receiver verdict</span>${badge(recTone, receiver)}</div>
+        ${note ? `<div class="mt-2 rounded-lg bg-warning/10 px-3 py-2 text-[11.5px] leading-relaxed text-text-default">${esc(note)}</div>` : ""}
+      </div>`;
+    });
+  }
+  function repRows(r) {
+    const rep = r.reputation || {};
+    const rows = [
+      ["MX records", rep.mx === undefined ? null : rep.mx, rep.mx ? WEIGHTS.mx : 0, WEIGHTS.mx, rep.mx ? "Resolves" : rep.mx === false ? "No MX record" : "Not checked"],
+      ["Not blocklisted", rep.blocklisted == null ? null : !rep.blocklisted, rep.blocklisted === false ? WEIGHTS.blocklist : 0, WEIGHTS.blocklist, rep.blocklisted === false ? "Clear" : rep.blocklisted ? "Listed" : "Not part of this check yet"],
+      ["Domain age", rep.domainAgeDays == null ? null : rep.domainAgeDays > 180, rep.domainAgeDays != null && rep.domainAgeDays > 180 ? WEIGHTS.domainAge : 0, WEIGHTS.domainAge, rep.domainAgeDays != null ? `${rep.domainAgeDays} days` : "Not part of this check yet"],
+    ];
+    return rows.map(([name, ok, pts, max, detail]) => `<div class="border-t border-border-light px-4 py-2.5">
+      <div class="flex items-center gap-2"><span class="min-w-0 flex-1 text-[12.5px] font-semibold text-heading">${name}</span>${badge(ok === null ? "neutral" : ok ? "success" : "danger", ok === null ? "Unknown" : ok ? "Pass" : "Fail")}<span class="shrink-0 font-mono text-[11.5px] text-muted">${pts} / ${max}</span></div>
+      <div class="mt-0.5 text-[11.5px] text-muted">${esc(detail)}</div>
+    </div>`);
+  }
+
+  /* the brief — one sentence, coloured by outcome, generated from the counts */
+  function brief(r) {
+    const c = r.counts, n = r.panelSize, observed = n - c.pending;
+    if (observed === 0) return `<span class="text-muted">Nothing has come back yet.</span>`;
+    const strong = (t) => `<span class="font-bold text-heading">${esc(t)}</span>`;
+    const mid = (t) => `<span class="text-muted">${esc(t)}</span>`;
+    const warn = (t) => `<span class="font-bold text-warning">${esc(t)}</span>`;
+    const bad = (t) => `<span class="font-bold text-danger">${esc(t)}</span>`;
+    const ratio = c.inbox / n;
+    const lead = ratio === 1 ? "Every copy reached an inbox. " : ratio >= 0.5 ? (ratio === 0.5 ? "Half your email reached an inbox. " : "Most of your email reached an inbox. ") : c.inbox === 0 ? "Nothing reached an inbox. " : "Less than half your email reached an inbox. ";
+    const parts = [mid(lead), strong(`${c.inbox} of ${n}`), mid(` copies landed in the inbox`)];
+    const tail = [];
+    if (c.promotions) tail.push(warn(`${c.promotions} went to promotions`));
+    if (c.spam) tail.push(bad(`${c.spam} ${c.spam === 1 ? "was" : "were"} filtered to spam`));
+    if (c.bounced) tail.push(bad(`${c.bounced} ${c.bounced === 1 ? "was" : "were"} bounced`));
+    if (c.missing) tail.push(bad(`${c.missing} never appeared at all`));
+    if (tail.length) {
+      parts.push(mid(", "));
+      parts.push(tail.length === 1 ? tail[0] : tail.slice(0, -1).join(mid(", ")) + mid(", and ") + tail[tail.length - 1]);
+    }
+    if (c.missing) {
+      const who = [...new Set(r.probes.filter((p) => p.folder === "MISSING").map((p) => provider(p.seedProvider)))].join(" and ");
+      parts.push(mid(` — ${who} dropped ${c.missing === 1 ? "it" : "them"} silently, which is worse than spam because you get no signal`));
+    }
+    parts.push(mid(". "));
+    const pub = r.auth && r.auth.published;
+    if (pub && pub.spf && pub.dkim && pub.dmarc) parts.push(mid("Your DNS is fully published, so the problem is reputation and content, not setup."));
+    else if (pub) parts.push(mid("Part of your DNS is missing — start with setup before blaming reputation."));
+    return parts.join("");
+  }
+
+  /* fixes, ranked by what moves placement; every line is a check that actually failed */
+  function fixesFor(r) {
+    const c = r.counts, pub = r.auth && r.auth.published, out = [];
+    const missingBy = [...new Set(r.probes.filter((p) => p.folder === "MISSING").map((p) => provider(p.seedProvider)))];
+    if (c.missing) out.push({ tone: "danger", impact: "blocking", title: `Find out why ${missingBy.join(" and ")} dropped ${c.missing === 1 ? "one" : String(c.missing)} silently`, body: "A missing copy means the receiver accepted and discarded it. One seed cannot tell you whether that is systematic — it is the single strongest reason to test the domain repeatedly rather than once." });
+    if (pub) {
+      const missingRecords = [["spf", "SPF"], ["dkim", "DKIM"], ["dmarc", "DMARC"]].filter(([m]) => pub[m] === false).map(([, n]) => n);
+      if (missingRecords.length) out.push({ tone: "danger", impact: "blocking", title: `Publish ${missingRecords.join(", ")}`, body: "Receivers treat a domain with missing authentication as unknown at best. This is setup, not reputation, and it is the cheapest fix on the page." });
+    }
+    ["dkim", "spf", "dmarc"].forEach((m) => {
+      const v = verdicts(r, m);
+      if (v.failing.length && pub && pub[m]) out.push({ tone: "danger", impact: "blocking", title: `${m.toUpperCase()} fails at ${Object.keys(v.byEsp).map(provider).join(" and ")}`, body: `The record publishes, but ${Object.keys(v.byEsp).map(provider).join(" and ")} refused the signature on ${v.failing.length} of ${v.reported.length} seeds. Check the selector and key actually in use by your sending client.` });
+    });
+    if (c.spam) out.push({ tone: "danger", impact: "costs replies", title: `${c.spam === 1 ? "One copy" : `${c.spam} copies`} went to spam`, body: "A spam placement is the receiver's verdict on the domain plus the content. Fix authentication first if anything above failed; otherwise it is reputation, which only volume and time move." });
+    if (pub && pub.dmarcPolicy === "none") out.push({ tone: "warning", impact: "holds you back", title: "Move DMARC off p=none", body: "Publish p=quarantine once your reports are clean. Enforcement is what separates a domain that merely publishes DMARC from one receivers trust." });
+    if (c.promotions) out.push({ tone: "warning", impact: "costs replies", title: "Rework the copy that reached promotions", body: "A promotions placement is a content verdict, not a reputation one. Image-heavy layouts and tracked links are the usual cause." });
+    return out;
+  }
+
+  /* ── optional: email a copy ───────────────────────────────────────────────── */
+  $("email-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = $("report-email").value.trim();
+    const status = $("email-status");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { status.textContent = "Enter an email address."; return; }
+    $("btn-email").disabled = true;
+    try {
+      await api("POST", withToken(`/open/placement/tests/${S.test.id}/report`), { email });
+      status.textContent = `Sent to ${email}.`;
+    } catch (ex) {
+      status.textContent = ex.message;
+    } finally {
+      $("btn-email").disabled = false;
+    }
+  });
+
+  /* ── formatting ───────────────────────────────────────────────────────────── */
+  const clock = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+  function ago(iso) {
+    const m = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+    return m < 1 ? "just now" : m === 1 ? "a minute ago" : m < 60 ? `${m} minutes ago` : `${Math.round(m / 60)} hours ago`;
+  }
 </script>
