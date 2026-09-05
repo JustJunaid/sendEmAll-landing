@@ -85,6 +85,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
               class="h-[42px] w-full rounded-lg border border-border-light bg-body px-3.5 text-[14px] text-heading placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20"
             />
             <p id="start-error" class="mt-2 hidden text-[12px] text-danger" role="alert"></p>
+            <p id="quota-note" class="mt-2 hidden rounded-lg border border-border-light bg-accent px-3 py-2 text-[12px] leading-relaxed text-muted" role="status"></p>
             <button
               id="btn-begin"
               type="submit"
@@ -420,7 +421,11 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
       body: body ? JSON.stringify(body) : undefined,
       signal: AbortSignal.timeout(15000),
     });
-    if (res.status === 429) throw new Error("Too many tests from this network. Try again in ten minutes.");
+    if (res.status === 429) {
+      const limited = new Error("You have used today's free tests. The form below shows when the next one is available.");
+      limited.rateLimited = true;
+      throw limited;
+    }
     if (res.status === 410) throw new Error("This test expired before the email was sent. Start a new one.");
     if (!res.ok) throw new Error(`The test service answered ${res.status}. Please try again.`);
     return res.json();
@@ -448,12 +453,17 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
       save();
       renderSend();
       show("send");
+      refreshQuota(); // that start may have been the last one — reflect it on the form behind us
     } catch (ex) {
       err.textContent = ex.message;
       err.classList.remove("hidden");
+      // Ran out between the page loading and the click: put the form in the waiting state.
+      if (ex.rateLimited) refreshQuota();
     } finally {
-      btn.disabled = false;
       btn.textContent = "Get my seed addresses";
+      // `applyQuota` owns `disabled` once the allowance is spent; restore it only when it has not
+      // put the form in the waiting state, so a plain failure (bad address, no seeds) can retry.
+      if ($("quota-note").classList.contains("hidden")) btn.disabled = false;
     }
   });
 
@@ -511,10 +521,70 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     S.addr = ""; S.test = null; S.report = null; S.peeked = false;
     $("sender-email").value = "";
     show("start");
+    refreshQuota(); // back on the form — say up front whether another test is available
   }
 
+  /*
+   * ── the allowance, shown before it is spent ──────────────────────────────────
+   * A test is capped per IP. Letting someone name a domain, press the button and
+   * only THEN meet a 429 wastes their time and reads like a fault. Ask the server
+   * what is left on load and after each start, and put the button in the state the
+   * answer implies — with the wait counted down, so the page says when, not just no.
+   */
+  let quotaTimer = null;
+
+  async function refreshQuota() {
+    let q;
+    try {
+      q = await api("GET", "/open/placement/quota");
+    } catch {
+      return; // Advisory only. The create path is the authority and still refuses.
+    }
+    applyQuota(q.remaining, q.resetInSeconds, q.limit);
+  }
+
+  function applyQuota(remaining, resetInSeconds, limit) {
+    const btn = $("btn-begin");
+    const note = $("quota-note");
+    if (quotaTimer) { clearInterval(quotaTimer); quotaTimer = null; }
+
+    if (remaining > 0) {
+      btn.disabled = false;
+      note.classList.add("hidden");
+      return;
+    }
+
+    btn.disabled = true;
+    let left = Math.max(0, Number(resetInSeconds) || 0);
+    const render = () => {
+      note.textContent = left > 0
+        ? `You have used both of today's free tests. You can run another in ${countdown(left)} — the limit is ${limit} per day, so our seed mailboxes stay usable for everyone.`
+        : "You can run another test now.";
+      note.classList.remove("hidden");
+      if (left <= 0) {
+        clearInterval(quotaTimer);
+        quotaTimer = null;
+        btn.disabled = false;
+        note.classList.add("hidden");
+        refreshQuota();
+      }
+      left -= 1;
+    };
+    render();
+    quotaTimer = setInterval(render, 1000);
+  }
+
+  const countdown = (s) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const r = s % 60;
+    if (h > 0) return m > 0 ? `${h}h ${m}m` : `${h} hour${h === 1 ? "" : "s"}`;
+    if (m > 0) return r > 0 ? `${m}m ${r}s` : `${m} minute${m === 1 ? "" : "s"}`;
+    return `${r} second${r === 1 ? "" : "s"}`;
+  };
+
   /* Resume a test in flight — a refresh, a new tab, or the link from another device. */
-  restore();
+  restore().then((resumed) => { if (!resumed) refreshQuota(); });
 
   /* ── 3 · checking ─────────────────────────────────────────────────────────── */
   function startPolling() {
