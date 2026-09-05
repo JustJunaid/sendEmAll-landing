@@ -313,6 +313,75 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
 <script define:vars={{ API_BASE }}>
   /* ── state ────────────────────────────────────────────────────────────────── */
   const S = { addr: "", test: null, report: null, pollTimer: null, peeked: false };
+
+  /*
+   * A test outlives the tab. The observation window runs for minutes and the visitor is told to go
+   * and send an email, so a refresh, a closed tab or a follow-up click must not strand them: the
+   * id and view token are the only way back to a report, and they were previously held in memory
+   * alone. Kept in localStorage AND stamped on the URL — the URL so the page can be reloaded,
+   * bookmarked or reopened on another device; localStorage so a plain visit resumes too.
+   */
+  const STORE_KEY = "sea-placement-test";
+
+  function save() {
+    if (!S.test) return;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ addr: S.addr, test: S.test })); } catch {}
+    try {
+      const u = new URL(location.href);
+      u.searchParams.set("test", S.test.id);
+      u.searchParams.set("token", S.test.viewToken);
+      history.replaceState(null, "", u);
+    } catch {}
+  }
+
+  function clearSaved() {
+    try { localStorage.removeItem(STORE_KEY); } catch {}
+    try {
+      const u = new URL(location.href);
+      u.searchParams.delete("test");
+      u.searchParams.delete("token");
+      history.replaceState(null, "", u);
+    } catch {}
+  }
+
+  /** Resume from the URL first (explicit beats remembered), else from localStorage. */
+  async function restore() {
+    const q = new URLSearchParams(location.search);
+    let saved = null;
+    if (q.get("test") && q.get("token")) saved = { test: { id: q.get("test"), viewToken: q.get("token") } };
+    else { try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch {} }
+    if (!saved || !saved.test || !saved.test.id || !saved.test.viewToken) return false;
+
+    S.test = saved.test;
+    S.addr = saved.addr || "";
+    let r;
+    try {
+      r = await api("GET", withToken(`/open/placement/tests/${S.test.id}`));
+    } catch {
+      // Expired, deleted, or a token that is not ours — forget it rather than loop on an error.
+      clearSaved();
+      S.test = null;
+      return false;
+    }
+    S.report = r;
+    S.addr = S.addr || r.senderEmail || "";
+    save();
+
+    // Still waiting to be told it was sent, and we still hold the panel: put them back on step 2.
+    if (r.status === "PENDING" && S.test.panel) {
+      renderSend();
+      show("send");
+      return true;
+    }
+    renderReport(r);
+    if (r.status === "COMPLETE" || r.status === "EXPIRED") {
+      show("report");
+    } else {
+      show("checking");
+      startPolling();
+    }
+    return true;
+  }
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
@@ -376,6 +445,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     try {
       S.addr = addr;
       S.test = await api("POST", "/open/placement/tests", { senderEmail: addr });
+      save();
       renderSend();
       show("send");
     } catch (ex) {
@@ -437,10 +507,14 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
   document.querySelectorAll("[data-reset]").forEach((b) => b.addEventListener("click", reset));
   function reset() {
     stopPolling();
+    clearSaved();
     S.addr = ""; S.test = null; S.report = null; S.peeked = false;
     $("sender-email").value = "";
     show("start");
   }
+
+  /* Resume a test in flight — a refresh, a new tab, or the link from another device. */
+  restore();
 
   /* ── 3 · checking ─────────────────────────────────────────────────────────── */
   function startPolling() {
