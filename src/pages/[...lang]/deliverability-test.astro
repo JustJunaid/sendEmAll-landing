@@ -198,23 +198,59 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
         <div class="flex flex-wrap items-baseline gap-3">
           <h1 id="rep-domain" class="font-mono text-[26px] font-semibold tracking-[-0.03em] text-heading"></h1>
           <span id="rep-meta" class="text-[13px] text-muted"></span>
-          <button type="button" data-reset class="ml-auto text-[12.5px] text-muted hover:text-heading">Test another address</button>
+          <button type="button" data-reset class="dt-btn-secondary ml-auto shrink-0">Test another address</button>
         </div>
 
         <p id="rep-brief" class="mt-4 max-w-[780px] text-[21px] font-semibold leading-[1.38] tracking-[-0.025em] text-muted md:text-[23px]" style="text-wrap: pretty"></p>
         <p id="rep-pending" class="mt-3 hidden rounded-lg border border-border-light bg-accent px-4 py-2.5 text-[12.5px] text-muted"></p>
 
-        <!-- score, always with its composition -->
-        <div class="mt-6 grid overflow-hidden rounded-xl border border-border-light bg-border-light shadow-sm md:grid-cols-[208px_minmax(0,1fr)] md:gap-px">
-          <div class="flex flex-col justify-center bg-theme-dark p-5">
-            <div class="text-[11px] font-bold uppercase tracking-[.07em] text-muted">Placement score</div>
-            <div class="mt-2 flex items-baseline gap-2">
-              <span id="rep-score" class="font-mono text-[44px] font-bold leading-none tracking-[-0.05em] text-heading">—</span>
-              <span id="rep-score-note" class="font-mono text-[13px] text-muted">out of 100</span>
-            </div>
-            <div class="mt-2.5 text-[11.5px] leading-relaxed text-muted/80" style="text-wrap: pretty">Three components, no weighting we hide from you.</div>
+        <!--
+          A copy by email, offered once the report is already on screen. It sits here rather than at
+          the foot of the page so it reads as an offer, never as the gate you pass to see the rest.
+        -->
+        <div class="mt-5 flex flex-wrap items-center gap-3.5 rounded-xl border border-border-light bg-theme-dark px-4 py-3">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-primary" aria-hidden="true"><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
+          <div id="rep-mail-idle" class="flex flex-1 flex-wrap items-center gap-3">
+            <span class="min-w-[190px] flex-1 text-[12.5px] leading-snug text-muted" style="text-wrap: pretty">Want a copy? Everything below is already on this page — we send the same report so it survives closing the tab.</span>
+            <form id="email-form" class="flex flex-wrap items-center gap-2" novalidate>
+              <label for="report-email" class="sr-only">Email address</label>
+              <input id="report-email" type="email" required placeholder="you@company.com" class="h-9 w-[214px] rounded-lg border border-border-light bg-body px-3 text-[13px] text-heading placeholder:text-muted/70 focus:border-primary focus:outline-none" />
+              <button id="btn-email" type="submit" class="dt-btn-secondary h-9">Email it to me</button>
+            </form>
           </div>
-          <div id="rep-parts" class="flex flex-col gap-3 bg-theme-dark px-5 pb-4 pt-4"></div>
+          <div id="rep-mail-sent" class="hidden flex-1 flex-wrap items-center gap-3">
+            <span id="email-sent-line" class="min-w-[200px] flex-1 text-[12.5px] text-text-default"></span>
+            <button type="button" id="btn-email-again" class="shrink-0 text-[12px] font-semibold text-primary hover:underline">Send it somewhere else</button>
+          </div>
+          <span id="email-status" class="hidden w-full text-[12px] text-danger"></span>
+        </div>
+
+        <!--
+          The whole score on one 100-point track: the three components in order, then what was not
+          earned. Every band opens its own inputs and the arithmetic that produced the points, so the
+          number is never something the reader has to take on trust.
+        -->
+        <div class="mt-3.5 rounded-xl border border-border-light bg-theme-dark shadow-sm">
+          <div class="flex flex-wrap items-end gap-x-7 gap-y-4 px-5 pb-4 pt-5">
+            <div class="shrink-0">
+              <div class="text-[11px] font-bold uppercase tracking-[.07em] text-muted">Placement score</div>
+              <div class="mt-1.5 flex items-baseline gap-2">
+                <span id="rep-score" class="font-mono text-[46px] font-bold leading-none tracking-[-0.05em] text-heading">—</span>
+                <span id="rep-score-note" class="font-mono text-[14px] text-muted">/ 100</span>
+              </div>
+            </div>
+            <div class="min-w-[260px] flex-1">
+              <div id="rep-sum" class="text-[15px] font-bold tracking-tight text-heading"></div>
+              <p id="rep-lost" class="mt-1 text-[12.5px] leading-relaxed text-muted" style="text-wrap: pretty"></p>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <div class="relative">
+              <div id="rep-track" class="relative flex h-[34px] rounded-lg border border-border-light"></div>
+              <div id="rep-band" class="dt-band pointer-events-none absolute top-[calc(100%+10px)] z-20 hidden w-[328px] max-w-[calc(100vw-3rem)] rounded-xl border border-border-light bg-theme-dark px-4 pb-4 pt-3.5 shadow-lg"></div>
+            </div>
+            <div id="rep-band-hint" class="mt-2.5 text-[11.5px] text-muted">Hover any band to see how those points were earned.</div>
+          </div>
         </div>
 
         <!-- five placements, never merged -->
@@ -281,27 +317,40 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
           </aside>
         </div>
 
-        <div class="mt-3.5 flex flex-wrap items-center gap-3 rounded-xl border border-border-light bg-accent px-4 py-3">
-          <span class="min-w-[220px] flex-1 text-[12.5px] leading-relaxed text-muted">Want a copy of this report? It is already all on the page — we can email it too.</span>
-          <form id="email-form" class="flex flex-wrap items-center gap-2" novalidate>
-            <label for="report-email" class="sr-only">Email address</label>
-            <input id="report-email" type="email" required placeholder="you@company.com" class="h-9 w-56 rounded-lg border border-border-light bg-body px-3 text-[13px] text-heading placeholder:text-muted/70 focus:border-primary focus:outline-none" />
-            <button id="btn-email" type="submit" class="dt-btn-secondary h-9">Email me the report</button>
-          </form>
-          <span id="email-status" class="w-full text-[12px] text-muted"></span>
-        </div>
       </div>
     </section>
   </div>
 </Base>
 
-<style>
+<!--
+  GLOBAL, not scoped. The report's rows, score bands and track segments are written with innerHTML
+  from the script below, so they never carry Astro's scoping attribute and a scoped rule would not
+  match them. Everything here is `dt-` prefixed to keep that global surface unambiguous.
+-->
+<style is:global>
   .dt-stage { animation: dtRiseIn 0.26s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
   .dt-stage.hidden { display: none; }
   @keyframes dtRiseIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   .dt-dot { animation: dtPulse 1.1s ease-in-out infinite; }
   @keyframes dtPulse { 0%, 100% { opacity: 0.35; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1); } }
-  @media (prefers-reduced-motion: reduce) { .dt-stage, .dt-dot { animation: none; } }
+  /* the score band, and the tail that points at the segment it belongs to */
+  .dt-band { animation: dtPopIn 0.16s cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+  .dt-band.hidden { display: none; }
+  @keyframes dtPopIn { from { opacity: 0; transform: translate(var(--dt-shift, -50%), -4px); } }
+  .dt-band-tail {
+    position: absolute; top: -5px; margin-left: -5px; width: 9px; height: 9px;
+    background: var(--se-surface); border-left: 1px solid var(--se-border); border-top: 1px solid var(--se-border);
+    transform: rotate(45deg);
+  }
+  .dt-seg { transition: opacity 0.14s ease; cursor: pointer; }
+  /*
+    The score ladder. These are FIXED tints of the brand lavender, not alpha over the card, so the
+    band keeps the same light face in both themes and near-black ink stays legible on it. An alpha
+    fill blends toward the surface, which in dark theme lands mid-tone and drops the label under AA.
+  */
+  .dt-fill-2 { background: color-mix(in srgb, var(--se-primary) 62%, #ffffff); }
+  .dt-fill-3 { background: color-mix(in srgb, var(--se-primary) 26%, #ffffff); }
+  @media (prefers-reduced-motion: reduce) { .dt-stage, .dt-dot, .dt-band { animation: none; } }
   .dt-btn-secondary {
     display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 0.85rem;
     border-radius: 0.5rem; border: 1px solid var(--se-border); background: var(--se-surface);
@@ -399,6 +448,8 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     OTHER:      { label: "Other folder", bar: "bg-muted", fg: "text-muted",   badge: "neutral", note: "filed somewhere else" },
     UNSENT:     { label: "Unsent",     bar: "bg-muted",   fg: "text-muted",   badge: "neutral", note: "never left" },
   };
+  /* the same five bands under five seeds: a grey ladder, dark end = failing end */
+  const THIN = { INBOX: "bg-muted/35", PROMOTIONS: "bg-muted/20", SPAM: "bg-muted/55", BOUNCED: "bg-muted/70", MISSING: "bg-muted/90" };
   const BADGE = {
     success: "bg-success/10 text-success", warning: "bg-warning/10 text-warning", danger: "bg-danger/10 text-danger",
     neutral: "bg-accent text-muted", brand: "bg-primary/15 text-primary",
@@ -520,6 +571,8 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     clearSaved();
     S.addr = ""; S.test = null; S.report = null; S.peeked = false;
     $("sender-email").value = "";
+    mailIdle();
+    closeBand();
     show("start");
     refreshQuota(); // back on the form — say up front whether another test is available
   }
@@ -613,7 +666,6 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     const c = r.counts;
     const n = r.panelSize;
     const done = r.status === "COMPLETE" || r.status === "EXPIRED";
-    const observed = n - c.pending;
 
     $("rep-domain").textContent = r.reputationKey || (r.senderEmail || "").split("@")[1] || "";
     $("rep-meta").textContent = `${n} seeds · sent from ${r.senderEmail || S.addr}${r.completedAt ? ` · read ${ago(r.completedAt)}` : ""}`;
@@ -624,17 +676,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     $("rep-brief").innerHTML = brief(r);
 
     /* score, always with its composition */
-    const s = r.score;
-    $("rep-score").textContent = s ? String(s.total) : "—";
-    $("rep-score-note").textContent = s ? (s.incomplete ? "partly unchecked" : "out of 100") : "pending";
-    const pPts = s ? s.placement : observed ? ((c.inbox + 0.5 * c.promotions) / n) * 50 : 0;
-    const aPts = s ? s.authentication : authPoints(r);
-    const rPts = s ? s.reputation : repPoints(r);
-    $("rep-parts").innerHTML = [
-      part("Placement", pPts.toFixed(1), 50, "bg-primary", `(${c.inbox} inbox + 0.5 × ${c.promotions} promotions) ÷ ${n} seeds × 50`),
-      part("Authentication", String(aPts), 35, "bg-primary/80", "SPF 12 + DKIM 12 + DMARC 11"),
-      part("Reputation", String(rPts), 15, "bg-primary/60", "MX 5 + not blocklisted 7 + domain age 3"),
-    ].join("");
+    renderScore(r);
 
     /* five placements, never merged */
     const keys = ["INBOX", "PROMOTIONS", "SPAM", "BOUNCED", "MISSING"];
@@ -656,7 +698,9 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
             const thin = p.seeds < 5;
             const rate = p.inboxRate === null ? "—" : `${p.inboxRate}%`;
             const rateFg = thin || p.inboxRate === null ? "text-muted" : p.inboxRate >= 80 ? "text-success" : "text-danger";
-            const fill = (k) => (thin ? "bg-muted/40" : FOLDER[k].bar);
+            // Under five seeds nothing is coloured — but a single flat slab throws the split away
+            // too. A grey ladder keeps it readable while refusing to present it as evidence.
+            const fill = (k) => (thin ? THIN[k] : FOLDER[k].bar);
             const w = (x) => `${(x / p.seeds) * 100}%`;
             return `<div class="border-t border-border-light px-5 py-3">
               <div class="flex flex-wrap items-baseline gap-3">
@@ -720,14 +764,231 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
       .join("");
   }
 
-  function part(label, got, max, fill, formula) {
-    const w = Math.max(0, Math.min(100, (Number(got) / max) * 100));
-    return `<div>
-      <div class="flex items-baseline gap-2"><span class="min-w-0 flex-1 text-[12.5px] font-bold text-heading">${label}</span><span class="shrink-0 font-mono text-[13px] font-semibold text-heading">${got}</span><span class="shrink-0 font-mono text-[11.5px] text-muted">/ ${max}</span></div>
-      <div class="mt-1 h-1.5 overflow-hidden rounded-full bg-accent"><div class="h-full rounded-full ${fill}" style="width:${w}%"></div></div>
-      <div class="mt-1 font-mono text-[11px] text-muted">${esc(formula)}</div>
-    </div>`;
+  /* ── the score: one 100-point track, every band showing its own arithmetic ──── */
+
+  /** 6 → "6", 5.5 → "5.5". Points are whole numbers; the credited total and the reach are not. */
+  const num = (x) => (Number.isInteger(x) ? String(x) : x.toFixed(1));
+  const list = (xs) => (xs.length < 2 ? xs[0] || "" : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
+
+  /** A check as the score sees it: awarded, refused, or never read. `ok === null` is UNKNOWN. */
+  function checksOf(r) {
+    const pub = (r.auth && r.auth.published) || null;
+    const rep = r.reputation || null;
+    const age = rep && rep.domainAgeDays != null ? rep.domainAgeDays : null;
+    const listed = rep && rep.blocklisted != null ? rep.blocklisted : null;
+    return {
+      auth: pub
+        ? [
+            { name: "SPF", ok: pub.spf ?? null, max: WEIGHTS.spf, detail: pub.spf ? "published" : pub.spf === false ? "not published" : "not checked" },
+            { name: "DKIM", ok: pub.dkim ?? null, max: WEIGHTS.dkim, detail: pub.dkim ? "key resolves" : pub.dkim === false ? "no key resolves" : "not checked" },
+            { name: "DMARC", ok: pub.dmarc ?? null, max: WEIGHTS.dmarc, detail: pub.dmarc ? `p=${pub.dmarcPolicy || "none"}` : pub.dmarc === false ? "not published" : "not checked" },
+          ]
+        : null,
+      rep: [
+        { name: "MX records", ok: rep && rep.mx != null ? rep.mx : null, max: WEIGHTS.mx, detail: rep && rep.mx ? "resolve" : rep && rep.mx === false ? "none resolve" : "not checked" },
+        { name: "Not blocklisted", ok: listed == null ? null : !listed, max: WEIGHTS.blocklist, detail: listed === false ? "clear" : listed ? "listed" : "not checked" },
+        { name: "Domain age", ok: age == null ? null : age > 180, max: WEIGHTS.domainAge, detail: age == null ? "not checked" : `${age} days` },
+      ],
+    };
   }
+
+  const checkRows = (checks) =>
+    checks.map((k) => ({
+      name: k.name,
+      sum: k.ok === null ? `${k.detail} — unknown` : k.ok ? `${k.detail} = ${k.max}` : `${k.detail} = 0`,
+      dim: !k.ok,
+    }));
+
+  function checkMaths(checks, total) {
+    const earned = checks.filter((k) => k.ok);
+    const line = earned.length ? `${earned.map((k) => k.max).join(" + ")} = ${total}` : `nothing earned = ${total}`;
+    const unknown = checks.filter((k) => k.ok === null).map((k) => k.name);
+    return unknown.length ? `${line}\n${list(unknown)} could not be read — unknown, not a failure.` : line;
+  }
+
+  /* Every band the track can open, keyed by segment. Held between renders so hover is instant. */
+  let BANDS = {};
+  let MIDS = {};
+
+  function renderScore(r) {
+    const c = r.counts;
+    const n = r.panelSize;
+    const s = r.score;
+    const pPts = s ? s.placement : Math.round(((c.inbox + 0.5 * c.promotions) / n) * WEIGHTS.placement);
+    const aPts = s ? s.authentication : authPoints(r);
+    const rPts = s ? s.reputation : repPoints(r);
+    const total = s ? s.total : pPts + aPts + rPts;
+    // From the PARTS, never the total — the track has to cover exactly 100.
+    const rest = Math.max(0, 100 - (pPts + aPts + rPts));
+
+    $("rep-score").textContent = s ? String(total) : "—";
+    $("rep-score-note").textContent = !s ? "/ 100 · pending" : s.incomplete ? "/ 100 · partly unchecked" : "/ 100";
+    $("rep-sum").textContent = `${pPts} placement + ${aPts} authentication + ${rPts} reputation = ${total}.`;
+
+    const short = [
+      pPts < WEIGHTS.placement ? `${WEIGHTS.placement - pPts} in placement` : null,
+      aPts < 35 ? `${35 - aPts} in authentication` : null,
+      rPts < 15 ? `${15 - rPts} in reputation` : null,
+    ].filter(Boolean);
+    const ck = checksOf(r);
+    const unknownPts = [...(ck.auth || []), ...ck.rep].filter((k) => k.ok === null).reduce((t, k) => t + k.max, 0);
+    $("rep-lost").textContent =
+      rest === 0
+        ? "Nothing was left on the table — every check that ran, passed, and every copy reached the inbox."
+        : short.length === 1 && short[0].endsWith("placement")
+          ? `${rest} points are missing, and every one of them is in placement — authentication and reputation both scored full marks. Only the folder your email reaches moves them.`
+          : `${rest} points are missing: ${list(short)}.${unknownPts ? ` ${unknownPts} of that sits behind a check we could not read, so it is unscored rather than lost.` : ""}`;
+
+    /* ── the bands ── */
+    const credited = c.inbox + 0.5 * c.promotions;
+    const reach = n ? (credited / n) * 100 : 0;
+    const placementRows = [
+      { name: "Inbox", sum: `${c.inbox} × 1 = ${num(c.inbox)}`, dim: !c.inbox },
+      { name: "Promotions", sum: `${c.promotions} × 0.5 = ${num(c.promotions * 0.5)}`, dim: !c.promotions },
+      { name: "Spam", sum: `${c.spam} × 0`, dim: true },
+      { name: "Bounced", sum: `${c.bounced} × 0`, dim: true },
+      { name: "Missing", sum: `${c.missing} × 0`, dim: true },
+    ];
+    if (c.other) placementRows.push({ name: "Other folder", sum: `${c.other} × 0`, dim: true });
+    if (c.pending) placementRows.push({ name: "Not answered yet", sum: `${c.pending} × 0`, dim: true });
+
+    BANDS = {
+      placement: {
+        label: "Placement",
+        got: String(pPts),
+        max: WEIGHTS.placement,
+        fill: "bg-primary",
+        gotFg: pPts >= 40 ? "text-success" : pPts >= 25 ? "text-warning" : "text-danger",
+        rows: placementRows,
+        maths: `${num(credited)} credited ÷ ${n} copies = ${reach.toFixed(1)}%\n${reach.toFixed(1)}% × ${WEIGHTS.placement} points = ${pPts}`,
+        delta: pPts === WEIGHTS.placement ? "Full marks" : `−${WEIGHTS.placement - pPts} points not earned here`,
+        deltaFg: pPts === WEIGHTS.placement ? "text-success" : "text-warning",
+      },
+      auth: {
+        label: "Authentication",
+        got: String(aPts),
+        max: 35,
+        fill: "dt-fill-2",
+        gotFg: aPts === 35 ? "text-success" : aPts >= 23 ? "text-warning" : "text-danger",
+        rows: ck.auth ? checkRows(ck.auth) : [{ name: "No records", sum: "a freemail address publishes none", dim: true }],
+        maths: ck.auth ? checkMaths(ck.auth, aPts) : "Scored 0 — there is no domain here to publish records for.",
+        delta: aPts === 35 ? "Full marks" : `−${35 - aPts} points not earned here`,
+        deltaFg: aPts === 35 ? "text-success" : "text-warning",
+      },
+      rep: {
+        label: "Reputation",
+        got: String(rPts),
+        max: 15,
+        fill: "dt-fill-3",
+        gotFg: rPts === 15 ? "text-success" : rPts >= 10 ? "text-warning" : "text-danger",
+        rows: checkRows(ck.rep),
+        maths: `${checkMaths(ck.rep, rPts)}\nScored against the domain, never a single mailbox.`,
+        delta: rPts === 15 ? "Full marks" : `−${15 - rPts} points not earned here`,
+        deltaFg: rPts === 15 ? "text-success" : "text-warning",
+      },
+      rest: {
+        label: s && s.incomplete ? "Not earned or not checked" : "Not earned",
+        got: String(rest),
+        max: 100,
+        fill: "bg-body",
+        gotFg: "text-muted",
+        rows: [
+          { name: "Placement", sum: `${WEIGHTS.placement - pPts} of ${WEIGHTS.placement} unearned`, dim: pPts === WEIGHTS.placement },
+          { name: "Authentication", sum: `${35 - aPts} of 35 unearned`, dim: aPts === 35 },
+          { name: "Reputation", sum: `${15 - rPts} of 15 unearned`, dim: rPts === 15 },
+        ],
+        maths: unknownPts
+          ? `${rest} of 100 points not earned\n${unknownPts} of those sit behind checks we could not read — unknown, not failed.`
+          : `${rest} of 100 points not earned\nEvery one of them is a check that ran and did not pass.`,
+        delta: rest === 0 ? "Nothing unearned" : short.length === 1 ? `All of it ${short[0].replace(/^\d+ /, "")}` : "Spread across the three parts",
+        deltaFg: "text-warning",
+      },
+    };
+
+    /* ── the track ── */
+    const segs = [
+      { key: "placement", pct: pPts, label: `Placement ${pPts}`, fill: "bg-primary", ink: "text-on-primary", title: `Placement — ${pPts} of ${WEIGHTS.placement} points` },
+      { key: "auth", pct: aPts, label: `Authentication ${aPts}`, fill: "dt-fill-2", ink: "text-on-primary", title: `Authentication — ${aPts} of 35 points` },
+      { key: "rep", pct: rPts, label: `Reputation ${rPts}`, fill: "dt-fill-3", ink: "text-on-primary", title: `Reputation — ${rPts} of 15 points` },
+      { key: "rest", pct: rest, label: `−${rest}`, fill: "bg-body", ink: "text-muted", title: `${rest} of 100 points not earned` },
+    ].filter((x) => x.pct > 0);
+
+    MIDS = {};
+    let run = 0;
+    segs.forEach((sg) => {
+      MIDS[sg.key] = run + sg.pct / 2;
+      run += sg.pct;
+    });
+
+    const track = $("rep-track");
+    track.innerHTML = segs
+      .map(
+        (sg, i) => `<button type="button" data-band="${sg.key}" title="${esc(sg.title)}" aria-label="${esc(sg.title)}"
+          class="dt-seg flex items-center justify-center overflow-hidden border-0 p-0 ${sg.fill} ${i === 0 ? "rounded-l-lg" : ""} ${i === segs.length - 1 ? "rounded-r-lg" : ""} ${i < segs.length - 1 ? "border-r border-theme-dark" : ""}"
+          style="width:${sg.pct}%">
+          ${sg.pct >= 12 ? `<span class="whitespace-nowrap font-mono text-[11px] font-semibold ${sg.ink}">${esc(sg.label)}</span>` : ""}
+        </button>`,
+      )
+      .join("");
+
+    track.querySelectorAll("[data-band]").forEach((btn) => {
+      const open = () => openBand(btn.dataset.band);
+      btn.addEventListener("mouseenter", open);
+      btn.addEventListener("focus", open);
+      btn.addEventListener("click", open);
+      btn.addEventListener("blur", closeBand);
+    });
+    closeBand();
+  }
+
+  function openBand(key) {
+    const b = BANDS[key];
+    if (!b) return;
+    const mid = MIDS[key] || 0;
+    // Pull the card back so it never overhangs the ends of the track.
+    const shift = mid < 22 ? "-14%" : mid > 78 ? "-86%" : "-50%";
+    const tail = mid < 22 ? "14%" : mid > 78 ? "86%" : "50%";
+
+    const el = $("rep-band");
+    el.innerHTML = `<span class="dt-band-tail" style="left:${tail}"></span>
+      <div class="flex flex-wrap items-baseline gap-2">
+        <span class="h-2 w-2 shrink-0 rounded-[3px] ${b.fill}"></span>
+        <span class="min-w-0 flex-1 text-[13.5px] font-bold tracking-tight text-heading">${esc(b.label)}</span>
+        <span class="shrink-0 font-mono text-[14px] font-bold ${b.gotFg}">${esc(b.got)}</span>
+        <span class="shrink-0 font-mono text-[11.5px] text-muted">/ ${b.max}</span>
+      </div>
+      <div class="mt-2.5 flex flex-col">
+        ${b.rows
+          .map(
+            (row) => `<span class="flex items-baseline gap-2.5 border-t border-border-light py-1.5">
+              <span class="min-w-0 flex-1 text-[12px] ${row.dim ? "text-muted" : "text-heading"}">${esc(row.name)}</span>
+              <span class="shrink-0 font-mono text-[11.5px] text-text-default">${esc(row.sum)}</span>
+            </span>`,
+          )
+          .join("")}
+      </div>
+      <div class="mt-3 whitespace-pre-line rounded-lg bg-accent px-3 py-2.5 font-mono text-[11.5px] leading-relaxed text-text-default">${esc(b.maths)}</div>
+      <div class="mt-2 text-[11.5px] font-semibold ${b.deltaFg}">${esc(b.delta)}</div>`;
+    el.style.setProperty("--dt-shift", shift);
+    el.style.left = `${mid}%`;
+    el.style.transform = `translateX(${shift})`;
+    el.classList.remove("hidden");
+
+    $("rep-track")
+      .querySelectorAll("[data-band]")
+      .forEach((s) => (s.style.opacity = s.dataset.band === key ? "1" : "0.45"));
+    $("rep-band-hint").textContent = "Every figure here comes from this report — nothing is weighted behind the scenes.";
+  }
+
+  function closeBand() {
+    $("rep-band").classList.add("hidden");
+    $("rep-track")
+      .querySelectorAll("[data-band]")
+      .forEach((s) => (s.style.opacity = "1"));
+    $("rep-band-hint").textContent = "Hover any band to see how those points were earned.";
+  }
+
+  $("rep-track").addEventListener("mouseleave", closeBand);
 
   const PASSING = new Set(["pass", "none", "neutral"]);
   function verdicts(r, m) {
@@ -833,21 +1094,39 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
   }
 
   /* ── optional: email a copy ───────────────────────────────────────────────── */
+  function mailIdle() {
+    $("rep-mail-idle").classList.remove("hidden");
+    $("rep-mail-sent").classList.add("hidden");
+    $("email-status").classList.add("hidden");
+    $("email-status").textContent = "";
+    $("report-email").value = "";
+  }
+
+  function mailError(msg) {
+    const status = $("email-status");
+    status.textContent = msg;
+    status.classList.remove("hidden");
+  }
+
   $("email-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = $("report-email").value.trim();
-    const status = $("email-status");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { status.textContent = "Enter an email address."; return; }
+    $("email-status").classList.add("hidden");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mailError("That does not look like an email address."); return; }
     $("btn-email").disabled = true;
     try {
       await api("POST", withToken(`/open/placement/tests/${S.test.id}/report`), { email });
-      status.textContent = `Sent to ${email}.`;
+      $("email-sent-line").textContent = `Sent to ${email} — it should arrive within a minute.`;
+      $("rep-mail-idle").classList.add("hidden");
+      $("rep-mail-sent").classList.remove("hidden");
     } catch (ex) {
-      status.textContent = ex.message;
+      mailError(ex.message);
     } finally {
       $("btn-email").disabled = false;
     }
   });
+
+  $("btn-email-again").addEventListener("click", mailIdle);
 
   /* ── formatting ───────────────────────────────────────────────────────────── */
   const clock = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
