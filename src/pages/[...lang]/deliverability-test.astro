@@ -294,7 +294,7 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
             <div class="overflow-hidden rounded-xl border border-border-light bg-theme-dark shadow-sm">
               <div class="px-4 pb-3 pt-4">
                 <div class="text-[13.5px] font-bold tracking-tight text-heading">Authentication</div>
-                <p class="mt-1 text-[12px] leading-snug text-muted" style="text-wrap: pretty">What the receivers concluded, next to what your domain publishes. Two different questions.</p>
+                <p class="mt-1 text-[12px] leading-snug text-muted" style="text-wrap: pretty">What your domain publishes, and what each record is worth. Every one of these is read before a receiver looks at your content.</p>
               </div>
               <div id="rep-auth"></div>
             </div>
@@ -990,14 +990,6 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
 
   $("rep-track").addEventListener("mouseleave", closeBand);
 
-  const PASSING = new Set(["pass", "none", "neutral"]);
-  function verdicts(r, m) {
-    const reported = r.probes.filter((p) => p.auth && p.auth[m] !== null && p.auth[m] !== undefined);
-    const failing = reported.filter((p) => !PASSING.has(p.auth[m]));
-    const byEsp = {};
-    failing.forEach((p) => (byEsp[p.seedProvider] = (byEsp[p.seedProvider] || 0) + 1));
-    return { reported, failing, byEsp };
-  }
   function authPoints(r) {
     const pub = r.auth && r.auth.published;
     if (!pub) return 0;
@@ -1015,27 +1007,48 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
     return [["spf", "SPF", WEIGHTS.spf], ["dkim", "DKIM", WEIGHTS.dkim], ["dmarc", "DMARC", WEIGHTS.dmarc]].map(([m, name, max]) => {
       const ok = pub[m];
       const dns = m === "spf" ? rec && rec.spf : m === "dmarc" ? rec && rec.dmarc : rec && rec.dkimSelectors && rec.dkimSelectors.length ? `${rec.dkimSelectors.join(", ")} — key resolves` : null;
-      const v = verdicts(r, m);
-      const receiver = v.reported.length === 0 ? "Not reported by the panel" : v.failing.length === 0 ? `Pass at all ${v.reported.length} seeds` : `Fail at ${Object.entries(v.byEsp).map(([e, k]) => `${provider(e)} (${k} ${k === 1 ? "seed" : "seeds"})`).join(", ")}`;
-      const recTone = v.reported.length === 0 ? "neutral" : v.failing.length === 0 ? "success" : "danger";
-      let note = null;
-      if (v.failing.length && ok) note = `The record publishes correctly, so DNS scores in full. ${Object.keys(v.byEsp).map(provider).join(" and ")} still refused it on ${v.failing.length} of ${v.reported.length} seeds.`;
-      else if (m === "dmarc" && pub.dmarcPolicy === "none") note = "p=none is published, so it scores in full — but the policy enforces nothing. A receiver that fails your alignment is told to deliver the message anyway, and anyone can spoof this domain without being stopped.";
+      const note = m === "dmarc" && ok && pub.dmarcPolicy === "none"
+        ? "p=none is published, so it scores in full — but the policy enforces nothing. A receiver that fails your alignment is told to deliver the message anyway, and anyone can spoof this domain without being stopped."
+        : null;
       return `<div class="border-t border-border-light px-4 py-3">
-        <div class="flex items-center gap-2"><span class="shrink-0 font-mono text-[12.5px] font-bold text-heading">${name}</span><span class="ml-auto font-mono text-[12px] text-muted">${ok ? max : 0} / ${max}</span></div>
-        <div class="mt-2 flex items-center gap-2"><span class="w-[84px] shrink-0 text-[11px] font-semibold text-muted">Published DNS</span>${badge(ok === null ? "neutral" : ok ? "success" : "danger", ok === null ? "Unknown" : ok ? "Published" : "Not published")}</div>
-        ${dns ? `<div class="ml-[92px] mt-1 break-all font-mono text-[10.5px] leading-snug text-muted">${esc(dns)}</div>` : ""}
-        <div class="mt-2 flex items-center gap-2"><span class="w-[84px] shrink-0 text-[11px] font-semibold text-muted">Receiver verdict</span>${badge(recTone, receiver)}</div>
+        <div class="flex items-center gap-2">
+          <span class="shrink-0 font-mono text-[12.5px] font-bold text-heading">${name}</span>
+          ${badge(ok === null ? "neutral" : ok ? "success" : "danger", ok === null ? "Unknown" : ok ? "Published" : "Not published")}
+          <span class="ml-auto shrink-0 font-mono text-[12px] text-muted">${ok ? max : 0} / ${max}</span>
+        </div>
+        ${dns ? `<div class="mt-1.5 break-all font-mono text-[10.5px] leading-snug text-muted">${esc(dns)}</div>` : ""}
         ${note ? `<div class="mt-2 rounded-lg bg-warning/10 px-3 py-2 text-[11.5px] leading-relaxed text-text-default">${esc(note)}</div>` : ""}
       </div>`;
     });
   }
+
+  /** Friendly names for the lists we query. Raw source keys are ours, not the reader's. */
+  const BLOCKLIST_NAMES = { SPAMHAUS_DBL: "Spamhaus DBL", SURBL_MULTI: "SURBL", SPAMHAUS_ZEN: "Spamhaus ZEN", BARRACUDA: "Barracuda", SPAMCOP: "SpamCop" };
+  const listName = (key) => BLOCKLIST_NAMES[key] || key;
+
+  /** Age as a person would say it, with the registration date behind it when the registry gave one. */
+  function ageDetail(rep) {
+    if (rep.domainAgeDays == null) return "Could not be read";
+    const d = rep.domainAgeDays;
+    const said = d >= 730 ? `${Math.floor(d / 365)} years old` : d >= 60 ? `${Math.floor(d / 30)} months old` : `${d} ${d === 1 ? "day" : "days"} old`;
+    if (!rep.registeredAt) return said;
+    const on = new Date(rep.registeredAt).toLocaleDateString(undefined, { month: "short", year: "numeric" });
+    return `${said} · registered ${on}`;
+  }
+
+  function blocklistDetail(rep) {
+    if (rep.blocklists == null) return "No list could be reached";
+    if (rep.blocklists.length) return `Listed on ${rep.blocklists.map(listName).join(", ")}`;
+    const n = rep.blocklistsChecked || 0;
+    return `Clear on ${n} ${n === 1 ? "list" : "lists"}`;
+  }
+
   function repRows(r) {
     const rep = r.reputation || {};
     const rows = [
-      ["MX records", rep.mx === undefined ? null : rep.mx, rep.mx ? WEIGHTS.mx : 0, WEIGHTS.mx, rep.mx ? "Resolves" : rep.mx === false ? "No MX record" : "Not checked"],
-      ["Not blocklisted", rep.blocklisted == null ? null : !rep.blocklisted, rep.blocklisted === false ? WEIGHTS.blocklist : 0, WEIGHTS.blocklist, rep.blocklisted === false ? "Clear" : rep.blocklisted ? "Listed" : "Not part of this check yet"],
-      ["Domain age", rep.domainAgeDays == null ? null : rep.domainAgeDays > 180, rep.domainAgeDays != null && rep.domainAgeDays > 180 ? WEIGHTS.domainAge : 0, WEIGHTS.domainAge, rep.domainAgeDays != null ? `${rep.domainAgeDays} days` : "Not part of this check yet"],
+      ["MX records", rep.mx == null ? null : rep.mx, rep.mx ? WEIGHTS.mx : 0, WEIGHTS.mx, rep.mx ? "Resolves" : rep.mx === false ? "No MX record" : "Could not be read"],
+      ["Not blocklisted", rep.blocklisted == null ? null : !rep.blocklisted, rep.blocklisted === false ? WEIGHTS.blocklist : 0, WEIGHTS.blocklist, blocklistDetail(rep)],
+      ["Domain age", rep.domainAgeDays == null ? null : rep.domainAgeDays > 180, rep.domainAgeDays != null && rep.domainAgeDays > 180 ? WEIGHTS.domainAge : 0, WEIGHTS.domainAge, ageDetail(rep)],
     ];
     return rows.map(([name, ok, pts, max, detail]) => `<div class="border-t border-border-light px-4 py-2.5">
       <div class="flex items-center gap-2"><span class="min-w-0 flex-1 text-[12.5px] font-semibold text-heading">${name}</span>${badge(ok === null ? "neutral" : ok ? "success" : "danger", ok === null ? "Unknown" : ok ? "Pass" : "Fail")}<span class="shrink-0 font-mono text-[11.5px] text-muted">${pts} / ${max}</span></div>
@@ -1083,12 +1096,12 @@ const APP_URL = import.meta.env.PUBLIC_APP_URL || "https://sequencer.sendemall.c
       const missingRecords = [["spf", "SPF"], ["dkim", "DKIM"], ["dmarc", "DMARC"]].filter(([m]) => pub[m] === false).map(([, n]) => n);
       if (missingRecords.length) out.push({ tone: "danger", impact: "blocking", title: `Publish ${missingRecords.join(", ")}`, body: "Receivers treat a domain with missing authentication as unknown at best. This is setup, not reputation, and it is the cheapest fix on the page." });
     }
-    ["dkim", "spf", "dmarc"].forEach((m) => {
-      const v = verdicts(r, m);
-      if (v.failing.length && pub && pub[m]) out.push({ tone: "danger", impact: "blocking", title: `${m.toUpperCase()} fails at ${Object.keys(v.byEsp).map(provider).join(" and ")}`, body: `The record publishes, but ${Object.keys(v.byEsp).map(provider).join(" and ")} refused the signature on ${v.failing.length} of ${v.reported.length} seeds. Check the selector and key actually in use by your sending client.` });
-    });
+    const rep = r.reputation || {};
+    if (rep.blocklisted === true) out.push({ tone: "danger", impact: "blocking", title: `Get ${r.reputationKey || "this domain"} delisted`, body: `${(rep.blocklists || []).map(listName).join(" and ") || "A public blocklist"} has this domain listed. Receivers consult these before they read a word of the content, so nothing else on this page moves until it is cleared.` });
+    if (rep.mx === false) out.push({ tone: "danger", impact: "blocking", title: "Publish MX records", body: "The domain cannot receive replies as it stands, and receivers read a domain with no MX as one that was never meant to send mail either." });
     if (c.spam) out.push({ tone: "danger", impact: "costs replies", title: `${c.spam === 1 ? "One copy" : `${c.spam} copies`} went to spam`, body: "A spam placement is the receiver's verdict on the domain plus the content. Fix authentication first if anything above failed; otherwise it is reputation, which only volume and time move." });
     if (pub && pub.dmarcPolicy === "none") out.push({ tone: "warning", impact: "holds you back", title: "Move DMARC off p=none", body: "Publish p=quarantine once your reports are clean. Enforcement is what separates a domain that merely publishes DMARC from one receivers trust." });
+    if (rep.domainAgeDays != null && rep.domainAgeDays <= 180) out.push({ tone: "warning", impact: "time only", title: "The domain is still young", body: `Registered ${rep.domainAgeDays} days ago. Under 180 days it earns no age points and receivers throttle it whatever the setup looks like — there is nothing to fix here except to keep sending consistently while it ages.` });
     if (c.promotions) out.push({ tone: "warning", impact: "costs replies", title: "Rework the copy that reached promotions", body: "A promotions placement is a content verdict, not a reputation one. Image-heavy layouts and tracked links are the usual cause." });
     return out;
   }
