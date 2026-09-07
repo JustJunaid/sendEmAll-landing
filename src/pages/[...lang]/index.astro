@@ -70,16 +70,19 @@ const steps = [
   {
     n: "01",
     title: "Find the right buyers",
+    href: "/leads",
     body: "Search 66M+ B2B contacts, describe your ICP in plain English, or bring your own Apollo and Sales Navigator account. See who's in-market — hiring, raising, running ads — and only pay for emails that are verified and real.",
   },
   {
     n: "02",
     title: "Reach them",
+    href: "/sequencer",
     body: "Multi-step sequences, A/B tests, and one unified inbox across every mailbox. Unlimited seats and workspaces, one flat price — never taxed per seat.",
   },
   {
     n: "03",
     title: "Land in the inbox",
+    href: "/mailboxes",
     body: "Send from mailboxes with SPF, DKIM, DMARC and warmup already handled — your own, or spun up in minutes. A bad list never touches your domain.",
   },
 ];
@@ -181,8 +184,9 @@ const pains = [
         <div class="grid gap-6 md:grid-cols-3">
           {
             steps.map((s, i) => (
-              <div
-                class="group border-border-light bg-theme-dark hover:border-primary/40 relative rounded-3xl border p-8 text-center transition-colors"
+              <a
+                href={s.href}
+                class="group border-border-light bg-theme-dark hover:border-primary/40 relative block rounded-3xl border p-8 text-center transition-colors"
                 data-aos="fade-up-sm"
                 data-aos-delay={i * 100}>
                 <span class="bg-primary/10 text-primary font-secondary ring-primary/20 relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-2xl text-lg font-bold shadow-[0_0_28px_-4px_rgba(210,179,243,0.6)] ring-1">
@@ -190,7 +194,7 @@ const pains = [
                 </span>
                 <h3 class="text-heading mt-6 text-xl font-semibold">{s.title}</h3>
                 <p class="text-text-default/70 mt-3">{s.body}</p>
-              </div>
+              </a>
             ))
           }
         </div>
