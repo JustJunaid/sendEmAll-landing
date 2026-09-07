@@ -233,3 +233,99 @@ Debug order for a failed Add-channel:
 ## Decisions locked (this session)
 ships.md = hybrid (auto-draft PRs + edit) · A/B = sequential to start · X = automate (funded) ·
 channels = Junaid X + SendEmAll X + Sadiya LI + Sadiya X (+ Reddit/Facebook soon), no Kamran.
+
+---
+
+## 2026-08-28 — first-24h check + the analytics bug
+
+**Publishing works.** Three posts came due since launch; all three published, zero failures, across
+both platforms and three different accounts.
+
+| Due (UTC) | Account | State | URL |
+|---|---|---|---|
+| 27 Aug 18:05 | sendemall-x | PUBLISHED | `twitter.com/send_em_all/status/2093037080121315499` |
+| 27 Aug 19:30 | sadiya-x | PUBLISHED | `twitter.com/sadiya_sea/status/2093058468450357515` |
+| 27 Aug 21:00 | naved-li | PUBLISHED | `linkedin.com/feed/update/urn:li:share:7498846807985360896` |
+
+42 remain queued through 9 Sep. Read from `GET /posts`, not from our own `status` field.
+
+### The bug: every channel read "zero impressions" and the real answer was "we asked wrong"
+
+`getAnalytics()` called `GET /analytics/:id` with no query string. The endpoint takes a **required
+`date` param** (a day count). Without it the backend computes `dayjs().subtract(undefined,'day')` →
+Invalid Date → X rejects `start_time` with a 400 → **the provider swallows it in a try/catch and
+returns `[]`**. An empty array is indistinguishable from "no engagement", so the failure was
+invisible from the client. Found by reading the container logs, not by reasoning about it.
+
+Fixed in `lib/postiz.mjs`: `getAnalytics(id, days)` and a new `getPostAnalytics(postizId, days)`.
+Verified green immediately after — sendemall-x returned real metrics on the same call that had been
+returning `[]` five minutes earlier.
+
+**`pull-analytics.mjs` rewritten** to join on Postiz's own post list rather than the `postId` we
+store at publish time. That permanently sidesteps the 17 posts written with `postId: true` — no
+backfill needed; Postiz already knows what it published, so we ask it.
+
+### LinkedIn is structurally unmeasurable right now
+
+The LinkedIn provider has **no `analytics()` method at all**. Checked against the *upstream image*,
+not just our bind-mounted scope patch, so this is not something we broke. LinkedIn shipped
+`memberCreatorPostAnalytics` in July 2025 but it needs `r_member_postAnalytics` (separate
+application); upstream gitroomhq/postiz-app#1680 tracks it. Half our accounts, read by hand until
+then. The puller reports them `n/a`, never `0`.
+
+### Also fixed: the claim ledger was offering a banned number
+
+`content/claims.md` listed **"0.20% verification false-positive rate"** as an ownable claim assigned
+to kamran-li. CLAUDE.md retired that stat — the <3% bounce guarantee is our only accuracy claim. The
+file built to be the guard was handing out the thing it exists to stop, and the linter did not block
+it. Moved to NEVER PUBLISH, added `retired-fp-rate` to `lint-posts.mjs`, and probed it: a post
+asserting a figure as ours goes red, a post discussing false-positive rates as an industry topic
+stays green. No scheduled post used it.
+
+**Unverified:** the X impression counts are small enough (3 and 0) to be worth one eyeball against
+the native X UI before we trust the pipeline's numbers.
+
+---
+
+## 2026-08-31 — first 4 days of numbers, and what they say
+
+13 posts published, 0 failures. Coverage runs to 9 Sep. Publishing is not the problem.
+
+| Account | Posts | Impressions |
+|---|---|---|
+| junaid-x | 3 | **71** (52 / 7 / 12) |
+| sendemall-x | 3 | 3 (3 / 0 / 0) |
+| sadiya-x | 2 | 0 |
+| kamran-li, sadiya-li, naved-li | 5 | no API — read by hand |
+
+### The zeros are arithmetic, not a penalty
+
+Two accounts sitting at zero impressions looked like a shadowban or the `llm_slop_user` classifier
+OPERATIONS §5 warns about. It is neither. Follower counts, pulled live from the X API:
+
+| Account | Followers | Following | Age |
+|---|---|---|---|
+| JustJunaidHere | **239** | 109 | since 2017 |
+| send_em_all | **2** | 8 | since Sep 2025 |
+| sadiya_sea | **0** | **0** | since 27 Aug 2026 |
+
+An account that follows nobody and is followed by nobody has no distribution graph. X's ranker has
+no feed to place it in. Zero impressions is the correct output, and no amount of posting changes it.
+
+**96% of all measured reach came from the one account with an audience.** The other two are writing
+into a void — and the content going into that void is not worse, it is arguably better.
+
+This reorders the plan. OPERATIONS §5 already said the biggest lever in X's ranker is a reply-weight
+boost that only fires between mutual follows, and §2 said comment duty outranks posting. Both are
+now measured facts rather than research notes. Following ICP accounts and commenting is not a
+nice-to-have next to the posting schedule — for sadiya-x and sendemall-x it is the *only* thing that
+can move the number, and neither has started.
+
+### Bug found while reviewing the analytics puller
+
+The label normaliser lowercased and stripped a trailing "s", so the per-post endpoint's `"Replies"`
+became `"replie"` while the table read `reply`. **The reply column printed 0 for every post
+regardless of the truth** — and replies are the one metric funnel.md says predicts anything. Caught
+by diffing the two endpoints' label sets, not by reading output, because the broken output is
+indistinguishable from a quiet week. Labels are now an explicit map and an unknown label throws.
+`analytics/2026-08-28.json` was written by the broken version and has been regenerated.

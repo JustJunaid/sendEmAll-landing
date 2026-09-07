@@ -59,7 +59,34 @@ export function createPost({ integrationId, content, date, provider, type = 'sch
   });
 }
 
-/** GET analytics for one integration (last N days per Postiz default). */
-export const getAnalytics = (integrationId) => api(`/analytics/${integrationId}`);
+/** GET all posts in a window. `state` is QUEUE | PUBLISHED — this is the ONLY reliable proof a
+ *  post reached the network; our own posts.json `status` records only that the API accepted it.
+ *  Both dates are REQUIRED (no params -> 400). */
+export async function listPosts(startDate, endDate) {
+  const q = new URLSearchParams({ startDate, endDate, customer: '' });
+  const j = await api(`/posts?${q}`);
+  return Array.isArray(j) ? j : (j?.posts ?? j?.data ?? []);
+}
+
+/**
+ * GET aggregate analytics for one integration over the last `days` days.
+ *
+ * `days` is REQUIRED and was the bug: the backend does `dayjs().subtract(days, 'day')`, so omitting
+ * it makes an Invalid Date, X rejects `start_time` with a 400, the provider swallows it in a
+ * try/catch and returns []. Every channel read as "zero impressions" for a whole day when the real
+ * answer was "we asked the question wrong". A silent [] is why this took a log dive to find.
+ */
+export const getAnalytics = (integrationId, days = 7) =>
+  api(`/analytics/${integrationId}?date=${Number(days)}`);
+
+/** GET analytics for ONE post, keyed by the POSTIZ post id (not the platform's release id). */
+export const getPostAnalytics = (postizPostId, days = 7) =>
+  api(`/analytics/post/${postizPostId}?date=${Number(days)}`);
+
+/** Providers Postiz can actually return analytics for. LinkedIn personal has no `analytics()` method
+ *  in the provider at all (verified against the upstream image, not just our patched copy — upstream
+ *  issue gitroomhq/postiz-app#1680 tracks adding it). Treat those channels as UNSUPPORTED, never as
+ *  zero: an empty array here means "no data source", and charting it as 0 would be a lie. */
+export const ANALYTICS_SUPPORTED = new Set(['x']);
 
 export const config = { BASE, get hasKey() { return Boolean(key()); } };

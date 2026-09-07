@@ -12,7 +12,6 @@ account, either pick a different angle or wait. The linter enforces this.
 
 | Claim | Owner | Last used | Cooldown until |
 |---|---|---|---|
-| 0.20% verification false-positive rate | kamran-li | — | — |
 | 3% bounce guarantee, first month refunded | junaid-x | — | — |
 | 1 credit = 1 valid email; bounces free | sendemall-x | — | — |
 | 66M contact data lake | sadiya-li | — | — |
@@ -29,3 +28,8 @@ account, either pick a different angle or wait. The linter enforces this.
   once, onto the Cal.com booking page — check any new surface for it.
 - Mailbox-per-domain ratios.
 - Any customer volume claim ("agencies send 500K+/month") — we have no customer proof yet.
+- **The 0.20% verification false-positive rate.** RETIRED by CLAUDE.md. The only accuracy claim we
+  publish is the <3% bounce guarantee. Removed from the table above on 2026-08-28, where it had been
+  sitting as an ownable claim assigned to kamran-li — the ledger built to be the guard was offering a
+  banned number. `lint-posts.mjs` now blocks it (`retired-fp-rate`). Discussing false-positive rates
+  as an industry topic is fine; asserting a figure as ours is not.

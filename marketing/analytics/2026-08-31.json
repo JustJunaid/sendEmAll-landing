@@ -1,0 +1,241 @@
+{
+  "pulledFor": "2026-08-31",
+  "windowDays": 7,
+  "channels": {
+    "junaid-x": {
+      "connected": true,
+      "supported": true,
+      "provider": "x",
+      "metrics": {
+        "impression": 71,
+        "bookmark": 0,
+        "like": 0,
+        "quote": 0,
+        "reply": 0,
+        "retweet": 0
+      }
+    },
+    "sendemall-x": {
+      "connected": true,
+      "supported": true,
+      "provider": "x",
+      "metrics": {
+        "impression": 3,
+        "bookmark": 0,
+        "like": 0,
+        "quote": 0,
+        "reply": 0,
+        "retweet": 0
+      }
+    },
+    "sadiya-li": {
+      "connected": true,
+      "supported": false,
+      "provider": "linkedin",
+      "reason": "Postiz has no analytics() for this provider (upstream gitroomhq/postiz-app#1680)"
+    },
+    "sadiya-x": {
+      "connected": true,
+      "supported": true,
+      "provider": "x",
+      "metrics": {
+        "impression": 0,
+        "bookmark": 0,
+        "like": 0,
+        "quote": 0,
+        "reply": 0,
+        "retweet": 0
+      }
+    },
+    "kamran-li": {
+      "connected": true,
+      "supported": false,
+      "provider": "linkedin",
+      "reason": "Postiz has no analytics() for this provider (upstream gitroomhq/postiz-app#1680)"
+    },
+    "naved-li": {
+      "connected": true,
+      "supported": false,
+      "provider": "linkedin",
+      "reason": "Postiz has no analytics() for this provider (upstream gitroomhq/postiz-app#1680)"
+    },
+    "sendemall-li": {
+      "connected": false
+    }
+  },
+  "posts": [
+    {
+      "channel": "kamran-li",
+      "provider": "linkedin",
+      "date": "2026-08-28T14:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7499103499499102208",
+      "postizId": "cmtbtmuzs000po07qwyjr0hhu",
+      "preview": "Everyone writes about how domains get burned. Almost nobody writes how",
+      "metrics": null
+    },
+    {
+      "channel": "sadiya-li",
+      "provider": "linkedin",
+      "date": "2026-08-28T16:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7499133698341064704",
+      "postizId": "cmtbtmv5n000qo07qqwhfu34b",
+      "preview": "Every B2B database has a number it doesn't show you, and it changes wh",
+      "metrics": null
+    },
+    {
+      "channel": "kamran-li",
+      "provider": "linkedin",
+      "date": "2026-08-29T15:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7499480986938851328",
+      "postizId": "cmtbtmvbu000ro07q8mb9vuok",
+      "preview": "Most teams file every bounce under \"bad data.\" A large share of them h",
+      "metrics": null
+    },
+    {
+      "channel": "sendemall-x",
+      "provider": "x",
+      "date": "2026-08-27T18:05:00.000Z",
+      "url": "https://twitter.com/send_em_all/status/2093037080121315499",
+      "postizId": "cmtbtnub1000yo07qvzhso01y",
+      "preview": "\"Verified\" on an invoice can mean four different things. The mailbox e",
+      "metrics": {
+        "impression": 3,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "junaid-x",
+      "provider": "x",
+      "date": "2026-08-28T13:00:00.000Z",
+      "url": "https://twitter.com/JustJunaidHere/status/2093322710596345997",
+      "postizId": "cmtbtnuib0010o07qo7lij4oa",
+      "preview": "Two campaigns can report the same reply rate and produce completely di",
+      "metrics": {
+        "impression": 52,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "junaid-x",
+      "provider": "x",
+      "date": "2026-08-29T14:00:00.000Z",
+      "url": "https://twitter.com/JustJunaidHere/status/2093700196987474076",
+      "postizId": "cmtbtnul20011o07q913ks164",
+      "preview": "Per-meeting pricing sounds fair to both sides. It quietly moves all th",
+      "metrics": {
+        "impression": 7,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "sadiya-x",
+      "provider": "x",
+      "date": "2026-08-29T16:00:00.000Z",
+      "url": "https://twitter.com/sadiya_sea/status/2093730395410038910",
+      "postizId": "cmtbtnuo10012o07qviazhs6z",
+      "preview": "Something I only noticed after reading a few hundred replies: the ones",
+      "metrics": {
+        "impression": 0,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "junaid-x",
+      "provider": "x",
+      "date": "2026-08-30T14:00:00.000Z",
+      "url": "https://twitter.com/JustJunaidHere/status/2094062585247395928",
+      "postizId": "cmtbtnux60014o07q8rgr1q29",
+      "preview": "Most outbound contracts have a show-rate clause. Very few define the w",
+      "metrics": {
+        "impression": 12,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "sendemall-x",
+      "provider": "x",
+      "date": "2026-08-30T18:00:00.000Z",
+      "url": "https://twitter.com/send_em_all/status/2094122982914605353",
+      "postizId": "cmtbvt5bt0015o07qzyvs16u2",
+      "preview": "Seed inbox tests tell you where mail landed for the seed accounts. Tho",
+      "metrics": {
+        "impression": 0,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "sadiya-x",
+      "provider": "x",
+      "date": "2026-08-27T19:30:00.000Z",
+      "url": "https://twitter.com/sadiya_sea/status/2093058468450357515",
+      "postizId": "cmtbtnug2000zo07qx0jqcop9",
+      "preview": "Every list has a segment that costs more than it returns: companies th",
+      "metrics": {
+        "impression": 0,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "sendemall-x",
+      "provider": "x",
+      "date": "2026-08-29T18:00:00.000Z",
+      "url": "https://twitter.com/send_em_all/status/2093760595132809310",
+      "postizId": "cmtbtnurz0013o07qhtcbbzns",
+      "preview": "A verification result has a timestamp. A \"verified\" badge with no date",
+      "metrics": {
+        "impression": 0,
+        "like": 0,
+        "retweet": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0
+      }
+    },
+    {
+      "channel": "naved-li",
+      "provider": "linkedin",
+      "date": "2026-08-27T21:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7498846807985360896",
+      "postizId": "cmtbtmut4000oo07qqpcwg5a5",
+      "preview": "If you're adding LinkedIn to an email sequence, the capacity maths wor",
+      "metrics": null
+    },
+    {
+      "channel": "naved-li",
+      "provider": "linkedin",
+      "date": "2026-08-30T15:00:00.000Z",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7499843374867226624",
+      "postizId": "cmtbtmvm6000so07qd80g9ugk",
+      "preview": "LinkedIn InMail economics work differently from how nearly everyone bu",
+      "metrics": null
+    }
+  ]
+}

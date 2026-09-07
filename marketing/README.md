@@ -50,6 +50,12 @@ node autopilot/scripts/lint-posts.mjs --self-test
 node autopilot/scripts/publish.mjs autopilot/output/week-2026-08-31
 ```
 
+Read what actually happened (published state + per-post impressions):
+
+```bash
+node autopilot/scripts/pull-analytics.mjs 2026-08-28 7
+```
+
 Regenerate the human-readable calendar after any edit to `posts.json`:
 
 ```bash
