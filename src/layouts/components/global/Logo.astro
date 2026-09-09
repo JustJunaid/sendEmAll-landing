@@ -54,7 +54,12 @@ let {
       />
     ) : logo ? (
       <>
-        {/* Theme-aware logo — light (app wordmark) vs dark (white wordmark).
+        {/* Theme-aware logo. The two variants differ only in the "Em" letters:
+            #5B5A63 for light backgrounds, #FFFFFF for dark. Both must be named
+            explicitly — `config.site.logo` is the public copy of the LIGHT
+            artwork (it also feeds the Organization JSON-LD, which Google renders
+            on white), so using it here made dark mode render the light wordmark
+            and the grey "Em" dropped to 2.87:1 on the near-black header.
             The pre-paint script sets data-theme before first paint, so the
             correct variant shows immediately with no flash. */}
         <OptimizedImage
@@ -69,7 +74,7 @@ let {
           }}
         />
         <OptimizedImage
-          src={logo}
+          src="/images/sendemall-logo-dark.svg"
           class="logo logo--dark"
           width={getNumber(logoWidth)}
           height={getNumber(logoHeight)}
