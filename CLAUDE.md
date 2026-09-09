@@ -54,8 +54,10 @@ Marketing site for **SendEmAll — the all-in-one B2B outbound platform**. Astro
 
 ## Pricing — the landing page is the source of truth
 **Landing = truth; the app will be updated to match. Do NOT change landing pricing to match current app code.**
-- **Starter — $59/mo** — 25,000 verified-email credits
-- **Growth — $79/mo** — 50,000 verified-email credits
+- **Starter — $59/mo** — 10,000 credits _(was 25,000; reduced 9 Sep 2026)_
+- **Growth — $79/mo** — 25,000 credits _(was 50,000; reduced 9 Sep 2026)_
+- **Why the reduction (Junaid, 9 Sep):** 25k verified emails for $59 was ~10–20× below every credible competitor, which reads as scraped junk rather than a bargain. 10k/$59 is still 4–8× cheaper than the cheapest real alternative — aggressive but believable. **Do not publish the per-1,000 unit price in badges or homepage cards** — a headline unit price this far below market triggers the same "too cheap to be real" reaction. One math line under the credit-rate table on `/pricing` is the only place it appears.
+- **The app and Stripe still issue the OLD credit amounts** — landing is truth, app follows.
 - **Sequencer — $99/mo** — fully unlimited (seats, workspaces, sending, warmup, reply management); standalone or top-up. NOT free — positioned against per-seat competitors. Backend soft cap ~250–500k/mo, never surfaced. Pushing your data/mailboxes OUT to your own sequencer is free (no lock-in).
 - **Mailboxes / infra — priced separately, from $1.50/mo per mailbox** (SMTP $1.50; Google Workspace & M365 $3.50; **Azure $40/tenant** = 100 mailboxes on one domain). **For infra pricing the LANDING is the truth — the monorepo `mailbox-recommender` is stale/wrong here (Junaid, 28 Aug); never "correct" landing prices from it.** Public safe sending limits (approved to show): GW/M365 up to 30 cold + 30 warmup emails/day per mailbox; SMTP 50 + 50; Azure tenant 500 + 500/day across its 100 mailboxes. Recommend up to 5 mailboxes per domain (industry-standard range is 2–5). /mailboxes has a fleet calculator built on these numbers (22 weekday sends/mo).
 - **In-app chat support is real and may be advertised** — humans reply during working hours, on every plan (Intercom in the app).

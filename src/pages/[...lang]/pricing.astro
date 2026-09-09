@@ -24,7 +24,7 @@ const pricingSchema = JSON.stringify({
       price: "59",
       priceCurrency: "USD",
       priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
-      description: "25,000 verified-email credits per month.",
+      description: "10,000 verified-email credits per month.",
       availability: "https://schema.org/InStock",
       url: "https://www.sendemall.com/pricing",
     },
@@ -34,7 +34,7 @@ const pricingSchema = JSON.stringify({
       price: "79",
       priceCurrency: "USD",
       priceSpecification: { "@type": "UnitPriceSpecification", billingDuration: "P1M" },
-      description: "50,000 verified-email credits per month.",
+      description: "25,000 verified-email credits per month.",
       availability: "https://schema.org/InStock",
       url: "https://www.sendemall.com/pricing",
     },
@@ -57,7 +57,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
 <Base
   metaTitle="Pricing — Pay only for verified emails | SendEmAll"
   disableTagline={true}
-  metaDescription="Starter $59/mo for 25,000 credits, Growth $79/mo for 50,000. Sequencer $99/mo with unlimited seats and LinkedIn included. Mailboxes from $1.50/mo."
+  metaDescription="Starter $59/mo for 10,000 credits, Growth $79/mo for 25,000. Sequencer $99/mo with unlimited seats and LinkedIn included. Mailboxes from $1.50/mo."
 >
   <!-- 1. Hero -->
   <section class="py-20 md:py-28">
@@ -82,7 +82,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm">
           <h3 class="text-heading text-lg font-semibold">Starter</h3>
           <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$59</span><span class="text-text-default/60">/mo</span></div>
-          <p class="text-text-default/70 mb-6 text-sm">25,000 credits a month — verified emails, signals & enrichments</p>
+          <p class="text-text-default/70 mb-6 text-sm">10,000 credits a month — verified emails, signals & enrichments</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
             <li class="flex items-start gap-2" set:html={check + " Search 66M+ contacts & 10M+ companies"} />
             <li class="flex items-start gap-2" set:html={check + " Scrape your own Apollo & Sales Nav on a dedicated IP"} />
@@ -96,14 +96,14 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
 
         <!-- Growth (Featured) -->
         <div class="bg-theme-dark border-primary relative flex flex-col rounded-2xl border-2 p-8" data-aos="fade-up-sm" data-aos-delay="100">
-          <span class="bg-primary text-on-primary absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-bold tracking-wider uppercase">Best rate — $1.58 / 1,000</span>
+          <span class="bg-primary text-on-primary absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-xs font-bold tracking-wider whitespace-nowrap uppercase">2.5&times; the credits</span>
           <h3 class="text-heading text-lg font-semibold">Growth</h3>
           <div class="mt-3 mb-1"><span class="text-heading text-4xl font-bold">$79</span><span class="text-text-default/60">/mo</span></div>
-          <p class="text-text-default/70 mb-6 text-sm">50,000 credits — for teams running steady volume</p>
+          <p class="text-text-default/70 mb-6 text-sm">25,000 credits — for teams running steady volume</p>
           <ul class="mb-8 flex-1 space-y-3 text-sm text-text-default/80">
             <li class="flex items-start gap-2" set:html={check + " Everything in Starter"} />
-            <li class="flex items-start gap-2" set:html={check + " Double the monthly credits"} />
-            <li class="flex items-start gap-2" set:html={check + " $1.58 per 1,000 valid emails — vs $2.36 on Starter"} />
+            <li class="flex items-start gap-2" set:html={check + " 2.5&times; the monthly credits"} />
+            <li class="flex items-start gap-2" set:html={check + " Room to enrich every lead, not just contact them"} />
           </ul>
           <a href={APP} class="btn btn-md btn-primary w-full text-center">Create account</a>
         </div>
@@ -178,9 +178,13 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
           </tbody>
         </table>
       </div>
+      {/* The ONLY place the per-1,000 unit price appears. It sits under the
+          credit-rate table for the buyer who wants to do the math — deliberately
+          not on the homepage cards or the plan badge, where a headline unit
+          price this far below market reads as cheap data rather than value. */}
       <p class="text-text-default/60 mt-4 text-center text-sm">
-        That's <strong class="text-heading">$2.36 per 1,000 verified emails</strong> on Starter, and
-        <strong class="text-heading">$1.58</strong> on Growth. Full enrichment rates are shown in the app before you run anything.
+        That's <strong class="text-heading">$5.90 per 1,000 verified emails</strong> on Starter, and
+        <strong class="text-heading">$3.16</strong> on Growth. Full enrichment rates are shown in the app before you run anything.
       </p>
     </div>
   </section>
@@ -233,10 +237,10 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         <div class="mb-10">
           <div class="text-text-default/70 mb-2 flex justify-between text-sm">
             <span>1,000</span>
-            <span id="calc-emails" class="text-heading text-lg font-semibold">25,000</span>
-            <span>100,000+</span>
+            <span id="calc-emails" class="text-heading text-lg font-semibold">10,000</span>
+            <span>50,000+</span>
           </div>
-          <input type="range" id="calc-slider" min="1000" max="100000" step="1000" value="25000" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
+          <input type="range" id="calc-slider" min="1000" max="50000" step="1000" value="10000" class="bg-border-light h-2 w-full cursor-pointer appearance-none rounded-full accent-[var(--se-primary)]" />
         </div>
         <div class="grid grid-cols-2 gap-6">
           <div class="text-center"><p class="text-text-default/70 mb-1 text-sm">Recommended plan</p><p id="calc-plan" class="text-primary text-2xl font-bold">Starter</p></div>
@@ -251,8 +255,9 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
         const planEl = document.getElementById("calc-plan");
         const costEl = document.getElementById("calc-cost");
         function plan(n) {
-          if (n <= 25000) return { name: "Starter", cost: "$59" };
-          if (n <= 50000) return { name: "Growth", cost: "$79" };
+          // Thresholds must match the plan cards above: Starter 10k, Growth 25k.
+          if (n <= 10000) return { name: "Starter", cost: "$59" };
+          if (n <= 25000) return { name: "Growth", cost: "$79" };
           return { name: "Talk to us", cost: "Custom" };
         }
         function update() {
@@ -278,7 +283,7 @@ const check = `<svg class="text-primary h-5 w-5 shrink-0" fill="none" viewBox="0
           ["What do the 500 free credits cover?", "Every new account gets 500 credits, no card required — enough to pull 500 verified emails from our 66M-contact lake, or to test email verification, the email finder, decision-maker lookup, and buying signals. The one thing they don't cover is scraping your own Apollo or Sales Navigator account: that runs on a dedicated residential IP reserved for you, so it starts with a paid plan."],
           ["How much is the sequencer?", "$99/mo, everything unlimited — seats, workspaces, sending, warmup, reply management. It's built for agencies done paying per seat. Prefer your own tool? Push your SendEmAll leads and mailboxes to Instantly or PlusVibe free — no lock-in."],
           ["Can I change plans?", "Upgrade, downgrade, or cancel anytime. Changes take effect on your next billing cycle. No contracts, no lock-in."],
-          ["What if I need more than 50,000 credits?", "Reach out and we'll sort out a plan that fits your volume."],
+          ["What if I need more than 25,000 credits?", "Reach out and we'll sort out a plan that fits your volume."],
           ["Do unused credits roll over?", "Credits reset monthly. Pick the plan that matches your outbound volume so nothing goes to waste."],
           ["Does LinkedIn cost extra?", "Every plan includes one LinkedIn sending account on its own dedicated residential IP. Add more at $39/mo each. LinkedIn sending spends your own LinkedIn allowances — never your SendEmAll credits."],
           ["Do credits pay for sending?", "No. Credits only buy data — verified emails and enrichments. Sending is the sequencer's flat $99/mo subscription, however much you send."],

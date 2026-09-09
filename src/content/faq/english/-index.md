@@ -44,7 +44,7 @@ list:
       - active: false
         title: "How much does it cost?"
         content: |
-          Finding verified buyers: Starter is $59/mo (25,000 credits) and Growth is $79/mo (50,000 credits). The sequencer is $99/mo with unlimited seats, workspaces, sending, and warmup. Sending infrastructure (mailboxes) starts at $1.50 per mailbox / month.
+          Finding verified buyers: Starter is $59/mo (10,000 credits) and Growth is $79/mo (25,000 credits). The sequencer is $99/mo with unlimited seats, workspaces, sending, and warmup. Sending infrastructure (mailboxes) starts at $1.50 per mailbox / month.
       - active: false
         title: "What counts as a credit?"
         content: |

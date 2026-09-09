@@ -47,7 +47,12 @@ const siteSchema = JSON.stringify({
       "@id": "https://www.sendemall.com/#organization",
       name: "SendEmAll",
       url: "https://www.sendemall.com/",
-      logo: "https://www.sendemall.com/images/sendemall-logo-dark.svg",
+      // Must be a URL that actually resolves — Google fetches this file. It also
+      // renders it on a WHITE card, so this is the light-background artwork
+      // (dark-grey wordmark), matching the note on `site.logo` in config.toml.
+      // This previously pointed at /images/sendemall-logo-dark.svg, which 404s:
+      // the dark variant lives in src/assets, not public/.
+      logo: "https://www.sendemall.com/images/sendemall-logo.svg",
       sameAs: [
         "https://x.com/send_em_all",
         "https://www.linkedin.com/company/sendemall",
@@ -455,7 +460,7 @@ $ sendemall campaigns create \\
           Pay per valid email. <strong class="font-tertiary italic">Not per attempt.</strong>
         </h2>
         <p class="text-text-default/70 mt-5 text-lg">
-          Credits are only spent on valid, verified emails. No per-seat fees, no setup fees.
+          Credits buy your data — verified emails, buying signals, enrichments. You&rsquo;re never charged for bounces, and sending is a flat subscription. No per-seat fees.
         </p>
       </div>
 
@@ -464,19 +469,19 @@ $ sendemall campaigns create \\
           <p class="text-primary text-xs font-semibold tracking-[0.15em] uppercase">Leads · find &amp; verify</p>
           <h3 class="mt-2 text-lg font-semibold">Starter</h3>
           <p class="mt-3"><span class="text-heading text-4xl font-bold">$59</span><span class="text-text-default/60">/mo</span></p>
-          <p class="text-text-default/70 mt-3 flex-1 text-sm">25,000 credits a month — verified emails, buying signals &amp; enrichments from 66M+ contacts or your own Apollo &amp; Sales Nav.</p>
-          <p class="text-text-default/60 mt-4 text-sm">$2.36 per 1,000 valid emails</p>
+          <p class="text-text-default/70 mt-3 flex-1 text-sm">10,000 credits a month — verified emails, buying signals &amp; enrichments from 66M+ contacts or your own Apollo &amp; Sales Nav.</p>
+          <p class="text-text-default/60 mt-4 text-sm">For founders and solo operators</p>
         </div>
         <div
           class="from-primary/25 to-theme-dark bg-linear-to-b border-primary relative flex flex-col rounded-2xl border p-8 shadow-[0_0_40px_-12px_rgba(210,179,243,0.5)]"
           data-aos="fade-up-sm"
           data-aos-delay="100">
-          <span class="bg-primary text-on-primary absolute -top-3 left-8 rounded-full px-3 py-1 text-xs font-semibold">Best rate — $1.58 / 1,000</span>
+          <span class="bg-primary text-on-primary absolute -top-3 left-8 rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap">2.5&times; the credits</span>
           <p class="text-primary text-xs font-semibold tracking-[0.15em] uppercase">Leads · find &amp; verify</p>
           <h3 class="mt-2 text-lg font-semibold">Growth</h3>
           <p class="mt-3"><span class="text-heading text-4xl font-bold">$79</span><span class="text-text-default/60">/mo</span></p>
-          <p class="text-text-default/70 mt-3 flex-1 text-sm">50,000 credits a month — everything in Starter, double the credits.</p>
-          <p class="text-text-default/60 mt-4 text-sm">$1.58 per 1,000 valid emails</p>
+          <p class="text-text-default/70 mt-3 flex-1 text-sm">25,000 credits a month — everything in Starter, with room to enrich every lead, not just contact them.</p>
+          <p class="text-text-default/60 mt-4 text-sm">For teams running steady volume</p>
         </div>
         <div class="bg-theme-dark border-border-light flex flex-col rounded-2xl border p-8" data-aos="fade-up-sm" data-aos-delay="200">
           <p class="text-primary text-xs font-semibold tracking-[0.15em] uppercase">Email + LinkedIn</p>
