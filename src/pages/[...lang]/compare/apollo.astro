@@ -27,7 +27,10 @@ const weDoBetter = [
   { title: "Verified, not raw", description: "Apollo hands you a database to filter — bounces included. SendEmAll verifies every email before delivery, and you only pay for the valid ones." },
   { title: "Full sending infrastructure", description: "Apollo has basic sequences but no sending infrastructure. We provision domains, mailboxes, DNS, and warmup so your emails land." },
   { title: "Bring your own Apollo account", description: "Already pay for Apollo? Connect your account and SendEmAll scrapes it cleanly, verifies every address, and delivers valid-only results — no per-reveal credit fees." },
-  { title: "No lock-in", description: "Send from our unlimited-seat sequencer, or push your verified leads to Instantly, Smartlead, or any tool you already use — exporting is free." },
+  // Push targets must match what the adapter actually implements: Instantly,
+  // PlusVibe, SendEmAll. Smartlead is NOT implemented (the adapter throws
+  // sequencer_type_not_implemented) and must never be listed as one.
+  { title: "No lock-in", description: "Send from our unlimited-seat sequencer, or push your verified leads to Instantly, PlusVibe, or a clean CSV for whatever you already use — exporting is free." },
 ];
 ---
 

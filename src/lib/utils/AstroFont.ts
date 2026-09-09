@@ -49,7 +49,10 @@ const resolveProvider = (provider?: string) => {
       return fontProviders.google();
     case "google-icons":
     case "googleicons":
-      return fontProviders.googleIcons?.() ?? fontProviders.google();
+      // Astro exposes this provider as `googleicons` (all lowercase). The old
+      // `googleIcons` spelling was always undefined, so this branch silently
+      // fell through to plain Google Fonts.
+      return fontProviders.googleicons?.() ?? fontProviders.google();
     case "bunny":
       return fontProviders.bunny();
     case "fontshare":

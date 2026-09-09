@@ -4,7 +4,13 @@ import config from ".astro/config.generated.json";
 interface TocOptions {
   startLevel: number;
   endLevel: number;
-  ordered: boolean;
+  /**
+   * Sorts TOC entries alphabetically instead of leaving them in document order.
+   * Optional, and deliberately absent from config.toml — document order is what
+   * a table of contents should show. Typed optional so the shape matches the
+   * generated config instead of being force-cast to a key that isn't there.
+   */
+  ordered?: boolean;
 }
 
 export default function buildToc(headings: TocHeading[]): TocHeading[] {
