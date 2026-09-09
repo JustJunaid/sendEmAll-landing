@@ -113,12 +113,28 @@
       }
     }
 
-    // CTA click tracking — all primary CTA buttons
+    // CTA click tracking.
+    //
+    // Matching on button CLASSES alone silently lost our single most important
+    // conversion signal: the header "Create account" link is styled by the
+    // Header component (`relative flex items-center`) and carries no .btn class,
+    // so from 28 Aug to 9 Sep it recorded ZERO clicks here while PostHog's
+    // autocapture saw 7 from 5 different people. A CTA must not become invisible
+    // to analytics because someone restyled it.
+    //
+    // So the destination decides, not the styling: any link pointing at a
+    // register/signup URL is a conversion click wherever it lives and however it
+    // looks. The .btn selectors stay for non-register CTAs ("See full pricing",
+    // "See how it works") that have no destination tell.
+    const REGISTER_DESTINATION = /\/register|\/signup/;
     document.addEventListener("click", (e) => {
-      const link = (e.target as HTMLElement).closest("a.btn-primary, a.btn");
+      const link = (e.target as HTMLElement).closest<HTMLAnchorElement>("a[href]");
       if (!link) return;
-      const label = link.textContent?.trim() || "";
       const href = link.getAttribute("href") || "";
+      const isCta =
+        link.matches("a.btn-primary, a.btn") || REGISTER_DESTINATION.test(href);
+      if (!isCta) return;
+      const label = link.textContent?.trim() || "";
       if (label && href) {
         import("@/lib/utils/tracking").then(({ trackCTAClick }) => {
           trackCTAClick(label, href);

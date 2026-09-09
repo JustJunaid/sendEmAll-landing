@@ -15,9 +15,16 @@ type Props = {
   [key: string]: any;
 };
 
+// `class` must come out of `rest`. Without it, class:list writes one class
+// attribute and the {...rest} spread writes a SECOND one on the same element.
+// Browsers keep the first and ignore the duplicate, so it renders correctly
+// today — but it is invalid HTML, and one reordering away from silently
+// dropping `btn btn-primary`, which would break the styling AND the CTA
+// analytics selector that matches on it.
 const {
   tag = "a",
   content: { enable, label, url, rel, target },
+  class: className,
   ...rest
 } = Astro.props;
 ---
@@ -27,7 +34,7 @@ const {
     (tag && tag === "button" ? (
       <button
         data-content={label}
-        class:list={["btn", Astro.props.class, "relative overflow-hidden"]}
+        class:list={["btn", className, "relative overflow-hidden"]}
         {...rest}>
         <span class="label" set:html={markdownify(label)} />
         <slot />
@@ -49,7 +56,7 @@ const {
           href: url && getLocaleUrlCTM(url, Astro.currentLocale),
         }}
         data-content={label}
-        class:list={["btn", Astro.props.class, "relative overflow-hidden"]}
+        class:list={["btn", className, "relative overflow-hidden"]}
         {...rest}>
         <span class="label" set:html={markdownify(label)} />
         <slot />

@@ -7,11 +7,14 @@ interface Props {
   stagger?: number;
 }
 
+// `class` must be pulled out of `rest`, or class:list and the {...rest} spread
+// each emit a class attribute on the same <div>. Same defect as ButtonLink.
 let {
   content,
   duration = 0.6,
   delay = 0,
   stagger = 0.1,
+  class: className,
   ...rest
 } = Astro.props;
 
@@ -30,7 +33,7 @@ if (content) {
 ---
 
 <div
-  class:list={["animated-text", Astro.props.class]}
+  class:list={["animated-text", className]}
   set:html={processedContent}
   data-duration={duration}
   data-delay={delay}
